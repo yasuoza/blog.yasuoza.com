@@ -1,0 +1,44 @@
+---
+layout: post
+title: markdown
+tags:
+- JavaScript
+- Perl
+- WebDevelopment
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+  _sd_is_markdown: '1'
+  _syntaxhighlighter_encoded: '1'
+---
+<h3>This entry is written by markdown style.</h3>
+
+<p>This is a test <code>entry</code>.</p>
+
+<pre><code>pre tag
+</code></pre>
+
+<ul>
+<li>list</li>
+</ul>
+
+<h4>Perl</h4>
+
+```
+sub shout {
+  my $entry = shift;
+  print &quot;$entry&#92;n&quot;;
+}
+shout('Hello World!');
+```
+
+<h4>JavaScript</h4>
+
+```
+function shout(msg) {
+  console.log(msg);
+}
+shout('Hello World!');
+```

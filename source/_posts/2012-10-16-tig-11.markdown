@@ -1,0 +1,27 @@
+---
+layout: post
+title: tig 1.1でvertical viewにする
+tags:
+- git
+- tig
+- WebDevelopment
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+  _syntaxhighlighter_encoded: '1'
+---
+gitのリポジトリをターミナル上でブラウズするtigのバージョン1.1がリリースされ、新機能がいろいろ増えていました。<a href="http://jonas.nitro.dk/tig/NEWS.html" target="_blank">Release notes</a>
+
+バージョンアップで一番嬉しいのはtigのvertical view対応です。これまではhorizontalにしか分割できなかったので、
+vertical分割は画面を縦長に使えて、ざっとdiffの確認したい時なんかに役立ちそうです。
+
+<img src="/images/2012/10/Screen-Shot-2012-10-16-at-11.05.46-AM-1024x640.png" alt="" title="Screen Shot 2012-10-16 at 11.05.46 AM" width="770" height="481" class="thumbnail alignnone size-large wp-image-323" />
+
+設定の方法は ~/.tigrc ファイルに
+```
+set vertical-split = yes
+```
+と記入するだけです。
+
