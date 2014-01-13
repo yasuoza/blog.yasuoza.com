@@ -1,0 +1,391 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+
+  <script>
+    (function() {
+       var GITHUB_PAGES_HOST = 'yasuoza.github.io';
+       if (document.location.host === GITHUB_PAGES_HOST) {
+         document.location.href = document.location.href.replace(GITHUB_PAGES_HOST, '');
+       }
+    }());
+  </script>
+
+  <title>```Xcodeで非同期通信のテストを行う - yasuoza diary</title>
+  <meta name="author" content="Yasuharu Ozaki">
+
+  
+  <meta name="description" content="最近はiPhoneアプリの開発を勉強しています。 で、iPhoneアプリを作る上でももちろんテストを書きたいと思い、いろいろ調べた結果、XCode4系標準のQUnit、非同期を簡単に扱えるGHUitあたりが有名だとわかりました(他にもたくさんあります)。 &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://blog.yasuoza.com/2012/06/24/asynctest_in_quit">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="yasuoza diary" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Fjalla+One' rel='stylesheet' type='text/css'>
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-29684850-3']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   class="collapse-sidebar sidebar-footer" >
+  <header role="banner"><hgroup>
+  <h1><a href="/">yasuoza diary</a></h1>
+  
+    <h2>web and life</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:blog.yasuoza.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/archives">Archives</a></li>
+  <li><a href="/about">About</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">```Xcodeで非同期通信のテストを行う</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-06-24T00:00:00+00:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>最近はiPhoneアプリの開発を勉強しています。</p>
+
+<p>で、iPhoneアプリを作る上でももちろんテストを書きたいと思い、いろいろ調べた結果、XCode4系標準のQUnit、非同期を簡単に扱えるGHUitあたりが有名だとわかりました(他にもたくさんあります)。</p>
+
+<p>XCode標準ということはAppleの人たちもきっとQUitを使って開発しているはず！という勝手な思い込みからQUitを使うことにしました。
+そのQUnitは標準で非同期をサポートしていないので、自前で非同期のテストを書かないといけません。
+その実装をメモしておきます。</p>
+
+<p>まずはコードから。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>- (void)testAsyncronousRequest
+</span><span class='line'>{
+</span><span class='line'>  dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
+</span><span class='line'>
+</span><span class='line'>  NSURLRequest *request = [NSURLRequest requestWithURL:url];
+</span><span class='line'>  asyncConnection = [[AsyncConnection alloc] initWithRequest:request]; 
+</span><span class='line'>  //Automatically asyncConnection.delegate is set asyncConnection in AsyncConnection
+</span><span class='line'>
+</span><span class='line'>  asyncConnection.completion = ^(JSONConnection *connection,
+</span><span class='line'>                                  NSData *downloadData,
+</span><span class='line'>                                  NSHTTPURLResponse* response,
+</span><span class='line'>                                  NSError* error) {
+</span><span class='line'>        // Test code here..
+</span><span class='line'>    
+</span><span class='line'>        dispatch_semaphore_signal(semaphore);
+</span><span class='line'>    };
+</span><span class='line'>    
+</span><span class='line'>    
+</span><span class='line'>    while (dispatch_semaphore_wait(semaphore, DISPATCH_TIME_NOW)) {
+</span><span class='line'>        [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode 
+</span><span class='line'>                                 beforeDate:[NSDate dateWithTimeIntervalSinceNow:5]];
+</span><span class='line'>    } 
+</span><span class='line'>
+</span><span class='line'>    dispatch_release(semaphore);
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>まず、</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>  dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);</span></code></pre></td></tr></table></div></figure>
+
+
+<p>でセマフォをプールサイズ0で登録します。</p>
+
+<p>その後、</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>while (dispatch_semaphore_wait(semaphore, DISPATCH_TIME_NOW)) {
+</span><span class='line'> [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode 
+</span><span class='line'>                             beforeDate:[NSDate dateWithTimeIntervalSinceNow:5]];
+</span><span class='line'>} </span></code></pre></td></tr></table></div></figure>
+
+
+<p>でセマフォのカウンタが0の時は</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode 
+</span><span class='line'>                           beforeDate:[NSDate dateWithTimeIntervalSinceNow:5]];</span></code></pre></td></tr></table></div></figure>
+
+
+<p>を実行してメインループをブロックします。
+ブロックしている間にasyncConnection.completionのブロックで指定した関数が実行され、</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>dispatch_semaphore_signal(semaphore);</span></code></pre></td></tr></table></div></figure>
+
+
+<p>によってセマフォのカウンタが1インクリメントされます。
+セマフォのカウンタが1以上だった、もしくは待機中にカウンタが1以上になった場合は</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>dispatch_semaphore_wait(semaphore, DISPATCH_TIME_NOW)</span></code></pre></td></tr></table></div></figure>
+
+
+<p>が0になり、while文を抜け出し、セマフォを開放した後、testAsyncronousRequestが終了します。</p>
+
+<p>こんなかんじでGCDを使って非同期テストを行うことができました。</p>
+
+<p>GCDについて詳しくは</p>
+
+<div class="amazlet-box" style="margin-bottom:0px;"><div class="amazlet-image" style="float:left;margin:0px 12px 1px 0px;"><a href="http://www.amazon.co.jp/exec/obidos/ASIN/4844331094/yasuoza-22/ref=nosim/" name="amazletlink" target="_blank"><img src="http://ecx.images-amazon.com/images/I/41FcW2yiPXL._SL160_.jpg" alt="エキスパートObjective-Cプログラミング －iOS/OS Xのメモリ管理とマルチスレッド－" style="border: none;" /></a></div><div class="amazlet-info" style="line-height:120%; margin-bottom: 10px"><div class="amazlet-name" style="margin-bottom:10px;line-height:120%"><a href="http://www.amazon.co.jp/exec/obidos/ASIN/4844331094/yasuoza-22/ref=nosim/" name="amazletlink" target="_blank">エキスパートObjective-Cプログラミング －iOS/OS Xのメモリ管理とマルチスレッド－</a><div class="amazlet-powered-date" style="font-size:80%;margin-top:5px;line-height:120%">posted with <a href="http://www.amazlet.com/browse/ASIN/4844331094/yasuoza-22/ref=nosim/" title="エキスパートObjective-Cプログラミング －iOS/OS Xのメモリ管理とマルチスレッド－" target="_blank">amazlet</a> at 12.06.24</div></div><div class="amazlet-detail">坂本 一樹 <br />インプレスジャパン <br />売り上げランキング: 119084<br /></div><div class="amazlet-sub-info" style="float: left;"><div class="amazlet-link" style="margin-top: 5px"><a href="http://www.amazon.co.jp/exec/obidos/ASIN/4844331094/yasuoza-22/ref=nosim/" name="amazletlink" target="_blank">Amazon.co.jp で詳細を見る</a></div></div></div><div class="amazlet-footer" style="clear: left"></div></div>
+
+
+
+
+<br/>
+
+
+<p><strong>参考サイト</strong></p>
+
+<ul>
+    <li>元ネタ: <a href="http://stackoverflow.com/questions/4326350/how-do-i-wait-for-an-asynchronously-dispatched-block-to-finish" title="How do I wait for an asynchronously dispatched block to finish?" target="_blank">How do I wait for an asynchronously dispatched block to finish?</a>
+</li>
+    <li><a href="http://developer.apple.com/library/ios/#documentation/General/Conceptual/ConcurrencyProgrammingGuide/OperationQueues/OperationQueues.html#//apple_ref/doc/uid/TP40008091-CH102-SW24" target="_blank">Using Dispatch Semaphores to Regulate the Use of Finite Resources</a></li>
+
+    <li><a href="http://developer.apple.com/library/mac/#documentation/Cocoa/Reference/Foundation/Classes/NSRunLoop_Class/Reference/Reference" target="_blank">runMode:beforeDate</a></li>
+</ul>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Yasuharu Ozaki</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-06-24T00:00:00+00:00" pubdate data-updated="true"></time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://blog.yasuoza.com/2012/06/24/asynctest_in_quit/" data-via="" data-counturl="http://blog.yasuoza.com/2012/06/24/asynctest_in_quit/" >Tweet</a>
+  
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/2012/04/28/coderetreat-in-drecom-powered-by-agileshibuya/" title="Previous Post: Coderetreat in Drecom powered by AgileShibuya に参加してきました">&laquo; Coderetreat in Drecom powered by AgileShibuya に参加してきました</a>
+      
+      
+        <a class="basic-alignment right" href="/2012/06/29/keyremap4macbook_for_programming/" title="Next Post: KeyRemap4MacBookでキーレスポンス速度を上げて快適なプログラミングを">KeyRemap4MacBookでキーレスポンス速度を上げて快適なプログラミングを &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/2014/01/13/octopress-plus-github-pages-plus-travis/">Octopress + GitHub Pages + Travis</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2014/01/10/docker-in-osx-without-dvm/">Docker in OSX without dvm</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2014/01/07/words/">年末年始に会った友達の言葉</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/12/27/hbfav-android-2-1-1/">HBFav-Android 2.1.1リリース</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/12/16/scribe-java-in-android/">scribe-java in Android</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2014 - Yasuharu Ozaki -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'yasuozadiary';
+      
+        
+        var disqus_script = 'count.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

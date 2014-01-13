@@ -1,0 +1,310 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+
+  <script>
+    (function() {
+       var GITHUB_PAGES_HOST = 'yasuoza.github.io';
+       if (document.location.host === GITHUB_PAGES_HOST) {
+         document.location.href = document.location.href.replace(GITHUB_PAGES_HOST, '');
+       }
+    }());
+  </script>
+
+  <title>KeyRemap4MacBookでキーレスポンス速度を上げて快適なプログラミングを - yasuoza diary</title>
+  <meta name="author" content="Yasuharu Ozaki">
+
+  
+  <meta name="description" content="背景 Macのキーレスポンスはデフォルトだとかなり丁寧で、むしろ重く感じる時のほうが多くプログラミングをしているときにイライラする時が結構ありました。 そんな折、前に参加した勉強会でKeyRemap4MacBookを使ってキーレスポンスを上げるとかなり捗るよっていうのを教えてもらったので、 &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://blog.yasuoza.com/2012/06/29/keyremap4macbook_for_programming">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="yasuoza diary" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Fjalla+One' rel='stylesheet' type='text/css'>
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-29684850-3']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   class="collapse-sidebar sidebar-footer" >
+  <header role="banner"><hgroup>
+  <h1><a href="/">yasuoza diary</a></h1>
+  
+    <h2>web and life</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:blog.yasuoza.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/archives">Archives</a></li>
+  <li><a href="/about">About</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">KeyRemap4MacBookでキーレスポンス速度を上げて快適なプログラミングを</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-06-29T00:00:00+00:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><h3>背景</h3>
+
+
+<p>Macのキーレスポンスはデフォルトだとかなり丁寧で、むしろ重く感じる時のほうが多くプログラミングをしているときにイライラする時が結構ありました。</p>
+
+<p>そんな折、前に参加した勉強会でKeyRemap4MacBookを使ってキーレスポンスを上げるとかなり捗るよっていうのを教えてもらったので、メモしておこうと思います。</p>
+
+<p><a href="http://pqrs.org/macosx/keyremap4macbook/" target="_blank">KeyRemap4MacBook</a>は言わずと知れたMacでキーの割当を変えるツールです。例えばUSキーボードのコマンドをJISキーボードのかな/英数と同じように振舞わせるみたいなこともできたりして便利です(僕はやってませんが)。</p>
+
+<p>このKeyRemap4MacBookを使うとキーレスポンスの待ち時間少なくすることができます。カメラの連写速度を上げるというイメージが一番近いと思います。</p>
+
+<h3>インストール</h3>
+
+
+<p>インストール方法はまずKeyRemap4MacBookを<a href="http://pqrs.org/macosx/keyremap4macbook/" target="_blank">本家サイト</a>からダウンロードして解凍してインストールします。
+*僕がインストールしたときはThe Unarchiver.appを使うとファイルが壊れるらしく、Macに最初から入っている解凍アプリを使わないとうまく解凍してインストールするということができませんでした。今は直っているかも知れません。</p>
+
+<h3>設定</h3>
+
+
+<p>インストールすると環境設定.appのその他の項目にKeyRemap4MacBookの項目が追加されます。</p>
+
+<p><a href="/images/2012/06/Screen-Shot-2012-06-29-at-1.09.59-AM.png"><img src="/images/2012/06/Screen-Shot-2012-06-29-at-1.09.59-AM.png" alt="" title="環境設定.app" width="782" height="675" class="aligncenter size-full wp-image-153" /></a></p>
+
+<p>それをクリックして「Key Repeat」の項目を開きます。</p>
+
+<p><a href="/images/2012/06/Screen-Shot-2012-06-29-at-1.12.59-AM.png"><img src="/images/2012/06/Screen-Shot-2012-06-29-at-1.12.59-AM.png" alt="" title="環境設定KeyReat" width="782" height="769" class="aligncenter size-full wp-image-155" /></a></p>
+
+<p>変更するのは一番上の[Key Repeat] Initaial Wait の項目とその次の[Key Repeat] Waitの項目。
+それぞれデフォルトは500、83になっていますが、僕は写真のようにそれぞれ200、20に設定しています。</p>
+
+<p>設定したら特に保存ボタンとか押さず環境設定.appを閉じます。</p>
+
+<h3>検証</h3>
+
+
+<p>適当にメモ帳などを開き、文章を入力して、delete(Ctrl+h)ボタンを押してみて下さい。予期していたよりたくさんの文字が消えたはずです。
+たくさん文章を入力してカーソルキー(Ctrl+(n,p,b,f))でカーソルを移動させてみても予期していたよりかなり早くカーソルが移動します。</p>
+
+<p>つまり、より短い時間でテキストを消したり、より短い時間でカーソルを移動させたい場所に移動させることができるようになります！</p>
+
+<h3>まとめ</h3>
+
+
+<p>KeyRemap4MacBookはとても便利なツールです。caps lockをcontrolに変えたりとかは環境設定.appでもできるけど、KeyRemap4MacBookがあれば、コマンドを押したら日本語と英語の切り替えを行うみたいな複雑な設定を行うことができます。</p>
+
+<p>自分はこんな設定で使ってる！こうすると便利！みたいな設定があればぜひ教えて下さい！</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Yasuharu Ozaki</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-06-29T00:00:00+00:00" pubdate data-updated="true"></time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://blog.yasuoza.com/2012/06/29/keyremap4macbook_for_programming/" data-via="" data-counturl="http://blog.yasuoza.com/2012/06/29/keyremap4macbook_for_programming/" >Tweet</a>
+  
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/2012/06/24/asynctest_in_quit/" title="Previous Post: ```Xcodeで非同期通信のテストを行う">&laquo; ```Xcodeで非同期通信のテストを行う</a>
+      
+      
+        <a class="basic-alignment right" href="/2012/07/01/lazy-social-butto/" title="Next Post: 非同期ソーシャルボタン">非同期ソーシャルボタン &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/2014/01/13/octopress-plus-github-pages-plus-travis/">Octopress + GitHub Pages + Travis</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2014/01/10/docker-in-osx-without-dvm/">Docker in OSX without dvm</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2014/01/07/words/">年末年始に会った友達の言葉</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/12/27/hbfav-android-2-1-1/">HBFav-Android 2.1.1リリース</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/12/16/scribe-java-in-android/">scribe-java in Android</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2014 - Yasuharu Ozaki -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'yasuozadiary';
+      
+        
+        var disqus_script = 'count.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: nginx | yasuoza diary]]></title>
+  <link href="http://blog.yasuoza.com//categories/nginx/atom.xml" rel="self"/>
+  <link href="http://blog.yasuoza.com/"/>
+  <updated>2014-01-13T07:44:41+00:00</updated>
+  <id>http://blog.yasuoza.com/</id>
+  <author>
+    <name><![CDATA[Yasuharu Ozaki]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Get remote ip through nginx proxy server in rack]]></title>
+    <link href="http://blog.yasuoza.com/2013/03/31/get-remote-ip-through-nginx-proxy-server-in-rack/"/>
+    <updated>2013-03-31T22:07:00+00:00</updated>
+    <id>http://blog.yasuoza.com/2013/03/31/get-remote-ip-through-nginx-proxy-server-in-rack</id>
+    <content type="html"><![CDATA[<p>When developer wants to filter request based on remote ip, he will do like this</p>
+
+<p>```ruby sinatra_server.rb
+get &lsquo;/&rsquo; do
+  return 403 if request.ip != desired_request_ip</p>
+
+<p>  &ldquo;OK!&rdquo;
+end
+```</p>
+
+<p>If you&rsquo;re using tcp socket in nginx proxy server it will be good, but if you&rsquo;re using unix
+socket proxy server, <code>remote.ip</code> will be 127.0.0.1. Because the request proxied.</p>
+
+<p>But, <code>rack</code> treat <code>request.ip</code> very well in <a href="https://github.com/chneukirchen/rack/blob/master/lib/rack/request.rb#L352-L367">request.rb</a>
+The only thing you have to do is set <code>X-Forwarded-For</code> and <code>CLIENT_IP</code> and <code>X-Real-IP</code> precisely.</p>
+
+<p>```nginx site.nginx.conf
+upstream pretty_site {
+  server unix:/tmp/pretty_site.sock;
+}</p>
+
+<p>server {
+  listen 80;         # e.g., listen 192.168.1.1:80;
+  server_name pretty.yoursite.com;     # e.g., server_name source.example.com;</p>
+
+<p>  root /home/www/pretty_site;</p>
+
+<p>  # individual nginx logs for this pretty_site vhost
+  access_log  /var/log/nginx/pretty/access.log;
+  error_log   /var/log/nginx/pretty/error.log;</p>
+
+<p>  location / {</p>
+
+<pre><code># serve static files from defined root folder;.
+# @pretty_site is a named location for the upstream fallback, see below
+try_files $uri $uri/index.html $uri.html @pretty_site;
+</code></pre>
+
+<p>  }</p>
+
+<p>  # if a file, which is not found in the root folder is requested,
+  # then the proxy pass the request to the upsteam (pretty_site unicorn)
+  location @pretty_site {</p>
+
+<pre><code>proxy_read_timeout 300;
+proxy_connect_timeout 300;
+proxy_redirect     off;
+
+# 'X-Forwarded-For' header is required for rack request.ip
+# https://github.com/chneukirchen/rack/blob/master/lib/rack/request.rb#L352-L367
+proxy_set_header   X-Forwarded-For   $proxy_add_x_forwarded_for;
+proxy_set_header   X-Forwarded-Proto $scheme;
+proxy_set_header   Host              $http_host;
+proxy_set_header   X-Real-IP         $remote_addr;
+proxy_set_header   CLIENT_IP         $remote_addr;
+
+proxy_pass http://pretty_site;
+</code></pre>
+
+<p>  }
+}
+```</p>
+
+<p>Then you can get <code>request.ip</code> as you want.</p>
+]]></content>
+  </entry>
+  
+</feed>

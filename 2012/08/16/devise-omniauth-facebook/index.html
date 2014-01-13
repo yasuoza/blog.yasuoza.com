@@ -1,0 +1,384 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+
+  <script>
+    (function() {
+       var GITHUB_PAGES_HOST = 'yasuoza.github.io';
+       if (document.location.host === GITHUB_PAGES_HOST) {
+         document.location.href = document.location.href.replace(GITHUB_PAGES_HOST, '');
+       }
+    }());
+  </script>
+
+  <title>devise + omniauth-facebookでリクエストURLにリダイレクトする - yasuoza diary</title>
+  <meta name="author" content="Yasuharu Ozaki">
+
+  
+  <meta name="description" content="deviseとomniauth-facebookで簡単にFacebook認証をアプリに組み込むことができます。
+組み込み方はdevise公式wikiが一番わかり易いと思いますのでそちらを参考にして下さい。 なお、この記事では次のルーティングに従います。
+デフォルトのまま使うと/users/ &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://blog.yasuoza.com/2012/08/16/devise-omniauth-facebook">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="yasuoza diary" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Fjalla+One' rel='stylesheet' type='text/css'>
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-29684850-3']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   class="collapse-sidebar sidebar-footer" >
+  <header role="banner"><hgroup>
+  <h1><a href="/">yasuoza diary</a></h1>
+  
+    <h2>web and life</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:blog.yasuoza.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/archives">Archives</a></li>
+  <li><a href="/about">About</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Devise + omniauth-facebookでリクエストURLにリダイレクトする</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-08-16T00:00:00+00:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p><a href="https://github.com/plataformatec/devise/" title="devise" target="_blank">devise</a>と<a href="https://github.com/mkdynamic/omniauth-facebook" title="omniauth-facebook" target="_blank">omniauth-facebook</a>で簡単にFacebook認証をアプリに組み込むことができます。
+組み込み方は<a href="https://github.com/plataformatec/devise/wiki/OmniAuth:-Overview" target="_blank">devise公式wiki</a>が一番わかり易いと思いますのでそちらを参考にして下さい。</p>
+
+<p>なお、この記事では次のルーティングに従います。
+デフォルトのまま使うと/users/sign_upとかついてきますが、facebookログインに限ると必要ありませんからね。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">devise_for</span> <span class="ss">:users</span><span class="p">,</span> <span class="ss">:skip</span> <span class="o">=&gt;</span> <span class="o">[</span><span class="ss">:sessions</span><span class="p">,</span> <span class="ss">:registration</span><span class="p">,</span> <span class="ss">:password</span><span class="o">]</span><span class="p">,</span> <span class="ss">:controllers</span> <span class="o">=&gt;</span> <span class="p">{</span> <span class="ss">:omniauth_callbacks</span> <span class="o">=&gt;</span> <span class="s1">&#39;omniauth_callbacks&#39;</span> <span class="p">}</span>
+</span><span class='line'><span class="n">as</span> <span class="ss">:user</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">delete</span> <span class="s1">&#39;/logout&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;devise/sessions#destroy&#39;</span><span class="p">,</span> <span class="ss">:as</span> <span class="o">=&gt;</span> <span class="ss">:destroy_user_session</span>
+</span><span class='line'>  <span class="n">delete</span> <span class="s1">&#39;/delete&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;devise/registrations#destroy&#39;</span><span class="p">,</span> <span class="ss">:as</span> <span class="o">=&gt;</span> <span class="ss">:destory_user</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>コールバックは次のクラスで受け取ります。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">OmniauthCallbacksController</span> <span class="o">&lt;</span> <span class="ss">Devise</span><span class="p">:</span><span class="ss">:OmniauthCallbacksController</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">facebook</span>
+</span><span class='line'>    <span class="vi">@user</span> <span class="o">=</span> <span class="no">User</span><span class="o">.</span><span class="n">find_or_create_from</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">env</span><span class="o">[</span><span class="s1">&#39;omniauth.auth&#39;</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">sign_in_and_redirect</span> <span class="vi">@user</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>それで例えば、/users以下を閲覧するときには認証をかけたいっていうことが往々にしてあると思います。
+それは</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">UsersController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
+</span><span class='line'>  <span class="n">before_filter</span> <span class="ss">:authenticate_user!</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">show</span>
+</span><span class='line'>    <span class="vi">@user</span> <span class="o">=</span> <span class="n">current_user</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>のようにしてbefore_filter噛ませてあげると簡単ですが、このままだとユーザが直接/users/:idページを叩いた時にfacebookログインが行われず、基本設定のままだと、ルートにリダイレクトされます。</p>
+
+<p>これを/users/:idページを直接叩いたときは直でfacebookログインにリダイレクトさせて、callbackを受け取った時にもともとリクエストされた/users/:idにリダイレクトさせるには次のように設定します。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">ApplicationController</span> <span class="o">&lt;</span> <span class="ss">ActionController</span><span class="p">:</span><span class="ss">:Base</span>
+</span><span class='line'>  <span class="n">protect_from_forgery</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kp">protected</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">authenticate_user!</span>
+</span><span class='line'>    <span class="n">session</span><span class="o">[</span><span class="ss">:user_return_to</span><span class="o">]</span> <span class="o">=</span> <span class="n">env</span><span class="o">[</span><span class="s1">&#39;PATH_INFO&#39;</span><span class="o">]</span>
+</span><span class='line'>    <span class="n">redirect_to</span> <span class="n">user_omniauth_authorize_path</span><span class="p">(</span><span class="ss">:facebook</span><span class="p">)</span> <span class="k">unless</span> <span class="n">user_signed_in?</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><code>authenticate_user!</code>をapplication_controller.rbでオーバーライドします。
+ポイントは6行目で<code>session[:user_return_to]</code>にリクエストURLを保存しておくことです。
+<code>authenticate_member!</code>の場合は<code>session[:member_return_to]</code>に保存します。</p>
+
+<p>これでdeviseの内部実装のちからを借りて<code>sign_in_and_redirect_to @user</code>をした時に元のリクエストURLにリダイレクトされます。</p>
+
+<p>devise自体はそんなに難しいことをしていないので、内部実装を覗くとlib/devise/controllers/helpers.rbの次の2つの関数で<code>session[:user_return_to]</code>からリダイレクト先を取得していることがわかります。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">stored_location_for</span><span class="p">(</span><span class="n">resource_or_scope</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">scope</span> <span class="o">=</span> <span class="ss">Devise</span><span class="p">:</span><span class="ss">:Mapping</span><span class="o">.</span><span class="n">find_scope!</span><span class="p">(</span><span class="n">resource_or_scope</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">session</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">#{</span><span class="n">scope</span><span class="si">}</span><span class="s2">_return_to&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">after_sign_in_path_for</span><span class="p">(</span><span class="n">resource_or_scope</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">stored_location_for</span><span class="p">(</span><span class="n">resource_or_scope</span><span class="p">)</span> <span class="o">||</span> <span class="n">signed_in_root_path</span><span class="p">(</span><span class="n">resource_or_scope</span><span class="p">)</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Railsはとても素敵で便利なフレームワークだと思います！Rubyもすごく素敵な言語だなと思います！</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Yasuharu Ozaki</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-08-16T00:00:00+00:00" pubdate data-updated="true"></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='//categories/rails/'>rails</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://blog.yasuoza.com/2012/08/16/devise-omniauth-facebook/" data-via="" data-counturl="http://blog.yasuoza.com/2012/08/16/devise-omniauth-facebook/" >Tweet</a>
+  
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/2012/07/05/share-kobito-app-data/" title="Previous Post: kobito.appのデータを複数のMacで共有する">&laquo; kobito.appのデータを複数のMacで共有する</a>
+      
+      
+        <a class="basic-alignment right" href="/2012/08/22/jenkins-websocket-plugin/" title="Next Post: Jenkins Websocket Pluginを使う">Jenkins Websocket Pluginを使う &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/2014/01/13/octopress-plus-github-pages-plus-travis/">Octopress + GitHub Pages + Travis</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2014/01/10/docker-in-osx-without-dvm/">Docker in OSX without dvm</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2014/01/07/words/">年末年始に会った友達の言葉</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/12/27/hbfav-android-2-1-1/">HBFav-Android 2.1.1リリース</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/12/16/scribe-java-in-android/">scribe-java in Android</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2014 - Yasuharu Ozaki -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'yasuozadiary';
+      
+        
+        var disqus_script = 'count.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

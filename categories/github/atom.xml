@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: GitHub | yasuoza diary]]></title>
+  <link href="http://blog.yasuoza.com//categories/github/atom.xml" rel="self"/>
+  <link href="http://blog.yasuoza.com/"/>
+  <updated>2014-01-13T07:44:41+00:00</updated>
+  <id>http://blog.yasuoza.com/</id>
+  <author>
+    <name><![CDATA[Yasuharu Ozaki]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Octopress + GitHub Pages + Travis]]></title>
+    <link href="http://blog.yasuoza.com/2014/01/13/octopress-plus-github-pages-plus-travis/"/>
+    <updated>2014-01-13T06:57:31+00:00</updated>
+    <id>http://blog.yasuoza.com/2014/01/13/octopress-plus-github-pages-plus-travis</id>
+    <content type="html"><![CDATA[<p>Today I changed my blog generation CI from jenkins to Travis CI.</p>
+
+<p>Following step shows how to make it. Suppose you are in project root.</p>
+
+<p>First, install travis command from rubygems.</p>
+
+<p><code>bash
+$ gem install travis
+</code></p>
+
+<p>Generate ssh-key accessible to only blog repository.</p>
+
+<p>```bash
+$ ssh-keygen -t rsa -C &lsquo;<a href="&#109;&#97;&#x69;&#x6c;&#x74;&#x6f;&#58;&#x79;&#111;&#117;&#x72;&#x65;&#109;&#97;&#105;&#x6c;&#x40;&#101;&#x78;&#x61;&#x6d;&#112;&#46;&#99;&#x6f;&#x6d;">&#121;&#x6f;&#x75;&#114;&#101;&#x6d;&#x61;&#x69;&#108;&#64;&#101;&#120;&#x61;&#109;&#112;&#46;&#x63;&#111;&#x6d;</a>&rsquo; -f ~/.ssh/travis_rsa</p>
+
+<h1>Copy public key to clipboard</h1>
+
+<p>$ cat ~/.ssh/travis_rsa.pub | pbcopy</p>
+
+<h1>Set copied public key to deploy key in GitHub</h1>
+
+<p>$ open  <a href="https://github.com/_username_/_repository_/settings/keys">https://github.com/_username_/_repository_/settings/keys</a>
+```</p>
+
+<p>Then, setup <code>.travis.yml</code> like:</p>
+
+<p><code>yaml
+language: ruby
+rvm:
+- 2.1.0
+branches:
+  only:
+  - master
+before_script:
+- git config --global user.name "yasuoza(via Travis CI)"
+- git config --global user.email "yasuharu.ozaki@gmail.com"
+- git remote set-url origin $REPO.git
+- for (( i=0; i&lt;=$RSA_LENGTH; i++ )); do eval "echo -n \$id_rsa_$i &gt;&gt; ~/.ssh/travis_rsa_64"; done
+- base64 --decode --ignore-garbage ~/.ssh/travis_rsa_64 &gt; ~/.ssh/id_rsa
+- chmod 600 ~/.ssh/id_rsa
+- echo -e "Host github.com\n\tStrictHostKeyChecking no\n" &gt;&gt; ~/.ssh/config
+- bundle exec rake setup_github_pages[$REPO]
+- git checkout -- _config.yml
+script:
+- bundle exec rake generate
+after_script:
+- bundle exec rake deploy
+env:
+  global:
+  - REPO="git@github.com:_username_/_repository_.git"
+</code></p>
+
+<p>Encrypt ssh-key via base64.</p>
+
+<p>```bash</p>
+
+<h1>On a Mac, use this script to generate secure deployment key</h1>
+
+<p>$ base64 &mdash;break=0 ~/.ssh/travis_rsa > ~/.ssh/travis_rsa_64</p>
+
+<h1>If in linux</h1>
+
+<h1>base64 &mdash;wrap=0 ~/.ssh/travis_rsa > ~/.ssh/travis_rsa_64</h1>
+
+<p>$ bash &lt;(cat ~/.ssh/travis_rsa_64 | perl -pe &rsquo;s/(.{100})/$1\n/g' | nl | perl -pe &rsquo;s/\s<em>(\d+)\s</em>(.*)/travis encrypt id_rsa_$1=&ldquo;$2&rdquo; &mdash;add/&lsquo;)
+```</p>
+
+<p>Count <code>id_rsa_{1..$RSA_LENGTH}</code> and encrypt it.</p>
+
+<p><code>bash
+$ cat ~/.ssh/travis_rsa_64 | perl -pe 's/(.{100})/$1\n/g' | nl | tail
+$ travis encrypt RSA_LENGTH=50 --add # Assume last value was 50
+</code></p>
+
+<p>Finally, you should apply following patch to <code>rake deploy pulls from origin #{deploy_branch}</code></p>
+
+<p><code>diff
+--- a/Rakefile
++++ b/Rakefile
+@@ -248,8 +248,8 @@ desc "deploy public directory to github pages"
+ multitask :push do
+   puts "## Deploying branch to Github Pages "
+   puts "## Pulling any updates from Github Pages "
+-  cd "#{deploy_dir}" do
+-    system "git pull"
++  cd "#{deploy_dir}" do
++    system "git pull origin #{deploy_branch}"
+   end
+   (Dir["#{deploy_dir}/*"]).each { |f| rm_rf(f) }
+   Rake::Task[:copydot].invoke(public_dir, deploy_dir)
+</code></p>
+
+<p>That&rsquo;s it. Connect blog repository to Travis CI, and commit change!</p>
+
+<p>Refs:</p>
+
+<ul>
+<li><a href="http://pchw.github.io/blog/2013/06/27/octopress-travis/">http://pchw.github.io/blog/2013/06/27/octopress-travis/</a></li>
+<li><a href="http://www.harimenon.com/blog/2013/01/27/auto-deploying-to-my-octopress-blog/">http://www.harimenon.com/blog/2013/01/27/auto-deploying-to-my-octopress-blog/</a></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+</feed>

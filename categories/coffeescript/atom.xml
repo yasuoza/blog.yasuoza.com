@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: CoffeeScript | yasuoza diary]]></title>
+  <link href="http://blog.yasuoza.com//categories/coffeescript/atom.xml" rel="self"/>
+  <link href="http://blog.yasuoza.com/"/>
+  <updated>2014-01-13T07:44:41+00:00</updated>
+  <id>http://blog.yasuoza.com/</id>
+  <author>
+    <name><![CDATA[Yasuharu Ozaki]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Array#compact in CoffeeScript]]></title>
+    <link href="http://blog.yasuoza.com/2012/12/14/array-number-compact-in-coffeescript/"/>
+    <updated>2012-12-14T17:05:00+00:00</updated>
+    <id>http://blog.yasuoza.com/2012/12/14/array-number-compact-in-coffeescript</id>
+    <content type="html"><![CDATA[<p>```coffeescript
+Array::compact = &ndash;>
+  (elem for elem in this when elem?)</p>
+
+<p>arr = [0..10]
+delete arr[7]
+delete arr[8]</p>
+
+<p>console.log arr.compact() #=> [0, 1, 2, 3, 4, 5, 6, 9, 10]
+```</p>
+
+<p>Yeah!</p>
+]]></content>
+  </entry>
+  
+</feed>

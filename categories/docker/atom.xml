@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: docker | yasuoza diary]]></title>
+  <link href="http://blog.yasuoza.com//categories/docker/atom.xml" rel="self"/>
+  <link href="http://blog.yasuoza.com/"/>
+  <updated>2014-01-13T07:44:41+00:00</updated>
+  <id>http://blog.yasuoza.com/</id>
+  <author>
+    <name><![CDATA[Yasuharu Ozaki]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Docker in OSX without dvm]]></title>
+    <link href="http://blog.yasuoza.com/2014/01/10/docker-in-osx-without-dvm/"/>
+    <updated>2014-01-10T02:35:08+00:00</updated>
+    <id>http://blog.yasuoza.com/2014/01/10/docker-in-osx-without-dvm</id>
+    <content type="html"><![CDATA[<p>Docker client for OSX released as of <a href="https://github.com/dotcloud/docker/blob/master/CHANGELOG.md#073-2014-01-02">0.7.3</a></p>
+
+<p>Now, we OSX user can access docker container without ssh command by followlig without <a href="http://fnichol.github.io/dvm/">dvm</a></p>
+
+<p>Install docker client via Homebrew:</p>
+
+<p><code>bash
+$ brew update
+$ brew tap homebrew/binary
+$ brew install docker
+</code></p>
+
+<p>Next, setup Vagrantfile like:</p>
+
+<p>```ruby
+DOCKER_IP   = ENV[&ldquo;DOCKER_IP&rdquo;]   || &ldquo;192.168.42.43&rdquo;
+DOCKER_PORT = ENV[&ldquo;DOCKER_PORT&rdquo;] || 4243</p>
+
+<p>Vagrant.configure(&ldquo;2&rdquo;) do |config|
+  config.vm.box     = &ldquo;precise64&rdquo;
+  config.vm.box_url = &ldquo;<a href="http://files.vagrantup.com/precise64.box">http://files.vagrantup.com/precise64.box</a>&rdquo;
+  config.vm.network :private_network, ip: DOCKER_IP
+  config.vm.provision :docker do |d|</p>
+
+<pre><code>d.pull_images "base"
+</code></pre>
+
+<p>  end
+  config.vm.provision :shell, inline: &lt;&lt;-SHELL</p>
+
+<pre><code>sudo sed -i -e 's/DOCKER_OPTS=/DOCKER_OPTS=\"-H #{DOCKER_IP}:#{DOCKER_PORT}\"/g' /etc/init/docker.conf
+sudo service docker restart
+</code></pre>
+
+<p>  SHELL
+end
+```</p>
+
+<p>Then run VM:</p>
+
+<p><code>bash
+$ vagrant up
+</code></p>
+
+<p>Export <code>DOCKER_HOST</code>:</p>
+
+<p><code>bash
+$ export DOCKER_HOST="192.168.42.43:4243" # DOCKER_HOST="$DOCKER_IP:$DOCKER_PORT"
+</code></p>
+
+<p>That&rsquo;s all. Now you can access docker container like:</p>
+
+<p><code>bash
+$ docker run base echo "hello world!"
+</code></p>
+]]></content>
+  </entry>
+  
+</feed>

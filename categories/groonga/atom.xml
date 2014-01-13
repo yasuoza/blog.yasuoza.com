@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: groonga | yasuoza diary]]></title>
+  <link href="http://blog.yasuoza.com//categories/groonga/atom.xml" rel="self"/>
+  <link href="http://blog.yasuoza.com/"/>
+  <updated>2014-01-13T07:44:41+00:00</updated>
+  <id>http://blog.yasuoza.com/</id>
+  <author>
+    <name><![CDATA[Yasuharu Ozaki]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Railsでmroongaを使う]]></title>
+    <link href="http://blog.yasuoza.com/2012/11/30/mroonga_in_rails/"/>
+    <updated>2012-11-30T00:00:00+00:00</updated>
+    <id>http://blog.yasuoza.com/2012/11/30/mroonga_in_rails</id>
+    <content type="html"><![CDATA[<p>昨日行われた<a href="http://atnd.org/events/33070" target="_blank">全文検索エンジンgroongaを囲む夕べ 3 @groonga</a>はUstで見てました。</p>
+
+<p>(g|m|r)roongaに興味を持った人もいるのではないかと思い、mroongaを既存のRailsアプリケーションに導入する方法を紹介しようと思います。</p>
+
+<p>想定は</p>
+
+<ul>
+  <li>データベースはMySQLを使っている</li>
+  <li>既存のテーブルのカラムに対して全文検索を導入したい</li>
+</ul>
+
+
+<p>という条件です。mroongaはMySQLを必要とするので、そこは必須ですが、新規でmroongaの全文検索カラムを持ったテーブルを作るときにも参考になると思います。</p>
+
+<p>まずはmroongaのインストールをします。公式のドキュメントに綺麗にまとまっているので、そちらを参照して下さい。</p>
+
+<p><a href="http://mroonga.github.com/docs/install.html" target="_blank">Installation Guide mroonga</a></p>
+
+<p>インストールしたら次はマイグレーションファイルを作ります。
+今回の例ではブログ記事の本文(entry.body)を全文検索するように設定していきます。</p>
+
+<p><code>
+$ rails g migration use_mroonga_in_entries_table
+</code></p>
+
+<p>マイグレーションファイルができたらエディタで開いて次のように編集します。</p>
+
+<p>```ruby
+class UseMroongaInEntriesTable &lt; ActiveRecord::Migration
+  def change</p>
+
+<pre><code>execute &lt;&lt;-SQL
+ALTER TABLE entries
+  ENGINE = mroonga COMMENT = 'engine &amp;quot;innodb&amp;quot;' DEFAULT CHARSET utf8
+SQL
+
+execute &lt;&lt;-SQL
+ALTER TABLE entries
+  ADD FULLTEXT INDEX index_blogs_on_body (body)
+SQL
+</code></pre>
+
+<p>  end
+end
+```</p>
+
+<p>マイグレートします。</p>
+
+<p><code>
+$ rake db:migrate
+</code></p>
+
+<p>検索します。
+```
+$ rails c</p>
+
+<blockquote><p>Entry.where(&ldquo;match(body) against(&lsquo;hello&rsquo;)&rdquo;)
+[<Entry id: 1, text: "hello world">
+```</p></blockquote>
+
+<p>モデルにはスコープを使って</p>
+
+<p>```ruby
+class Entry &lt; ActiveRecord::Base
+  scope :search_with, &ndash;>(query) { where(%Q(match(body) against(&ldquo;#{query}&rdquo;))) }</p>
+
+<p>  # attr_accessible is removed.
+  # Now we are using strong_parameters!
+  # Refer to <a href="https://github.com/rails/strong_parameters">https://github.com/rails/strong_parameters</a>
+end
+```</p>
+
+<p>などと書いておけます。<code>query</code>の事前処理は必要に応じてして下さい。僕はいろいろ考えましたが、<code>query</code>の事前処理は呼び出し側のコントローラにやらせることにしてます。</p>
+
+<p>```
+$ rails c</p>
+
+<blockquote><p>Entry.search_with(&lsquo;hello&rsquo;)
+[<Entry id: 1, text: "hello world">]
+```</p></blockquote>
+
+<p>これでdevelopment環境とproduction環境では、MySQLのエンジンにmroongaが入っていれば動くはずです。
+テストを書かない人はここで読み終わってOKです。</p>
+
+<p>ここからはテストを書く人用です。</p>
+
+<p>Railsのテストは都度テスト用DBを初期化するところから始まります。その初期化の過程ではテーブルを空にするだけでなく、<code>db/schema.rb</code>を読んでスキーマを再構築するという処理も含まれます。参考: <a href="http://edgeguides.rubyonrails.org/testing.html#rake-tasks-for-preparing-your-application-for-testing" target="_blank">Rake Tasks for Preparing your Application for Testing</a>
+普通ならそれで構わないし、スキーマを再構築してもテストが通るかどうかを確認することは環境に依存しないアプリを作る際に必要になるステップだと思います。
+ただ、今回はmroongaを意図的に使うので<code>db/schema.rb</code>を読み込んでスキーマを初期化されては困ります。そこで、<a href="http://kennyj-jp.blogspot.jp/2011/09/specdbtestprepare.html" target="_blank">kennyjさんのブログ記事</a>で紹介されていた方法を取ります。</p>
+
+<p>Rakefileに以下を追加
+```ruby
+Rake::TaskManager.class_eval do
+  def remove_task(task_name)</p>
+
+<pre><code>@tasks.delete(task_name.to_s)
+</code></pre>
+
+<p>  end
+end
+```</p>
+
+<p>lib/tasks/override_db_test_prepare.rbを作成
+```ruby
+Rake.application.remove_task &lsquo;db:test:prepare&rsquo;</p>
+
+<p>namespace :db do
+  namespace :test do</p>
+
+<pre><code>task :prepare do; end
+</code></pre>
+
+<p>  end
+end
+```</p>
+
+<p>これでrake db:test:prepareで何も処理されないようにすることで<code>db/schema.rb</code>の内容でテスト用DBが上書きされずに済むようになります。</p>
+
+<p>ここまで来たらテスト用にDBを用意してテストを走らせるだけです。
+<code>
+$ rake db:migrate RAILS_ENV=test
+$ rake spec  # rake test
+</code></p>
+
+<p>fluentdを使ってgroongaのshardingが出来るようになったりいろいろ進化していくgroonga注目です。</p>
+]]></content>
+  </entry>
+  
+</feed>

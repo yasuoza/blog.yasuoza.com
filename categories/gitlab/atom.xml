@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: gitlab | yasuoza diary]]></title>
+  <link href="http://blog.yasuoza.com//categories/gitlab/atom.xml" rel="self"/>
+  <link href="http://blog.yasuoza.com/"/>
+  <updated>2014-01-13T07:44:41+00:00</updated>
+  <id>http://blog.yasuoza.com/</id>
+  <author>
+    <name><![CDATA[Yasuharu Ozaki]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Trigger jenkins from Gitlab push hook]]></title>
+    <link href="http://blog.yasuoza.com/2013/08/08/trigger-jenkins-from-gitlab-push-hook/"/>
+    <updated>2013-08-08T09:10:00+00:00</updated>
+    <id>http://blog.yasuoza.com/2013/08/08/trigger-jenkins-from-gitlab-push-hook</id>
+    <content type="html"><![CDATA[<p>Jenkins is awesome secretary and my friend. I can&rsquo;t live without him.<br/>
+My Jenkins does these things:</p>
+
+<ul>
+<li>Deploy blog.yasuoza.com</li>
+<li>Test my private repositories</li>
+<li>Cron jobs</li>
+</ul>
+
+
+<p>This blog and some private repositories are hosted by my <a href="http://gitlab.org/">Gitlab</a>.</p>
+
+<p>Today I want to share how to build job via Gitlab push hook with concrete example: how to deploy <a href="http://octopress.org/">Octopress</a> blog with Giatlab.</p>
+
+<p>First, you need to configure Octopress with rsync deployment. See more: <a href="http://octopress.org/docs/configuring/">Configuring Octopress</a></p>
+
+<p>Next, set jenkins&rsquo;s public key to blog server so that jenkins can login the server without password.</p>
+
+<p><code>plain
+$ sudo -u jenkins -H ssh user@yourhost.com
+</code></p>
+
+<p>Then, install Jenkins plugin <a href="https://wiki.jenkins-ci.org/display/JENKINS/Gitlab+Hook+Plugin">Gitlab Hook Plugin</a> and set <code>http://your-jenkins-server/gitlab/build_now</code>
+in your Gitlab like this:</p>
+
+<p><img src="/images/jenkins_gitlab_hook_plugin.png"></p>
+
+<p>This plugin works even if jenkins requires authentication to enter jenkins home.</p>
+
+<p><strong> NOTE </strong><br/>
+Gitlab Hook Plugin v0.2.11 does not work well when the job is not parameterized. So, use >= v0.2.12.<br/>
+For more: <a href="https://github.com/elvanja/jenkins-gitlab-hook-plugin/issues/15">Build no longer triggering (Maybe running too bleeding edge?)</a></p>
+
+<p>Finally, configure Jenkins job to deploy Octopress:</p>
+
+<p><code>plain Execute shell
+bundle
+bundle exec rake generate
+bundle exec rake deploy
+</code></p>
+
+<p><strong> NOTE </strong><br/>
+OCTOPRESS REQUIRES RUBY 1.9.3-P194.<br/>
+Ensure to jenkins&rsquo;s ruby version is 1.9.3-p194 or use ruby version management framework such as rvm or rbenv.<br/>
+If you want to let jenkins run not only system ruby, I recomend you to use <a href="https://wiki.jenkins-ci.org/display/JENKINS/Rbenv+Plugin">rbenv plugin</a>.<br/>
+It is easy to use.</p>
+
+<p>Well, you done. Now push changes to your own Gitlab. Jenkins works for you.</p>
+]]></content>
+  </entry>
+  
+</feed>
