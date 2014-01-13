@@ -41,10 +41,12 @@ branches:
   only:
   - master
 before_script:
-- git config --global user.name "yasuoza(via Travis CI)"
-- git config --global user.email "yasuharu.ozaki@gmail.com"
+- git config --global user.name "_username_(via Travis CI)"
+- git config --global user.email "youremail@gmail.com"
 - git remote set-url origin $REPO.git
-- for (( i=0; i<=$RSA_LENGTH; i++ )); do eval "echo -n \$id_rsa_$i >> ~/.ssh/travis_rsa_64"; done
+# array length 23 is calculated later as $RSA_LENGTH
+- if [ -z "$id_rsa_{1..23}" ]; then echo 'No $id_rsa_{1..23} found !' ; exit 1; fi
+- echo -n $id_rsa_{1..23} >> ~/.ssh/travis_rsa_64
 - base64 --decode --ignore-garbage ~/.ssh/travis_rsa_64 > ~/.ssh/id_rsa
 - chmod 600 ~/.ssh/id_rsa
 - echo -e "Host github.com\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
@@ -56,7 +58,7 @@ after_script:
 - bundle exec rake deploy
 env:
   global:
-  - REPO="git@github.com:_username_/_repository_.git"
+  - REPO="git@github.com:_username_/_repository_"
 ```
 
 Encrypt ssh-key via base64.
@@ -71,14 +73,13 @@ $ base64 --break=0 ~/.ssh/travis_rsa > ~/.ssh/travis_rsa_64
 $ bash <(cat ~/.ssh/travis_rsa_64 | perl -pe 's/(.{100})/$1\n/g' | nl | perl -pe 's/\s*(\d+)\s*(.*)/travis encrypt id_rsa_$1="$2" --add/')
 ```
 
-Count `id_rsa_{1..$RSA_LENGTH}` and encrypt it.
+Count `id_rsa_{1..$RSA_LENGTH}`.
 
 ```bash
 $ cat ~/.ssh/travis_rsa_64 | perl -pe 's/(.{100})/$1\n/g' | nl | tail
-$ travis encrypt RSA_LENGTH=50 --add # Assume last value was 50
 ```
 
-Finally, you should apply following patch to `rake deploy pulls from origin #{deploy_branch}`
+Finally, you should apply following patch to `rake deploy` to pulls from origin #{deploy_branch}.
 
 ```diff
 --- a/Rakefile
@@ -98,7 +99,6 @@ Finally, you should apply following patch to `rake deploy pulls from origin #{de
 
 That's it. Connect blog repository to Travis CI, and commit change!
 
-Refs:
-
+Refs:  
 - http://pchw.github.io/blog/2013/06/27/octopress-travis/  
 - http://www.harimenon.com/blog/2013/01/27/auto-deploying-to-my-octopress-blog/
