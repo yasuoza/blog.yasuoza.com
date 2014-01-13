@@ -78,6 +78,24 @@ $ cat ~/.ssh/travis_rsa_64 | perl -pe 's/(.{100})/$1\n/g' | nl | tail
 $ travis encrypt RSA_LENGTH=50 --add # Assume last value was 50
 ```
 
+Finally, you should apply following patch to `rake deploy pulls from origin #{deploy_branch}`
+
+```diff
+--- a/Rakefile
++++ b/Rakefile
+@@ -248,8 +248,8 @@ desc "deploy public directory to github pages"
+ multitask :push do
+   puts "## Deploying branch to Github Pages "
+   puts "## Pulling any updates from Github Pages "
+-  cd "#{deploy_dir}" do
+-    system "git pull"
++  cd "#{deploy_dir}" do
++    system "git pull origin #{deploy_branch}"
+   end
+   (Dir["#{deploy_dir}/*"]).each { |f| rm_rf(f) }
+   Rake::Task[:copydot].invoke(public_dir, deploy_dir)
+```
+
 That's it. Connect blog repository to Travis CI, and commit change!
 
 Refs:
