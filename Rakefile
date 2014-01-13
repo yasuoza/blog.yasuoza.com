@@ -343,19 +343,24 @@ task :setup_github_pages, :repo do |t, args|
     f.write jekyll_config
   end
   rm_rf deploy_dir
-  mkdir deploy_dir
-  cd "#{deploy_dir}" do
-    system "git init"
-    system "echo 'My Octopress Page is coming soon &hellip;' > index.html"
-    system "git add ."
-    system "git commit -m \"Octopress init\""
-    system "git branch -m gh-pages" unless branch == 'master'
-    system "git remote add origin #{repo_url}"
-    rakefile = IO.read(__FILE__)
-    rakefile.sub!(/deploy_branch(\s*)=(\s*)(["'])[\w-]*["']/, "deploy_branch\\1=\\2\\3#{branch}\\3")
-    rakefile.sub!(/deploy_default(\s*)=(\s*)(["'])[\w-]*["']/, "deploy_default\\1=\\2\\3push\\3")
-    File.open(__FILE__, 'w') do |f|
-      f.write rakefile
+  unless (`git ls-remote #{repo_url} #{branch}`).nil?
+    # If already have generated repository, clone it to deploy_dir
+    system "git clone #{repo_url} -b #{branch} #{deploy_dir}"
+  else
+    mkdir deploy_dir
+    cd "#{deploy_dir}" do
+      system "git init"
+      system "echo 'My Octopress Page is coming soon &hellip;' > index.html"
+      system "git add ."
+      system "git commit -m \"Octopress init\""
+      system "git branch -m gh-pages" unless branch == 'master'
+      system "git remote add origin #{repo_url}"
+      rakefile = IO.read(__FILE__)
+      rakefile.sub!(/deploy_branch(\s*)=(\s*)(["'])[\w-]*["']/, "deploy_branch\\1=\\2\\3#{branch}\\3")
+      rakefile.sub!(/deploy_default(\s*)=(\s*)(["'])[\w-]*["']/, "deploy_default\\1=\\2\\3push\\3")
+      File.open(__FILE__, 'w') do |f|
+        f.write rakefile
+      end
     end
   end
   puts "\n---\n## Now you can deploy to #{repo_url} with `rake deploy` ##"
