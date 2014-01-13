@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: oauth | yasuoza diary]]></title>
+  <link href="http://blog.yasuoza.com//categories/oauth/atom.xml" rel="self"/>
+  <link href="http://blog.yasuoza.com/"/>
+  <updated>2014-01-13T06:50:36+00:00</updated>
+  <id>http://blog.yasuoza.com/</id>
+  <author>
+    <name><![CDATA[Yasuharu Ozaki]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[scribe-java in Android]]></title>
+    <link href="http://blog.yasuoza.com/2013/12/16/scribe-java-in-android/"/>
+    <updated>2013-12-16T07:04:52+00:00</updated>
+    <id>http://blog.yasuoza.com/2013/12/16/scribe-java-in-android</id>
+    <content type="html"><![CDATA[<p>Famous OAuth libraries for Android are</p>
+
+<ul>
+<li><a href="https://code.google.com/p/oauth-signpost/">oauth-signpost</a></li>
+<li><a href="https://github.com/fernandezpablo85/scribe-java">scribe-java</a></li>
+</ul>
+
+
+<p>There are entries about how to make OAuth authentication using oauth-signpost but I could not find any example using scribe-java, even though it is said</p>
+
+<blockquote><p>Scribe is a mature OAuth library for Java by Pablo Fernandez that is intended to work with all APIs</p></blockquote>
+
+<p><a href="http://oauth.net/code/">http://oauth.net/code/</a></p>
+
+<p>The following example is how to make OAuth 1.0a authentication using scribe-java.</p>
+
+<p>First, create oauth api model:</p>
+
+<p>```java api/TwitterApi.java
+public class TwitterApi extends DefaultApi10a {
+  private static final String AUTHORIZE_URL = &ldquo;<a href="https://api.twitter.com/oauth/authorize?oauth_token=%s">https://api.twitter.com/oauth/authorize?oauth_token=%s</a>&rdquo;;
+  private static final String REQUEST_TOKEN_RESOURCE = &ldquo;api.twitter.com/oauth/request_token&rdquo;;
+  private static final String ACCESS_TOKEN_RESOURCE = &ldquo;api.twitter.com/oauth/access_token&rdquo;;</p>
+
+<p>  @Override {
+  public String getAccessTokenEndpoint()</p>
+
+<pre><code>return "http://" + ACCESS_TOKEN_RESOURCE;
+</code></pre>
+
+<p>  }</p>
+
+<p>  @Override
+  public String getRequestTokenEndpoint() {</p>
+
+<pre><code>return "http://" + REQUEST_TOKEN_RESOURCE;
+</code></pre>
+
+<p>  }</p>
+
+<p>  @Override
+  public String getAuthorizationUrl(Token requestToken) {</p>
+
+<pre><code>return String.format(AUTHORIZE_URL, requestToken.getToken());
+</code></pre>
+
+<p>  }</p>
+
+<p>  public static class SSL extends TwitterApi {</p>
+
+<pre><code>@Override
+public String getAccessTokenEndpoint() {
+  return "https://" + ACCESS_TOKEN_RESOURCE;
+}
+
+@Override
+public String getRequestTokenEndpoint() {
+  return "https://" + REQUEST_TOKEN_RESOURCE;
+}
+</code></pre>
+
+<p>  }</p>
+
+<p>  /<em>*
+   * Twitter &lsquo;friendlier&rsquo; authorization endpoint for OAuth.
+   *
+   * Uses SSL.
+   </em>/
+  public static class Authenticate extends SSL {</p>
+
+<pre><code>private static final String AUTHENTICATE_URL = "https://api.twitter.com/oauth/authenticate?oauth_token=%s";
+
+@Override
+public String getAuthorizationUrl(Token requestToken) {
+  return String.format(AUTHENTICATE_URL, requestToken.getToken());
+}
+</code></pre>
+
+<p>  }</p>
+
+<p>  /<em>*
+   * Just an alias to the default (SSL) authorization endpoint.
+   *
+   * Need to include this for symmetry with &lsquo;Authenticate&rsquo; only.
+   </em>/
+  public static class Authorize extends SSL{}
+}
+```
+(Retrieved from <a href="https://github.com/fernandezpablo85/scribe-java/blob/master/src/main/java/org/scribe/builder/api/TwitterApi.java">scribe/builder/api/TwitterApi.java</a>. You can build your own api model like this.)</p>
+
+<p>Then, use this api model in your Activity with WebView :</p>
+
+<p>```java OauthActivity.java
+public class OauthActivity extends Activity {</p>
+
+<pre><code>private static final String CALLBACK_URL = "http://www.twitter.com";
+
+private WebView mWebView;
+private OauthService mOauthService;
+private Token mRequestToken;
+
+@Override
+public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+
+    mService = new ServiceBuilder()
+      .provider(TwitterApi.class)
+      .apiKey("YOUR_API_KEY")
+      .apiSecret("YOUR_API_SECRET")
+      .callback(HatenaApi.CALLBACK_URL)
+      .build();
+
+    mWebView = (WebView) findViewById(R.id.webView);
+    mWebView.clearCache(true);
+    mWebView.getSettings().setJavaScriptEnabled(true);
+    mWebView.getSettings().setBuiltInZoomControls(true);
+    mWebView.getSettings().setDisplayZoomControls(false);
+    mWebView.setWebViewClient(mWebViewClient);
+    mWebView.setWebChromeClient(mWebChromeClient);
+
+    setContentView(mWebView);
+
+    startAuthorize();
+}
+
+private void startAuthorize() {
+    (new AsyncTask&lt;Void, Void, String&gt;() {
+        @Override
+        protected String doInBackground(Void... params) {
+            mRequestToken = mService.getRequestToken();
+            return mService.getAuthorizationUrl(mRequestToken);
+        }
+
+        @Override
+        protected void onPostExecute(String url) {
+            mWebView.loadUrl(url);
+        }
+    }).execute();
+}
+
+private WebViewClient mWebViewClient = new WebViewClient() {
+    @Override
+    public void onPageStarted(WebView view, String url, Bitmap favicon) {
+        if ((url != null) &amp;&amp; (url.startsWith(CALLBACK_URL))) { // Override webview when user came back to CALLBACK_URL
+            mWebView.stopLoading();
+            mWebView.setVisibility(View.INVISIBLE); // Hide webview if necessary
+            Uri uri = Uri.parse(url);
+            final Verifier verifier = new Verifier(uri.getQueryParameter("oauth_verifier"));
+            (new AsyncTask&lt;Void, Void, Token&gt;() {
+                @Override
+                protected Token doInBackground(Void... params) {
+                    return mService.getAccessToken(mRequestToken, verifier);
+                }
+
+                @Override
+                protected void onPostExecute(Token accessToken) {
+                    // AccessToken is passed here! Do what you want!
+                    finish();
+                }
+            }).execute();
+        } else {
+            super.onPageStarted(view, url, favicon);
+        }
+    }
+};
+</code></pre>
+
+<p>}
+```</p>
+
+<p>Yeah! You&rsquo;ve done! It&rsquo;s easy isn&rsquo;t it?</p>
+
+<p>Keypoints are</p>
+
+<ul>
+<li>Build service</li>
+<li>Get request token</li>
+<li>Get authorize url</li>
+<li>Get verifier</li>
+<li>Get access token based on the verifier</li>
+</ul>
+
+]]></content>
+  </entry>
+  
+</feed>

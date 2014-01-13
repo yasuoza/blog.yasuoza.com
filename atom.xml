@@ -1,0 +1,1373 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[yasuoza diary]]></title>
+  <link href="http://blog.yasuoza.com/atom.xml" rel="self"/>
+  <link href="http://blog.yasuoza.com/"/>
+  <updated>2014-01-13T06:50:36+00:00</updated>
+  <id>http://blog.yasuoza.com/</id>
+  <author>
+    <name><![CDATA[Yasuharu Ozaki]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Docker in OSX without dvm]]></title>
+    <link href="http://blog.yasuoza.com/2014/01/10/docker-in-osx-without-dvm/"/>
+    <updated>2014-01-10T02:35:08+00:00</updated>
+    <id>http://blog.yasuoza.com/2014/01/10/docker-in-osx-without-dvm</id>
+    <content type="html"><![CDATA[<p>Docker client for OSX released as of <a href="https://github.com/dotcloud/docker/blob/master/CHANGELOG.md#073-2014-01-02">0.7.3</a></p>
+
+<p>Now, we OSX user can access docker container without ssh command by followlig without <a href="http://fnichol.github.io/dvm/">dvm</a></p>
+
+<p>Install docker client via Homebrew:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>brew update
+</span><span class='line'><span class="nv">$ </span>brew tap homebrew/binary
+</span><span class='line'><span class="nv">$ </span>brew install docker
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Next, setup Vagrantfile like:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">DOCKER_IP</span>   <span class="o">=</span> <span class="no">ENV</span><span class="o">[</span><span class="s2">&quot;DOCKER_IP&quot;</span><span class="o">]</span>   <span class="o">||</span> <span class="s2">&quot;192.168.42.43&quot;</span>
+</span><span class='line'><span class="no">DOCKER_PORT</span> <span class="o">=</span> <span class="no">ENV</span><span class="o">[</span><span class="s2">&quot;DOCKER_PORT&quot;</span><span class="o">]</span> <span class="o">||</span> <span class="mi">4243</span>
+</span><span class='line'>
+</span><span class='line'><span class="no">Vagrant</span><span class="o">.</span><span class="n">configure</span><span class="p">(</span><span class="s2">&quot;2&quot;</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">config</span><span class="o">|</span>
+</span><span class='line'>  <span class="n">config</span><span class="o">.</span><span class="n">vm</span><span class="o">.</span><span class="n">box</span>     <span class="o">=</span> <span class="s2">&quot;precise64&quot;</span>
+</span><span class='line'>  <span class="n">config</span><span class="o">.</span><span class="n">vm</span><span class="o">.</span><span class="n">box_url</span> <span class="o">=</span> <span class="s2">&quot;http://files.vagrantup.com/precise64.box&quot;</span>
+</span><span class='line'>  <span class="n">config</span><span class="o">.</span><span class="n">vm</span><span class="o">.</span><span class="n">network</span> <span class="ss">:private_network</span><span class="p">,</span> <span class="ss">ip</span><span class="p">:</span> <span class="no">DOCKER_IP</span>
+</span><span class='line'>  <span class="n">config</span><span class="o">.</span><span class="n">vm</span><span class="o">.</span><span class="n">provision</span> <span class="ss">:docker</span> <span class="k">do</span> <span class="o">|</span><span class="n">d</span><span class="o">|</span>
+</span><span class='line'>    <span class="n">d</span><span class="o">.</span><span class="n">pull_images</span> <span class="s2">&quot;base&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>  <span class="n">config</span><span class="o">.</span><span class="n">vm</span><span class="o">.</span><span class="n">provision</span> <span class="ss">:shell</span><span class="p">,</span> <span class="ss">inline</span><span class="p">:</span> <span class="o">&lt;&lt;-</span><span class="no">SHELL</span>
+</span><span class='line'><span class="sh">    sudo sed -i -e &#39;s/DOCKER_OPTS=/DOCKER_OPTS=\&quot;-H #{DOCKER_IP}:#{DOCKER_PORT}\&quot;/g&#39; /etc/init/docker.conf</span>
+</span><span class='line'><span class="sh">    sudo service docker restart</span>
+</span><span class='line'><span class="no">  SHELL</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Then run VM:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>vagrant up
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Export <code>DOCKER_HOST</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span><span class="nb">export </span><span class="nv">DOCKER_HOST</span><span class="o">=</span><span class="s2">&quot;192.168.42.43:4243&quot;</span> <span class="c"># DOCKER_HOST=&quot;$DOCKER_IP:$DOCKER_PORT&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>That&rsquo;s all. Now you can access docker container like:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>docker run base <span class="nb">echo</span> <span class="s2">&quot;hello world!&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[年末年始に会った友達の言葉]]></title>
+    <link href="http://blog.yasuoza.com/2014/01/07/words/"/>
+    <updated>2014-01-07T06:43:15+00:00</updated>
+    <id>http://blog.yasuoza.com/2014/01/07/words</id>
+    <content type="html"><![CDATA[<blockquote><p>大工なんて下請けじゃん</p></blockquote>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[HBFav-Android 2.1.1リリース]]></title>
+    <link href="http://blog.yasuoza.com/2013/12/27/hbfav-android-2-1-1/"/>
+    <updated>2013-12-27T04:39:25+00:00</updated>
+    <id>http://blog.yasuoza.com/2013/12/27/hbfav-android-2-1-1</id>
+    <content type="html"><![CDATA[<p>HBFav for Androidの2.1.1をリリースしました!</p>
+
+<p><a href="https://play.google.com/store/apps/details?id=com.hbfav.android">はてなブックマークをタイムライン形式で HBFav</a></p>
+
+<p>今回のバージョンアップでは</p>
+
+<ul>
+<li>ビルトインブラウザ</li>
+<li>コメントの閲覧</li>
+<li>アプリ単体でのブックマーク登録・更新・削除機能</li>
+</ul>
+
+
+<p>の追加をしました。</p>
+
+<p>いちいちブラウザに飛ぶことはなくなったので、よりシームレスに記事を閲覧することが出来るようになったと思います。</p>
+
+<p><img class="center" src="http://blog.yasuoza.com/images/hbfav/entry_webview.jpg" width="350"></p>
+
+<p><img class="center" src="http://blog.yasuoza.com/images/hbfav/activity_bookmark_entry.jpg" width="350"></p>
+
+<p>OAuth認証したり、異なるサイズのボタンを配置したり、キーボードの開閉に合わせた挙動をさせたりと、まぁまぁ大変でした。<br/>
+1週間ブックマークを見る暇なくずっとブックマーク登録画面だけ開発してたなんてときもありましたが、それでも総じて楽しかったです。</p>
+
+<p>一部の端末で正しくOauth認証出来ないバグが確認されております。年明けから対応していきます。Android大変です。。。<br/>
+また、アプリが落ちたり、うまく動作しない場合は<a href="https://github.com/yasuoza/HBFav-Android/issues">Github</a>に書いて頂くか、<a href="https://www.twitter.com/yasuoza">@yasuoza</a>まで
+お気軽にメンションください。出来る限りのサポートはしていきます。</p>
+
+<p>今後ともHBFav-Androidをよろしくお願いします!</p>
+
+<p>Special thanks :heart::heart::heart:</p>
+
+<ul>
+<li><a href="https://www.hatena.com/">株式会社はてな様</a> 問い合わせに対してご丁寧に対応していただきました。</li>
+<li><a href="http://stackoverflow.com/">stackoverflowさん</a> 今回も引き続きお世話になりました。</li>
+<li><a href="http://android-ui-utils.googlecode.com/hg/asset-studio/dist/index.html">Android Asset Studioさん</a> UI実装に大変役立ちました。</li>
+<li><a href="http://android-holo-colors.com/">Android Holo Colors Generator</a> UI実装に大変役立ちました。</li>
+</ul>
+
+
+<p>年末年始はdockerで遊ぶ予定です。dockerを利用してちょっと作りたいものがあるので、ちょっと実験してみます。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[scribe-java in Android]]></title>
+    <link href="http://blog.yasuoza.com/2013/12/16/scribe-java-in-android/"/>
+    <updated>2013-12-16T07:04:52+00:00</updated>
+    <id>http://blog.yasuoza.com/2013/12/16/scribe-java-in-android</id>
+    <content type="html"><![CDATA[<p>Famous OAuth libraries for Android are</p>
+
+<ul>
+<li><a href="https://code.google.com/p/oauth-signpost/">oauth-signpost</a></li>
+<li><a href="https://github.com/fernandezpablo85/scribe-java">scribe-java</a></li>
+</ul>
+
+
+<p>There are entries about how to make OAuth authentication using oauth-signpost but I could not find any example using scribe-java, even though it is said</p>
+
+<blockquote><p>Scribe is a mature OAuth library for Java by Pablo Fernandez that is intended to work with all APIs</p></blockquote>
+
+<p><a href="http://oauth.net/code/">http://oauth.net/code/</a></p>
+
+<p>The following example is how to make OAuth 1.0a authentication using scribe-java.</p>
+
+<p>First, create oauth api model:</p>
+
+<figure class='code'><figcaption><span>api/TwitterApi.java</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nc">TwitterApi</span> <span class="kd">extends</span> <span class="n">DefaultApi10a</span> <span class="o">{</span>
+</span><span class='line'>  <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">AUTHORIZE_URL</span> <span class="o">=</span> <span class="s">&quot;https://api.twitter.com/oauth/authorize?oauth_token=%s&quot;</span><span class="o">;</span>
+</span><span class='line'>  <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">REQUEST_TOKEN_RESOURCE</span> <span class="o">=</span> <span class="s">&quot;api.twitter.com/oauth/request_token&quot;</span><span class="o">;</span>
+</span><span class='line'>  <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">ACCESS_TOKEN_RESOURCE</span> <span class="o">=</span> <span class="s">&quot;api.twitter.com/oauth/access_token&quot;</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nd">@Override</span> <span class="o">{</span>
+</span><span class='line'>  <span class="kd">public</span> <span class="n">String</span> <span class="nf">getAccessTokenEndpoint</span><span class="o">()</span>
+</span><span class='line'>    <span class="k">return</span> <span class="s">&quot;http://&quot;</span> <span class="o">+</span> <span class="n">ACCESS_TOKEN_RESOURCE</span><span class="o">;</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nd">@Override</span>
+</span><span class='line'>  <span class="kd">public</span> <span class="n">String</span> <span class="nf">getRequestTokenEndpoint</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>    <span class="k">return</span> <span class="s">&quot;http://&quot;</span> <span class="o">+</span> <span class="n">REQUEST_TOKEN_RESOURCE</span><span class="o">;</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nd">@Override</span>
+</span><span class='line'>  <span class="kd">public</span> <span class="n">String</span> <span class="nf">getAuthorizationUrl</span><span class="o">(</span><span class="n">Token</span> <span class="n">requestToken</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>    <span class="k">return</span> <span class="n">String</span><span class="o">.</span><span class="na">format</span><span class="o">(</span><span class="n">AUTHORIZE_URL</span><span class="o">,</span> <span class="n">requestToken</span><span class="o">.</span><span class="na">getToken</span><span class="o">());</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kd">public</span> <span class="kd">static</span> <span class="kd">class</span> <span class="nc">SSL</span> <span class="kd">extends</span> <span class="n">TwitterApi</span> <span class="o">{</span>
+</span><span class='line'>    <span class="nd">@Override</span>
+</span><span class='line'>    <span class="kd">public</span> <span class="n">String</span> <span class="nf">getAccessTokenEndpoint</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>      <span class="k">return</span> <span class="s">&quot;https://&quot;</span> <span class="o">+</span> <span class="n">ACCESS_TOKEN_RESOURCE</span><span class="o">;</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nd">@Override</span>
+</span><span class='line'>    <span class="kd">public</span> <span class="n">String</span> <span class="nf">getRequestTokenEndpoint</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>      <span class="k">return</span> <span class="s">&quot;https://&quot;</span> <span class="o">+</span> <span class="n">REQUEST_TOKEN_RESOURCE</span><span class="o">;</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="cm">/**</span>
+</span><span class='line'><span class="cm">   * Twitter &#39;friendlier&#39; authorization endpoint for OAuth.</span>
+</span><span class='line'><span class="cm">   *</span>
+</span><span class='line'><span class="cm">   * Uses SSL.</span>
+</span><span class='line'><span class="cm">   */</span>
+</span><span class='line'>  <span class="kd">public</span> <span class="kd">static</span> <span class="kd">class</span> <span class="nc">Authenticate</span> <span class="kd">extends</span> <span class="n">SSL</span> <span class="o">{</span>
+</span><span class='line'>    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">AUTHENTICATE_URL</span> <span class="o">=</span> <span class="s">&quot;https://api.twitter.com/oauth/authenticate?oauth_token=%s&quot;</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nd">@Override</span>
+</span><span class='line'>    <span class="kd">public</span> <span class="n">String</span> <span class="nf">getAuthorizationUrl</span><span class="o">(</span><span class="n">Token</span> <span class="n">requestToken</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>      <span class="k">return</span> <span class="n">String</span><span class="o">.</span><span class="na">format</span><span class="o">(</span><span class="n">AUTHENTICATE_URL</span><span class="o">,</span> <span class="n">requestToken</span><span class="o">.</span><span class="na">getToken</span><span class="o">());</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="cm">/**</span>
+</span><span class='line'><span class="cm">   * Just an alias to the default (SSL) authorization endpoint.</span>
+</span><span class='line'><span class="cm">   *</span>
+</span><span class='line'><span class="cm">   * Need to include this for symmetry with &#39;Authenticate&#39; only.</span>
+</span><span class='line'><span class="cm">   */</span>
+</span><span class='line'>  <span class="kd">public</span> <span class="kd">static</span> <span class="kd">class</span> <span class="nc">Authorize</span> <span class="kd">extends</span> <span class="n">SSL</span><span class="o">{}</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>(Retrieved from <a href="https://github.com/fernandezpablo85/scribe-java/blob/master/src/main/java/org/scribe/builder/api/TwitterApi.java">scribe/builder/api/TwitterApi.java</a>. You can build your own api model like this.)</p>
+
+<p>Then, use this api model in your Activity with WebView :</p>
+
+<figure class='code'><figcaption><span>OauthActivity.java</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nc">OauthActivity</span> <span class="kd">extends</span> <span class="n">Activity</span> <span class="o">{</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">CALLBACK_URL</span> <span class="o">=</span> <span class="s">&quot;http://www.twitter.com&quot;</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">private</span> <span class="n">WebView</span> <span class="n">mWebView</span><span class="o">;</span>
+</span><span class='line'>    <span class="kd">private</span> <span class="n">OauthService</span> <span class="n">mOauthService</span><span class="o">;</span>
+</span><span class='line'>    <span class="kd">private</span> <span class="n">Token</span> <span class="n">mRequestToken</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nd">@Override</span>
+</span><span class='line'>    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onCreate</span><span class="o">(</span><span class="n">Bundle</span> <span class="n">savedInstanceState</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>        <span class="kd">super</span><span class="o">.</span><span class="na">onCreate</span><span class="o">(</span><span class="n">savedInstanceState</span><span class="o">);</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">mService</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ServiceBuilder</span><span class="o">()</span>
+</span><span class='line'>          <span class="o">.</span><span class="na">provider</span><span class="o">(</span><span class="n">TwitterApi</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+</span><span class='line'>          <span class="o">.</span><span class="na">apiKey</span><span class="o">(</span><span class="s">&quot;YOUR_API_KEY&quot;</span><span class="o">)</span>
+</span><span class='line'>          <span class="o">.</span><span class="na">apiSecret</span><span class="o">(</span><span class="s">&quot;YOUR_API_SECRET&quot;</span><span class="o">)</span>
+</span><span class='line'>          <span class="o">.</span><span class="na">callback</span><span class="o">(</span><span class="n">HatenaApi</span><span class="o">.</span><span class="na">CALLBACK_URL</span><span class="o">)</span>
+</span><span class='line'>          <span class="o">.</span><span class="na">build</span><span class="o">();</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">mWebView</span> <span class="o">=</span> <span class="o">(</span><span class="n">WebView</span><span class="o">)</span> <span class="n">findViewById</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">webView</span><span class="o">);</span>
+</span><span class='line'>        <span class="n">mWebView</span><span class="o">.</span><span class="na">clearCache</span><span class="o">(</span><span class="kc">true</span><span class="o">);</span>
+</span><span class='line'>        <span class="n">mWebView</span><span class="o">.</span><span class="na">getSettings</span><span class="o">().</span><span class="na">setJavaScriptEnabled</span><span class="o">(</span><span class="kc">true</span><span class="o">);</span>
+</span><span class='line'>        <span class="n">mWebView</span><span class="o">.</span><span class="na">getSettings</span><span class="o">().</span><span class="na">setBuiltInZoomControls</span><span class="o">(</span><span class="kc">true</span><span class="o">);</span>
+</span><span class='line'>        <span class="n">mWebView</span><span class="o">.</span><span class="na">getSettings</span><span class="o">().</span><span class="na">setDisplayZoomControls</span><span class="o">(</span><span class="kc">false</span><span class="o">);</span>
+</span><span class='line'>        <span class="n">mWebView</span><span class="o">.</span><span class="na">setWebViewClient</span><span class="o">(</span><span class="n">mWebViewClient</span><span class="o">);</span>
+</span><span class='line'>        <span class="n">mWebView</span><span class="o">.</span><span class="na">setWebChromeClient</span><span class="o">(</span><span class="n">mWebChromeClient</span><span class="o">);</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">setContentView</span><span class="o">(</span><span class="n">mWebView</span><span class="o">);</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">startAuthorize</span><span class="o">();</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">private</span> <span class="kt">void</span> <span class="nf">startAuthorize</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>        <span class="o">(</span><span class="k">new</span> <span class="n">AsyncTask</span><span class="o">&lt;</span><span class="n">Void</span><span class="o">,</span> <span class="n">Void</span><span class="o">,</span> <span class="n">String</span><span class="o">&gt;()</span> <span class="o">{</span>
+</span><span class='line'>            <span class="nd">@Override</span>
+</span><span class='line'>            <span class="kd">protected</span> <span class="n">String</span> <span class="nf">doInBackground</span><span class="o">(</span><span class="n">Void</span><span class="o">...</span> <span class="n">params</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>                <span class="n">mRequestToken</span> <span class="o">=</span> <span class="n">mService</span><span class="o">.</span><span class="na">getRequestToken</span><span class="o">();</span>
+</span><span class='line'>                <span class="k">return</span> <span class="n">mService</span><span class="o">.</span><span class="na">getAuthorizationUrl</span><span class="o">(</span><span class="n">mRequestToken</span><span class="o">);</span>
+</span><span class='line'>            <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>            <span class="nd">@Override</span>
+</span><span class='line'>            <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">onPostExecute</span><span class="o">(</span><span class="n">String</span> <span class="n">url</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>                <span class="n">mWebView</span><span class="o">.</span><span class="na">loadUrl</span><span class="o">(</span><span class="n">url</span><span class="o">);</span>
+</span><span class='line'>            <span class="o">}</span>
+</span><span class='line'>        <span class="o">}).</span><span class="na">execute</span><span class="o">();</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">private</span> <span class="n">WebViewClient</span> <span class="n">mWebViewClient</span> <span class="o">=</span> <span class="k">new</span> <span class="n">WebViewClient</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>        <span class="nd">@Override</span>
+</span><span class='line'>        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onPageStarted</span><span class="o">(</span><span class="n">WebView</span> <span class="n">view</span><span class="o">,</span> <span class="n">String</span> <span class="n">url</span><span class="o">,</span> <span class="n">Bitmap</span> <span class="n">favicon</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>            <span class="k">if</span> <span class="o">((</span><span class="n">url</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">&amp;&amp;</span> <span class="o">(</span><span class="n">url</span><span class="o">.</span><span class="na">startsWith</span><span class="o">(</span><span class="n">CALLBACK_URL</span><span class="o">)))</span> <span class="o">{</span> <span class="c1">// Override webview when user came back to CALLBACK_URL</span>
+</span><span class='line'>                <span class="n">mWebView</span><span class="o">.</span><span class="na">stopLoading</span><span class="o">();</span>
+</span><span class='line'>                <span class="n">mWebView</span><span class="o">.</span><span class="na">setVisibility</span><span class="o">(</span><span class="n">View</span><span class="o">.</span><span class="na">INVISIBLE</span><span class="o">);</span> <span class="c1">// Hide webview if necessary</span>
+</span><span class='line'>                <span class="n">Uri</span> <span class="n">uri</span> <span class="o">=</span> <span class="n">Uri</span><span class="o">.</span><span class="na">parse</span><span class="o">(</span><span class="n">url</span><span class="o">);</span>
+</span><span class='line'>                <span class="kd">final</span> <span class="n">Verifier</span> <span class="n">verifier</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Verifier</span><span class="o">(</span><span class="n">uri</span><span class="o">.</span><span class="na">getQueryParameter</span><span class="o">(</span><span class="s">&quot;oauth_verifier&quot;</span><span class="o">));</span>
+</span><span class='line'>                <span class="o">(</span><span class="k">new</span> <span class="n">AsyncTask</span><span class="o">&lt;</span><span class="n">Void</span><span class="o">,</span> <span class="n">Void</span><span class="o">,</span> <span class="n">Token</span><span class="o">&gt;()</span> <span class="o">{</span>
+</span><span class='line'>                    <span class="nd">@Override</span>
+</span><span class='line'>                    <span class="kd">protected</span> <span class="n">Token</span> <span class="nf">doInBackground</span><span class="o">(</span><span class="n">Void</span><span class="o">...</span> <span class="n">params</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>                        <span class="k">return</span> <span class="n">mService</span><span class="o">.</span><span class="na">getAccessToken</span><span class="o">(</span><span class="n">mRequestToken</span><span class="o">,</span> <span class="n">verifier</span><span class="o">);</span>
+</span><span class='line'>                    <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>                    <span class="nd">@Override</span>
+</span><span class='line'>                    <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">onPostExecute</span><span class="o">(</span><span class="n">Token</span> <span class="n">accessToken</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>                        <span class="c1">// AccessToken is passed here! Do what you want!</span>
+</span><span class='line'>                        <span class="n">finish</span><span class="o">();</span>
+</span><span class='line'>                    <span class="o">}</span>
+</span><span class='line'>                <span class="o">}).</span><span class="na">execute</span><span class="o">();</span>
+</span><span class='line'>            <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+</span><span class='line'>                <span class="kd">super</span><span class="o">.</span><span class="na">onPageStarted</span><span class="o">(</span><span class="n">view</span><span class="o">,</span> <span class="n">url</span><span class="o">,</span> <span class="n">favicon</span><span class="o">);</span>
+</span><span class='line'>            <span class="o">}</span>
+</span><span class='line'>        <span class="o">}</span>
+</span><span class='line'>    <span class="o">};</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Yeah! You&rsquo;ve done! It&rsquo;s easy isn&rsquo;t it?</p>
+
+<p>Keypoints are</p>
+
+<ul>
+<li>Build service</li>
+<li>Get request token</li>
+<li>Get authorize url</li>
+<li>Get verifier</li>
+<li>Get access token based on the verifier</li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[諦めるということ]]></title>
+    <link href="http://blog.yasuoza.com/2013/12/13/akirameru_toiukoto/"/>
+    <updated>2013-12-13T16:09:48+00:00</updated>
+    <id>http://blog.yasuoza.com/2013/12/13/akirameru_toiukoto</id>
+    <content type="html"><![CDATA[<p>最近、諦める、年をとるということに関するブログや記事に目が行く。<br/>
+特に覚えているのは20代の頃を振り返るエンジニアの方のブログだった(記事探せなかった&hellip;)</p>
+
+<p>20代のころは若くて、出来ないエンジニアやディレクターの人にたいそう生意気な態度を取っていたが、
+30を過ぎたあたりで、周りとの協調を大事にするようになったと、そういう内容だったと思う。ちょっと違っているかも。</p>
+
+<p>先日20代の後半戦に入った俺は生意気の絶頂にいると思う。
+誰よりも技術で突出したいと思っているし、誰よりも論理的でありたいと思っている。
+それに、生まれつきのどうしよもない負けず嫌いが相伴って、仕事をしているなかで自分のいいように出来なくて、
+明らかに嫌な態度を取ることがある。</p>
+
+<p>20歳前後は、全然そんなこと無いのに、何事も自分は誰よりも考え尽くしているという自信があって、
+人の意見なんか3割位聞くと欠点がわかったりして、まるで、生きている価値ないという勢いでその人の意見を否定して生きていた。<br/>
+20代も進んでくると人の意見も聞けるようになった。自分の意見を聞いてもらいたかったら、先に人の意見を聞かないと
+ダメと先輩に教えられたことが大きな要因だったと思う。一つ丸くなったんだと思う。</p>
+
+<p>ずっと尖っていることは不可能なのだろうか。不可能ではくても、生きづらい世の中なのだろうか。<br/>
+でもきっと、ずっと尖っていることは出来ないんだろうと心のどこかで分かり始めてきている。
+2~3年で丸くなったように、これからの2~3年でも大なり小なり変わってしまうんではないかと思っている。</p>
+
+<p>それでも俺はずっと尖っていたいし、誰よりも技術的に上を目指して走り続けることを諦めたくはないと本当に思っている。</p>
+
+<p>26歳になった記念として。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[HBFav-Android 2.0.0リリース]]></title>
+    <link href="http://blog.yasuoza.com/2013/12/09/hbfav-2-0-0-release/"/>
+    <updated>2013-12-09T04:52:12+00:00</updated>
+    <id>http://blog.yasuoza.com/2013/12/09/hbfav-2-0-0-release</id>
+    <content type="html"><![CDATA[<p><strong>iOS版の<a href="http://hbfav.bloghackers.net/">HBFav</a>のAndroid版をリリースしました！</strong></p>
+
+<p><a href="https://play.google.com/store/apps/details?id=com.hbfav.android">はてなブックマークをタイムライン形式で HBFav</a></p>
+
+<p>HBFavとははてなブックマークのお気に入りの人のブックマークをTwitterのタイムライン形式で見れるというアプリです。</p>
+
+<p><img class="center" src="http://blog.yasuoza.com/images/hbfav/timeline.png" width="350"></p>
+
+<p>僕がメインで使う端末をiOSからAndroidに変えて3ヶ月、Androidはとても気に入っていたのですが、ただひとつ、HBFav
+のようにはてなブックマークをタイムラインで見れるアプリ、というかHBFavのAndroid版がないことが唯一の不満でした。<br/>
+ないものは作るしか無い、そう思って作り始めたのが10月終わり頃、2.0.0は大した機能も無いのに、リリースまで1ヶ月かかったのは
+初めてのAndroidアプリということだけではなく、突然の<code>NullPointerException</code>にハマったためでした。</p>
+
+<p>2.0.0は本当に機能が少ないので、ブックマークをするにはこれまでどおり別途
+<a href="https://play.google.com/store/apps/details?id=com.hatena.android.bookmark">はてなブックマーク</a>
+をインストールして、ブラウザの共有からブックマークして下さい。<br/>
+WebViewやバックグラウンド更新などはこれからのアップデートで随時対応していきます!<br/>
+フィードバックや要望などありましたら、お気軽に<a href="http://www.twitter.com/yasuoza">@yasuoza</a>までお願いします!</p>
+
+<p>また、HBFavのAndroid版を出すにあたって次の方々にはとても感謝しています。本当にありがとうございました。これからもよろしくお願いします。</p>
+
+<ul>
+<li><a href="http://naoya.github.io/">@naoyaさん</a></li>
+<li><a href="https://github.com/">Githubさん</a></li>
+<li><a href="http://stackoverflow.com/">stackoverflowさん</a></li>
+<li><a href="https://www.crashlytics.com/">Crashlyticsさん</a></li>
+</ul>
+
+
+<p>今はビルトインブラウザ機能を実装中なので、それを年末までに出す予定です。乞うご期待！</p>
+
+<p>HBFav-Android ホームページ<br/>
+<a href="http://yasuoza.github.io/HBFav-Android">HBFav-Android</a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Kawaii git diff in my local repository]]></title>
+    <link href="http://blog.yasuoza.com/2013/11/21/kawaii-git-diff/"/>
+    <updated>2013-11-21T13:34:55+00:00</updated>
+    <id>http://blog.yasuoza.com/2013/11/21/kawaii-git-diff</id>
+    <content type="html"><![CDATA[<p>Diff on GitHub is super :heart_eyes: to me because it shows method name.<br/>
+This post shows how to make it in local repository.</p>
+
+<p>For example, GitHub shows diff with <code>def is_repo?</code>.
+<img src="https://qiita-image-store.s3.amazonaws.com/0/4402/34d6ecf8-7437-b881-b1ff-80c90ec1689d.png" alt="Screen Shot 2013-11-21 at 7.17.20 PM.png" />
+<a href="https://github.com/github/hub/commit/87050ce94a97b0c382b99c975bde0c833332b38e">https://github.com/github/hub/commit/87050ce94a97b0c382b99c975bde0c833332b38e</a></p>
+
+<p>Normal local diff looks like this :confounded:
+<img src="https://qiita-image-store.s3.amazonaws.com/0/4402/b4942b6f-b522-50ac-3a7a-2234b55760b4.png" alt="Screen Shot 2013-11-21 at 7.20.04 PM.png" /></p>
+
+<p>The answer is:</p>
+
+<figure class='code'><figcaption><span>.gitattributes</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='text'><span class='line'>*.rb diff=ruby
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>My local diff is now :heart_eyes:
+<img src="https://qiita-image-store.s3.amazonaws.com/0/4402/b02ab578-b778-048b-5607-877ae8a41ece.png" alt="Screen Shot 2013-11-21 at 7.29.07 PM.png" /></p>
+
+<p>Following <code>diff</code>s are available.<br/>
+ <a href="http://git-scm.com/docs/gitattributes#_defining_a_custom_hunk-header">http://git-scm.com/docs/gitattributes#_defining_a_custom_hunk-header</a></p>
+
+<p><strong>2013/11/24 UPDATE</strong><br/>
+If you want to define <code>diff</code>s globally, define like following:</p>
+
+<figure class='code'><figcaption><span>~/.gitconfig</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='text'><span class='line'>[core]
+</span><span class='line'>      attributesfile = ~/.gitattributes_global
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span>~/.gitattributes_global</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='text'><span class='line'>*.rb diff=ruby
+</span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Trigger jenkins from Gitlab push hook]]></title>
+    <link href="http://blog.yasuoza.com/2013/08/08/trigger-jenkins-from-gitlab-push-hook/"/>
+    <updated>2013-08-08T09:10:00+00:00</updated>
+    <id>http://blog.yasuoza.com/2013/08/08/trigger-jenkins-from-gitlab-push-hook</id>
+    <content type="html"><![CDATA[<p>Jenkins is awesome secretary and my friend. I can&rsquo;t live without him.<br/>
+My Jenkins does these things:</p>
+
+<ul>
+<li>Deploy blog.yasuoza.com</li>
+<li>Test my private repositories</li>
+<li>Cron jobs</li>
+</ul>
+
+
+<p>This blog and some private repositories are hosted by my <a href="http://gitlab.org/">Gitlab</a>.</p>
+
+<p>Today I want to share how to build job via Gitlab push hook with concrete example: how to deploy <a href="http://octopress.org/">Octopress</a> blog with Giatlab.</p>
+
+<p>First, you need to configure Octopress with rsync deployment. See more: <a href="http://octopress.org/docs/configuring/">Configuring Octopress</a></p>
+
+<p>Next, set jenkins&rsquo;s public key to blog server so that jenkins can login the server without password.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ sudo -u jenkins -H ssh user@yourhost.com</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Then, install Jenkins plugin <a href="https://wiki.jenkins-ci.org/display/JENKINS/Gitlab+Hook+Plugin">Gitlab Hook Plugin</a> and set <code>http://your-jenkins-server/gitlab/build_now</code>
+in your Gitlab like this:</p>
+
+<p><img src="http://blog.yasuoza.com/images/jenkins_gitlab_hook_plugin.png"></p>
+
+<p>This plugin works even if jenkins requires authentication to enter jenkins home.</p>
+
+<p><strong> NOTE </strong><br/>
+Gitlab Hook Plugin v0.2.11 does not work well when the job is not parameterized. So, use >= v0.2.12.<br/>
+For more: <a href="https://github.com/elvanja/jenkins-gitlab-hook-plugin/issues/15">Build no longer triggering (Maybe running too bleeding edge?)</a></p>
+
+<p>Finally, configure Jenkins job to deploy Octopress:</p>
+
+<figure class='code'><figcaption><span>Execute shell</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>bundle
+</span><span class='line'>bundle exec rake generate
+</span><span class='line'>bundle exec rake deploy</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong> NOTE </strong><br/>
+OCTOPRESS REQUIRES RUBY 1.9.3-P194.<br/>
+Ensure to jenkins&rsquo;s ruby version is 1.9.3-p194 or use ruby version management framework such as rvm or rbenv.<br/>
+If you want to let jenkins run not only system ruby, I recomend you to use <a href="https://wiki.jenkins-ci.org/display/JENKINS/Rbenv+Plugin">rbenv plugin</a>.<br/>
+It is easy to use.</p>
+
+<p>Well, you done. Now push changes to your own Gitlab. Jenkins works for you.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Sprockets with Padrino without plugin]]></title>
+    <link href="http://blog.yasuoza.com/2013/04/06/sprockets-with-padrino-without-plugin/"/>
+    <updated>2013-04-06T18:24:00+00:00</updated>
+    <id>http://blog.yasuoza.com/2013/04/06/sprockets-with-padrino-without-plugin</id>
+    <content type="html"><![CDATA[<p>One day I was searching to integrate <code>sprockets</code> to my padrino application, I found following article to make it.
+<a href="http://arthurchiu.com/posts/20130328-sprockets_bower_padrino">Sprockets &amp; Bower in my Padrino please.</a>
+In the article he explained to integrate sprockets to padrino using <a href="https://github.com/petebrowne/sprockets-helpers">sprockets-helpers</a>, through rack.</p>
+
+<p>I was so excited because the content is what I wanted to do. But few hours after, I realized the way he explained works good for <code>development</code> and <code>production</code> environment, but not for <code>test</code> environment since in <code>test</code> environment,
+<code>/assets</code> is not mounted to padrino itself. So, testing with javascript like <code>data-confirm</code> testing will fail because javascript(and other assets too) is not loaded!</p>
+
+<p>I began to search how to mount(or insert) sprockets middleware in padrino applicaiton again and found the following way to solve the issue.</p>
+
+<p>The difference found way and previous article way is just how to insert sprockets middleware.
+So, <code>Gemfile</code>, <code>config/sprockets.rb</code> and <code>Rakefile</code> are same.
+<code>app/app.rb</code> differs little bit, and <code>lib/sprockets_initializer.rb</code> will be newly created.</p>
+
+<p><code>lib/sprockets_initializer.rb</code> is used to register to use <a href="https://github.com/sstephenson/sprockets/blob/master/lib/sprockets/server.rb">Sprockets::Server</a> for assets request handler.</p>
+
+<figure class='code'><figcaption><span>lib/sprockets_initializer.rb</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">module</span> <span class="nn">SprocketsInitializer</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">registered</span><span class="p">(</span><span class="n">app</span><span class="p">)</span>
+</span><span class='line'>    <span class="c1"># Make it lazy</span>
+</span><span class='line'>    <span class="n">options</span><span class="o">[</span><span class="ss">:asset_prefix</span><span class="o">]</span> <span class="o">=</span> <span class="o">-&gt;</span> <span class="p">{</span> <span class="ss">Sprockets</span><span class="p">:</span><span class="ss">:Helpers</span><span class="o">.</span><span class="n">prefix</span> <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">app</span><span class="o">.</span><span class="n">use</span> <span class="o">::</span><span class="ss">SprocketsInitializer</span><span class="p">:</span><span class="ss">:Rack</span><span class="p">,</span> <span class="n">options</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">class</span> <span class="nc">Rack</span>
+</span><span class='line'>    <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="p">{})</span>
+</span><span class='line'>      <span class="vi">@app</span> <span class="o">=</span> <span class="n">app</span>
+</span><span class='line'>      <span class="vi">@asset_prefix</span> <span class="o">=</span> <span class="n">options</span><span class="o">[</span><span class="ss">:asset_prefix</span><span class="o">].</span><span class="n">call</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">def</span> <span class="nf">call</span><span class="p">(</span><span class="n">env</span><span class="p">)</span>
+</span><span class='line'>      <span class="k">if</span> <span class="n">env</span><span class="o">[</span><span class="s1">&#39;PATH_INFO&#39;</span><span class="o">].</span><span class="n">match</span><span class="p">(</span><span class="vi">@asset_prefix</span><span class="p">)</span>
+</span><span class='line'>        <span class="n">env</span><span class="o">[</span><span class="s1">&#39;PATH_INFO&#39;</span><span class="o">].</span><span class="n">gsub!</span><span class="p">(</span><span class="vi">@asset_prefix</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+</span><span class='line'>        <span class="k">return</span> <span class="no">PadrinoSprocekts</span><span class="o">.</span><span class="n">environment</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="n">env</span><span class="p">)</span>
+</span><span class='line'>      <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="vi">@app</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="n">env</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>In <code>app/app.rb</code> register it only for not production environment because in production environment, I want to let application read assets from compiled assets path.</p>
+
+<figure class='code'><figcaption><span>app/app.rb</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">module</span> <span class="nn">Web</span>
+</span><span class='line'>  <span class="k">class</span> <span class="nc">App</span> <span class="o">&lt;</span> <span class="ss">Padrino</span><span class="p">:</span><span class="ss">:Application</span>
+</span><span class='line'>    <span class="n">register</span> <span class="ss">Padrino</span><span class="p">:</span><span class="ss">:Rendering</span>
+</span><span class='line'>    <span class="n">register</span> <span class="ss">Padrino</span><span class="p">:</span><span class="ss">:Mailer</span>
+</span><span class='line'>    <span class="n">register</span> <span class="ss">Padrino</span><span class="p">:</span><span class="ss">:Helpers</span>
+</span><span class='line'>    <span class="n">register</span> <span class="no">SprocketsInitializer</span> <span class="k">unless</span> <span class="no">Padrino</span><span class="o">.</span><span class="n">env</span> <span class="o">==</span> <span class="ss">:production</span>
+</span><span class='line'>    <span class="n">helpers</span> <span class="ss">Sprockets</span><span class="p">:</span><span class="ss">:Helpers</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>If you want, delete mounted sprockets from <code>config.ru</code></p>
+
+<figure class='code'><figcaption><span>config.ru</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="no">File</span><span class="o">.</span><span class="n">expand_path</span><span class="p">(</span><span class="s2">&quot;../config/boot.rb&quot;</span><span class="p">,</span> <span class="bp">__FILE__</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">run</span> <span class="no">Padrino</span><span class="o">.</span><span class="n">application</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>After changed configuration like above, you can test your application previous style.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ rake spec</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Thank you for reading!</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Get remote ip through nginx proxy server in rack]]></title>
+    <link href="http://blog.yasuoza.com/2013/03/31/get-remote-ip-through-nginx-proxy-server-in-rack/"/>
+    <updated>2013-03-31T22:07:00+00:00</updated>
+    <id>http://blog.yasuoza.com/2013/03/31/get-remote-ip-through-nginx-proxy-server-in-rack</id>
+    <content type="html"><![CDATA[<p>When developer wants to filter request based on remote ip, he will do like this</p>
+
+<figure class='code'><figcaption><span>sinatra_server.rb</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">get</span> <span class="s1">&#39;/&#39;</span> <span class="k">do</span>
+</span><span class='line'>  <span class="k">return</span> <span class="mi">403</span> <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">ip</span> <span class="o">!=</span> <span class="n">desired_request_ip</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="s2">&quot;OK!&quot;</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>If you&rsquo;re using tcp socket in nginx proxy server it will be good, but if you&rsquo;re using unix
+socket proxy server, <code>remote.ip</code> will be 127.0.0.1. Because the request proxied.</p>
+
+<p>But, <code>rack</code> treat <code>request.ip</code> very well in <a href="https://github.com/chneukirchen/rack/blob/master/lib/rack/request.rb#L352-L367">request.rb</a>
+The only thing you have to do is set <code>X-Forwarded-For</code> and <code>CLIENT_IP</code> and <code>X-Real-IP</code> precisely.</p>
+
+<figure class='code'><figcaption><span>site.nginx.conf</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+</pre></td><td class='code'><pre><code class='nginx'><span class='line'><span class="k">upstream</span> <span class="s">pretty_site</span> <span class="p">{</span>
+</span><span class='line'>  <span class="kn">server</span> <span class="s">unix:/tmp/pretty_site.sock</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">server</span> <span class="p">{</span>
+</span><span class='line'>  <span class="kn">listen</span> <span class="mi">80</span><span class="p">;</span>         <span class="c1"># e.g., listen 192.168.1.1:80;</span>
+</span><span class='line'>  <span class="kn">server_name</span> <span class="s">pretty.yoursite.com</span><span class="p">;</span>     <span class="c1"># e.g., server_name source.example.com;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kn">root</span> <span class="s">/home/www/pretty_site</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1"># individual nginx logs for this pretty_site vhost</span>
+</span><span class='line'>  <span class="kn">access_log</span>  <span class="s">/var/log/nginx/pretty/access.log</span><span class="p">;</span>
+</span><span class='line'>  <span class="kn">error_log</span>   <span class="s">/var/log/nginx/pretty/error.log</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kn">location</span> <span class="s">/</span> <span class="p">{</span>
+</span><span class='line'>    <span class="c1"># serve static files from defined root folder;.</span>
+</span><span class='line'>    <span class="c1"># @pretty_site is a named location for the upstream fallback, see below</span>
+</span><span class='line'>    <span class="kn">try_files</span> <span class="nv">$uri</span> <span class="nv">$uri/index.html</span> <span class="nv">$uri.html</span> <span class="s">@pretty_site</span><span class="p">;</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1"># if a file, which is not found in the root folder is requested,</span>
+</span><span class='line'>  <span class="c1"># then the proxy pass the request to the upsteam (pretty_site unicorn)</span>
+</span><span class='line'>  <span class="kn">location</span> <span class="s">@pretty_site</span> <span class="p">{</span>
+</span><span class='line'>    <span class="kn">proxy_read_timeout</span> <span class="mi">300</span><span class="p">;</span>
+</span><span class='line'>    <span class="kn">proxy_connect_timeout</span> <span class="mi">300</span><span class="p">;</span>
+</span><span class='line'>    <span class="kn">proxy_redirect</span>     <span class="no">off</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1"># &#39;X-Forwarded-For&#39; header is required for rack request.ip</span>
+</span><span class='line'>    <span class="c1"># https://github.com/chneukirchen/rack/blob/master/lib/rack/request.rb#L352-L367</span>
+</span><span class='line'>    <span class="kn">proxy_set_header</span>   <span class="s">X-Forwarded-For</span>   <span class="nv">$proxy_add_x_forwarded_for</span><span class="p">;</span>
+</span><span class='line'>    <span class="kn">proxy_set_header</span>   <span class="s">X-Forwarded-Proto</span> <span class="nv">$scheme</span><span class="p">;</span>
+</span><span class='line'>    <span class="kn">proxy_set_header</span>   <span class="s">Host</span>              <span class="nv">$http_host</span><span class="p">;</span>
+</span><span class='line'>    <span class="kn">proxy_set_header</span>   <span class="s">X-Real-IP</span>         <span class="nv">$remote_addr</span><span class="p">;</span>
+</span><span class='line'>    <span class="kn">proxy_set_header</span>   <span class="s">CLIENT_IP</span>         <span class="nv">$remote_addr</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kn">proxy_pass</span> <span class="s">http://pretty_site</span><span class="p">;</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Then you can get <code>request.ip</code> as you want.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Start play application within play console]]></title>
+    <link href="http://blog.yasuoza.com/2013/01/31/start-play-application-from-play-console/"/>
+    <updated>2013-01-31T16:22:00+00:00</updated>
+    <id>http://blog.yasuoza.com/2013/01/31/start-play-application-from-play-console</id>
+    <content type="html"><![CDATA[<p>Sometime you&rsquo;re playing play framework, you will want to simulate play application like <code>rails console</code>.</p>
+
+<p>First, start play console with auto evolution mode.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ play -DapplyEvolutions.default=true console</span></code></pre></td></tr></table></div></figure>
+
+
+<p>And start your application.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>scala&gt; import play.core.StaticApplication
+</span><span class='line'>
+</span><span class='line'>scala&gt; new StaticApplication(new java.io.File("."))</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Then, you can do what you want.</p>
+
+<p>source: <a href="https://groups.google.com/forum/?fromgroups=#!topic/play-framework/EFYnWC1yYsg">[2.0] how to start application from play console</a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Set another IP on scalatra spec]]></title>
+    <link href="http://blog.yasuoza.com/2013/01/22/set-another-ip-on-scalatra-spec/"/>
+    <updated>2013-01-22T11:23:00+00:00</updated>
+    <id>http://blog.yasuoza.com/2013/01/22/set-another-ip-on-scalatra-spec</id>
+    <content type="html"><![CDATA[<p>When filtering client IP on scalatra, the following code will work</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='scala'><span class='line'><span class="n">get</span><span class="o">(</span><span class="s">&quot;/&quot;</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>  <span class="k">if</span> <span class="o">(!</span><span class="nc">ConfigData</span><span class="o">.</span><span class="n">allowedIP</span><span class="o">.</span><span class="n">contains</span><span class="o">(</span><span class="n">request</span><span class="o">.</span><span class="n">remoteAddress</span><span class="o">))</span> <span class="o">{</span>
+</span><span class='line'>    <span class="n">halt</span><span class="o">(</span><span class="mi">403</span><span class="o">,</span> <span class="s">&quot;Forbbiden&quot;</span><span class="o">)</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'>  <span class="n">scaml</span><span class="o">(</span><span class="s">&quot;hello-scalate&quot;</span><span class="o">)</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Spec file will be like this</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='scala'><span class='line'><span class="s">&quot;GET / on MyServlet from 127.0.0.1&quot;</span> <span class="n">should</span> <span class="o">{</span>
+</span><span class='line'>  <span class="s">&quot;return status 200&quot;</span> <span class="n">in</span> <span class="o">{</span>
+</span><span class='line'>    <span class="n">get</span><span class="o">(</span><span class="s">&quot;/&quot;</span><span class="o">,</span> <span class="nc">Seq</span><span class="o">.</span><span class="n">empty</span><span class="o">,</span> <span class="nc">Map</span><span class="o">(</span><span class="s">&quot;X-FORWARDED-FOR&quot;</span> <span class="o">-&gt;</span> <span class="s">&quot;127.0.0.1&quot;</span><span class="o">))</span> <span class="o">{</span>
+</span><span class='line'>      <span class="n">status</span> <span class="n">must_==</span> <span class="mi">200</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'><span class="o">}</span>
+</span><span class='line'><span class="s">&quot;GET / on MyServlet from 0.0.0.0&quot;</span> <span class="n">should</span> <span class="o">{</span>
+</span><span class='line'>  <span class="s">&quot;return status 403&quot;</span> <span class="n">in</span> <span class="o">{</span>
+</span><span class='line'>    <span class="n">get</span><span class="o">(</span><span class="s">&quot;/&quot;</span><span class="o">,</span> <span class="nc">Seq</span><span class="o">.</span><span class="n">empty</span><span class="o">,</span> <span class="nc">Map</span><span class="o">(</span><span class="s">&quot;X-FORWARDED-FOR&quot;</span> <span class="o">-&gt;</span> <span class="s">&quot;0.0.0.0&quot;</span><span class="o">))</span> <span class="o">{</span>
+</span><span class='line'>      <span class="n">status</span> <span class="n">must_==</span> <span class="mi">403</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Trigger authenticated jenkins job]]></title>
+    <link href="http://blog.yasuoza.com/2013/01/02/trigger-authenticated-jenkins-job/"/>
+    <updated>2013-01-02T22:33:00+00:00</updated>
+    <id>http://blog.yasuoza.com/2013/01/02/trigger-authenticated-jenkins-job</id>
+    <content type="html"><![CDATA[<p>Trigger job in authenticated jenkins using ruby!</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;net/http&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">server</span> <span class="o">=</span> <span class="s1">&#39;https://your.jenkins.com&#39;</span>
+</span><span class='line'><span class="n">jobname</span> <span class="o">=</span> <span class="s1">&#39;your_jobname&#39;</span>
+</span><span class='line'><span class="n">build_token</span> <span class="o">=</span> <span class="s1">&#39;job_build_token&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">user</span> <span class="o">=</span> <span class="s1">&#39;you&#39;</span>
+</span><span class='line'><span class="n">user_token</span> <span class="o">=</span> <span class="s1">&#39;your_token&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">uri</span> <span class="o">=</span> <span class="no">URI</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">#{</span><span class="n">server</span><span class="si">}</span><span class="s2">/job/</span><span class="si">#{</span><span class="n">jobname</span><span class="si">}</span><span class="s2">/build?token=</span><span class="si">#{</span><span class="n">build_token</span><span class="si">}</span><span class="s2">&amp;cause=remote+trigger&quot;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">request</span> <span class="o">=</span> <span class="ss">Net</span><span class="p">:</span><span class="ss">:HTTP</span><span class="o">::</span><span class="no">Get</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">uri</span><span class="o">.</span><span class="n">request_uri</span><span class="p">)</span>
+</span><span class='line'><span class="n">request</span><span class="o">.</span><span class="n">basic_auth</span> <span class="n">user</span><span class="p">,</span> <span class="n">user_token</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">res</span> <span class="o">=</span> <span class="ss">Net</span><span class="p">:</span><span class="ss">:HTTP</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="n">uri</span><span class="o">.</span><span class="n">hostname</span><span class="p">,</span>
+</span><span class='line'>                      <span class="n">uri</span><span class="o">.</span><span class="n">port</span><span class="p">,</span>
+</span><span class='line'>                      <span class="n">use_ssl</span><span class="p">:</span> <span class="n">uri</span><span class="o">.</span><span class="n">scheme</span> <span class="o">==</span> <span class="s1">&#39;https&#39;</span><span class="p">)</span> <span class="p">{</span> <span class="o">|</span><span class="n">http</span><span class="o">|</span>
+</span><span class='line'>  <span class="n">http</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="nb">p</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">res</span><span class="o">.</span><span class="n">code</span><span class="si">}</span><span class="s2">: </span><span class="si">#{</span><span class="n">res</span><span class="o">.</span><span class="n">msg</span><span class="si">}</span><span class="s2">&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>If you use your &lsquo;own&rsquo; ssl certification, ignore <code>Certificate verify failed</code> with <code>OpenSSL::SSL::VERIFY_NONE</code> option like this</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">res</span> <span class="o">=</span> <span class="ss">Net</span><span class="p">:</span><span class="ss">:HTTP</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="n">uri</span><span class="o">.</span><span class="n">hostname</span><span class="p">,</span>
+</span><span class='line'>                      <span class="n">uri</span><span class="o">.</span><span class="n">port</span><span class="p">,</span>
+</span><span class='line'>                      <span class="n">use_ssl</span><span class="p">:</span> <span class="n">uri</span><span class="o">.</span><span class="n">scheme</span> <span class="o">==</span> <span class="s1">&#39;https&#39;</span><span class="p">,</span>
+</span><span class='line'>                      <span class="n">verify_mode</span><span class="p">:</span> <span class="ss">OpenSSL</span><span class="p">:</span><span class="ss">:SSL</span><span class="o">::</span><span class="no">VERIFY_NONE</span><span class="p">)</span> <span class="p">{</span> <span class="o">|</span><span class="n">http</span><span class="o">|</span>
+</span><span class='line'>  <span class="n">http</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Solved unable to install nokogiri to ubuntu 12.04]]></title>
+    <link href="http://blog.yasuoza.com/2012/12/28/unable-to-install-nokogiri-to-ubuntu-12-dot-04/"/>
+    <updated>2012-12-28T14:10:00+00:00</updated>
+    <id>http://blog.yasuoza.com/2012/12/28/unable-to-install-nokogiri-to-ubuntu-12-dot-04</id>
+    <content type="html"><![CDATA[<p>I tried install nokogiri into my ubuntu 12.04 server, but failed with following error message</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>checking for libxml/parser.h... yes
+</span><span class='line'>checking for libxslt/xslt.h... yes
+</span><span class='line'>checking for libexslt/exslt.h... yes
+</span><span class='line'>checking for iconv_open() in iconv.h... yes
+</span><span class='line'>checking for xmlParseDoc() in -lxml2... yes
+</span><span class='line'>checking for xsltParseStylesheetDoc() in -lxslt... no
+</span><span class='line'>-----
+</span><span class='line'>libxslt is missing.  please visit http://nokogiri.org/tutorials/installing_nokogiri.html for help with installing dependencies.
+</span><span class='line'>-----</span></code></pre></td></tr></table></div></figure>
+
+
+<p><a href="http://nokogiri.org/tutorials/installing_nokogiri.html">Official install guide page</a> and many other sites said to install <code>libxslt1-dev</code>,
+but it does not solve my problem.</p>
+
+<p>Ubuntu 12.04 installs <code>libxslt1-dev</code> instead of <code>libxslt-dev</code>, so I installed libxslt source
+code(<a href="http://www.linuxfromscratch.org/blfs/view/6.3/general/libxslt.html">libxslt-1.1.22</a>) and installed by myself.</p>
+
+<p>Then I cloud install nokogiri.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Alfred extension for git.io]]></title>
+    <link href="http://blog.yasuoza.com/2012/12/19/alfred-extension-for-git-io/"/>
+    <updated>2012-12-19T22:05:00+00:00</updated>
+    <id>http://blog.yasuoza.com/2012/12/19/alfred-extension-for-git-io</id>
+    <content type="html"><![CDATA[<p>I like <a href="http://www.alfredapp.com/">Alfred.app</a>. And I also like github.</p>
+
+<p>Almost everyday, I reffer to github long url, especially replying to issues.</p>
+
+<p>In such a case, long github url make my comment ugly, so I wanted to use shorten url.</p>
+
+<p><a href="http://git.io/">git.io</a> is the solution. It guarantees that the link is always github&rsquo;s url.
+So people can click the link without any doubt.</p>
+
+<p>Here are screenshots.</p>
+
+<p><img src="http://blog.yasuoza.com/images/gitio_alfred_extension_1.png" width="700"></p>
+
+<p><img src="http://blog.yasuoza.com/images/gitio_alfred_extension_2.png" width="500"></p>
+
+<p>Alfred extension for git.io</p>
+
+<p><a href="http://www.yasuoza.com/resources/git.io.alfredextension"><img src="http://blog.yasuoza.com/images/download_alfred_extension.png"></a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[activemodel-attribute_changed_specification]]></title>
+    <link href="http://blog.yasuoza.com/2012/12/19/activemodel-attribute-changed-specification-released/"/>
+    <updated>2012-12-19T10:02:00+00:00</updated>
+    <id>http://blog.yasuoza.com/2012/12/19/activemodel-attribute-changed-specification-released</id>
+    <content type="html"><![CDATA[<p>On Dec 12, one feature suggestion posted to [Rails-core] ML.
+The title was &ldquo;Active Record, changes from.. to..&rdquo;</p>
+
+<p>His suggested feature was like following</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Book</span> <span class="o">&lt;</span> <span class="ss">ActiveRecord</span><span class="p">:</span><span class="ss">:Base</span>
+</span><span class='line'>  <span class="no">STATUS_DELIVER</span> <span class="o">=</span> <span class="o">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="o">]</span>
+</span><span class='line'>  <span class="n">before_save</span> <span class="ss">:send_mail_to_customer</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">send_mail_to_customer</span>
+</span><span class='line'>   <span class="no">UserMailer</span><span class="o">.</span><span class="n">send_mail_to_customer</span> <span class="k">if</span> <span class="nb">self</span><span class="o">.</span><span class="n">status</span><span class="o">.</span><span class="n">changes</span><span class="p">(</span><span class="ss">from</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="ss">to</span><span class="p">:</span> <span class="mi">1</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>I knew this can be done in <a href="http://api.rubyonrails.org/classes/ActiveModel/Dirty.html">ActiveModel::Dirty</a>, but the feature <code>from</code> and <code>to</code> was interesting. So I implemented into gem named <a href="https://github.com/YasuOza/activemodel-attribute_changed_specification">activemodel-attribute_changed_specification</a>.</p>
+
+<p>You can use this gem like this</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">user</span> <span class="o">=</span> <span class="no">User</span><span class="o">.</span><span class="n">new</span>
+</span><span class='line'><span class="n">user</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;Bob&#39;</span>
+</span><span class='line'><span class="n">user</span><span class="o">.</span><span class="n">name_changed?</span><span class="p">(</span><span class="ss">from</span><span class="p">:</span> <span class="kp">nil</span><span class="p">,</span>  <span class="ss">to</span><span class="p">:</span> <span class="s1">&#39;Bob&#39;</span><span class="p">)</span> <span class="c1"># =&gt; true</span>
+</span><span class='line'><span class="n">user</span><span class="o">.</span><span class="n">name_changed?</span><span class="p">(</span><span class="ss">from</span><span class="p">:</span> <span class="s1">&#39;Paul&#39;</span><span class="p">,</span>  <span class="ss">to</span><span class="p">:</span> <span class="s1">&#39;Bob&#39;</span><span class="p">)</span> <span class="c1"># =&gt; false</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Though I overridden default <code>_changed?</code> method, I kept original <code>_changed?</code> method.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">user</span> <span class="o">=</span> <span class="no">User</span><span class="o">.</span><span class="n">new</span>
+</span><span class='line'><span class="n">user</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;Bob&#39;</span>
+</span><span class='line'><span class="n">user</span><span class="o">.</span><span class="n">name_changed?</span> <span class="c1"># =&gt; true</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This is my first gem. Yeah, it&rsquo;s fun!</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Blog update notificator]]></title>
+    <link href="http://blog.yasuoza.com/2012/12/15/blog-update-notificator/"/>
+    <updated>2012-12-15T16:22:00+00:00</updated>
+    <id>http://blog.yasuoza.com/2012/12/15/blog-update-notificator</id>
+    <content type="html"><![CDATA[<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;feed-normalizer&#39;</span>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;twitter&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">option</span> <span class="o">=</span> <span class="no">Hash</span><span class="o">[[</span><span class="no">ARGV</span><span class="o">]]</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">url</span> <span class="o">=</span> <span class="n">option</span><span class="o">[</span><span class="s1">&#39;--url&#39;</span><span class="o">]</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">FeedTweeter</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">arg</span> <span class="o">=</span> <span class="p">{</span><span class="ss">url</span><span class="p">:</span> <span class="kp">nil</span><span class="p">})</span>
+</span><span class='line'>    <span class="vi">@url</span> <span class="o">=</span> <span class="n">arg</span><span class="o">[</span><span class="ss">:url</span><span class="o">]</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">site_updated?</span>
+</span><span class='line'>    <span class="vi">@feed</span> <span class="o">=</span> <span class="ss">FeedNormalizer</span><span class="p">:</span><span class="ss">:FeedNormalizer</span><span class="o">.</span><span class="n">parse</span> <span class="nb">open</span><span class="p">(</span><span class="vi">@url</span><span class="p">)</span>
+</span><span class='line'>    <span class="vi">@new_entry</span> <span class="o">=</span> <span class="vi">@feed</span><span class="o">.</span><span class="n">entries</span><span class="o">.</span><span class="n">first</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">return</span> <span class="kp">true</span> <span class="k">unless</span> <span class="no">File</span><span class="o">.</span><span class="n">exist?</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">current_file_dirpath</span><span class="si">}</span><span class="s2">/</span><span class="si">#{</span><span class="n">remember_text_file</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">last_tweeted_on</span> <span class="o">=</span> <span class="no">Time</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="no">File</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">remember_text_file</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">last_tweeted_on</span> <span class="o">&lt;</span> <span class="vi">@new_entry</span><span class="o">.</span><span class="n">last_updated</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">tweet!</span>
+</span><span class='line'>    <span class="n">tweet_text</span> <span class="o">=</span> <span class="n">make_tweet_text</span>
+</span><span class='line'>    <span class="no">Twitter</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">tweet_text</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">remember_last_tweeted_on!</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kp">private</span>
+</span><span class='line'>    <span class="k">def</span> <span class="nf">current_file_dirpath</span>
+</span><span class='line'>      <span class="s2">&quot;</span><span class="si">#{</span><span class="no">File</span><span class="o">.</span><span class="n">expand_path</span><span class="p">(</span><span class="s1">&#39;../&#39;</span><span class="p">,</span>  <span class="bp">__FILE__</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">def</span> <span class="nf">remember_text_file</span>
+</span><span class='line'>      <span class="s1">&#39;last_tweeted_on.txt&#39;</span><span class="p">;</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">def</span> <span class="nf">make_tweet_text</span>
+</span><span class='line'>      <span class="n">blog_title</span> <span class="o">=</span> <span class="vi">@feed</span><span class="o">.</span><span class="n">title</span>
+</span><span class='line'>      <span class="n">new_entry_title</span> <span class="o">=</span> <span class="vi">@new_entry</span><span class="o">.</span><span class="n">title</span>
+</span><span class='line'>      <span class="n">new_entry_url</span> <span class="o">=</span> <span class="vi">@new_entry</span><span class="o">.</span><span class="n">url</span>
+</span><span class='line'>      <span class="s2">&quot;</span><span class="si">#{</span><span class="n">new_entry_title</span><span class="si">}</span><span class="s2"> - </span><span class="si">#{</span><span class="n">blog_title</span><span class="si">}</span><span class="s2"> </span><span class="si">#{</span><span class="n">new_entry_url</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">def</span> <span class="nf">remember_last_tweeted_on!</span>
+</span><span class='line'>      <span class="no">File</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">#{</span><span class="n">current_file_dirpath</span><span class="si">}</span><span class="s2">/</span><span class="si">#{</span><span class="n">remember_text_file</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">file</span><span class="o">|</span>
+</span><span class='line'>        <span class="n">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="vi">@new_entry</span><span class="o">.</span><span class="n">last_updated</span><span class="p">)</span>
+</span><span class='line'>      <span class="k">end</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="no">Twitter</span><span class="o">.</span><span class="n">configure</span> <span class="k">do</span> <span class="o">|</span><span class="n">config</span><span class="o">|</span>
+</span><span class='line'>  <span class="n">config</span><span class="o">.</span><span class="n">consumer_key</span> <span class="o">=</span> <span class="s1">&#39;CONSUMER_KEY&#39;</span>
+</span><span class='line'>  <span class="n">config</span><span class="o">.</span><span class="n">consumer_secret</span> <span class="o">=</span> <span class="s1">&#39;CONSUMER_SECRET&#39;</span>
+</span><span class='line'>  <span class="n">config</span><span class="o">.</span><span class="n">oauth_token</span> <span class="o">=</span> <span class="s1">&#39;OAUTH_TOKEN&#39;</span>
+</span><span class='line'>  <span class="n">config</span><span class="o">.</span><span class="n">oauth_token_secret</span> <span class="o">=</span> <span class="s1">&#39;OAUTH_TOKEN_SECRET&#39;</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">feed_tweeter</span> <span class="o">=</span> <span class="no">FeedTweeter</span><span class="o">.</span><span class="n">new</span> <span class="ss">url</span><span class="p">:</span> <span class="n">url</span>
+</span><span class='line'><span class="k">if</span> <span class="n">feed_tweeter</span><span class="o">.</span><span class="n">site_updated?</span>
+</span><span class='line'>  <span class="n">feed_tweeter</span><span class="o">.</span><span class="n">tweet!</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This works with jenkins very well!</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Array#compact in CoffeeScript]]></title>
+    <link href="http://blog.yasuoza.com/2012/12/14/array-number-compact-in-coffeescript/"/>
+    <updated>2012-12-14T17:05:00+00:00</updated>
+    <id>http://blog.yasuoza.com/2012/12/14/array-number-compact-in-coffeescript</id>
+    <content type="html"><![CDATA[<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='coffeescript'><span class='line'><span class="nb">Array</span><span class="o">::</span><span class="nv">compact = </span><span class="nf">-&gt;</span>
+</span><span class='line'>  <span class="p">(</span><span class="nx">elem</span> <span class="k">for</span> <span class="nx">elem</span> <span class="k">in</span> <span class="k">this</span> <span class="k">when</span> <span class="nx">elem</span><span class="o">?</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="nv">arr = </span><span class="p">[</span><span class="mi">0</span><span class="p">..</span><span class="mi">10</span><span class="p">]</span>
+</span><span class='line'><span class="k">delete</span> <span class="nx">arr</span><span class="p">[</span><span class="mi">7</span><span class="p">]</span>
+</span><span class='line'><span class="k">delete</span> <span class="nx">arr</span><span class="p">[</span><span class="mi">8</span><span class="p">]</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span> <span class="nx">arr</span><span class="p">.</span><span class="nx">compact</span><span class="p">()</span> <span class="c1">#=&gt; [0, 1, 2, 3, 4, 5, 6, 9, 10]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Yeah!</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Wordpress to Octpress]]></title>
+    <link href="http://blog.yasuoza.com/2012/12/09/wordpress-to-octpress/"/>
+    <updated>2012-12-09T01:32:00+00:00</updated>
+    <id>http://blog.yasuoza.com/2012/12/09/wordpress-to-octpress</id>
+    <content type="html"><![CDATA[<p>It&rsquo;s very easy.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># Downlowd wordpressdotocm.rb first</span>
+</span><span class='line'><span class="c1"># https://github.com/mojombo/jekyll/blob/master/lib/jekyll/migrators/wordpressdotcom.rb</span>
+</span><span class='line'>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;./wordpressdotcom&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="no">WORDPRESS_XML</span> <span class="o">=</span> <span class="s1">&#39;wordpress_exported.xml&#39;</span>
+</span><span class='line'><span class="no">WORDPRESS_URL</span> <span class="o">=</span> <span class="s1">&#39;http://yourhost.com&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="ss">Jekyll</span><span class="p">:</span><span class="ss">:WordpressDotCom</span><span class="o">.</span><span class="n">process</span><span class="p">(</span><span class="no">WORDPRESS_XML</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># Copy _posts/.html file to markdown_posts/.markdown</span>
+</span><span class='line'><span class="no">FileUtils</span><span class="o">.</span><span class="n">mkdir_p</span><span class="p">(</span><span class="s1">&#39;markdown_posts&#39;</span><span class="p">)</span>
+</span><span class='line'><span class="no">Dir</span><span class="o">[</span><span class="no">File</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="no">File</span><span class="o">.</span><span class="n">expand_path</span><span class="p">(</span><span class="s2">&quot;../_posts/&quot;</span><span class="p">,</span>  <span class="bp">__FILE__</span><span class="p">),</span>  <span class="s2">&quot;*.html&quot;</span><span class="p">)</span><span class="o">].</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">file</span><span class="o">|</span>
+</span><span class='line'>  <span class="c1"># Change wp image path to octpress image path</span>
+</span><span class='line'>  <span class="c1"># Change SyntaxHighlighter Evolved favor to mrkdown favor</span>
+</span><span class='line'>  <span class="n">source</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">file</span><span class="p">)</span><span class="o">.</span><span class="n">read</span>
+</span><span class='line'>  <span class="n">file</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="sr">/([\w-]+)\.html/</span><span class="p">)</span>
+</span><span class='line'>  <span class="no">File</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;markdown_posts/</span><span class="si">#{</span><span class="vg">$1</span><span class="si">}</span><span class="s2">.markdown&quot;</span><span class="p">,</span>  <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">dest</span><span class="o">|</span>
+</span><span class='line'>    <span class="n">source</span><span class="o">.</span><span class="n">gsub!</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">#{</span><span class="no">WORDPRESS_URL</span><span class="si">}</span><span class="s2">/wp-content/uploads/&quot;</span><span class="p">,</span>  <span class="s1">&#39;/images/&#39;</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">source</span><span class="o">.</span><span class="n">gsub!</span><span class="p">(</span><span class="sr">/\[(\w+)\]/</span><span class="p">,</span>  <span class="s2">&quot;```&quot;</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">source</span><span class="o">.</span><span class="n">gsub!</span><span class="p">(</span><span class="sr">/\[\/\w+\]/</span><span class="p">,</span>  <span class="s2">&quot;```&quot;</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">dest</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">source</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[No more rbenv rehash]]></title>
+    <link href="http://blog.yasuoza.com/2012/12/06/no-more-rbenv-rehash/"/>
+    <updated>2012-12-06T22:21:00+00:00</updated>
+    <id>http://blog.yasuoza.com/2012/12/06/no-more-rbenv-rehash</id>
+    <content type="html"><![CDATA[<p>I found nice gem named <a href="https://github.com/github/rbenv-autohash">rbenv-autohash</a></p>
+
+<p>You do not need to type <code>rbenv rehash</code> anymore!</p>
+
+<p>Yet you need to type <code>rbenv rehash</code> AFTER <code>gem install rbenv-autohash</code> :D</p>
+]]></content>
+  </entry>
+  
+</feed>

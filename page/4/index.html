@@ -1,0 +1,1109 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+
+  <script>
+    (function() {
+       var GITHUB_PAGES_HOST = 'yasuoza.github.io';
+       if (document.location.host === GITHUB_PAGES_HOST) {
+         document.location.href = document.location.href.replace(GITHUB_PAGES_HOST, '');
+       }
+    }());
+  </script>
+
+  <title>yasuoza diary</title>
+  <meta name="author" content="Yasuharu Ozaki">
+
+  
+  <meta name="description" content="JenkinsのXFDにWebsocketを使ってそれぞれのビルド結果を表示するようにしました。 参考にしたのは次のサイトです。
+Websocketを使った通知の設定方法も書いてあるので、とても参考になりました。
+Jenkinsのビルド結果をリアルタイム通知するプラグイン『Jenkins &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://blog.yasuoza.com/page/4">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="yasuoza diary" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Fjalla+One' rel='stylesheet' type='text/css'>
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-29684850-3']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   class="collapse-sidebar sidebar-footer" >
+  <header role="banner"><hgroup>
+  <h1><a href="/">yasuoza diary</a></h1>
+  
+    <h2>web and life</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:blog.yasuoza.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/archives">Archives</a></li>
+  <li><a href="/about">About</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div class="blog-index">
+  
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2012/08/22/jenkins-websocket-plugin/">Jenkins Websocket Pluginを使う</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-08-22T00:00:00+00:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>JenkinsのXFDにWebsocketを使ってそれぞれのビルド結果を表示するようにしました。</p>
+
+<p><img src="/images/2012/08/IMG_0546-223x300.jpg" alt="" title="IMG_0546" width="223" height="300" class="alignnone size-medium wp-image-246" /></p>
+
+<script src="https://gist.github.com/3411816.js?file=index.html"></script>
+
+
+<p>参考にしたのは次のサイトです。
+Websocketを使った通知の設定方法も書いてあるので、とても参考になりました。
+<a href="http://d.hatena.ne.jp/mzp/20110612/jenkins" target="_blank">Jenkinsのビルド結果をリアルタイム通知するプラグイン『Jenkins Websocket Notifier』を作りました</a>
+<a href="http://d.hatena.ne.jp/mallowlabs/20110613/xfd" target="_blank">iPhoneをJenkinsのXFD (eXtreme Feedback Device)にしてみた</a></p>
+
+<p>どちらもそのままだとジョブの名前が出ないので、ジョブが1つだけだといいのですが、2つ以上になるとそれぞれのジョブがどんなステータスなのかわからなかったので、ジョブの名前とステータスを色で表示するようにしています。</p>
+
+<p>はじめは何も表示されませんが、ジョブが完了するとその結果に応じてステータスがビューに表示されます。
+2回目以降のジョブは既存のビューのステータスを更新するようになっています。</p>
+
+<p>Jenkinsとても便利です。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2012/08/16/devise-omniauth-facebook/">Devise + omniauth-facebookでリクエストURLにリダイレクトする</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-08-16T00:00:00+00:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><a href="https://github.com/plataformatec/devise/" title="devise" target="_blank">devise</a>と<a href="https://github.com/mkdynamic/omniauth-facebook" title="omniauth-facebook" target="_blank">omniauth-facebook</a>で簡単にFacebook認証をアプリに組み込むことができます。
+組み込み方は<a href="https://github.com/plataformatec/devise/wiki/OmniAuth:-Overview" target="_blank">devise公式wiki</a>が一番わかり易いと思いますのでそちらを参考にして下さい。</p>
+
+<p>なお、この記事では次のルーティングに従います。
+デフォルトのまま使うと/users/sign_upとかついてきますが、facebookログインに限ると必要ありませんからね。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">devise_for</span> <span class="ss">:users</span><span class="p">,</span> <span class="ss">:skip</span> <span class="o">=&gt;</span> <span class="o">[</span><span class="ss">:sessions</span><span class="p">,</span> <span class="ss">:registration</span><span class="p">,</span> <span class="ss">:password</span><span class="o">]</span><span class="p">,</span> <span class="ss">:controllers</span> <span class="o">=&gt;</span> <span class="p">{</span> <span class="ss">:omniauth_callbacks</span> <span class="o">=&gt;</span> <span class="s1">&#39;omniauth_callbacks&#39;</span> <span class="p">}</span>
+</span><span class='line'><span class="n">as</span> <span class="ss">:user</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">delete</span> <span class="s1">&#39;/logout&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;devise/sessions#destroy&#39;</span><span class="p">,</span> <span class="ss">:as</span> <span class="o">=&gt;</span> <span class="ss">:destroy_user_session</span>
+</span><span class='line'>  <span class="n">delete</span> <span class="s1">&#39;/delete&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;devise/registrations#destroy&#39;</span><span class="p">,</span> <span class="ss">:as</span> <span class="o">=&gt;</span> <span class="ss">:destory_user</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>コールバックは次のクラスで受け取ります。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">OmniauthCallbacksController</span> <span class="o">&lt;</span> <span class="ss">Devise</span><span class="p">:</span><span class="ss">:OmniauthCallbacksController</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">facebook</span>
+</span><span class='line'>    <span class="vi">@user</span> <span class="o">=</span> <span class="no">User</span><span class="o">.</span><span class="n">find_or_create_from</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">env</span><span class="o">[</span><span class="s1">&#39;omniauth.auth&#39;</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">sign_in_and_redirect</span> <span class="vi">@user</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>それで例えば、/users以下を閲覧するときには認証をかけたいっていうことが往々にしてあると思います。
+それは</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">UsersController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
+</span><span class='line'>  <span class="n">before_filter</span> <span class="ss">:authenticate_user!</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">show</span>
+</span><span class='line'>    <span class="vi">@user</span> <span class="o">=</span> <span class="n">current_user</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>のようにしてbefore_filter噛ませてあげると簡単ですが、このままだとユーザが直接/users/:idページを叩いた時にfacebookログインが行われず、基本設定のままだと、ルートにリダイレクトされます。</p>
+
+<p>これを/users/:idページを直接叩いたときは直でfacebookログインにリダイレクトさせて、callbackを受け取った時にもともとリクエストされた/users/:idにリダイレクトさせるには次のように設定します。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">ApplicationController</span> <span class="o">&lt;</span> <span class="ss">ActionController</span><span class="p">:</span><span class="ss">:Base</span>
+</span><span class='line'>  <span class="n">protect_from_forgery</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kp">protected</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">authenticate_user!</span>
+</span><span class='line'>    <span class="n">session</span><span class="o">[</span><span class="ss">:user_return_to</span><span class="o">]</span> <span class="o">=</span> <span class="n">env</span><span class="o">[</span><span class="s1">&#39;PATH_INFO&#39;</span><span class="o">]</span>
+</span><span class='line'>    <span class="n">redirect_to</span> <span class="n">user_omniauth_authorize_path</span><span class="p">(</span><span class="ss">:facebook</span><span class="p">)</span> <span class="k">unless</span> <span class="n">user_signed_in?</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><code>authenticate_user!</code>をapplication_controller.rbでオーバーライドします。
+ポイントは6行目で<code>session[:user_return_to]</code>にリクエストURLを保存しておくことです。
+<code>authenticate_member!</code>の場合は<code>session[:member_return_to]</code>に保存します。</p>
+
+<p>これでdeviseの内部実装のちからを借りて<code>sign_in_and_redirect_to @user</code>をした時に元のリクエストURLにリダイレクトされます。</p>
+
+<p>devise自体はそんなに難しいことをしていないので、内部実装を覗くとlib/devise/controllers/helpers.rbの次の2つの関数で<code>session[:user_return_to]</code>からリダイレクト先を取得していることがわかります。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">stored_location_for</span><span class="p">(</span><span class="n">resource_or_scope</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">scope</span> <span class="o">=</span> <span class="ss">Devise</span><span class="p">:</span><span class="ss">:Mapping</span><span class="o">.</span><span class="n">find_scope!</span><span class="p">(</span><span class="n">resource_or_scope</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">session</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">#{</span><span class="n">scope</span><span class="si">}</span><span class="s2">_return_to&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">after_sign_in_path_for</span><span class="p">(</span><span class="n">resource_or_scope</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">stored_location_for</span><span class="p">(</span><span class="n">resource_or_scope</span><span class="p">)</span> <span class="o">||</span> <span class="n">signed_in_root_path</span><span class="p">(</span><span class="n">resource_or_scope</span><span class="p">)</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Railsはとても素敵で便利なフレームワークだと思います！Rubyもすごく素敵な言語だなと思います！</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2012/07/05/share-kobito-app-data/">kobito.appのデータを複数のMacで共有する</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-07-05T00:00:00+00:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>僕はQuitaが開発をしている<a href="http://kobitoapp.com/" target="_blank">Kobito.app</a>を使って公開できないコードや、オフラインでも使いたいコードをメモしています。</p>
+
+
+
+
+<p>そのKobito.appはEvernoteのように複数端末間でデータを共有できないので、そのデータをDropboxを介して共有するコマンドです。
+ターミナルを開いて次のコマンドを入力して下さい。</p>
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ mkdir -p ~/Dropbox/.KobitoDB
+</span><span class='line'>$ mv ~/Library/Kobito/Kobito.db ~/Dropbox/.KobitoDB/
+</span><span class='line'>$ ln -s ~/Dropbox/.KobitoDB/Kobito.db ~/Library/Kobito/</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<p>単純にDropboxに隠しディレクトリを作ってそこに今のKobito.appのDBを移動して、前あった場所にシンボリックリンクを貼るというだけの簡単なコマンドです。</p>
+
+
+
+
+<p>ただ、Kobito.appの挙動を追っているとエントリーを追加して保存(cmd+s)をしてもDBに格納するわけではなく、新規で保存したエントリーはオンメモリで保存しておき、kobito.appが終了(cmd+q)するときに新規で保存したエントリーをDBに格納するようです。</p>
+
+
+
+
+<p>なので、複数端末間でデータを共有するためにはある程度エントリーをある程度書いたらアプリケーションを終了するしかないようです。</p>
+
+
+
+
+<p>また、アプリ起動中はDBに変更があってもアプリケーション側ではDBをロードせず、他の端末で追加されたエントリーをリアルタイムで取得できません。
+これも一度アプリを終了して再度立ち上げると解決します。</p>
+
+
+
+
+<p>僕は基本的に不必要なアプリは終了してメモリを開放してあげるようにしているので、上記の使い方でも問題なく、複数端末間で共有できてかなり捗ってます。</p>
+
+
+
+
+<p>複数端末でKobito.appを使っている場合はぜひお試しください。</p>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2012/07/01/lazy-social-butto/">非同期ソーシャルボタン</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-07-01T00:00:00+00:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>facebookやツイッターのソーシャルボタンをサイトに置くことが多くなってきています。
+特にサイトのトップページや、ニューストップページには記事の見出しごとにソーシャルボタンを配置したりして、
+かなりページの読み込みが遅くなってしまっているページを良く見かけます。</p>
+
+
+
+
+<p>そこで、初期のページ読み込み時にはソーシャルボタンは読み込まず、ユーザがソーシャルボタンを押す動作を
+した時に非同期でソーシャルボタンを読み込むようにするjQueryのスニペットを書きました。</p>
+
+
+
+
+<p>デモは次のページで見ることができます。
+<a href="http://www.yasuoza.com/jq_plugin/lazy_sb/" target="_blank">Demo</a></p>
+
+
+
+
+<p>詳しくはgistを参照して下さい。
+<a href="https://gist.github.com/3027177" target="_blank">Lazy share button (jQuery plugin)</a></p>
+
+
+
+
+<p>基本的にはTechCrunchのコードを参考にしましたが、最適化を施したり、はてなブックマークにも対応しました。
+良ければ使って下さい。</p>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2012/06/29/keyremap4macbook_for_programming/">KeyRemap4MacBookでキーレスポンス速度を上げて快適なプログラミングを</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-06-29T00:00:00+00:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h3>背景</h3>
+
+
+<p>Macのキーレスポンスはデフォルトだとかなり丁寧で、むしろ重く感じる時のほうが多くプログラミングをしているときにイライラする時が結構ありました。</p>
+
+<p>そんな折、前に参加した勉強会でKeyRemap4MacBookを使ってキーレスポンスを上げるとかなり捗るよっていうのを教えてもらったので、メモしておこうと思います。</p>
+
+<p><a href="http://pqrs.org/macosx/keyremap4macbook/" target="_blank">KeyRemap4MacBook</a>は言わずと知れたMacでキーの割当を変えるツールです。例えばUSキーボードのコマンドをJISキーボードのかな/英数と同じように振舞わせるみたいなこともできたりして便利です(僕はやってませんが)。</p>
+
+<p>このKeyRemap4MacBookを使うとキーレスポンスの待ち時間少なくすることができます。カメラの連写速度を上げるというイメージが一番近いと思います。</p>
+
+<h3>インストール</h3>
+
+
+<p>インストール方法はまずKeyRemap4MacBookを<a href="http://pqrs.org/macosx/keyremap4macbook/" target="_blank">本家サイト</a>からダウンロードして解凍してインストールします。
+*僕がインストールしたときはThe Unarchiver.appを使うとファイルが壊れるらしく、Macに最初から入っている解凍アプリを使わないとうまく解凍してインストールするということができませんでした。今は直っているかも知れません。</p>
+
+<h3>設定</h3>
+
+
+<p>インストールすると環境設定.appのその他の項目にKeyRemap4MacBookの項目が追加されます。</p>
+
+<p><a href="/images/2012/06/Screen-Shot-2012-06-29-at-1.09.59-AM.png"><img src="/images/2012/06/Screen-Shot-2012-06-29-at-1.09.59-AM.png" alt="" title="環境設定.app" width="782" height="675" class="aligncenter size-full wp-image-153" /></a></p>
+
+<p>それをクリックして「Key Repeat」の項目を開きます。</p>
+
+<p><a href="/images/2012/06/Screen-Shot-2012-06-29-at-1.12.59-AM.png"><img src="/images/2012/06/Screen-Shot-2012-06-29-at-1.12.59-AM.png" alt="" title="環境設定KeyReat" width="782" height="769" class="aligncenter size-full wp-image-155" /></a></p>
+
+<p>変更するのは一番上の[Key Repeat] Initaial Wait の項目とその次の[Key Repeat] Waitの項目。
+それぞれデフォルトは500、83になっていますが、僕は写真のようにそれぞれ200、20に設定しています。</p>
+
+<p>設定したら特に保存ボタンとか押さず環境設定.appを閉じます。</p>
+
+<h3>検証</h3>
+
+
+<p>適当にメモ帳などを開き、文章を入力して、delete(Ctrl+h)ボタンを押してみて下さい。予期していたよりたくさんの文字が消えたはずです。
+たくさん文章を入力してカーソルキー(Ctrl+(n,p,b,f))でカーソルを移動させてみても予期していたよりかなり早くカーソルが移動します。</p>
+
+<p>つまり、より短い時間でテキストを消したり、より短い時間でカーソルを移動させたい場所に移動させることができるようになります！</p>
+
+<h3>まとめ</h3>
+
+
+<p>KeyRemap4MacBookはとても便利なツールです。caps lockをcontrolに変えたりとかは環境設定.appでもできるけど、KeyRemap4MacBookがあれば、コマンドを押したら日本語と英語の切り替えを行うみたいな複雑な設定を行うことができます。</p>
+
+<p>自分はこんな設定で使ってる！こうすると便利！みたいな設定があればぜひ教えて下さい！</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2012/06/24/asynctest_in_quit/">&#8220;`Xcodeで非同期通信のテストを行う</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-06-24T00:00:00+00:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>最近はiPhoneアプリの開発を勉強しています。</p>
+
+<p>で、iPhoneアプリを作る上でももちろんテストを書きたいと思い、いろいろ調べた結果、XCode4系標準のQUnit、非同期を簡単に扱えるGHUitあたりが有名だとわかりました(他にもたくさんあります)。</p>
+
+<p>XCode標準ということはAppleの人たちもきっとQUitを使って開発しているはず！という勝手な思い込みからQUitを使うことにしました。
+そのQUnitは標準で非同期をサポートしていないので、自前で非同期のテストを書かないといけません。
+その実装をメモしておきます。</p>
+
+<p>まずはコードから。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>- (void)testAsyncronousRequest
+</span><span class='line'>{
+</span><span class='line'>  dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
+</span><span class='line'>
+</span><span class='line'>  NSURLRequest *request = [NSURLRequest requestWithURL:url];
+</span><span class='line'>  asyncConnection = [[AsyncConnection alloc] initWithRequest:request]; 
+</span><span class='line'>  //Automatically asyncConnection.delegate is set asyncConnection in AsyncConnection
+</span><span class='line'>
+</span><span class='line'>  asyncConnection.completion = ^(JSONConnection *connection,
+</span><span class='line'>                                  NSData *downloadData,
+</span><span class='line'>                                  NSHTTPURLResponse* response,
+</span><span class='line'>                                  NSError* error) {
+</span><span class='line'>        // Test code here..
+</span><span class='line'>    
+</span><span class='line'>        dispatch_semaphore_signal(semaphore);
+</span><span class='line'>    };
+</span><span class='line'>    
+</span><span class='line'>    
+</span><span class='line'>    while (dispatch_semaphore_wait(semaphore, DISPATCH_TIME_NOW)) {
+</span><span class='line'>        [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode 
+</span><span class='line'>                                 beforeDate:[NSDate dateWithTimeIntervalSinceNow:5]];
+</span><span class='line'>    } 
+</span><span class='line'>
+</span><span class='line'>    dispatch_release(semaphore);
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>まず、</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>  dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);</span></code></pre></td></tr></table></div></figure>
+
+
+<p>でセマフォをプールサイズ0で登録します。</p>
+
+<p>その後、</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>while (dispatch_semaphore_wait(semaphore, DISPATCH_TIME_NOW)) {
+</span><span class='line'> [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode 
+</span><span class='line'>                             beforeDate:[NSDate dateWithTimeIntervalSinceNow:5]];
+</span><span class='line'>} </span></code></pre></td></tr></table></div></figure>
+
+
+<p>でセマフォのカウンタが0の時は</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode 
+</span><span class='line'>                           beforeDate:[NSDate dateWithTimeIntervalSinceNow:5]];</span></code></pre></td></tr></table></div></figure>
+
+
+<p>を実行してメインループをブロックします。
+ブロックしている間にasyncConnection.completionのブロックで指定した関数が実行され、</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>dispatch_semaphore_signal(semaphore);</span></code></pre></td></tr></table></div></figure>
+
+
+<p>によってセマフォのカウンタが1インクリメントされます。
+セマフォのカウンタが1以上だった、もしくは待機中にカウンタが1以上になった場合は</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>dispatch_semaphore_wait(semaphore, DISPATCH_TIME_NOW)</span></code></pre></td></tr></table></div></figure>
+
+
+<p>が0になり、while文を抜け出し、セマフォを開放した後、testAsyncronousRequestが終了します。</p>
+
+<p>こんなかんじでGCDを使って非同期テストを行うことができました。</p>
+
+<p>GCDについて詳しくは</p>
+
+<div class="amazlet-box" style="margin-bottom:0px;"><div class="amazlet-image" style="float:left;margin:0px 12px 1px 0px;"><a href="http://www.amazon.co.jp/exec/obidos/ASIN/4844331094/yasuoza-22/ref=nosim/" name="amazletlink" target="_blank"><img src="http://ecx.images-amazon.com/images/I/41FcW2yiPXL._SL160_.jpg" alt="エキスパートObjective-Cプログラミング －iOS/OS Xのメモリ管理とマルチスレッド－" style="border: none;" /></a></div><div class="amazlet-info" style="line-height:120%; margin-bottom: 10px"><div class="amazlet-name" style="margin-bottom:10px;line-height:120%"><a href="http://www.amazon.co.jp/exec/obidos/ASIN/4844331094/yasuoza-22/ref=nosim/" name="amazletlink" target="_blank">エキスパートObjective-Cプログラミング －iOS/OS Xのメモリ管理とマルチスレッド－</a><div class="amazlet-powered-date" style="font-size:80%;margin-top:5px;line-height:120%">posted with <a href="http://www.amazlet.com/browse/ASIN/4844331094/yasuoza-22/ref=nosim/" title="エキスパートObjective-Cプログラミング －iOS/OS Xのメモリ管理とマルチスレッド－" target="_blank">amazlet</a> at 12.06.24</div></div><div class="amazlet-detail">坂本 一樹 <br />インプレスジャパン <br />売り上げランキング: 119084<br /></div><div class="amazlet-sub-info" style="float: left;"><div class="amazlet-link" style="margin-top: 5px"><a href="http://www.amazon.co.jp/exec/obidos/ASIN/4844331094/yasuoza-22/ref=nosim/" name="amazletlink" target="_blank">Amazon.co.jp で詳細を見る</a></div></div></div><div class="amazlet-footer" style="clear: left"></div></div>
+
+
+
+
+<br/>
+
+
+<p><strong>参考サイト</strong></p>
+
+<ul>
+    <li>元ネタ: <a href="http://stackoverflow.com/questions/4326350/how-do-i-wait-for-an-asynchronously-dispatched-block-to-finish" title="How do I wait for an asynchronously dispatched block to finish?" target="_blank">How do I wait for an asynchronously dispatched block to finish?</a>
+</li>
+    <li><a href="http://developer.apple.com/library/ios/#documentation/General/Conceptual/ConcurrencyProgrammingGuide/OperationQueues/OperationQueues.html#//apple_ref/doc/uid/TP40008091-CH102-SW24" target="_blank">Using Dispatch Semaphores to Regulate the Use of Finite Resources</a></li>
+
+    <li><a href="http://developer.apple.com/library/mac/#documentation/Cocoa/Reference/Foundation/Classes/NSRunLoop_Class/Reference/Reference" target="_blank">runMode:beforeDate</a></li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2012/04/28/coderetreat-in-drecom-powered-by-agileshibuya/">Coderetreat in Drecom Powered by AgileShibuya に参加してきました</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-04-28T00:00:00+00:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>GW初日にCoderetreatに参加してきました。</p>
+
+
+
+
+<p>Coderetreatは決められた課題を2人一組で45分間でTDD開発して、そのセッションが終わったら書いたコードは消して新しセッションでは組む人を変えてまた一からコードを書きなおすというルールのもと、進めていく勉強会で、全世界で行われているものらしいです。</p>
+
+
+
+
+<p>今回は名古屋と同時開催で、取り上げた課題内容は<a href="http://ja.wikipedia.org/wiki/%E3%83%A9%E3%82%A4%E3%83%95%E3%82%B2%E3%83%BC%E3%83%A0">ライフゲーム</a>でした。</p>
+
+
+
+
+<p>ライフゲームの概念はとてもシンプルで8近傍のセルの状態と現在の自分の状態で次の状態が決まるというものですが、これを45分でパートナーと設計からTDD開発までやるとかなり時間が足りなかったです。</p>
+
+
+
+
+<p>今回は計6セッションを行ったのですが、僕は</p>
+
+
+
+
+<ul>
+<li>Java (JUnit)</li>
+<li>JavaScript (JsTestDriver)</li>
+<li>JavaScript (mocha)</li>
+<li>JavaScript (mocha)</li>
+<li>Ruby (RSpec)</li>
+<li>Ruby (RSpec)</li>
+</ul>
+
+
+
+
+<p>で開発しました。Perlやりたかったけど、需要なかったですね。</p>
+
+
+
+
+<p>でも、普段使わないJavaとRubyで開発できたのが良かったです。</p>
+
+
+
+
+<p>あと、ペアプロで開発するので、パートナーの課題に対する設計思想や、テストに対する設計思想を吸収できたり、エディタや開発環境を比べて情報交換できたりしたので、すごく良かったです。</p>
+
+
+
+
+<p>課題を解決できるかどうかが問題ではなくて、パートナーとペアプロでTDD開発するというところが目的なので、参加された皆さんはそれぞれいろんな吸収があったみたいでした。
+Macの画面共有が便利とか、vim勉強しようとか。</p>
+
+
+
+
+<p>最後に会場を提供して下さった、<a href="http://www.drecom.co.jp/">ドリコム</a>さん、お昼を提供して下さった<a href="http://www.esm.co.jp/">永和システムマネジメント</a>さん、主催して下さった<a href="https://twitter.com/#!/HIROCASTER">@hirocaster</a>さん、本当に有難うございました!</p>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2012/04/23/forecastpusher/">ForecastPusher</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-04-23T00:00:00+00:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>その日のお天気予報をTwitterのメンションで飛ばしてくれるWebサービスを作りました。</p>
+
+
+
+
+<ul>
+<li><a href="http://forecast.yasuoza.com">ForecastPusher</a></li>
+</ul>
+
+
+
+
+<p>毎日わざわざ天気予報を取得しに行くのは非常にめんどくさくて、なんとかPushで教えてくれるもの無いかな考えていたところ、Twitterのメンション形式にすればその日の天気予報をPushしてくれることに気づき、実現してみました。</p>
+
+
+
+
+<p>今回一番悩んだのはお天気予報をメンションするアカウントです。考えられる実装は2つでした。</p>
+
+
+
+
+<ul>
+<li>bot用のアカウントを作成してメンションを飛ばす</li>
+<li>自分から自分にメンションを飛ばす</li>
+</ul>
+
+
+
+
+<p>最初の方法だと、確実にPush通信が来て通知が起動します。通知が起動するというところがポイントで、ちょっと寝坊したい時にも通知によりバイブレーションがなったりするので、僕はいやでした。</p>
+
+
+
+
+<p>そこで自分から自分にメンションを飛ばすという方法を取りました。</p>
+
+
+
+
+<p>この方法にすると通知は起動しないので、寝坊したい時も確実に寝坊できます。ただ、通知が来ないので、メンション一覧を自分で開かないといけないのですが、そこは寝坊を優先した結果です。</p>
+
+
+
+
+<p><a href="/images/2012/04/Screen-Shot-2012-04-23-at-22.29.591.png"><img src="/images/2012/04/Screen-Shot-2012-04-23-at-22.29.591.png" alt="" title="ForecastPusher" width="575" class="aligncenter size-full wp-image-99" /></a></p>
+
+
+
+
+<p>そんなことで、自分から自分にメンションを送ることで、周りの人もその人のツイートから天気予報の情報を取得できるということになり、結局はこの方法で良かったかなと思っています。</p>
+
+
+
+
+<p>次は夜に次の日の天気をメンションで飛ばす部分を実装しようと思います。</p>
+
+
+
+
+<p>良かったら使ってみてください。</p>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2012/04/23/fastcgi-on-nginx/">nginxのFastCGI実行設定</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-04-23T00:00:00+00:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>PerlのPlackでサービスを作っていて、FastCGIとnginxを繋ぐ設定で結構時間がかかったので、備忘録を。</p>
+
+<p>Plackは<a href="http://plackperl.org/" title="Plack" target="_blank">Plack</a>を、FastCGI(FCGI)は<a href="http://test.fastcgi.com/drupal/" target="_blank">FastCGI</a>を参照して下さい。</p>
+
+<p>基本的には<a href="http://search.cpan.org/~miyagawa/Plack-0.9986/lib/Plack/Handler/FCGI.pm" target="_blank">ここ</a>に載っていることの丸写しですが、Debianだとfastcgi_paramsが別ファイル管理されているので、そのファイルを読み込みます。</p>
+
+<p>というわけでこんな感じ。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>server {
+</span><span class='line'>  listen: 80;
+</span><span class='line'>  server_name foobar.com;
+</span><span class='line'>
+</span><span class='line'>  location / {
+</span><span class='line'>
+</span><span class='line'>    fastcgi_pass   unix:/tmp/fastcgi.sock;
+</span><span class='line'>
+</span><span class='line'>    include /etc/nginx/fastcgi_params;
+</span><span class='line'>    fastcgi_params  SCRIPT_NAME &quot;&quot;;
+</span><span class='line'>    fastcgi_params  PTH_INFO    $fast_script_name;
+</span><span class='line'>  }
+</span><span class='line'>
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ plack -s FCGI --listen /tmp/fastcgi.sock plack.pl</span></code></pre></td></tr></table></div></figure>
+
+
+<p>でサーバを起動し、
+<a href="http://foobar.com">http://foobar.com</a> にアクセスして、正しい内容が表示されていればOKです。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2012/04/20/helloworld/">Hello World!</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-04-20T00:00:00+00:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>これまでははてなダイアリーで技術的なブログを書いてきましたが、これからは自分のサイトでブログを書いていこうと思います。</p>
+
+
+
+
+<p>基本的にはこれまでどおり、プログラムを書いていて詰まったところや、環境構築の話をすると思いますが、その時に思ったことなんかもログとして書いていこうと思います。</p>
+
+
+
+
+<p>どうぞよろしくお願いします。</p>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  <div class="pagination">
+    
+      <a class="prev" href="/page/5/">&larr; Older</a>
+    
+    <a href="/archives">Blog Archives</a>
+    
+    <a class="next" href="/page/3/">Newer &rarr;</a>
+    
+  </div>
+</div>
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/2014/01/10/docker-in-osx-without-dvm/">Docker in OSX without dvm</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2014/01/07/words/">年末年始に会った友達の言葉</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/12/27/hbfav-android-2-1-1/">HBFav-Android 2.1.1リリース</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/12/16/scribe-java-in-android/">scribe-java in Android</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/12/13/akirameru_toiukoto/">諦めるということ</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2014 - Yasuharu Ozaki -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'yasuozadiary';
+      
+        
+        var disqus_script = 'count.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

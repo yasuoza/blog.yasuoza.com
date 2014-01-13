@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: scala | yasuoza diary]]></title>
+  <link href="http://blog.yasuoza.com//categories/scala/atom.xml" rel="self"/>
+  <link href="http://blog.yasuoza.com/"/>
+  <updated>2014-01-13T06:50:36+00:00</updated>
+  <id>http://blog.yasuoza.com/</id>
+  <author>
+    <name><![CDATA[Yasuharu Ozaki]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Set another IP on scalatra spec]]></title>
+    <link href="http://blog.yasuoza.com/2013/01/22/set-another-ip-on-scalatra-spec/"/>
+    <updated>2013-01-22T11:23:00+00:00</updated>
+    <id>http://blog.yasuoza.com/2013/01/22/set-another-ip-on-scalatra-spec</id>
+    <content type="html"><![CDATA[<p>When filtering client IP on scalatra, the following code will work</p>
+
+<p>```scala
+get(&ldquo;/&rdquo;) {
+  if (!ConfigData.allowedIP.contains(request.remoteAddress)) {</p>
+
+<pre><code>halt(403, "Forbbiden")
+</code></pre>
+
+<p>  }
+  scaml(&ldquo;hello-scalate&rdquo;)
+}
+```</p>
+
+<p>Spec file will be like this</p>
+
+<p>```scala
+&ldquo;GET / on MyServlet from 127.0.0.1&rdquo; should {
+  &ldquo;return status 200&rdquo; in {</p>
+
+<pre><code>get("/", Seq.empty, Map("X-FORWARDED-FOR" -&gt; "127.0.0.1")) {
+  status must_== 200
+}
+</code></pre>
+
+<p>  }
+}
+&ldquo;GET / on MyServlet from 0.0.0.0&rdquo; should {
+  &ldquo;return status 403&rdquo; in {</p>
+
+<pre><code>get("/", Seq.empty, Map("X-FORWARDED-FOR" -&gt; "0.0.0.0")) {
+  status must_== 403
+}
+</code></pre>
+
+<p>  }
+}
+```</p>
+]]></content>
+  </entry>
+  
+</feed>
