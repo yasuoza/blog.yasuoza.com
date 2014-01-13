@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: padrino | yasuoza diary]]></title>
+  <link href="http://blog.yasuoza.com//categories/padrino/atom.xml" rel="self"/>
+  <link href="http://blog.yasuoza.com/"/>
+  <updated>2014-01-13T07:39:13+00:00</updated>
+  <id>http://blog.yasuoza.com/</id>
+  <author>
+    <name><![CDATA[Yasuharu Ozaki]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Sprockets with Padrino without plugin]]></title>
+    <link href="http://blog.yasuoza.com/2013/04/06/sprockets-with-padrino-without-plugin/"/>
+    <updated>2013-04-06T18:24:00+00:00</updated>
+    <id>http://blog.yasuoza.com/2013/04/06/sprockets-with-padrino-without-plugin</id>
+    <content type="html"><![CDATA[<p>One day I was searching to integrate <code>sprockets</code> to my padrino application, I found following article to make it.
+<a href="http://arthurchiu.com/posts/20130328-sprockets_bower_padrino">Sprockets &amp; Bower in my Padrino please.</a>
+In the article he explained to integrate sprockets to padrino using <a href="https://github.com/petebrowne/sprockets-helpers">sprockets-helpers</a>, through rack.</p>
+
+<p>I was so excited because the content is what I wanted to do. But few hours after, I realized the way he explained works good for <code>development</code> and <code>production</code> environment, but not for <code>test</code> environment since in <code>test</code> environment,
+<code>/assets</code> is not mounted to padrino itself. So, testing with javascript like <code>data-confirm</code> testing will fail because javascript(and other assets too) is not loaded!</p>
+
+<p>I began to search how to mount(or insert) sprockets middleware in padrino applicaiton again and found the following way to solve the issue.</p>
+
+<p>The difference found way and previous article way is just how to insert sprockets middleware.
+So, <code>Gemfile</code>, <code>config/sprockets.rb</code> and <code>Rakefile</code> are same.
+<code>app/app.rb</code> differs little bit, and <code>lib/sprockets_initializer.rb</code> will be newly created.</p>
+
+<p><code>lib/sprockets_initializer.rb</code> is used to register to use <a href="https://github.com/sstephenson/sprockets/blob/master/lib/sprockets/server.rb">Sprockets::Server</a> for assets request handler.</p>
+
+<p>```ruby lib/sprockets_initializer.rb
+module SprocketsInitializer
+  def self.registered(app)</p>
+
+<pre><code># Make it lazy
+options[:asset_prefix] = -&gt; { Sprockets::Helpers.prefix }
+
+app.use ::SprocketsInitializer::Rack, options
+</code></pre>
+
+<p>  end</p>
+
+<p>  class Rack</p>
+
+<pre><code>def initialize(app, options={})
+  @app = app
+  @asset_prefix = options[:asset_prefix].call
+end
+
+def call(env)
+  if env['PATH_INFO'].match(@asset_prefix)
+    env['PATH_INFO'].gsub!(@asset_prefix, '')
+    return PadrinoSprocekts.environment.call(env)
+  end
+
+  @app.call(env)
+end
+</code></pre>
+
+<p>  end
+end
+```</p>
+
+<p>In <code>app/app.rb</code> register it only for not production environment because in production environment, I want to let application read assets from compiled assets path.</p>
+
+<p>``` ruby app/app.rb
+module Web
+  class App &lt; Padrino::Application</p>
+
+<pre><code>register Padrino::Rendering
+register Padrino::Mailer
+register Padrino::Helpers
+register SprocketsInitializer unless Padrino.env == :production
+helpers Sprockets::Helpers
+</code></pre>
+
+<p>  end
+end
+```</p>
+
+<p>If you want, delete mounted sprockets from <code>config.ru</code></p>
+
+<p>``` ruby config.ru
+require File.expand_path(&ldquo;../config/boot.rb&rdquo;, <strong>FILE</strong>)</p>
+
+<p>run Padrino.application
+```</p>
+
+<p>After changed configuration like above, you can test your application previous style.</p>
+
+<p><code>plain
+$ rake spec
+</code></p>
+
+<p>Thank you for reading!</p>
+]]></content>
+  </entry>
+  
+</feed>

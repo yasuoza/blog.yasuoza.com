@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: gem | yasuoza diary]]></title>
+  <link href="http://blog.yasuoza.com//categories/gem/atom.xml" rel="self"/>
+  <link href="http://blog.yasuoza.com/"/>
+  <updated>2014-01-13T07:39:13+00:00</updated>
+  <id>http://blog.yasuoza.com/</id>
+  <author>
+    <name><![CDATA[Yasuharu Ozaki]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[activemodel-attribute_changed_specification]]></title>
+    <link href="http://blog.yasuoza.com/2012/12/19/activemodel-attribute-changed-specification-released/"/>
+    <updated>2012-12-19T10:02:00+00:00</updated>
+    <id>http://blog.yasuoza.com/2012/12/19/activemodel-attribute-changed-specification-released</id>
+    <content type="html"><![CDATA[<p>On Dec 12, one feature suggestion posted to [Rails-core] ML.
+The title was &ldquo;Active Record, changes from.. to..&rdquo;</p>
+
+<p>His suggested feature was like following</p>
+
+<p>```ruby
+class Book &lt; ActiveRecord::Base
+  STATUS_DELIVER = [0, 1]
+  before_save :send_mail_to_customer</p>
+
+<p>  def send_mail_to_customer
+   UserMailer.send_mail_to_customer if self.status.changes(from: 0, to: 1)
+  end
+end
+```</p>
+
+<p>I knew this can be done in <a href="http://api.rubyonrails.org/classes/ActiveModel/Dirty.html">ActiveModel::Dirty</a>, but the feature <code>from</code> and <code>to</code> was interesting. So I implemented into gem named <a href="https://github.com/YasuOza/activemodel-attribute_changed_specification">activemodel-attribute_changed_specification</a>.</p>
+
+<p>You can use this gem like this</p>
+
+<p><code>ruby
+user = User.new
+user.name = 'Bob'
+user.name_changed?(from: nil,  to: 'Bob') # =&gt; true
+user.name_changed?(from: 'Paul',  to: 'Bob') # =&gt; false
+</code></p>
+
+<p>Though I overridden default <code>_changed?</code> method, I kept original <code>_changed?</code> method.</p>
+
+<p><code>ruby
+user = User.new
+user.name = 'Bob'
+user.name_changed? # =&gt; true
+</code></p>
+
+<p>This is my first gem. Yeah, it&rsquo;s fun!</p>
+]]></content>
+  </entry>
+  
+</feed>

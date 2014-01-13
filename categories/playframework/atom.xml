@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: playframework | yasuoza diary]]></title>
+  <link href="http://blog.yasuoza.com//categories/playframework/atom.xml" rel="self"/>
+  <link href="http://blog.yasuoza.com/"/>
+  <updated>2014-01-13T07:39:13+00:00</updated>
+  <id>http://blog.yasuoza.com/</id>
+  <author>
+    <name><![CDATA[Yasuharu Ozaki]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Start play application within play console]]></title>
+    <link href="http://blog.yasuoza.com/2013/01/31/start-play-application-from-play-console/"/>
+    <updated>2013-01-31T16:22:00+00:00</updated>
+    <id>http://blog.yasuoza.com/2013/01/31/start-play-application-from-play-console</id>
+    <content type="html"><![CDATA[<p>Sometime you&rsquo;re playing play framework, you will want to simulate play application like <code>rails console</code>.</p>
+
+<p>First, start play console with auto evolution mode.</p>
+
+<p><code>
+$ play -DapplyEvolutions.default=true console
+</code></p>
+
+<p>And start your application.</p>
+
+<p>```
+scala> import play.core.StaticApplication</p>
+
+<p>scala> new StaticApplication(new java.io.File(&ldquo;.&rdquo;))
+```</p>
+
+<p>Then, you can do what you want.</p>
+
+<p>source: <a href="https://groups.google.com/forum/?fromgroups=#!topic/play-framework/EFYnWC1yYsg">[2.0] how to start application from play console</a></p>
+]]></content>
+  </entry>
+  
+</feed>
