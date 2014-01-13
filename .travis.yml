@@ -20,7 +20,7 @@ after_script:
 - bundle exec rake deploy
 env:
   global:
-  - REPO="git@github.com:yasuoza/blog.yasuoza.com.git"
+  - REPO="git@github.com:yasuoza/blog.yasuoza.com"
   - secure: TKIU6edbEQt7qVNMwLzvfVv4J04rFbGfV/YazSG/QcBWxwrneXapZMZUH0fU+swwWl/xEYlZYG7PRWGFLDXIe+68faSUQXLRG5SPE3xsD6pB+dLpfc/GUmQnXxmhYt+ShI7/+FpK32fNQgh4VnLf3qJYwDKP/INHch7PSVFwqRk=
   - secure: OIl6MidyWp4D5hQ0T70g64iXxqBsxuF0PBgSoM0zmzvlY4rxBzALfLyMaEfiGWzXe8WT/OmtKY+TjY9d77mwC+FIguLYIrneFeBrt1+di+gJFPf+xwA2LMZZeC+bHVYH4obRQaAlOkmJSHHITDdf1eDxrX2cozZHudxwp+sNfvA=
   - secure: BUsdsohI4u3wbDxuAr1/S+7DxWJlMkZHkBlx0jLkLMOEY/B0w0NnCo+Kr1TOHe2IK5Q2nVA2Q8V6XHcX9WKYYQcCnugikWb+FkH25//GH9bs4rx/qTUhuYBwT+O5VQQC+EWzHVOYgPL9BCR2FZwP55uDsz1XNwp4xij51PoyIbI=
