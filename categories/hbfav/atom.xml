@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: hbfav | yasuoza diary]]></title>
+  <title><![CDATA[Category: HBFav | yasuoza diary]]></title>
   <link href="http://blog.yasuoza.com//categories/hbfav/atom.xml" rel="self"/>
   <link href="http://blog.yasuoza.com/"/>
-  <updated>2014-01-13T08:30:02+00:00</updated>
+  <updated>2014-01-13T12:56:14+00:00</updated>
   <id>http://blog.yasuoza.com/</id>
   <author>
     <name><![CDATA[Yasuharu Ozaki]]></name>
@@ -14,51 +14,43 @@
 
   
   <entry>
-    <title type="html"><![CDATA[HBFav-Android 2.1.1リリース]]></title>
-    <link href="http://blog.yasuoza.com/2013/12/27/hbfav-android-2-1-1/"/>
-    <updated>2013-12-27T04:39:25+00:00</updated>
-    <id>http://blog.yasuoza.com/2013/12/27/hbfav-android-2-1-1</id>
-    <content type="html"><![CDATA[<p>HBFav for Androidの2.1.1をリリースしました!</p>
+    <title type="html"><![CDATA[HBFav-Android 2.0.0リリース]]></title>
+    <link href="http://blog.yasuoza.com/2013/12/09/hbfav-2-0-0-release/"/>
+    <updated>2013-12-09T04:52:12+00:00</updated>
+    <id>http://blog.yasuoza.com/2013/12/09/hbfav-2-0-0-release</id>
+    <content type="html"><![CDATA[<p><strong>iOS版の<a href="http://hbfav.bloghackers.net/">HBFav</a>のAndroid版をリリースしました！</strong></p>
 
 <p><a href="https://play.google.com/store/apps/details?id=com.hbfav.android">はてなブックマークをタイムライン形式で HBFav</a></p>
 
-<p>今回のバージョンアップでは</p>
+<p>HBFavとははてなブックマークのお気に入りの人のブックマークをTwitterのタイムライン形式で見れるというアプリです。</p>
+
+<p><img class="center" src="/images/hbfav/timeline.png" width="350"></p>
+
+<p>僕がメインで使う端末をiOSからAndroidに変えて3ヶ月、Androidはとても気に入っていたのですが、ただひとつ、HBFav
+のようにはてなブックマークをタイムラインで見れるアプリ、というかHBFavのAndroid版がないことが唯一の不満でした。<br/>
+ないものは作るしか無い、そう思って作り始めたのが10月終わり頃、2.0.0は大した機能も無いのに、リリースまで1ヶ月かかったのは
+初めてのAndroidアプリということだけではなく、突然の<code>NullPointerException</code>にハマったためでした。</p>
+
+<p>2.0.0は本当に機能が少ないので、ブックマークをするにはこれまでどおり別途
+<a href="https://play.google.com/store/apps/details?id=com.hatena.android.bookmark">はてなブックマーク</a>
+をインストールして、ブラウザの共有からブックマークして下さい。<br/>
+WebViewやバックグラウンド更新などはこれからのアップデートで随時対応していきます!<br/>
+フィードバックや要望などありましたら、お気軽に<a href="http://www.twitter.com/yasuoza">@yasuoza</a>までお願いします!</p>
+
+<p>また、HBFavのAndroid版を出すにあたって次の方々にはとても感謝しています。本当にありがとうございました。これからもよろしくお願いします。</p>
 
 <ul>
-<li>ビルトインブラウザ</li>
-<li>コメントの閲覧</li>
-<li>アプリ単体でのブックマーク登録・更新・削除機能</li>
+<li><a href="http://naoya.github.io/">@naoyaさん</a></li>
+<li><a href="https://github.com/">Githubさん</a></li>
+<li><a href="http://stackoverflow.com/">stackoverflowさん</a></li>
+<li><a href="https://www.crashlytics.com/">Crashlyticsさん</a></li>
 </ul>
 
 
-<p>の追加をしました。</p>
+<p>今はビルトインブラウザ機能を実装中なので、それを年末までに出す予定です。乞うご期待！</p>
 
-<p>いちいちブラウザに飛ぶことはなくなったので、よりシームレスに記事を閲覧することが出来るようになったと思います。</p>
-
-<p><img class="center" src="/images/hbfav/entry_webview.jpg" width="350"></p>
-
-<p><img class="center" src="/images/hbfav/activity_bookmark_entry.jpg" width="350"></p>
-
-<p>OAuth認証したり、異なるサイズのボタンを配置したり、キーボードの開閉に合わせた挙動をさせたりと、まぁまぁ大変でした。<br/>
-1週間ブックマークを見る暇なくずっとブックマーク登録画面だけ開発してたなんてときもありましたが、それでも総じて楽しかったです。</p>
-
-<p>一部の端末で正しくOauth認証出来ないバグが確認されております。年明けから対応していきます。Android大変です。。。<br/>
-また、アプリが落ちたり、うまく動作しない場合は<a href="https://github.com/yasuoza/HBFav-Android/issues">Github</a>に書いて頂くか、<a href="https://www.twitter.com/yasuoza">@yasuoza</a>まで
-お気軽にメンションください。出来る限りのサポートはしていきます。</p>
-
-<p>今後ともHBFav-Androidをよろしくお願いします!</p>
-
-<p>Special thanks :heart::heart::heart:</p>
-
-<ul>
-<li><a href="https://www.hatena.com/">株式会社はてな様</a> 問い合わせに対してご丁寧に対応していただきました。</li>
-<li><a href="http://stackoverflow.com/">stackoverflowさん</a> 今回も引き続きお世話になりました。</li>
-<li><a href="http://android-ui-utils.googlecode.com/hg/asset-studio/dist/index.html">Android Asset Studioさん</a> UI実装に大変役立ちました。</li>
-<li><a href="http://android-holo-colors.com/">Android Holo Colors Generator</a> UI実装に大変役立ちました。</li>
-</ul>
-
-
-<p>年末年始はdockerで遊ぶ予定です。dockerを利用してちょっと作りたいものがあるので、ちょっと実験してみます。</p>
+<p>HBFav-Android ホームページ<br/>
+<a href="http://yasuoza.github.io/HBFav-Android">HBFav-Android</a></p>
 ]]></content>
   </entry>
   

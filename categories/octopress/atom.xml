@@ -4,7 +4,7 @@
   <title><![CDATA[Category: octopress | yasuoza diary]]></title>
   <link href="http://blog.yasuoza.com//categories/octopress/atom.xml" rel="self"/>
   <link href="http://blog.yasuoza.com/"/>
-  <updated>2014-01-13T08:30:02+00:00</updated>
+  <updated>2014-01-13T12:56:14+00:00</updated>
   <id>http://blog.yasuoza.com/</id>
   <author>
     <name><![CDATA[Yasuharu Ozaki]]></name>
@@ -31,7 +31,7 @@ $ gem install travis
 <p>Generate ssh-key accessible to only blog repository.</p>
 
 <p>```bash
-$ ssh-keygen -t rsa -C &lsquo;<a href="&#x6d;&#97;&#x69;&#108;&#116;&#111;&#58;&#121;&#111;&#x75;&#x72;&#x65;&#109;&#97;&#105;&#x6c;&#64;&#x65;&#x78;&#97;&#x6d;&#x70;&#x2e;&#x63;&#x6f;&#109;">&#x79;&#111;&#117;&#x72;&#x65;&#x6d;&#97;&#105;&#108;&#64;&#101;&#120;&#97;&#109;&#112;&#46;&#x63;&#111;&#109;</a>&rsquo; -f ~/.ssh/travis_rsa</p>
+$ ssh-keygen -t rsa -C &lsquo;<a href="&#109;&#x61;&#105;&#108;&#x74;&#111;&#x3a;&#121;&#x6f;&#x75;&#114;&#x65;&#109;&#x61;&#x69;&#x6c;&#x40;&#101;&#120;&#97;&#109;&#112;&#46;&#x63;&#111;&#109;">&#121;&#x6f;&#x75;&#114;&#101;&#x6d;&#x61;&#x69;&#x6c;&#64;&#x65;&#120;&#x61;&#109;&#x70;&#x2e;&#99;&#x6f;&#109;</a>&rsquo; -f ~/.ssh/travis_rsa</p>
 
 <h1>Copy public key to clipboard</h1>
 
@@ -44,31 +44,42 @@ $ ssh-keygen -t rsa -C &lsquo;<a href="&#x6d;&#97;&#x69;&#108;&#116;&#111;&#58;&
 
 <p>Then, setup <code>.travis.yml</code> like:</p>
 
-<p><code>yaml
+<p>```yaml
 language: ruby
 rvm:
-- 2.1.0
+&ndash; 2.1.0
 branches:
   only:
-  - master
+  &ndash; master
 before_script:
-- git config --global user.name "yasuoza(via Travis CI)"
-- git config --global user.email "yasuharu.ozaki@gmail.com"
-- git remote set-url origin $REPO.git
-- for (( i=0; i&lt;=$RSA_LENGTH; i++ )); do eval "echo -n \$id_rsa_$i &gt;&gt; ~/.ssh/travis_rsa_64"; done
-- base64 --decode --ignore-garbage ~/.ssh/travis_rsa_64 &gt; ~/.ssh/id_rsa
-- chmod 600 ~/.ssh/id_rsa
-- echo -e "Host github.com\n\tStrictHostKeyChecking no\n" &gt;&gt; ~/.ssh/config
-- bundle exec rake setup_github_pages[$REPO]
-- git checkout -- _config.yml
-script:
-- bundle exec rake generate
-after_script:
-- bundle exec rake deploy
+&ndash; git config &mdash;global user.name &ldquo;<em>username</em>(via Travis CI)&rdquo;
+&ndash; git config &mdash;global user.email &ldquo;<a href="&#x6d;&#97;&#x69;&#x6c;&#116;&#x6f;&#x3a;&#121;&#111;&#117;&#x72;&#101;&#x6d;&#97;&#x69;&#x6c;&#64;&#103;&#109;&#x61;&#x69;&#108;&#46;&#x63;&#x6f;&#x6d;">&#121;&#x6f;&#x75;&#x72;&#x65;&#109;&#x61;&#x69;&#108;&#x40;&#103;&#x6d;&#97;&#105;&#108;&#x2e;&#x63;&#x6f;&#x6d;</a>&rdquo;
+&ndash; git remote set-url origin $REPO.git</p>
+
+<h1>array length 23 is calculated later as $RSA_LENGTH</h1>
+
+<ul>
+<li>if [ -z &ldquo;$id_rsa<em>{1..23}&rdquo; ]; then echo &lsquo;No $id_rsa</em>{1..23} found !&rsquo; ; exit 1; fi</li>
+<li>echo -n $id_rsa_{1..23} >> ~/.ssh/travis_rsa_64</li>
+<li>base64 &mdash;decode &mdash;ignore-garbage ~/.ssh/travis_rsa_64 > ~/.ssh/id_rsa</li>
+<li>chmod 600 ~/.ssh/id_rsa</li>
+<li>echo -e &ldquo;Host github.com\n\tStrictHostKeyChecking no\n&rdquo; >> ~/.ssh/config</li>
+<li>bundle exec rake setup_github_pages[$REPO]</li>
+<li>git checkout &mdash; _config.yml
+script:</li>
+<li>bundle exec rake generate
+after_script:</li>
+<li>bundle exec rake deploy
 env:
-  global:
-  - REPO="git@github.com:_username_/_repository_.git"
-</code></p>
+global:
+
+<ul>
+<li>REPO=&ldquo;git@github.com:<em>username</em>/<em>repository</em>&rdquo;
+```</li>
+</ul>
+</li>
+</ul>
+
 
 <p>Encrypt ssh-key via base64.</p>
 
@@ -85,14 +96,13 @@ env:
 <p>$ bash &lt;(cat ~/.ssh/travis_rsa_64 | perl -pe &rsquo;s/(.{100})/$1\n/g' | nl | perl -pe &rsquo;s/\s<em>(\d+)\s</em>(.*)/travis encrypt id_rsa_$1=&ldquo;$2&rdquo; &mdash;add/&lsquo;)
 ```</p>
 
-<p>Count <code>id_rsa_{1..$RSA_LENGTH}</code> and encrypt it.</p>
+<p>Count <code>id_rsa_{1..$RSA_LENGTH}</code>.</p>
 
 <p><code>bash
 $ cat ~/.ssh/travis_rsa_64 | perl -pe 's/(.{100})/$1\n/g' | nl | tail
-$ travis encrypt RSA_LENGTH=50 --add # Assume last value was 50
 </code></p>
 
-<p>Finally, you should apply following patch to <code>rake deploy pulls from origin #{deploy_branch}</code></p>
+<p>Finally, you should apply following patch to <code>rake deploy</code> to pulls from origin #{deploy_branch}.</p>
 
 <p><code>diff
 --- a/Rakefile
@@ -112,13 +122,9 @@ $ travis encrypt RSA_LENGTH=50 --add # Assume last value was 50
 
 <p>That&rsquo;s it. Connect blog repository to Travis CI, and commit change!</p>
 
-<p>Refs:</p>
-
-<ul>
-<li><a href="http://pchw.github.io/blog/2013/06/27/octopress-travis/">http://pchw.github.io/blog/2013/06/27/octopress-travis/</a></li>
-<li><a href="http://www.harimenon.com/blog/2013/01/27/auto-deploying-to-my-octopress-blog/">http://www.harimenon.com/blog/2013/01/27/auto-deploying-to-my-octopress-blog/</a></li>
-</ul>
-
+<p>Refs:<br/>
+&ndash; <a href="http://pchw.github.io/blog/2013/06/27/octopress-travis/  ">http://pchw.github.io/blog/2013/06/27/octopress-travis/  </a>
+&ndash; <a href="http://www.harimenon.com/blog/2013/01/27/auto-deploying-to-my-octopress-blog/">http://www.harimenon.com/blog/2013/01/27/auto-deploying-to-my-octopress-blog/</a></p>
 ]]></content>
   </entry>
   

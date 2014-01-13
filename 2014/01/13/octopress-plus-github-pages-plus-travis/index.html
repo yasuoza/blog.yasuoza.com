@@ -169,6 +169,8 @@
 <span class='line-number'>21</span>
 <span class='line-number'>22</span>
 <span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
 </pre></td><td class='code'><pre><code class='yaml'><span class='line'><span class="l-Scalar-Plain">language</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">ruby</span>
 </span><span class='line'><span class="l-Scalar-Plain">rvm</span><span class="p-Indicator">:</span>
 </span><span class='line'><span class="p-Indicator">-</span> <span class="l-Scalar-Plain">2.1.0</span>
@@ -176,10 +178,12 @@
 </span><span class='line'>  <span class="l-Scalar-Plain">only</span><span class="p-Indicator">:</span>
 </span><span class='line'>  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">master</span>
 </span><span class='line'><span class="l-Scalar-Plain">before_script</span><span class="p-Indicator">:</span>
-</span><span class='line'><span class="p-Indicator">-</span> <span class="l-Scalar-Plain">git config --global user.name &quot;yasuoza(via Travis CI)&quot;</span>
-</span><span class='line'><span class="p-Indicator">-</span> <span class="l-Scalar-Plain">git config --global user.email &quot;yasuharu.ozaki@gmail.com&quot;</span>
+</span><span class='line'><span class="p-Indicator">-</span> <span class="l-Scalar-Plain">git config --global user.name &quot;_username_(via Travis CI)&quot;</span>
+</span><span class='line'><span class="p-Indicator">-</span> <span class="l-Scalar-Plain">git config --global user.email &quot;youremail@gmail.com&quot;</span>
 </span><span class='line'><span class="p-Indicator">-</span> <span class="l-Scalar-Plain">git remote set-url origin $REPO.git</span>
-</span><span class='line'><span class="p-Indicator">-</span> <span class="l-Scalar-Plain">for (( i=0; i&lt;=$RSA_LENGTH; i++ )); do eval &quot;echo -n \$id_rsa_$i &gt;&gt; ~/.ssh/travis_rsa_64&quot;; done</span>
+</span><span class='line'><span class="c1"># array length 23 is calculated later as $RSA_LENGTH</span>
+</span><span class='line'><span class="p-Indicator">-</span> <span class="l-Scalar-Plain">if [ -z &quot;$id_rsa_{1..23}&quot; ]; then echo &#39;No $id_rsa_{1..23} found !&#39; ; exit 1; fi</span>
+</span><span class='line'><span class="p-Indicator">-</span> <span class="l-Scalar-Plain">echo -n $id_rsa_{1..23} &gt;&gt; ~/.ssh/travis_rsa_64</span>
 </span><span class='line'><span class="p-Indicator">-</span> <span class="l-Scalar-Plain">base64 --decode --ignore-garbage ~/.ssh/travis_rsa_64 &gt; ~/.ssh/id_rsa</span>
 </span><span class='line'><span class="p-Indicator">-</span> <span class="l-Scalar-Plain">chmod 600 ~/.ssh/id_rsa</span>
 </span><span class='line'><span class="p-Indicator">-</span> <span class="l-Scalar-Plain">echo -e &quot;Host github.com\n\tStrictHostKeyChecking no\n&quot; &gt;&gt; ~/.ssh/config</span>
@@ -191,7 +195,7 @@
 </span><span class='line'><span class="p-Indicator">-</span> <span class="l-Scalar-Plain">bundle exec rake deploy</span>
 </span><span class='line'><span class="l-Scalar-Plain">env</span><span class="p-Indicator">:</span>
 </span><span class='line'>  <span class="l-Scalar-Plain">global</span><span class="p-Indicator">:</span>
-</span><span class='line'>  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">REPO=&quot;git@github.com:_username_/_repository_.git&quot;</span>
+</span><span class='line'>  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">REPO=&quot;git@github.com:_username_/_repository_&quot;</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
@@ -214,16 +218,14 @@
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>Count <code>id_rsa_{1..$RSA_LENGTH}</code> and encrypt it.</p>
+<p>Count <code>id_rsa_{1..$RSA_LENGTH}</code>.</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
 </pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>cat ~/.ssh/travis_rsa_64 | perl -pe <span class="s1">&#39;s/(.{100})/$1\n/g&#39;</span> | nl | tail
-</span><span class='line'><span class="nv">$ </span>travis encrypt <span class="nv">RSA_LENGTH</span><span class="o">=</span>50 --add <span class="c"># Assume last value was 50</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>Finally, you should apply following patch to <code>rake deploy pulls from origin #{deploy_branch}</code></p>
+<p>Finally, you should apply following patch to <code>rake deploy</code> to pulls from origin #{deploy_branch}.</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -256,13 +258,9 @@
 
 <p>That&rsquo;s it. Connect blog repository to Travis CI, and commit change!</p>
 
-<p>Refs:</p>
-
-<ul>
-<li><a href="http://pchw.github.io/blog/2013/06/27/octopress-travis/">http://pchw.github.io/blog/2013/06/27/octopress-travis/</a></li>
-<li><a href="http://www.harimenon.com/blog/2013/01/27/auto-deploying-to-my-octopress-blog/">http://www.harimenon.com/blog/2013/01/27/auto-deploying-to-my-octopress-blog/</a></li>
-</ul>
-
+<p>Refs:<br/>
+&ndash; <a href="http://pchw.github.io/blog/2013/06/27/octopress-travis/  ">http://pchw.github.io/blog/2013/06/27/octopress-travis/  </a>
+&ndash; <a href="http://www.harimenon.com/blog/2013/01/27/auto-deploying-to-my-octopress-blog/">http://www.harimenon.com/blog/2013/01/27/auto-deploying-to-my-octopress-blog/</a></p>
 </div>
 
 
