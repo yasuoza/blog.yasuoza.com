@@ -6,7 +6,7 @@ branches:
   - master
 before_script:
 - git config --global user.name "yasuoza(via Travis CI)"
-- git config --global user.email "yasuharu.ozaki+travisci@gmail.com"
+- git config --global user.email "yasuharu.ozaki@gmail.com"
 - git remote set-url origin $REPO.git
 - for (( i=0; i<=$RSA_LENGTH; i++ )); do eval "echo -n \$id_rsa_$i >> ~/.ssh/travis_rsa_64"; done
 - base64 --decode --ignore-garbage ~/.ssh/travis_rsa_64 > ~/.ssh/id_rsa
