@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: life | yasuoza diary]]></title>
+  <link href="http://blog.yasuoza.com//categories/life/atom.xml" rel="self"/>
+  <link href="http://blog.yasuoza.com/"/>
+  <updated>2014-01-13T07:55:33+00:00</updated>
+  <id>http://blog.yasuoza.com/</id>
+  <author>
+    <name><![CDATA[Yasuharu Ozaki]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[諦めるということ]]></title>
+    <link href="http://blog.yasuoza.com/2013/12/13/akirameru_toiukoto/"/>
+    <updated>2013-12-13T16:09:48+00:00</updated>
+    <id>http://blog.yasuoza.com/2013/12/13/akirameru_toiukoto</id>
+    <content type="html"><![CDATA[<p>最近、諦める、年をとるということに関するブログや記事に目が行く。<br/>
+特に覚えているのは20代の頃を振り返るエンジニアの方のブログだった(記事探せなかった&hellip;)</p>
+
+<p>20代のころは若くて、出来ないエンジニアやディレクターの人にたいそう生意気な態度を取っていたが、
+30を過ぎたあたりで、周りとの協調を大事にするようになったと、そういう内容だったと思う。ちょっと違っているかも。</p>
+
+<p>先日20代の後半戦に入った俺は生意気の絶頂にいると思う。
+誰よりも技術で突出したいと思っているし、誰よりも論理的でありたいと思っている。
+それに、生まれつきのどうしよもない負けず嫌いが相伴って、仕事をしているなかで自分のいいように出来なくて、
+明らかに嫌な態度を取ることがある。</p>
+
+<p>20歳前後は、全然そんなこと無いのに、何事も自分は誰よりも考え尽くしているという自信があって、
+人の意見なんか3割位聞くと欠点がわかったりして、まるで、生きている価値ないという勢いでその人の意見を否定して生きていた。<br/>
+20代も進んでくると人の意見も聞けるようになった。自分の意見を聞いてもらいたかったら、先に人の意見を聞かないと
+ダメと先輩に教えられたことが大きな要因だったと思う。一つ丸くなったんだと思う。</p>
+
+<p>ずっと尖っていることは不可能なのだろうか。不可能ではくても、生きづらい世の中なのだろうか。<br/>
+でもきっと、ずっと尖っていることは出来ないんだろうと心のどこかで分かり始めてきている。
+2~3年で丸くなったように、これからの2~3年でも大なり小なり変わってしまうんではないかと思っている。</p>
+
+<p>それでも俺はずっと尖っていたいし、誰よりも技術的に上を目指して走り続けることを諦めたくはないと本当に思っている。</p>
+
+<p>26歳になった記念として。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Hello World!]]></title>
+    <link href="http://blog.yasuoza.com/2012/12/05/hello-world/"/>
+    <updated>2012-12-05T19:29:00+00:00</updated>
+    <id>http://blog.yasuoza.com/2012/12/05/hello-world</id>
+    <content type="html"><![CDATA[<p>I&rsquo;ve changed wordpress to <a href="http://octopress.org/">octpress</a>!</p>
+
+<p><code>perl hello_world.pl
+say "Hello World!"
+</code></p>
+
+<p><code>ruby hello_world.rb
+puts "Hello World!"
+</code></p>
+
+<p><code>coffee-script hello_world.coffee
+console.log "Hello World!"
+</code></p>
+]]></content>
+  </entry>
+  
+</feed>

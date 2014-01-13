@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: rails | yasuoza diary]]></title>
+  <link href="http://blog.yasuoza.com//categories/rails/atom.xml" rel="self"/>
+  <link href="http://blog.yasuoza.com/"/>
+  <updated>2014-01-13T07:55:33+00:00</updated>
+  <id>http://blog.yasuoza.com/</id>
+  <author>
+    <name><![CDATA[Yasuharu Ozaki]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[activemodel-attribute_changed_specification]]></title>
+    <link href="http://blog.yasuoza.com/2012/12/19/activemodel-attribute-changed-specification-released/"/>
+    <updated>2012-12-19T10:02:00+00:00</updated>
+    <id>http://blog.yasuoza.com/2012/12/19/activemodel-attribute-changed-specification-released</id>
+    <content type="html"><![CDATA[<p>On Dec 12, one feature suggestion posted to [Rails-core] ML.
+The title was &ldquo;Active Record, changes from.. to..&rdquo;</p>
+
+<p>His suggested feature was like following</p>
+
+<p>```ruby
+class Book &lt; ActiveRecord::Base
+  STATUS_DELIVER = [0, 1]
+  before_save :send_mail_to_customer</p>
+
+<p>  def send_mail_to_customer
+   UserMailer.send_mail_to_customer if self.status.changes(from: 0, to: 1)
+  end
+end
+```</p>
+
+<p>I knew this can be done in <a href="http://api.rubyonrails.org/classes/ActiveModel/Dirty.html">ActiveModel::Dirty</a>, but the feature <code>from</code> and <code>to</code> was interesting. So I implemented into gem named <a href="https://github.com/YasuOza/activemodel-attribute_changed_specification">activemodel-attribute_changed_specification</a>.</p>
+
+<p>You can use this gem like this</p>
+
+<p><code>ruby
+user = User.new
+user.name = 'Bob'
+user.name_changed?(from: nil,  to: 'Bob') # =&gt; true
+user.name_changed?(from: 'Paul',  to: 'Bob') # =&gt; false
+</code></p>
+
+<p>Though I overridden default <code>_changed?</code> method, I kept original <code>_changed?</code> method.</p>
+
+<p><code>ruby
+user = User.new
+user.name = 'Bob'
+user.name_changed? # =&gt; true
+</code></p>
+
+<p>This is my first gem. Yeah, it&rsquo;s fun!</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Railsでmroongaを使う]]></title>
+    <link href="http://blog.yasuoza.com/2012/11/30/mroonga_in_rails/"/>
+    <updated>2012-11-30T00:00:00+00:00</updated>
+    <id>http://blog.yasuoza.com/2012/11/30/mroonga_in_rails</id>
+    <content type="html"><![CDATA[<p>昨日行われた<a href="http://atnd.org/events/33070" target="_blank">全文検索エンジンgroongaを囲む夕べ 3 @groonga</a>はUstで見てました。</p>
+
+<p>(g|m|r)roongaに興味を持った人もいるのではないかと思い、mroongaを既存のRailsアプリケーションに導入する方法を紹介しようと思います。</p>
+
+<p>想定は</p>
+
+<ul>
+  <li>データベースはMySQLを使っている</li>
+  <li>既存のテーブルのカラムに対して全文検索を導入したい</li>
+</ul>
+
+
+<p>という条件です。mroongaはMySQLを必要とするので、そこは必須ですが、新規でmroongaの全文検索カラムを持ったテーブルを作るときにも参考になると思います。</p>
+
+<p>まずはmroongaのインストールをします。公式のドキュメントに綺麗にまとまっているので、そちらを参照して下さい。</p>
+
+<p><a href="http://mroonga.github.com/docs/install.html" target="_blank">Installation Guide mroonga</a></p>
+
+<p>インストールしたら次はマイグレーションファイルを作ります。
+今回の例ではブログ記事の本文(entry.body)を全文検索するように設定していきます。</p>
+
+<p><code>
+$ rails g migration use_mroonga_in_entries_table
+</code></p>
+
+<p>マイグレーションファイルができたらエディタで開いて次のように編集します。</p>
+
+<p>```ruby
+class UseMroongaInEntriesTable &lt; ActiveRecord::Migration
+  def change</p>
+
+<pre><code>execute &lt;&lt;-SQL
+ALTER TABLE entries
+  ENGINE = mroonga COMMENT = 'engine &amp;quot;innodb&amp;quot;' DEFAULT CHARSET utf8
+SQL
+
+execute &lt;&lt;-SQL
+ALTER TABLE entries
+  ADD FULLTEXT INDEX index_blogs_on_body (body)
+SQL
+</code></pre>
+
+<p>  end
+end
+```</p>
+
+<p>マイグレートします。</p>
+
+<p><code>
+$ rake db:migrate
+</code></p>
+
+<p>検索します。
+```
+$ rails c</p>
+
+<blockquote><p>Entry.where(&ldquo;match(body) against(&lsquo;hello&rsquo;)&rdquo;)
+[<Entry id: 1, text: "hello world">
+```</p></blockquote>
+
+<p>モデルにはスコープを使って</p>
+
+<p>```ruby
+class Entry &lt; ActiveRecord::Base
+  scope :search_with, &ndash;>(query) { where(%Q(match(body) against(&ldquo;#{query}&rdquo;))) }</p>
+
+<p>  # attr_accessible is removed.
+  # Now we are using strong_parameters!
+  # Refer to <a href="https://github.com/rails/strong_parameters">https://github.com/rails/strong_parameters</a>
+end
+```</p>
+
+<p>などと書いておけます。<code>query</code>の事前処理は必要に応じてして下さい。僕はいろいろ考えましたが、<code>query</code>の事前処理は呼び出し側のコントローラにやらせることにしてます。</p>
+
+<p>```
+$ rails c</p>
+
+<blockquote><p>Entry.search_with(&lsquo;hello&rsquo;)
+[<Entry id: 1, text: "hello world">]
+```</p></blockquote>
+
+<p>これでdevelopment環境とproduction環境では、MySQLのエンジンにmroongaが入っていれば動くはずです。
+テストを書かない人はここで読み終わってOKです。</p>
+
+<p>ここからはテストを書く人用です。</p>
+
+<p>Railsのテストは都度テスト用DBを初期化するところから始まります。その初期化の過程ではテーブルを空にするだけでなく、<code>db/schema.rb</code>を読んでスキーマを再構築するという処理も含まれます。参考: <a href="http://edgeguides.rubyonrails.org/testing.html#rake-tasks-for-preparing-your-application-for-testing" target="_blank">Rake Tasks for Preparing your Application for Testing</a>
+普通ならそれで構わないし、スキーマを再構築してもテストが通るかどうかを確認することは環境に依存しないアプリを作る際に必要になるステップだと思います。
+ただ、今回はmroongaを意図的に使うので<code>db/schema.rb</code>を読み込んでスキーマを初期化されては困ります。そこで、<a href="http://kennyj-jp.blogspot.jp/2011/09/specdbtestprepare.html" target="_blank">kennyjさんのブログ記事</a>で紹介されていた方法を取ります。</p>
+
+<p>Rakefileに以下を追加
+```ruby
+Rake::TaskManager.class_eval do
+  def remove_task(task_name)</p>
+
+<pre><code>@tasks.delete(task_name.to_s)
+</code></pre>
+
+<p>  end
+end
+```</p>
+
+<p>lib/tasks/override_db_test_prepare.rbを作成
+```ruby
+Rake.application.remove_task &lsquo;db:test:prepare&rsquo;</p>
+
+<p>namespace :db do
+  namespace :test do</p>
+
+<pre><code>task :prepare do; end
+</code></pre>
+
+<p>  end
+end
+```</p>
+
+<p>これでrake db:test:prepareで何も処理されないようにすることで<code>db/schema.rb</code>の内容でテスト用DBが上書きされずに済むようになります。</p>
+
+<p>ここまで来たらテスト用にDBを用意してテストを走らせるだけです。
+<code>
+$ rake db:migrate RAILS_ENV=test
+$ rake spec  # rake test
+</code></p>
+
+<p>fluentdを使ってgroongaのshardingが出来るようになったりいろいろ進化していくgroonga注目です。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[devise + omniauth-facebookでリクエストURLにリダイレクトする]]></title>
+    <link href="http://blog.yasuoza.com/2012/08/16/devise-omniauth-facebook/"/>
+    <updated>2012-08-16T00:00:00+00:00</updated>
+    <id>http://blog.yasuoza.com/2012/08/16/devise-omniauth-facebook</id>
+    <content type="html"><![CDATA[<p><a href="https://github.com/plataformatec/devise/" title="devise" target="_blank">devise</a>と<a href="https://github.com/mkdynamic/omniauth-facebook" title="omniauth-facebook" target="_blank">omniauth-facebook</a>で簡単にFacebook認証をアプリに組み込むことができます。
+組み込み方は<a href="https://github.com/plataformatec/devise/wiki/OmniAuth:-Overview" target="_blank">devise公式wiki</a>が一番わかり易いと思いますのでそちらを参考にして下さい。</p>
+
+<p>なお、この記事では次のルーティングに従います。
+デフォルトのまま使うと/users/sign_upとかついてきますが、facebookログインに限ると必要ありませんからね。
+<code>ruby
+devise_for :users, :skip =&gt; [:sessions, :registration, :password], :controllers =&gt; { :omniauth_callbacks =&gt; 'omniauth_callbacks' }
+as :user do
+  delete '/logout' =&gt; 'devise/sessions#destroy', :as =&gt; :destroy_user_session
+  delete '/delete' =&gt; 'devise/registrations#destroy', :as =&gt; :destory_user
+end
+</code></p>
+
+<p>コールバックは次のクラスで受け取ります。
+```ruby
+class OmniauthCallbacksController &lt; Devise::OmniauthCallbacksController</p>
+
+<p>  def facebook</p>
+
+<pre><code>@user = User.find_or_create_from(request.env['omniauth.auth'])
+sign_in_and_redirect @user
+</code></pre>
+
+<p>  end</p>
+
+<p>end
+```</p>
+
+<p>それで例えば、/users以下を閲覧するときには認証をかけたいっていうことが往々にしてあると思います。
+それは
+```ruby
+class UsersController &lt; ApplicationController
+  before_filter :authenticate_user!</p>
+
+<p>  def show</p>
+
+<pre><code>@user = current_user
+</code></pre>
+
+<p>  end
+end
+```
+のようにしてbefore_filter噛ませてあげると簡単ですが、このままだとユーザが直接/users/:idページを叩いた時にfacebookログインが行われず、基本設定のままだと、ルートにリダイレクトされます。</p>
+
+<p>これを/users/:idページを直接叩いたときは直でfacebookログインにリダイレクトさせて、callbackを受け取った時にもともとリクエストされた/users/:idにリダイレクトさせるには次のように設定します。</p>
+
+<p>```ruby
+class ApplicationController &lt; ActionController::Base
+  protect_from_forgery</p>
+
+<p>  protected
+  def authenticate_user!</p>
+
+<pre><code>session[:user_return_to] = env['PATH_INFO']
+redirect_to user_omniauth_authorize_path(:facebook) unless user_signed_in?
+</code></pre>
+
+<p>  end
+end
+```
+<code>authenticate_user!</code>をapplication_controller.rbでオーバーライドします。
+ポイントは6行目で<code>session[:user_return_to]</code>にリクエストURLを保存しておくことです。
+<code>authenticate_member!</code>の場合は<code>session[:member_return_to]</code>に保存します。</p>
+
+<p>これでdeviseの内部実装のちからを借りて<code>sign_in_and_redirect_to @user</code>をした時に元のリクエストURLにリダイレクトされます。</p>
+
+<p>devise自体はそんなに難しいことをしていないので、内部実装を覗くとlib/devise/controllers/helpers.rbの次の2つの関数で<code>session[:user_return_to]</code>からリダイレクト先を取得していることがわかります。
+```ruby
+def stored_location_for(resource_or_scope)
+  scope = Devise::Mapping.find_scope!(resource_or_scope)
+  session.delete(&ldquo;#{scope}_return_to&rdquo;)
+end</p>
+
+<p>def after_sign_in_path_for(resource_or_scope)
+  stored_location_for(resource_or_scope) || signed_in_root_path(resource_or_scope)
+end
+```</p>
+
+<p>Railsはとても素敵で便利なフレームワークだと思います！Rubyもすごく素敵な言語だなと思います！</p>
+]]></content>
+  </entry>
+  
+</feed>

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: web | yasuoza diary]]></title>
+  <link href="http://blog.yasuoza.com//categories/web/atom.xml" rel="self"/>
+  <link href="http://blog.yasuoza.com/"/>
+  <updated>2014-01-13T07:55:33+00:00</updated>
+  <id>http://blog.yasuoza.com/</id>
+  <author>
+    <name><![CDATA[Yasuharu Ozaki]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Alfred extension for git.io]]></title>
+    <link href="http://blog.yasuoza.com/2012/12/19/alfred-extension-for-git-io/"/>
+    <updated>2012-12-19T22:05:00+00:00</updated>
+    <id>http://blog.yasuoza.com/2012/12/19/alfred-extension-for-git-io</id>
+    <content type="html"><![CDATA[<p>I like <a href="http://www.alfredapp.com/">Alfred.app</a>. And I also like github.</p>
+
+<p>Almost everyday, I reffer to github long url, especially replying to issues.</p>
+
+<p>In such a case, long github url make my comment ugly, so I wanted to use shorten url.</p>
+
+<p><a href="http://git.io/">git.io</a> is the solution. It guarantees that the link is always github&rsquo;s url.
+So people can click the link without any doubt.</p>
+
+<p>Here are screenshots.</p>
+
+<p><img src="/images/gitio_alfred_extension_1.png" width="700"></p>
+
+<p><img src="/images/gitio_alfred_extension_2.png" width="500"></p>
+
+<p>Alfred extension for git.io</p>
+
+<p><a href="http://www.yasuoza.com/resources/git.io.alfredextension"><img src="/images/download_alfred_extension.png"></a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Hello World!]]></title>
+    <link href="http://blog.yasuoza.com/2012/12/05/hello-world/"/>
+    <updated>2012-12-05T19:29:00+00:00</updated>
+    <id>http://blog.yasuoza.com/2012/12/05/hello-world</id>
+    <content type="html"><![CDATA[<p>I&rsquo;ve changed wordpress to <a href="http://octopress.org/">octpress</a>!</p>
+
+<p><code>perl hello_world.pl
+say "Hello World!"
+</code></p>
+
+<p><code>ruby hello_world.rb
+puts "Hello World!"
+</code></p>
+
+<p><code>coffee-script hello_world.coffee
+console.log "Hello World!"
+</code></p>
+]]></content>
+  </entry>
+  
+</feed>
