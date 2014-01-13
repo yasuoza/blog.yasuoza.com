@@ -8,10 +8,9 @@ before_script:
 - git config --global user.name "yasuoza(via Travis CI)"
 - git config --global user.email "yasuharu.ozaki+travisci@gmail.com"
 - git remote set-url origin $REPO.git
-- if [ -z "$id_rsa_{1..$RSA_LENGTH}" ]; then echo 'No $id_rsa_{1..$RSA_LENGTH} found
-  !' ; exit 1; fi
-- echo -n $id_rsa_{1..$RSA_LENGTH} >> ~/.ssh/travisci_rsa_64
-- base64 --decode --ignore-garbage ~/.ssh/travisci_rsa_64 > ~/.ssh/id_rsa
+- if [ -z "$id_rsa_{1..$RSA_LENGTH}" ]; then echo 'No $id_rsa_{1..$RSA_LENGTH} found !' ; exit 1; fi
+- echo -n $id_rsa_{1..$RSA_LENGTH} >> ~/.ssh/travis_rsa_64
+- base64 --decode --ignore-garbage ~/.ssh/travis_rsa_64 > ~/.ssh/id_rsa
 - chmod 600 ~/.ssh/id_rsa
 - echo -e "Host github.com\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
 - rake setup_github_pages[$REPO]
