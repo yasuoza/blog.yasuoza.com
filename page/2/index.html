@@ -19,12 +19,8 @@
   <meta name="author" content="Yasuharu Ozaki">
 
   
-  <meta name="description" content="When developer wants to filter request based on remote ip, he will do like this sinatra_server.rb1
-2
-3
-4
-5
-get &#39;/&#39; do return 403 if request. &hellip;">
+  <meta name="description" content="One day I was searching to integrate sprockets to my padrino application, I found following article to make it.
+Sprockets &amp; Bower in my Padrino &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -93,6 +89,150 @@ get &#39;/&#39; do return 403 if request. &hellip;">
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2013/04/06/sprockets-with-padrino-without-plugin/">Sprockets With Padrino Without Plugin</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-04-06T18:24:00+00:00" pubdate data-updated="true">Apr 6<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>One day I was searching to integrate <code>sprockets</code> to my padrino application, I found following article to make it.
+<a href="http://arthurchiu.com/posts/20130328-sprockets_bower_padrino">Sprockets &amp; Bower in my Padrino please.</a>
+In the article he explained to integrate sprockets to padrino using <a href="https://github.com/petebrowne/sprockets-helpers">sprockets-helpers</a>, through rack.</p>
+
+<p>I was so excited because the content is what I wanted to do. But few hours after, I realized the way he explained works good for <code>development</code> and <code>production</code> environment, but not for <code>test</code> environment since in <code>test</code> environment,
+<code>/assets</code> is not mounted to padrino itself. So, testing with javascript like <code>data-confirm</code> testing will fail because javascript(and other assets too) is not loaded!</p>
+
+<p>I began to search how to mount(or insert) sprockets middleware in padrino applicaiton again and found the following way to solve the issue.</p>
+
+<p>The difference found way and previous article way is just how to insert sprockets middleware.
+So, <code>Gemfile</code>, <code>config/sprockets.rb</code> and <code>Rakefile</code> are same.
+<code>app/app.rb</code> differs little bit, and <code>lib/sprockets_initializer.rb</code> will be newly created.</p>
+
+<p><code>lib/sprockets_initializer.rb</code> is used to register to use <a href="https://github.com/sstephenson/sprockets/blob/master/lib/sprockets/server.rb">Sprockets::Server</a> for assets request handler.</p>
+
+<figure class='code'><figcaption><span>lib/sprockets_initializer.rb</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">module</span> <span class="nn">SprocketsInitializer</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">registered</span><span class="p">(</span><span class="n">app</span><span class="p">)</span>
+</span><span class='line'>    <span class="c1"># Make it lazy</span>
+</span><span class='line'>    <span class="n">options</span><span class="o">[</span><span class="ss">:asset_prefix</span><span class="o">]</span> <span class="o">=</span> <span class="o">-&gt;</span> <span class="p">{</span> <span class="ss">Sprockets</span><span class="p">:</span><span class="ss">:Helpers</span><span class="o">.</span><span class="n">prefix</span> <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">app</span><span class="o">.</span><span class="n">use</span> <span class="o">::</span><span class="ss">SprocketsInitializer</span><span class="p">:</span><span class="ss">:Rack</span><span class="p">,</span> <span class="n">options</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">class</span> <span class="nc">Rack</span>
+</span><span class='line'>    <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="p">{})</span>
+</span><span class='line'>      <span class="vi">@app</span> <span class="o">=</span> <span class="n">app</span>
+</span><span class='line'>      <span class="vi">@asset_prefix</span> <span class="o">=</span> <span class="n">options</span><span class="o">[</span><span class="ss">:asset_prefix</span><span class="o">].</span><span class="n">call</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">def</span> <span class="nf">call</span><span class="p">(</span><span class="n">env</span><span class="p">)</span>
+</span><span class='line'>      <span class="k">if</span> <span class="n">env</span><span class="o">[</span><span class="s1">&#39;PATH_INFO&#39;</span><span class="o">].</span><span class="n">match</span><span class="p">(</span><span class="vi">@asset_prefix</span><span class="p">)</span>
+</span><span class='line'>        <span class="n">env</span><span class="o">[</span><span class="s1">&#39;PATH_INFO&#39;</span><span class="o">].</span><span class="n">gsub!</span><span class="p">(</span><span class="vi">@asset_prefix</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+</span><span class='line'>        <span class="k">return</span> <span class="no">PadrinoSprocekts</span><span class="o">.</span><span class="n">environment</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="n">env</span><span class="p">)</span>
+</span><span class='line'>      <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="vi">@app</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="n">env</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>In <code>app/app.rb</code> register it only for not production environment because in production environment, I want to let application read assets from compiled assets path.</p>
+
+<figure class='code'><figcaption><span>app/app.rb</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">module</span> <span class="nn">Web</span>
+</span><span class='line'>  <span class="k">class</span> <span class="nc">App</span> <span class="o">&lt;</span> <span class="ss">Padrino</span><span class="p">:</span><span class="ss">:Application</span>
+</span><span class='line'>    <span class="n">register</span> <span class="ss">Padrino</span><span class="p">:</span><span class="ss">:Rendering</span>
+</span><span class='line'>    <span class="n">register</span> <span class="ss">Padrino</span><span class="p">:</span><span class="ss">:Mailer</span>
+</span><span class='line'>    <span class="n">register</span> <span class="ss">Padrino</span><span class="p">:</span><span class="ss">:Helpers</span>
+</span><span class='line'>    <span class="n">register</span> <span class="no">SprocketsInitializer</span> <span class="k">unless</span> <span class="no">Padrino</span><span class="o">.</span><span class="n">env</span> <span class="o">==</span> <span class="ss">:production</span>
+</span><span class='line'>    <span class="n">helpers</span> <span class="ss">Sprockets</span><span class="p">:</span><span class="ss">:Helpers</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>If you want, delete mounted sprockets from <code>config.ru</code></p>
+
+<figure class='code'><figcaption><span>config.ru</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="no">File</span><span class="o">.</span><span class="n">expand_path</span><span class="p">(</span><span class="s2">&quot;../config/boot.rb&quot;</span><span class="p">,</span> <span class="bp">__FILE__</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">run</span> <span class="no">Padrino</span><span class="o">.</span><span class="n">application</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>After changed configuration like above, you can test your application previous style.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ rake spec</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Thank you for reading!</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -891,93 +1031,6 @@ The title was &ldquo;Active Record, changes from.. to..&rdquo;</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2012/12/09/wordpress-to-octpress/">Wordpress to Octpress</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-12-09T01:32:00+00:00" pubdate data-updated="true">Dec 9<span>th</span>, 2012</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>It&rsquo;s very easy.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># Downlowd wordpressdotocm.rb first</span>
-</span><span class='line'><span class="c1"># https://github.com/mojombo/jekyll/blob/master/lib/jekyll/migrators/wordpressdotcom.rb</span>
-</span><span class='line'>
-</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;./wordpressdotcom&#39;</span>
-</span><span class='line'>
-</span><span class='line'><span class="no">WORDPRESS_XML</span> <span class="o">=</span> <span class="s1">&#39;wordpress_exported.xml&#39;</span>
-</span><span class='line'><span class="no">WORDPRESS_URL</span> <span class="o">=</span> <span class="s1">&#39;http://yourhost.com&#39;</span>
-</span><span class='line'>
-</span><span class='line'><span class="ss">Jekyll</span><span class="p">:</span><span class="ss">:WordpressDotCom</span><span class="o">.</span><span class="n">process</span><span class="p">(</span><span class="no">WORDPRESS_XML</span><span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1"># Copy _posts/.html file to markdown_posts/.markdown</span>
-</span><span class='line'><span class="no">FileUtils</span><span class="o">.</span><span class="n">mkdir_p</span><span class="p">(</span><span class="s1">&#39;markdown_posts&#39;</span><span class="p">)</span>
-</span><span class='line'><span class="no">Dir</span><span class="o">[</span><span class="no">File</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="no">File</span><span class="o">.</span><span class="n">expand_path</span><span class="p">(</span><span class="s2">&quot;../_posts/&quot;</span><span class="p">,</span>  <span class="bp">__FILE__</span><span class="p">),</span>  <span class="s2">&quot;*.html&quot;</span><span class="p">)</span><span class="o">].</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">file</span><span class="o">|</span>
-</span><span class='line'>  <span class="c1"># Change wp image path to octpress image path</span>
-</span><span class='line'>  <span class="c1"># Change SyntaxHighlighter Evolved favor to mrkdown favor</span>
-</span><span class='line'>  <span class="n">source</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">file</span><span class="p">)</span><span class="o">.</span><span class="n">read</span>
-</span><span class='line'>  <span class="n">file</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="sr">/([\w-]+)\.html/</span><span class="p">)</span>
-</span><span class='line'>  <span class="no">File</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;markdown_posts/</span><span class="si">#{</span><span class="vg">$1</span><span class="si">}</span><span class="s2">.markdown&quot;</span><span class="p">,</span>  <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">dest</span><span class="o">|</span>
-</span><span class='line'>    <span class="n">source</span><span class="o">.</span><span class="n">gsub!</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">#{</span><span class="no">WORDPRESS_URL</span><span class="si">}</span><span class="s2">/wp-content/uploads/&quot;</span><span class="p">,</span>  <span class="s1">&#39;/images/&#39;</span><span class="p">)</span>
-</span><span class='line'>    <span class="n">source</span><span class="o">.</span><span class="n">gsub!</span><span class="p">(</span><span class="sr">/\[(\w+)\]/</span><span class="p">,</span>  <span class="s2">&quot;```&quot;</span><span class="p">)</span>
-</span><span class='line'>    <span class="n">source</span><span class="o">.</span><span class="n">gsub!</span><span class="p">(</span><span class="sr">/\[\/\w+\]/</span><span class="p">,</span>  <span class="s2">&quot;```&quot;</span><span class="p">)</span>
-</span><span class='line'>    <span class="n">dest</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">source</span><span class="p">)</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/page/3/">&larr; Older</a>
@@ -995,6 +1048,10 @@ The title was &ldquo;Active Record, changes from.. to..&rdquo;</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2014/01/17/jenkins-on-osx-via-homebrew/">Jenkins&#8217;s CSS returns 404 on OSX</a>
+      </li>
+    
+      <li class="post">
         <a href="/2014/01/13/octopress-plus-github-pages-plus-travis/">Octopress + GitHub Pages + Travis</a>
       </li>
     
@@ -1008,10 +1065,6 @@ The title was &ldquo;Active Record, changes from.. to..&rdquo;</p>
     
       <li class="post">
         <a href="/2013/12/27/hbfav-android-2-1-1/">HBFav-Android 2.1.1リリース</a>
-      </li>
-    
-      <li class="post">
-        <a href="/2013/12/16/scribe-java-in-android/">scribe-java in Android</a>
       </li>
     
   </ul>

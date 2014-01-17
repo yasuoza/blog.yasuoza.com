@@ -15,13 +15,22 @@
     }());
   </script>
 
-  <title>Trigger jenkins from Gitlab push hook - yasuoza diary</title>
+  <title>Jenkins's CSS returns 404 on OSX - yasuoza diary</title>
   <meta name="author" content="Yasuharu Ozaki">
 
   
-  <meta name="description" content="Jenkins is awesome secretary and my friend. I can&rsquo;t live without him.
-My Jenkins does these things: Deploy blog.yasuoza.com
-Test my private &hellip;">
+  <meta name="description" content="tl;dr Create tmp directory under $JENKINS_HOME 1
+$ mkdir -p ~/.jenkins/tmpdir Then rewrite homebrew.mxcl.jenkins.plist like: 1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -30,7 +39,7 @@ Test my private &hellip;">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://blog.yasuoza.com/2013/08/08/trigger-jenkins-from-gitlab-push-hook">
+  <link rel="canonical" href="http://blog.yasuoza.com/2014/01/17/jenkins-on-osx-via-homebrew">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="yasuoza diary" type="application/atom+xml">
@@ -93,7 +102,7 @@ Test my private &hellip;">
   
   <header>
     
-      <h1 class="entry-title">Trigger Jenkins From Gitlab Push Hook</h1>
+      <h1 class="entry-title">Jenkins's CSS Returns 404 on OSX</h1>
     
     
       <p class="meta">
@@ -109,63 +118,88 @@ Test my private &hellip;">
   
 
 
-<time datetime="2013-08-08T09:10:00+00:00" pubdate data-updated="true">Aug 8<span>th</span>, 2013</time>
+<time datetime="2014-01-17T02:11:20+00:00" pubdate data-updated="true">Jan 17<span>th</span>, 2014</time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><p>Jenkins is awesome secretary and my friend. I can&rsquo;t live without him.<br/>
-My Jenkins does these things:</p>
+<div class="entry-content"><h2>tl;dr</h2>
 
-<ul>
-<li>Deploy blog.yasuoza.com</li>
-<li>Test my private repositories</li>
-<li>Cron jobs</li>
-</ul>
-
-
-<p>This blog and some private repositories are hosted by my <a href="http://gitlab.org/">Gitlab</a>.</p>
-
-<p>Today I want to share how to build job via Gitlab push hook with concrete example: how to deploy <a href="http://octopress.org/">Octopress</a> blog with Giatlab.</p>
-
-<p>First, you need to configure Octopress with rsync deployment. See more: <a href="http://octopress.org/docs/configuring/">Configuring Octopress</a></p>
-
-<p>Next, set jenkins&rsquo;s public key to blog server so that jenkins can login the server without password.</p>
+<p>Create tmp directory under <code>$JENKINS_HOME</code></p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ sudo -u jenkins -H ssh user@yourhost.com</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>mkdir -p ~/.jenkins/tmpdir
+</span></code></pre></td></tr></table></div></figure>
 
 
-<p>Then, install Jenkins plugin <a href="https://wiki.jenkins-ci.org/display/JENKINS/Gitlab+Hook+Plugin">Gitlab Hook Plugin</a> and set <code>http://your-jenkins-server/gitlab/build_now</code>
-in your Gitlab like this:</p>
+<p>Then rewrite <code>homebrew.mxcl.jenkins.plist</code> like:</p>
 
-<p><img src="/images/jenkins_gitlab_hook_plugin.png"></p>
-
-<p>This plugin works even if jenkins requires authentication to enter jenkins home.</p>
-
-<p><strong> NOTE </strong><br/>
-Gitlab Hook Plugin v0.2.11 does not work well when the job is not parameterized. So, use >= v0.2.12.<br/>
-For more: <a href="https://github.com/elvanja/jenkins-gitlab-hook-plugin/issues/15">Build no longer triggering (Maybe running too bleeding edge?)</a></p>
-
-<p>Finally, configure Jenkins job to deploy Octopress:</p>
-
-<figure class='code'><figcaption><span>Execute shell</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>bundle
-</span><span class='line'>bundle exec rake generate
-</span><span class='line'>bundle exec rake deploy</span></code></pre></td></tr></table></div></figure>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+</pre></td><td class='code'><pre><code class='xml'><span class='line'><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+</span><span class='line'><span class="cp">&lt;!DOCTYPE plist PUBLIC &quot;-//Apple//DTD PLIST 1.0//EN&quot; &quot;http://www.apple.com/DTDs/PropertyList-1.0.dtd&quot;&gt;</span>
+</span><span class='line'><span class="nt">&lt;plist</span> <span class="na">version=</span><span class="s">&quot;1.0&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;dict&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;key&gt;</span>Label<span class="nt">&lt;/key&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;string&gt;</span>#{plist_name}<span class="nt">&lt;/string&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;key&gt;</span>ProgramArguments<span class="nt">&lt;/key&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;array&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;string&gt;</span>/usr/bin/java<span class="nt">&lt;/string&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;string&gt;</span>-Dmail.smtp.starttls.enable=true<span class="nt">&lt;/string&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;string&gt;</span>-Dfile.encoding=UTF-8<span class="nt">&lt;/string&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;string&gt;</span>-Djava.io.tmpdir=/Users/__USERNAME__/.jenkins/tmpdir<span class="nt">&lt;/string&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;string&gt;</span>-jar<span class="nt">&lt;/string&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;string&gt;</span>/usr/local/opt/jenkins/libexec/jenkins.war<span class="nt">&lt;/string&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;string&gt;</span>--httpListenAddress=127.0.0.1<span class="nt">&lt;/string&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;string&gt;</span>--httpPort=8080<span class="nt">&lt;/string&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;/array&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;key&gt;</span>RunAtLoad<span class="nt">&lt;/key&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;true/&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;/dict&gt;</span>
+</span><span class='line'><span class="nt">&lt;/plist&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
-<p><strong> NOTE </strong><br/>
-OCTOPRESS REQUIRES RUBY 1.9.3-P194.<br/>
-Ensure to jenkins&rsquo;s ruby version is 1.9.3-p194 or use ruby version management framework such as rvm or rbenv.<br/>
-If you want to let jenkins run not only system ruby, I recomend you to use <a href="https://wiki.jenkins-ci.org/display/JENKINS/Rbenv+Plugin">rbenv plugin</a>.<br/>
-It is easy to use.</p>
+<p>As you can see, the point is to set <code>-Djava.io.tmpdir</code> to created tmp directory.</p>
 
-<p>Well, you done. Now push changes to your own Gitlab. Jenkins works for you.</p>
+<p>Restart jenkins</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>launchctl unload ~/Library/LaunchAgents/homebrew.mxcl.jenkins.plist
+</span><span class='line'><span class="nv">$ </span>launchctl load ~/Library/LaunchAgents/homebrew.mxcl.jenkins.plist
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Description</h2>
+
+<p>Sometimes, jenkins on OSX returns 404 status for its CSS. So its layout is broken.</p>
+
+<p>The issue is reported at <a href="https://issues.jenkins-ci.org/browse/JENKINS-17526">JENKINS-17526</a> and there is a <a href="https://github.com/jenkinsci/jenkins/pull/1061">patch</a>
+for the issue.</p>
+
+<p>To solve the issue jenkins(installed via Homebrew) follow tl;dr section. It should work.</p>
 </div>
 
 
@@ -188,12 +222,12 @@ It is easy to use.</p>
   
 
 
-<time datetime="2013-08-08T09:10:00+00:00" pubdate data-updated="true">Aug 8<span>th</span>, 2013</time>
+<time datetime="2014-01-17T02:11:20+00:00" pubdate data-updated="true">Jan 17<span>th</span>, 2014</time>
       
 
 <span class="categories">
   
-    <a class='category' href='//categories/gitlab/'>gitlab</a>, <a class='category' href='//categories/jenkins/'>jenkins</a>
+    <a class='category' href='//categories/jenkins/'>jenkins</a>, <a class='category' href='//categories/osx/'>osx</a>
   
 </span>
 
@@ -202,7 +236,7 @@ It is easy to use.</p>
     
       <div class="sharing">
   
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://blog.yasuoza.com/2013/08/08/trigger-jenkins-from-gitlab-push-hook/" data-via="" data-counturl="http://blog.yasuoza.com/2013/08/08/trigger-jenkins-from-gitlab-push-hook/" >Tweet</a>
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://blog.yasuoza.com/2014/01/17/jenkins-on-osx-via-homebrew/" data-via="" data-counturl="http://blog.yasuoza.com/2014/01/17/jenkins-on-osx-via-homebrew/" >Tweet</a>
   
   
   
@@ -213,10 +247,8 @@ It is easy to use.</p>
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/2013/04/06/sprockets-with-padrino-without-plugin/" title="Previous Post: Sprockets with Padrino without plugin">&laquo; Sprockets with Padrino without plugin</a>
+        <a class="basic-alignment left" href="/2014/01/13/octopress-plus-github-pages-plus-travis/" title="Previous Post: Octopress + GitHub Pages + Travis">&laquo; Octopress + GitHub Pages + Travis</a>
       
-      
-        <a class="basic-alignment right" href="/2013/11/21/kawaii-git-diff/" title="Next Post: Kawaii git diff in my local repository">Kawaii git diff in my local repository &raquo;</a>
       
     </p>
   </footer>
@@ -283,8 +315,8 @@ It is easy to use.</p>
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://blog.yasuoza.com/2013/08/08/trigger-jenkins-from-gitlab-push-hook/';
-        var disqus_url = 'http://blog.yasuoza.com/2013/08/08/trigger-jenkins-from-gitlab-push-hook/';
+        var disqus_identifier = 'http://blog.yasuoza.com/2014/01/17/jenkins-on-osx-via-homebrew/';
+        var disqus_url = 'http://blog.yasuoza.com/2014/01/17/jenkins-on-osx-via-homebrew/';
         var disqus_script = 'embed.js';
       
     (function () {

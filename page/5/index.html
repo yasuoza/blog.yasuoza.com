@@ -19,7 +19,7 @@
   <meta name="author" content="Yasuharu Ozaki">
 
   
-  <meta name="description" content="これまでははてなダイアリーで技術的なブログを書いてきましたが、これからは自分のサイトでブログを書いていこうと思います。 基本的にはこれまでどおり、プログラムを書いていて詰まったところや、環境構築の話をすると思いますが、その時に思ったことなんかもログとして書いていこうと思います。 &hellip;">
+  <meta name="description" content="PerlのPlackでサービスを作っていて、FastCGIとnginxを繋ぐ設定で結構時間がかかったので、備忘録を。 PlackはPlackを、FastCGI(FCGI)はFastCGIを参照して下さい。 基本的にはここに載っていることの丸写しですが、 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -88,6 +88,87 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2012/04/23/fastcgi-on-nginx/">nginxのFastCGI実行設定</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-04-23T00:00:00+00:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>PerlのPlackでサービスを作っていて、FastCGIとnginxを繋ぐ設定で結構時間がかかったので、備忘録を。</p>
+
+<p>Plackは<a href="http://plackperl.org/" title="Plack" target="_blank">Plack</a>を、FastCGI(FCGI)は<a href="http://test.fastcgi.com/drupal/" target="_blank">FastCGI</a>を参照して下さい。</p>
+
+<p>基本的には<a href="http://search.cpan.org/~miyagawa/Plack-0.9986/lib/Plack/Handler/FCGI.pm" target="_blank">ここ</a>に載っていることの丸写しですが、Debianだとfastcgi_paramsが別ファイル管理されているので、そのファイルを読み込みます。</p>
+
+<p>というわけでこんな感じ。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>server {
+</span><span class='line'>  listen: 80;
+</span><span class='line'>  server_name foobar.com;
+</span><span class='line'>
+</span><span class='line'>  location / {
+</span><span class='line'>
+</span><span class='line'>    fastcgi_pass   unix:/tmp/fastcgi.sock;
+</span><span class='line'>
+</span><span class='line'>    include /etc/nginx/fastcgi_params;
+</span><span class='line'>    fastcgi_params  SCRIPT_NAME &quot;&quot;;
+</span><span class='line'>    fastcgi_params  PTH_INFO    $fast_script_name;
+</span><span class='line'>  }
+</span><span class='line'>
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ plack -s FCGI --listen /tmp/fastcgi.sock plack.pl</span></code></pre></td></tr></table></div></figure>
+
+
+<p>でサーバを起動し、
+<a href="http://foobar.com">http://foobar.com</a> にアクセスして、正しい内容が表示されていればOKです。</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -242,6 +323,10 @@
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2014/01/17/jenkins-on-osx-via-homebrew/">Jenkins&#8217;s CSS returns 404 on OSX</a>
+      </li>
+    
+      <li class="post">
         <a href="/2014/01/13/octopress-plus-github-pages-plus-travis/">Octopress + GitHub Pages + Travis</a>
       </li>
     
@@ -255,10 +340,6 @@
     
       <li class="post">
         <a href="/2013/12/27/hbfav-android-2-1-1/">HBFav-Android 2.1.1リリース</a>
-      </li>
-    
-      <li class="post">
-        <a href="/2013/12/16/scribe-java-in-android/">scribe-java in Android</a>
       </li>
     
   </ul>

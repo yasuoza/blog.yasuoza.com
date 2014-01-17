@@ -4,7 +4,7 @@
   <title><![CDATA[Category: jenkins | yasuoza diary]]></title>
   <link href="http://blog.yasuoza.com//categories/jenkins/atom.xml" rel="self"/>
   <link href="http://blog.yasuoza.com/"/>
-  <updated>2014-01-13T12:56:14+00:00</updated>
+  <updated>2014-01-17T02:28:01+00:00</updated>
   <id>http://blog.yasuoza.com/</id>
   <author>
     <name><![CDATA[Yasuharu Ozaki]]></name>
@@ -12,6 +12,68 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Jenkins's CSS returns 404 on OSX]]></title>
+    <link href="http://blog.yasuoza.com/2014/01/17/jenkins-on-osx-via-homebrew/"/>
+    <updated>2014-01-17T02:11:20+00:00</updated>
+    <id>http://blog.yasuoza.com/2014/01/17/jenkins-on-osx-via-homebrew</id>
+    <content type="html"><![CDATA[<h2>tl;dr</h2>
+
+<p>Create tmp directory under <code>$JENKINS_HOME</code></p>
+
+<p><code>bash
+$ mkdir -p ~/.jenkins/tmpdir
+</code></p>
+
+<p>Then rewrite <code>homebrew.mxcl.jenkins.plist</code> like:</p>
+
+<p>```xml
+&lt;?xml version=&ldquo;1.0&rdquo; encoding=&ldquo;UTF-8&rdquo;?>
+&lt;!DOCTYPE plist PUBLIC &ldquo;&ndash;//Apple//DTD PLIST 1.0//EN&rdquo; &ldquo;<a href="http://www.apple.com/DTDs/PropertyList-1.0.dtd">http://www.apple.com/DTDs/PropertyList-1.0.dtd</a>&rdquo;>
+<plist version="1.0"></p>
+
+<pre><code>&lt;dict&gt;
+    &lt;key&gt;Label&lt;/key&gt;
+    &lt;string&gt;#{plist_name}&lt;/string&gt;
+    &lt;key&gt;ProgramArguments&lt;/key&gt;
+    &lt;array&gt;
+        &lt;string&gt;/usr/bin/java&lt;/string&gt;
+        &lt;string&gt;-Dmail.smtp.starttls.enable=true&lt;/string&gt;
+        &lt;string&gt;-Dfile.encoding=UTF-8&lt;/string&gt;
+        &lt;string&gt;-Djava.io.tmpdir=/Users/__USERNAME__/.jenkins/tmpdir&lt;/string&gt;
+        &lt;string&gt;-jar&lt;/string&gt;
+        &lt;string&gt;/usr/local/opt/jenkins/libexec/jenkins.war&lt;/string&gt;
+        &lt;string&gt;--httpListenAddress=127.0.0.1&lt;/string&gt;
+        &lt;string&gt;--httpPort=8080&lt;/string&gt;
+    &lt;/array&gt;
+    &lt;key&gt;RunAtLoad&lt;/key&gt;
+    &lt;true/&gt;
+&lt;/dict&gt;
+</code></pre>
+
+<p></plist>
+```</p>
+
+<p>As you can see, the point is to set <code>-Djava.io.tmpdir</code> to created tmp directory.</p>
+
+<p>Restart jenkins</p>
+
+<p><code>bash
+$ launchctl unload ~/Library/LaunchAgents/homebrew.mxcl.jenkins.plist
+$ launchctl load ~/Library/LaunchAgents/homebrew.mxcl.jenkins.plist
+</code></p>
+
+<h2>Description</h2>
+
+<p>Sometimes, jenkins on OSX returns 404 status for its CSS. So its layout is broken.</p>
+
+<p>The issue is reported at <a href="https://issues.jenkins-ci.org/browse/JENKINS-17526">JENKINS-17526</a> and there is a <a href="https://github.com/jenkinsci/jenkins/pull/1061">patch</a>
+for the issue.</p>
+
+<p>To solve the issue jenkins(installed via Homebrew) follow tl;dr section. It should work.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Trigger jenkins from Gitlab push hook]]></title>
