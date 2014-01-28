@@ -4,7 +4,7 @@
   <title><![CDATA[yasuoza diary]]></title>
   <link href="http://blog.yasuoza.com/atom.xml" rel="self"/>
   <link href="http://blog.yasuoza.com/"/>
-  <updated>2014-01-17T02:28:01+00:00</updated>
+  <updated>2014-01-28T04:37:42+00:00</updated>
   <id>http://blog.yasuoza.com/</id>
   <author>
     <name><![CDATA[Yasuharu Ozaki]]></name>
@@ -12,6 +12,35 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Advanced ruby install via rbenv in OSX]]></title>
+    <link href="http://blog.yasuoza.com/2014/01/28/advanced-ruby-install-via-rbenv-in-osx/"/>
+    <updated>2014-01-28T04:25:51+00:00</updated>
+    <id>http://blog.yasuoza.com/2014/01/28/advanced-ruby-install-via-rbenv-in-osx</id>
+    <content type="html"><![CDATA[<p><strong>Parallel compile</strong></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ MAKE_OPTS="-j 4" rbenv install 2.1.0</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Above example compiles ruby with 4 workers.</p>
+
+<p><strong>Readline support</strong></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ brew install readline
+</span><span class='line'>$ RUBY_CONFIGURE_OPTS=--with-readline-dir=`brew --prefix readline` rbenv install 2.1.0</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Mixed</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ MAKE_OPTS="-j 4" RUBY_CONFIGURE_OPTS=--with-readline-dir=`brew --prefix readline` rbenv install 2.1.0</span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Jenkins's CSS returns 404 on OSX]]></title>
@@ -1504,34 +1533,6 @@ The title was &ldquo;Active Record, changes from.. to..&rdquo;</p>
 
 
 <p>This works with jenkins very well!</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Array#compact in CoffeeScript]]></title>
-    <link href="http://blog.yasuoza.com/2012/12/14/array-number-compact-in-coffeescript/"/>
-    <updated>2012-12-14T17:05:00+00:00</updated>
-    <id>http://blog.yasuoza.com/2012/12/14/array-number-compact-in-coffeescript</id>
-    <content type="html"><![CDATA[<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='coffeescript'><span class='line'><span class="nb">Array</span><span class="o">::</span><span class="nv">compact = </span><span class="nf">-&gt;</span>
-</span><span class='line'>  <span class="p">(</span><span class="nx">elem</span> <span class="k">for</span> <span class="nx">elem</span> <span class="k">in</span> <span class="k">this</span> <span class="k">when</span> <span class="nx">elem</span><span class="o">?</span><span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'><span class="nv">arr = </span><span class="p">[</span><span class="mi">0</span><span class="p">..</span><span class="mi">10</span><span class="p">]</span>
-</span><span class='line'><span class="k">delete</span> <span class="nx">arr</span><span class="p">[</span><span class="mi">7</span><span class="p">]</span>
-</span><span class='line'><span class="k">delete</span> <span class="nx">arr</span><span class="p">[</span><span class="mi">8</span><span class="p">]</span>
-</span><span class='line'>
-</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span> <span class="nx">arr</span><span class="p">.</span><span class="nx">compact</span><span class="p">()</span> <span class="c1">#=&gt; [0, 1, 2, 3, 4, 5, 6, 9, 10]</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Yeah!</p>
 ]]></content>
   </entry>
   

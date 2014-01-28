@@ -19,8 +19,9 @@
   <meta name="author" content="Yasuharu Ozaki">
 
   
-  <meta name="description" content="いろんなフレームワークでWebアプリケーションを開発していると、localhost:3000やlocalhost:8080などで動作検証することが多くなります。
-その検証ページで前のアプリケーションのfaviconが表示され続けてとても邪魔だったので、 &hellip;">
+  <meta name="description" content="大学時代にC言語でプログラミングしているとき、変数のスワップをする必要が出た場合は一時変数用いるように教わりました。 こんなかんじでした。 1
+2
+3 int tmp = x; int x = y; int y = tmp; それから数年。今では主に動的言語を使ってプログラミングをしています。 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -89,6 +90,91 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2012/09/19/swap_variables/">変数のスワップ</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-09-19T00:00:00+00:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>大学時代にC言語でプログラミングしているとき、変数のスワップをする必要が出た場合は一時変数用いるように教わりました。</p>
+
+<p>こんなかんじでした。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'> int tmp = x;
+</span><span class='line'> int x = y;
+</span><span class='line'> int y = tmp;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>それから数年。今では主に動的言語を使ってプログラミングをしています。
+ごく稀に変数のスワップを迫られる場面があり、これまでは上記のようなイケてない(※個人の感想です)方法でスワップしていました。</p>
+
+<p>いろいろ調べたらRubyでは次のようにスワップ出来るようです。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>a = 'I am a'
+</span><span class='line'>b = 'I am b'
+</span><span class='line'>a, b = b, a
+</span><span class='line'>puts a #=&gt; 'I am b'
+</span><span class='line'>puts b #=&gt; 'I am a'</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Perlではこんなかんじ</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>my $a = 'I am a';
+</span><span class='line'>my $b = 'I am b';
+</span><span class='line'>($a, $b) = ($b, $a);
+</span><span class='line'>say $a; #=&gt; 'I am b'
+</span><span class='line'>say $b; #=&gt; 'I am a'</span></code></pre></td></tr></table></div></figure>
+
+
+<p>JavaScriptはIEでのバグが怖いので素直に一時変数使ってスワップするといいと思います。
+<a href="http://stackoverflow.com/questions/872310/javascript-swap-array-elements" target="_blank">Javascript swap array elements &ndash; stackoverflow</a></p>
+
+<p>スワップに迫られる場面殆ど無いですが、あるとしたらイケてる方(※個人の感想です)を使いたいものです。</p>
+
+<p>Perlの方はリストコンテキストをうまく使っているので、パッと見で何をしているのかわかりやすいですが、Rubyの方はちょっとわかりづらい気がします。
+どちらもコメントなどでスワップするよ！っていう旨を記載しておくとリーダブルコードになるんじゃないかなと思います。</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -920,103 +1006,6 @@ Macの画面共有が便利とか、vim勉強しようとか。</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2012/04/23/forecastpusher/">ForecastPusher</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-04-23T00:00:00+00:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>その日のお天気予報をTwitterのメンションで飛ばしてくれるWebサービスを作りました。</p>
-
-
-
-
-<ul>
-<li><a href="http://forecast.yasuoza.com">ForecastPusher</a></li>
-</ul>
-
-
-
-
-<p>毎日わざわざ天気予報を取得しに行くのは非常にめんどくさくて、なんとかPushで教えてくれるもの無いかな考えていたところ、Twitterのメンション形式にすればその日の天気予報をPushしてくれることに気づき、実現してみました。</p>
-
-
-
-
-<p>今回一番悩んだのはお天気予報をメンションするアカウントです。考えられる実装は2つでした。</p>
-
-
-
-
-<ul>
-<li>bot用のアカウントを作成してメンションを飛ばす</li>
-<li>自分から自分にメンションを飛ばす</li>
-</ul>
-
-
-
-
-<p>最初の方法だと、確実にPush通信が来て通知が起動します。通知が起動するというところがポイントで、ちょっと寝坊したい時にも通知によりバイブレーションがなったりするので、僕はいやでした。</p>
-
-
-
-
-<p>そこで自分から自分にメンションを飛ばすという方法を取りました。</p>
-
-
-
-
-<p>この方法にすると通知は起動しないので、寝坊したい時も確実に寝坊できます。ただ、通知が来ないので、メンション一覧を自分で開かないといけないのですが、そこは寝坊を優先した結果です。</p>
-
-
-
-
-<p><a href="/images/2012/04/Screen-Shot-2012-04-23-at-22.29.591.png"><img src="/images/2012/04/Screen-Shot-2012-04-23-at-22.29.591.png" alt="" title="ForecastPusher" width="575" class="aligncenter size-full wp-image-99" /></a></p>
-
-
-
-
-<p>そんなことで、自分から自分にメンションを送ることで、周りの人もその人のツイートから天気予報の情報を取得できるということになり、結局はこの方法で良かったかなと思っています。</p>
-
-
-
-
-<p>次は夜に次の日の天気をメンションで飛ばす部分を実装しようと思います。</p>
-
-
-
-
-<p>良かったら使ってみてください。</p>
-
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/page/5/">&larr; Older</a>
@@ -1034,6 +1023,10 @@ Macの画面共有が便利とか、vim勉強しようとか。</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2014/01/28/advanced-ruby-install-via-rbenv-in-osx/">Advanced ruby install via rbenv in OSX</a>
+      </li>
+    
+      <li class="post">
         <a href="/2014/01/17/jenkins-on-osx-via-homebrew/">Jenkins&#8217;s CSS returns 404 on OSX</a>
       </li>
     
@@ -1047,10 +1040,6 @@ Macの画面共有が便利とか、vim勉強しようとか。</p>
     
       <li class="post">
         <a href="/2014/01/07/words/">年末年始に会った友達の言葉</a>
-      </li>
-    
-      <li class="post">
-        <a href="/2013/12/27/hbfav-android-2-1-1/">HBFav-Android 2.1.1リリース</a>
       </li>
     
   </ul>

@@ -15,11 +15,15 @@
     }());
   </script>
 
-  <title>Category: life - yasuoza diary</title>
+  <title>Advanced ruby install via rbenv in OSX - yasuoza diary</title>
   <meta name="author" content="Yasuharu Ozaki">
 
   
-  <meta name="description" content="Category: life">
+  <meta name="description" content="Parallel compile 1
+$ MAKE_OPTS="-j 4" rbenv install 2.1.0 Above example compiles ruby with 4 workers. Readline support 1
+2
+$ brew install readline
+$ &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -28,7 +32,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://blog.yasuoza.com/categories/life">
+  <link rel="canonical" href="http://blog.yasuoza.com/2014/01/28/advanced-ruby-install-via-rbenv-in-osx">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="yasuoza diary" type="application/atom+xml">
@@ -87,53 +91,113 @@
   <div id="main">
     <div id="content">
       <div>
-<article role="article">
+<article class="hentry" role="article">
   
   <header>
-    <h1 class="entry-title">Category: Life</h1>
+    
+      <h1 class="entry-title">Advanced Ruby Install via Rbenv in OSX</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-01-28T04:25:51+00:00" pubdate data-updated="true">Jan 28<span>th</span>, 2014</time>
+        
+      </p>
     
   </header>
-  
-  <div id="blog-archives" class="category">
 
 
+<div class="entry-content"><p><strong>Parallel compile</strong></p>
 
-  
-  <h2>2013</h2>
-
-<article>
-  
-<h1><a href="/2013/12/13/akirameru_toiukoto/">諦めるということ</a></h1>
-<time datetime="2013-12-13T16:09:48+00:00" pubdate><span class='month'>Dec</span> <span class='day'>13</span> <span class='year'>2013</span></time>
-
-<footer>
-  <span class="categories">posted in <a class='category' href='//categories/life/'>life</a></span>
-</footer>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ MAKE_OPTS="-j 4" rbenv install 2.1.0</span></code></pre></td></tr></table></div></figure>
 
 
-</article>
+<p>Above example compiles ruby with 4 workers.</p>
+
+<p><strong>Readline support</strong></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ brew install readline
+</span><span class='line'>$ RUBY_CONFIGURE_OPTS=--with-readline-dir=`brew --prefix readline` rbenv install 2.1.0</span></code></pre></td></tr></table></div></figure>
 
 
+<p>Mixed</p>
 
-  
-  <h2>2012</h2>
-
-<article>
-  
-<h1><a href="/2012/12/05/hello-world/">Hello World!</a></h1>
-<time datetime="2012-12-05T19:29:00+00:00" pubdate><span class='month'>Dec</span> <span class='day'>05</span> <span class='year'>2012</span></time>
-
-<footer>
-  <span class="categories">posted in <a class='category' href='//categories/life/'>life</a>, <a class='category' href='//categories/web/'>web</a></span>
-</footer>
-
-
-</article>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ MAKE_OPTS="-j 4" RUBY_CONFIGURE_OPTS=--with-readline-dir=`brew --prefix readline` rbenv install 2.1.0</span></code></pre></td></tr></table></div></figure>
 
 </div>
 
+
+  <footer>
+    <p class="meta">
+      
   
+
+<span class="byline author vcard">Posted by <span class="fn">Yasuharu Ozaki</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-01-28T04:25:51+00:00" pubdate data-updated="true">Jan 28<span>th</span>, 2014</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='//categories/ruby/'>ruby</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://blog.yasuoza.com/2014/01/28/advanced-ruby-install-via-rbenv-in-osx/" data-via="" data-counturl="http://blog.yasuoza.com/2014/01/28/advanced-ruby-install-via-rbenv-in-osx/" >Tweet</a>
+  
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/2014/01/17/jenkins-on-osx-via-homebrew/" title="Previous Post: Jenkins's CSS returns 404 on OSX">&laquo; Jenkins's CSS returns 404 on OSX</a>
+      
+      
+    </p>
+  </footer>
 </article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
 
 
 </div>
@@ -189,7 +253,10 @@
       var disqus_shortname = 'yasuozadiary';
       
         
-        var disqus_script = 'count.js';
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://blog.yasuoza.com/2014/01/28/advanced-ruby-install-via-rbenv-in-osx/';
+        var disqus_url = 'http://blog.yasuoza.com/2014/01/28/advanced-ruby-install-via-rbenv-in-osx/';
+        var disqus_script = 'embed.js';
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;

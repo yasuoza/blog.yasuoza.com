@@ -19,8 +19,9 @@
   <meta name="author" content="Yasuharu Ozaki">
 
   
-  <meta name="description" content="One day I was searching to integrate sprockets to my padrino application, I found following article to make it.
-Sprockets &amp; Bower in my Padrino &hellip;">
+  <meta name="description" content="Jenkins is awesome secretary and my friend. I can&rsquo;t live without him.
+My Jenkins does these things: Deploy blog.yasuoza.com
+Test my private &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -89,6 +90,91 @@ Sprockets &amp; Bower in my Padrino &hellip;">
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2013/08/08/trigger-jenkins-from-gitlab-push-hook/">Trigger Jenkins From Gitlab Push Hook</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-08-08T09:10:00+00:00" pubdate data-updated="true">Aug 8<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Jenkins is awesome secretary and my friend. I can&rsquo;t live without him.<br/>
+My Jenkins does these things:</p>
+
+<ul>
+<li>Deploy blog.yasuoza.com</li>
+<li>Test my private repositories</li>
+<li>Cron jobs</li>
+</ul>
+
+
+<p>This blog and some private repositories are hosted by my <a href="http://gitlab.org/">Gitlab</a>.</p>
+
+<p>Today I want to share how to build job via Gitlab push hook with concrete example: how to deploy <a href="http://octopress.org/">Octopress</a> blog with Giatlab.</p>
+
+<p>First, you need to configure Octopress with rsync deployment. See more: <a href="http://octopress.org/docs/configuring/">Configuring Octopress</a></p>
+
+<p>Next, set jenkins&rsquo;s public key to blog server so that jenkins can login the server without password.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ sudo -u jenkins -H ssh user@yourhost.com</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Then, install Jenkins plugin <a href="https://wiki.jenkins-ci.org/display/JENKINS/Gitlab+Hook+Plugin">Gitlab Hook Plugin</a> and set <code>http://your-jenkins-server/gitlab/build_now</code>
+in your Gitlab like this:</p>
+
+<p><img src="/images/jenkins_gitlab_hook_plugin.png"></p>
+
+<p>This plugin works even if jenkins requires authentication to enter jenkins home.</p>
+
+<p><strong> NOTE </strong><br/>
+Gitlab Hook Plugin v0.2.11 does not work well when the job is not parameterized. So, use >= v0.2.12.<br/>
+For more: <a href="https://github.com/elvanja/jenkins-gitlab-hook-plugin/issues/15">Build no longer triggering (Maybe running too bleeding edge?)</a></p>
+
+<p>Finally, configure Jenkins job to deploy Octopress:</p>
+
+<figure class='code'><figcaption><span>Execute shell</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>bundle
+</span><span class='line'>bundle exec rake generate
+</span><span class='line'>bundle exec rake deploy</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong> NOTE </strong><br/>
+OCTOPRESS REQUIRES RUBY 1.9.3-P194.<br/>
+Ensure to jenkins&rsquo;s ruby version is 1.9.3-p194 or use ruby version management framework such as rvm or rbenv.<br/>
+If you want to let jenkins run not only system ruby, I recomend you to use <a href="https://wiki.jenkins-ci.org/display/JENKINS/Rbenv+Plugin">rbenv plugin</a>.<br/>
+It is easy to use.</p>
+
+<p>Well, you done. Now push changes to your own Gitlab. Jenkins works for you.</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -976,61 +1062,6 @@ The title was &ldquo;Active Record, changes from.. to..&rdquo;</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2012/12/14/array-number-compact-in-coffeescript/">Array#compact in CoffeeScript</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-12-14T17:05:00+00:00" pubdate data-updated="true">Dec 14<span>th</span>, 2012</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='coffeescript'><span class='line'><span class="nb">Array</span><span class="o">::</span><span class="nv">compact = </span><span class="nf">-&gt;</span>
-</span><span class='line'>  <span class="p">(</span><span class="nx">elem</span> <span class="k">for</span> <span class="nx">elem</span> <span class="k">in</span> <span class="k">this</span> <span class="k">when</span> <span class="nx">elem</span><span class="o">?</span><span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'><span class="nv">arr = </span><span class="p">[</span><span class="mi">0</span><span class="p">..</span><span class="mi">10</span><span class="p">]</span>
-</span><span class='line'><span class="k">delete</span> <span class="nx">arr</span><span class="p">[</span><span class="mi">7</span><span class="p">]</span>
-</span><span class='line'><span class="k">delete</span> <span class="nx">arr</span><span class="p">[</span><span class="mi">8</span><span class="p">]</span>
-</span><span class='line'>
-</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span> <span class="nx">arr</span><span class="p">.</span><span class="nx">compact</span><span class="p">()</span> <span class="c1">#=&gt; [0, 1, 2, 3, 4, 5, 6, 9, 10]</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Yeah!</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/page/3/">&larr; Older</a>
@@ -1048,6 +1079,10 @@ The title was &ldquo;Active Record, changes from.. to..&rdquo;</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2014/01/28/advanced-ruby-install-via-rbenv-in-osx/">Advanced ruby install via rbenv in OSX</a>
+      </li>
+    
+      <li class="post">
         <a href="/2014/01/17/jenkins-on-osx-via-homebrew/">Jenkins&#8217;s CSS returns 404 on OSX</a>
       </li>
     
@@ -1061,10 +1096,6 @@ The title was &ldquo;Active Record, changes from.. to..&rdquo;</p>
     
       <li class="post">
         <a href="/2014/01/07/words/">年末年始に会った友達の言葉</a>
-      </li>
-    
-      <li class="post">
-        <a href="/2013/12/27/hbfav-android-2-1-1/">HBFav-Android 2.1.1リリース</a>
       </li>
     
   </ul>

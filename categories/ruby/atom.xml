@@ -4,7 +4,7 @@
   <title><![CDATA[Category: ruby | yasuoza diary]]></title>
   <link href="http://blog.yasuoza.com//categories/ruby/atom.xml" rel="self"/>
   <link href="http://blog.yasuoza.com/"/>
-  <updated>2014-01-17T02:28:01+00:00</updated>
+  <updated>2014-01-28T04:37:42+00:00</updated>
   <id>http://blog.yasuoza.com/</id>
   <author>
     <name><![CDATA[Yasuharu Ozaki]]></name>
@@ -12,6 +12,34 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Advanced ruby install via rbenv in OSX]]></title>
+    <link href="http://blog.yasuoza.com/2014/01/28/advanced-ruby-install-via-rbenv-in-osx/"/>
+    <updated>2014-01-28T04:25:51+00:00</updated>
+    <id>http://blog.yasuoza.com/2014/01/28/advanced-ruby-install-via-rbenv-in-osx</id>
+    <content type="html"><![CDATA[<p><strong>Parallel compile</strong></p>
+
+<p><code>
+$ MAKE_OPTS="-j 4" rbenv install 2.1.0
+</code></p>
+
+<p>Above example compiles ruby with 4 workers.</p>
+
+<p><strong>Readline support</strong></p>
+
+<p><code>
+$ brew install readline
+$ RUBY_CONFIGURE_OPTS=--with-readline-dir=`brew --prefix readline` rbenv install 2.1.0
+</code></p>
+
+<p>Mixed</p>
+
+<p><code>
+$ MAKE_OPTS="-j 4" RUBY_CONFIGURE_OPTS=--with-readline-dir=`brew --prefix readline` rbenv install 2.1.0
+</code></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Sprockets with Padrino without plugin]]></title>
