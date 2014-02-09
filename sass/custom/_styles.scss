@@ -2,22 +2,22 @@
 // Add styles here to make changes without digging in too much
 
 html {
-  background: #FFFFFF;
+  background: $page-bg image-url('/images/page-bg.jpg') top left;
 }
 
-
 body {
-  font-family: 'Georgia', serif; font-size: 17px; color: #000;
+  font-family: 'PT Sans',Helvetica Neue,Arial,sans-serif, serif; font-size: 17px; color: #000;
   max-width: 750px;
   padding-left: 0.5em;
   padding-right: 0.5em;
 
-  a:hover { color: #3b185f; background: #f9f8fa; }
+  a:hover { color: #3b185f; }
 
   > header {
-    background: #FFFFFF;
-        padding-top: .5em;
+    background: $page-bg image-url('/images/page-bg.jpg') top left;
+    padding-top: .5em;
     h1 {
+      font-weight: bold;
       a, a:visited, a:hover {
         color: #8C8C8C;
       }
@@ -25,18 +25,19 @@ body {
   }
 
   > nav {
-    background: #FFFFFF;
+    background: $page-bg image-url('/images/page-bg.jpg') top left;
     font-size: 20px;
     border-bottom: 1px solid #F2F2F2;
     padding-left: 0px;
     padding-right: 0px;
 
     a {
-           text-decoration: none;
-           font-size: 22px;
-           padding-left: 10px;
-           padding-right: 10px;
-        }
+      text-decoration: none;
+      font-size: 22px;
+      padding-left: 10px;
+      padding-right: 10px;
+      font-weight: bold;
+    }
     form .search {
       border-radius: 0.2em 0.2em 0.2em 0.2em;
       box-shadow: none;
@@ -45,6 +46,13 @@ body {
       padding-bottom: 0.3em;
       padding-left: 0.5em;
       padding-right: 0.5em;
+      background-color: #e7e7e5;
+      background-color: rgba(0, 0, 0, 0.06);
+      font-weight: bold;
+      &:focus {
+        background-color: #e7e7e5;
+        background-color: rgba(0, 0, 0, 0.1);
+      }
     }
 
     li + li {
@@ -57,22 +65,22 @@ body {
   }
 
   > div {
-    background: #FFFFFF;
+    background: $page-bg image-url('/images/page-bg.jpg') top left;
     border-bottom: 0px;
 
     > div {
-      background: #FFFFFF;
+      background: $page-bg image-url('/images/page-bg.jpg') top left;
       border-right-width: 0px;
     }
   }
 
   > footer {
-      text-align: center;
-    background: #FFFFFF;
+    text-align: center;
+    background: $page-bg;
     text-shadow: none;
     color: #888;
-      padding-left: 0;
-      padding-right: 0;
+    padding-left: 0;
+    padding-right: 0;
     border-top: 0px;
     padding-left: 0px;
     padding-right: 0px;
@@ -80,6 +88,7 @@ body {
   }
 
   #content {
+    background: url(/images/page-div-light.png) center top repeat-x;
     > article {
         padding-top: 2em;
       padding-left: 0px;
@@ -133,15 +142,15 @@ article {
       padding-top: 2em;
 
       header {
-                padding-top: 2em;
+        padding-top: 2em;
         padding-left: 0;
-          padding-right: 0;
+        padding-right: 0;
       }
     }
 
     h1 {
       a {
-        font-weight: 400;
+        font-weight: bold;
       }
 
       a:hover {
@@ -152,7 +161,7 @@ article {
 
   .hentry {
     h1.entry-title {
-      font-weight: 400;
+      font-weight: bold;
       font-size: 2.2em;
     }
   }
@@ -160,7 +169,11 @@ article {
 }
 
 figure.code {
+  figcaption {
+    border: none;
+  }
   .highlight {
+    border: 1px solid #C8C8C8 !important;
     background: #fafafa !important;
 
     .gutter {
