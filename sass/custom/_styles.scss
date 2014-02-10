@@ -18,6 +18,7 @@ body {
     padding-top: .5em;
     h1 {
       font-weight: bold;
+      display: inline;
       a, a:visited, a:hover {
         color: #8C8C8C;
       }
@@ -90,7 +91,7 @@ body {
   #content {
     background: url(/images/page-div-light.png) center top repeat-x;
     > article {
-        padding-top: 2em;
+      padding-top: 2em;
       padding-left: 0px;
       padding-right: 0px;
     }
