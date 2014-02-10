@@ -1,10 +1,14 @@
 language: ruby
+
 rvm:
 - 2.1.0
+
 branches:
   only:
   - master
+
 before_script:
+- travis_retry gem install bundler
 - git config --global user.name "yasuoza(via Travis CI)"
 - git config --global user.email "yasuharu.ozaki@gmail.com"
 - git remote set-url origin $REPO.git
@@ -15,10 +19,12 @@ before_script:
 - echo -e "Host github.com\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
 - bundle exec rake setup_github_pages[$REPO]
 - git checkout -- _config.yml
+
 script:
-- bundle exec rake generate
-after_script:
-- bundle exec rake deploy
+- bundle exec rake gen_deploy
+
+bundler_args: --path vendor/bundle --without test --jobs 8
+
 env:
   global:
   - REPO="git@github.com:yasuoza/blog.yasuoza.com"
