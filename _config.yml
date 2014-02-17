@@ -33,6 +33,7 @@ destination: public
 plugins: plugins
 code_dir: downloads/code
 category_dir: /categories
+emoji_dir: images/emoji
 markdown: rdiscount
 rdiscount:
   extensions:
