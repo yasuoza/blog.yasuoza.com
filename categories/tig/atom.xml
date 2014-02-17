@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: tig | yasuoza diary]]></title>
+  <link href="http://blog.yasuoza.com//categories/tig/atom.xml" rel="self"/>
+  <link href="http://blog.yasuoza.com/"/>
+  <updated>2014-02-17T04:58:34+00:00</updated>
+  <id>http://blog.yasuoza.com/</id>
+  <author>
+    <name><![CDATA[Yasuharu Ozaki]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Kawaii merge diffs in tig]]></title>
+    <link href="http://blog.yasuoza.com/2014/02/17/kawaii-merge-diff-in-tig/"/>
+    <updated>2014-02-17T01:58:07+00:00</updated>
+    <id>http://blog.yasuoza.com/2014/02/17/kawaii-merge-diff-in-tig</id>
+    <content type="html"><![CDATA[<p>Tig&rsquo;s original merge diffs looks like this:</p>
+
+<p><img class="center" src="/images/2014/02/original_tig_merge.png"></p>
+
+<p>But I WANT to see merge diff like GitHub&rsquo;s merge diff like:</p>
+
+<p><img class="center" src="/images/2014/02/gh_merge_diff.png"></p>
+
+<p>This is enabled via <a href="https://github.com/jonas/tig/commit/8370101fa9f46d814cef724b65b08e83a2a52e8e">tig@8370101fa</a>.</p>
+
+<p>To power this commit, install tig-HEAD.</p>
+
+<p><code>bash
+$ git clone https://github.com/jonas/tig.git
+$ cd tig
+$ brew install autoconf           # If you are using OSX
+$ # sudo apt-get install autoconf # If you are using Debian
+$ make configure                  # This step requires 'autoconf' package
+$ ./configure
+$ make
+$ make install
+</code></p>
+
+<p>After installation, open <code>~/.tigrc</code> and set following option.</p>
+
+<p><code>text
+set diff-options = -m --first-parent
+</code></p>
+
+<p>Then, merge diffs in tig will be:</p>
+
+<p><img class="center" src="/images/2014/02/kawaii_tig_merge.png"></p>
+
+<p>It&rsquo;s Kawaii :heart_eyes:</p>
+]]></content>
+  </entry>
+  
+</feed>

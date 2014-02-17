@@ -27,9 +27,51 @@
 6
 7
 8
-Array::compact = -&gt; (elem for elem in this when elem?) arr = [0..10]
-delete arr[7]
-delete arr[8] console.log arr.compact() #=&gt &hellip;">
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -98,6 +140,171 @@ delete arr[8] console.log arr.compact() #=&gt &hellip;">
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2012/12/15/blog-update-notificator/">Blog update notificator</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-12-15T16:22:00+00:00" pubdate data-updated="true">Dec 15<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;feed-normalizer&#39;</span>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;twitter&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">option</span> <span class="o">=</span> <span class="no">Hash</span><span class="o">[[</span><span class="no">ARGV</span><span class="o">]]</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">url</span> <span class="o">=</span> <span class="n">option</span><span class="o">[</span><span class="s1">&#39;--url&#39;</span><span class="o">]</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">FeedTweeter</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">arg</span> <span class="o">=</span> <span class="p">{</span><span class="ss">url</span><span class="p">:</span> <span class="kp">nil</span><span class="p">})</span>
+</span><span class='line'>    <span class="vi">@url</span> <span class="o">=</span> <span class="n">arg</span><span class="o">[</span><span class="ss">:url</span><span class="o">]</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">site_updated?</span>
+</span><span class='line'>    <span class="vi">@feed</span> <span class="o">=</span> <span class="ss">FeedNormalizer</span><span class="p">:</span><span class="ss">:FeedNormalizer</span><span class="o">.</span><span class="n">parse</span> <span class="nb">open</span><span class="p">(</span><span class="vi">@url</span><span class="p">)</span>
+</span><span class='line'>    <span class="vi">@new_entry</span> <span class="o">=</span> <span class="vi">@feed</span><span class="o">.</span><span class="n">entries</span><span class="o">.</span><span class="n">first</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">return</span> <span class="kp">true</span> <span class="k">unless</span> <span class="no">File</span><span class="o">.</span><span class="n">exist?</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">current_file_dirpath</span><span class="si">}</span><span class="s2">/</span><span class="si">#{</span><span class="n">remember_text_file</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">last_tweeted_on</span> <span class="o">=</span> <span class="no">Time</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="no">File</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">remember_text_file</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">last_tweeted_on</span> <span class="o">&lt;</span> <span class="vi">@new_entry</span><span class="o">.</span><span class="n">last_updated</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">tweet!</span>
+</span><span class='line'>    <span class="n">tweet_text</span> <span class="o">=</span> <span class="n">make_tweet_text</span>
+</span><span class='line'>    <span class="no">Twitter</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">tweet_text</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">remember_last_tweeted_on!</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kp">private</span>
+</span><span class='line'>    <span class="k">def</span> <span class="nf">current_file_dirpath</span>
+</span><span class='line'>      <span class="s2">&quot;</span><span class="si">#{</span><span class="no">File</span><span class="o">.</span><span class="n">expand_path</span><span class="p">(</span><span class="s1">&#39;../&#39;</span><span class="p">,</span>  <span class="bp">__FILE__</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">def</span> <span class="nf">remember_text_file</span>
+</span><span class='line'>      <span class="s1">&#39;last_tweeted_on.txt&#39;</span><span class="p">;</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">def</span> <span class="nf">make_tweet_text</span>
+</span><span class='line'>      <span class="n">blog_title</span> <span class="o">=</span> <span class="vi">@feed</span><span class="o">.</span><span class="n">title</span>
+</span><span class='line'>      <span class="n">new_entry_title</span> <span class="o">=</span> <span class="vi">@new_entry</span><span class="o">.</span><span class="n">title</span>
+</span><span class='line'>      <span class="n">new_entry_url</span> <span class="o">=</span> <span class="vi">@new_entry</span><span class="o">.</span><span class="n">url</span>
+</span><span class='line'>      <span class="s2">&quot;</span><span class="si">#{</span><span class="n">new_entry_title</span><span class="si">}</span><span class="s2"> - </span><span class="si">#{</span><span class="n">blog_title</span><span class="si">}</span><span class="s2"> </span><span class="si">#{</span><span class="n">new_entry_url</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">def</span> <span class="nf">remember_last_tweeted_on!</span>
+</span><span class='line'>      <span class="no">File</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">#{</span><span class="n">current_file_dirpath</span><span class="si">}</span><span class="s2">/</span><span class="si">#{</span><span class="n">remember_text_file</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">file</span><span class="o">|</span>
+</span><span class='line'>        <span class="n">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="vi">@new_entry</span><span class="o">.</span><span class="n">last_updated</span><span class="p">)</span>
+</span><span class='line'>      <span class="k">end</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="no">Twitter</span><span class="o">.</span><span class="n">configure</span> <span class="k">do</span> <span class="o">|</span><span class="n">config</span><span class="o">|</span>
+</span><span class='line'>  <span class="n">config</span><span class="o">.</span><span class="n">consumer_key</span> <span class="o">=</span> <span class="s1">&#39;CONSUMER_KEY&#39;</span>
+</span><span class='line'>  <span class="n">config</span><span class="o">.</span><span class="n">consumer_secret</span> <span class="o">=</span> <span class="s1">&#39;CONSUMER_SECRET&#39;</span>
+</span><span class='line'>  <span class="n">config</span><span class="o">.</span><span class="n">oauth_token</span> <span class="o">=</span> <span class="s1">&#39;OAUTH_TOKEN&#39;</span>
+</span><span class='line'>  <span class="n">config</span><span class="o">.</span><span class="n">oauth_token_secret</span> <span class="o">=</span> <span class="s1">&#39;OAUTH_TOKEN_SECRET&#39;</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">feed_tweeter</span> <span class="o">=</span> <span class="no">FeedTweeter</span><span class="o">.</span><span class="n">new</span> <span class="ss">url</span><span class="p">:</span> <span class="n">url</span>
+</span><span class='line'><span class="k">if</span> <span class="n">feed_tweeter</span><span class="o">.</span><span class="n">site_updated?</span>
+</span><span class='line'>  <span class="n">feed_tweeter</span><span class="o">.</span><span class="n">tweet!</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This works with jenkins very well!</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -801,86 +1008,6 @@ mroongaすごいなー。</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2012/09/21/brew_upgrade_git_erro/">brew upgrade gitでハマる</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-09-21T00:00:00+00:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><a href="http://mxcl.github.com/homebrew/" target="_blank">Homebrew</a>で</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ brew upgrade git</span></code></pre></td></tr></table></div></figure>
-
-
-<p>を実行すると</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>symbol(s) not found for architecture x86_64</span></code></pre></td></tr></table></div></figure>
-
-
-<p>というエラーが出てgitをアップグレードできない問題にハマったので、解決法のメモ。</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ brew list</span></code></pre></td></tr></table></div></figure>
-
-
-<p>すると
-<code>libiconv</code>
-というモジュールがあると思うので、それを次のようにアンインストール</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ brew remove libiconv</span></code></pre></td></tr></table></div></figure>
-
-
-<p>パーミッションのエラーなどでアンインストール出来ない場合は</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ sudo rm -rf /usr/local/Cellar/libiconv</span></code></pre></td></tr></table></div></figure>
-
-
-<p>で削除。</p>
-
-<p>その後</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ brew upgrade git</span></code></pre></td></tr></table></div></figure>
-
-
-<p>でうまくいく。</p>
-
-<p>このlibiconvがどこで入ってきたのか謎すぎる。</p>
-
-<p><a href="https://github.com/mxcl/homebrew/issues/11229" target="_blank">Error when installing git: symbol(s) not found for architecture x86_64 &ndash; github</a></p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/page/4/">&larr; Older</a>
@@ -898,6 +1025,10 @@ mroongaすごいなー。</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2014/02/17/kawaii-merge-diff-in-tig/">Kawaii merge diffs in tig</a>
+      </li>
+    
+      <li class="post">
         <a href="/2014/01/28/advanced-ruby-install-via-rbenv-in-osx/">Advanced ruby install via rbenv in OSX</a>
       </li>
     
@@ -911,10 +1042,6 @@ mroongaすごいなー。</p>
     
       <li class="post">
         <a href="/2014/01/10/docker-in-osx-without-dvm/">Docker in OSX without dvm</a>
-      </li>
-    
-      <li class="post">
-        <a href="/2014/01/07/words/">年末年始に会った友達の言葉</a>
       </li>
     
   </ul>

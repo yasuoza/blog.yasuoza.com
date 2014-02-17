@@ -4,7 +4,7 @@
   <title><![CDATA[yasuoza diary]]></title>
   <link href="http://blog.yasuoza.com/atom.xml" rel="self"/>
   <link href="http://blog.yasuoza.com/"/>
-  <updated>2014-02-11T11:30:26+00:00</updated>
+  <updated>2014-02-17T04:58:34+00:00</updated>
   <id>http://blog.yasuoza.com/</id>
   <author>
     <name><![CDATA[Yasuharu Ozaki]]></name>
@@ -12,6 +12,57 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Kawaii merge diffs in tig]]></title>
+    <link href="http://blog.yasuoza.com/2014/02/17/kawaii-merge-diff-in-tig/"/>
+    <updated>2014-02-17T01:58:07+00:00</updated>
+    <id>http://blog.yasuoza.com/2014/02/17/kawaii-merge-diff-in-tig</id>
+    <content type="html"><![CDATA[<p>Tig&rsquo;s original merge diffs looks like this:</p>
+
+<p><img class="center" src="http://blog.yasuoza.com/images/2014/02/original_tig_merge.png"></p>
+
+<p>But I WANT to see merge diff like GitHub&rsquo;s merge diff like:</p>
+
+<p><img class="center" src="http://blog.yasuoza.com/images/2014/02/gh_merge_diff.png"></p>
+
+<p>This is enabled via <a href="https://github.com/jonas/tig/commit/8370101fa9f46d814cef724b65b08e83a2a52e8e">tig@8370101fa</a>.</p>
+
+<p>To power this commit, install tig-HEAD.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>git clone https://github.com/jonas/tig.git
+</span><span class='line'><span class="nv">$ </span><span class="nb">cd </span>tig
+</span><span class='line'><span class="nv">$ </span>brew install autoconf           <span class="c"># If you are using OSX</span>
+</span><span class='line'><span class="nv">$ </span><span class="c"># sudo apt-get install autoconf # If you are using Debian</span>
+</span><span class='line'><span class="nv">$ </span>make configure                  <span class="c"># This step requires &#39;autoconf&#39; package</span>
+</span><span class='line'><span class="nv">$ </span>./configure
+</span><span class='line'><span class="nv">$ </span>make
+</span><span class='line'><span class="nv">$ </span>make install
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>After installation, open <code>~/.tigrc</code> and set following option.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='text'><span class='line'>set diff-options = -m --first-parent
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Then, merge diffs in tig will be:</p>
+
+<p><img class="center" src="http://blog.yasuoza.com/images/2014/02/kawaii_tig_merge.png"></p>
+
+<p>It&rsquo;s Kawaii :heart_eyes:</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Advanced ruby install via rbenv in OSX]]></title>
@@ -1395,144 +1446,6 @@ The title was &ldquo;Active Record, changes from.. to..&rdquo;</p>
 
 
 <p>This is my first gem. Yeah, it&rsquo;s fun!</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Blog update notificator]]></title>
-    <link href="http://blog.yasuoza.com/2012/12/15/blog-update-notificator/"/>
-    <updated>2012-12-15T16:22:00+00:00</updated>
-    <id>http://blog.yasuoza.com/2012/12/15/blog-update-notificator</id>
-    <content type="html"><![CDATA[<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-<span class='line-number'>47</span>
-<span class='line-number'>48</span>
-<span class='line-number'>49</span>
-<span class='line-number'>50</span>
-<span class='line-number'>51</span>
-<span class='line-number'>52</span>
-<span class='line-number'>53</span>
-<span class='line-number'>54</span>
-<span class='line-number'>55</span>
-<span class='line-number'>56</span>
-<span class='line-number'>57</span>
-<span class='line-number'>58</span>
-<span class='line-number'>59</span>
-<span class='line-number'>60</span>
-<span class='line-number'>61</span>
-<span class='line-number'>62</span>
-<span class='line-number'>63</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;feed-normalizer&#39;</span>
-</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;twitter&#39;</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">option</span> <span class="o">=</span> <span class="no">Hash</span><span class="o">[[</span><span class="no">ARGV</span><span class="o">]]</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">url</span> <span class="o">=</span> <span class="n">option</span><span class="o">[</span><span class="s1">&#39;--url&#39;</span><span class="o">]</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">class</span> <span class="nc">FeedTweeter</span>
-</span><span class='line'>  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">arg</span> <span class="o">=</span> <span class="p">{</span><span class="ss">url</span><span class="p">:</span> <span class="kp">nil</span><span class="p">})</span>
-</span><span class='line'>    <span class="vi">@url</span> <span class="o">=</span> <span class="n">arg</span><span class="o">[</span><span class="ss">:url</span><span class="o">]</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="k">def</span> <span class="nf">site_updated?</span>
-</span><span class='line'>    <span class="vi">@feed</span> <span class="o">=</span> <span class="ss">FeedNormalizer</span><span class="p">:</span><span class="ss">:FeedNormalizer</span><span class="o">.</span><span class="n">parse</span> <span class="nb">open</span><span class="p">(</span><span class="vi">@url</span><span class="p">)</span>
-</span><span class='line'>    <span class="vi">@new_entry</span> <span class="o">=</span> <span class="vi">@feed</span><span class="o">.</span><span class="n">entries</span><span class="o">.</span><span class="n">first</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="k">return</span> <span class="kp">true</span> <span class="k">unless</span> <span class="no">File</span><span class="o">.</span><span class="n">exist?</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">current_file_dirpath</span><span class="si">}</span><span class="s2">/</span><span class="si">#{</span><span class="n">remember_text_file</span><span class="si">}</span><span class="s2">&quot;</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="n">last_tweeted_on</span> <span class="o">=</span> <span class="no">Time</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="no">File</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">remember_text_file</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">)</span>
-</span><span class='line'>    <span class="n">last_tweeted_on</span> <span class="o">&lt;</span> <span class="vi">@new_entry</span><span class="o">.</span><span class="n">last_updated</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="k">def</span> <span class="nf">tweet!</span>
-</span><span class='line'>    <span class="n">tweet_text</span> <span class="o">=</span> <span class="n">make_tweet_text</span>
-</span><span class='line'>    <span class="no">Twitter</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">tweet_text</span><span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="n">remember_last_tweeted_on!</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="kp">private</span>
-</span><span class='line'>    <span class="k">def</span> <span class="nf">current_file_dirpath</span>
-</span><span class='line'>      <span class="s2">&quot;</span><span class="si">#{</span><span class="no">File</span><span class="o">.</span><span class="n">expand_path</span><span class="p">(</span><span class="s1">&#39;../&#39;</span><span class="p">,</span>  <span class="bp">__FILE__</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
-</span><span class='line'>    <span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="k">def</span> <span class="nf">remember_text_file</span>
-</span><span class='line'>      <span class="s1">&#39;last_tweeted_on.txt&#39;</span><span class="p">;</span>
-</span><span class='line'>    <span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="k">def</span> <span class="nf">make_tweet_text</span>
-</span><span class='line'>      <span class="n">blog_title</span> <span class="o">=</span> <span class="vi">@feed</span><span class="o">.</span><span class="n">title</span>
-</span><span class='line'>      <span class="n">new_entry_title</span> <span class="o">=</span> <span class="vi">@new_entry</span><span class="o">.</span><span class="n">title</span>
-</span><span class='line'>      <span class="n">new_entry_url</span> <span class="o">=</span> <span class="vi">@new_entry</span><span class="o">.</span><span class="n">url</span>
-</span><span class='line'>      <span class="s2">&quot;</span><span class="si">#{</span><span class="n">new_entry_title</span><span class="si">}</span><span class="s2"> - </span><span class="si">#{</span><span class="n">blog_title</span><span class="si">}</span><span class="s2"> </span><span class="si">#{</span><span class="n">new_entry_url</span><span class="si">}</span><span class="s2">&quot;</span>
-</span><span class='line'>    <span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="k">def</span> <span class="nf">remember_last_tweeted_on!</span>
-</span><span class='line'>      <span class="no">File</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">#{</span><span class="n">current_file_dirpath</span><span class="si">}</span><span class="s2">/</span><span class="si">#{</span><span class="n">remember_text_file</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">file</span><span class="o">|</span>
-</span><span class='line'>        <span class="n">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="vi">@new_entry</span><span class="o">.</span><span class="n">last_updated</span><span class="p">)</span>
-</span><span class='line'>      <span class="k">end</span>
-</span><span class='line'>    <span class="k">end</span>
-</span><span class='line'><span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'><span class="no">Twitter</span><span class="o">.</span><span class="n">configure</span> <span class="k">do</span> <span class="o">|</span><span class="n">config</span><span class="o">|</span>
-</span><span class='line'>  <span class="n">config</span><span class="o">.</span><span class="n">consumer_key</span> <span class="o">=</span> <span class="s1">&#39;CONSUMER_KEY&#39;</span>
-</span><span class='line'>  <span class="n">config</span><span class="o">.</span><span class="n">consumer_secret</span> <span class="o">=</span> <span class="s1">&#39;CONSUMER_SECRET&#39;</span>
-</span><span class='line'>  <span class="n">config</span><span class="o">.</span><span class="n">oauth_token</span> <span class="o">=</span> <span class="s1">&#39;OAUTH_TOKEN&#39;</span>
-</span><span class='line'>  <span class="n">config</span><span class="o">.</span><span class="n">oauth_token_secret</span> <span class="o">=</span> <span class="s1">&#39;OAUTH_TOKEN_SECRET&#39;</span>
-</span><span class='line'><span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">feed_tweeter</span> <span class="o">=</span> <span class="no">FeedTweeter</span><span class="o">.</span><span class="n">new</span> <span class="ss">url</span><span class="p">:</span> <span class="n">url</span>
-</span><span class='line'><span class="k">if</span> <span class="n">feed_tweeter</span><span class="o">.</span><span class="n">site_updated?</span>
-</span><span class='line'>  <span class="n">feed_tweeter</span><span class="o">.</span><span class="n">tweet!</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>This works with jenkins very well!</p>
 ]]></content>
   </entry>
   
