@@ -4,7 +4,7 @@
   <title><![CDATA[yasuoza diary]]></title>
   <link href="http://blog.yasuoza.com/atom.xml" rel="self"/>
   <link href="http://blog.yasuoza.com/"/>
-  <updated>2014-03-13T11:28:50+00:00</updated>
+  <updated>2014-04-02T01:29:43+00:00</updated>
   <id>http://blog.yasuoza.com/</id>
   <author>
     <name><![CDATA[Yasuharu Ozaki]]></name>
@@ -12,6 +12,20 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[人の信頼を失う方法]]></title>
+    <link href="http://blog.yasuoza.com/2014/04/02/how-to-lost-trust/"/>
+    <updated>2014-04-02T01:13:24+00:00</updated>
+    <id>http://blog.yasuoza.com/2014/04/02/how-to-lost-trust</id>
+    <content type="html"><![CDATA[<ul>
+<li>経営陣の顔色ばかり気にする</li>
+<li>情報を公開/共有しない</li>
+<li>女性(特に若い女性)と男性で態度を変える</li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Kawaii merge diffs in tig]]></title>
@@ -1387,65 +1401,6 @@ So people can click the link without any doubt.</p>
 <p>Alfred extension for git.io</p>
 
 <p><a href="http://www.yasuoza.com/resources/git.io.alfredextension"><img src="http://blog.yasuoza.com/images/download_alfred_extension.png"></a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[activemodel-attribute_changed_specification]]></title>
-    <link href="http://blog.yasuoza.com/2012/12/19/activemodel-attribute-changed-specification-released/"/>
-    <updated>2012-12-19T10:02:00+00:00</updated>
-    <id>http://blog.yasuoza.com/2012/12/19/activemodel-attribute-changed-specification-released</id>
-    <content type="html"><![CDATA[<p>On Dec 12, one feature suggestion posted to [Rails-core] ML.
-The title was &ldquo;Active Record, changes from.. to..&rdquo;</p>
-
-<p>His suggested feature was like following</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Book</span> <span class="o">&lt;</span> <span class="ss">ActiveRecord</span><span class="p">:</span><span class="ss">:Base</span>
-</span><span class='line'>  <span class="no">STATUS_DELIVER</span> <span class="o">=</span> <span class="o">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="o">]</span>
-</span><span class='line'>  <span class="n">before_save</span> <span class="ss">:send_mail_to_customer</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="k">def</span> <span class="nf">send_mail_to_customer</span>
-</span><span class='line'>   <span class="no">UserMailer</span><span class="o">.</span><span class="n">send_mail_to_customer</span> <span class="k">if</span> <span class="nb">self</span><span class="o">.</span><span class="n">status</span><span class="o">.</span><span class="n">changes</span><span class="p">(</span><span class="ss">from</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="ss">to</span><span class="p">:</span> <span class="mi">1</span><span class="p">)</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>I knew this can be done in <a href="http://api.rubyonrails.org/classes/ActiveModel/Dirty.html">ActiveModel::Dirty</a>, but the feature <code>from</code> and <code>to</code> was interesting. So I implemented into gem named <a href="https://github.com/YasuOza/activemodel-attribute_changed_specification">activemodel-attribute_changed_specification</a>.</p>
-
-<p>You can use this gem like this</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">user</span> <span class="o">=</span> <span class="no">User</span><span class="o">.</span><span class="n">new</span>
-</span><span class='line'><span class="n">user</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;Bob&#39;</span>
-</span><span class='line'><span class="n">user</span><span class="o">.</span><span class="n">name_changed?</span><span class="p">(</span><span class="ss">from</span><span class="p">:</span> <span class="kp">nil</span><span class="p">,</span>  <span class="ss">to</span><span class="p">:</span> <span class="s1">&#39;Bob&#39;</span><span class="p">)</span> <span class="c1"># =&gt; true</span>
-</span><span class='line'><span class="n">user</span><span class="o">.</span><span class="n">name_changed?</span><span class="p">(</span><span class="ss">from</span><span class="p">:</span> <span class="s1">&#39;Paul&#39;</span><span class="p">,</span>  <span class="ss">to</span><span class="p">:</span> <span class="s1">&#39;Bob&#39;</span><span class="p">)</span> <span class="c1"># =&gt; false</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Though I overridden default <code>_changed?</code> method, I kept original <code>_changed?</code> method.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">user</span> <span class="o">=</span> <span class="no">User</span><span class="o">.</span><span class="n">new</span>
-</span><span class='line'><span class="n">user</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;Bob&#39;</span>
-</span><span class='line'><span class="n">user</span><span class="o">.</span><span class="n">name_changed?</span> <span class="c1"># =&gt; true</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>This is my first gem. Yeah, it&rsquo;s fun!</p>
 ]]></content>
   </entry>
   

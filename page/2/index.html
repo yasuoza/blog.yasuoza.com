@@ -19,8 +19,7 @@
   <meta name="author" content="Yasuharu Ozaki">
 
   
-  <meta name="description" content="Diff on GitHub is super to me because it shows method name.
-This post shows how to make it in local repository. For example, GitHub shows diff with &hellip;">
+  <meta name="description" content="iOS版のHBFavのAndroid版をリリースしました！ はてなブックマークをタイムライン形式で HBFav HBFavとははてなブックマークのお気に入りの人のブックマークをTwitterのタイムライン形式で見れるというアプリです。 僕がメインで使う端末をiOSからAndroidに変えて3ヶ月、 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -89,6 +88,74 @@ This post shows how to make it in local repository. For example, GitHub shows di
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2013/12/09/hbfav-2-0-0-release/">HBFav-Android 2.0.0リリース</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-12-09T04:52:12+00:00" pubdate data-updated="true">Dec 9<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><strong>iOS版の<a href="http://hbfav.bloghackers.net/">HBFav</a>のAndroid版をリリースしました！</strong></p>
+
+<p><a href="https://play.google.com/store/apps/details?id=com.hbfav.android">はてなブックマークをタイムライン形式で HBFav</a></p>
+
+<p>HBFavとははてなブックマークのお気に入りの人のブックマークをTwitterのタイムライン形式で見れるというアプリです。</p>
+
+<p><img class="center" src="/images/hbfav/timeline.png" width="350"></p>
+
+<p>僕がメインで使う端末をiOSからAndroidに変えて3ヶ月、Androidはとても気に入っていたのですが、ただひとつ、HBFav
+のようにはてなブックマークをタイムラインで見れるアプリ、というかHBFavのAndroid版がないことが唯一の不満でした。<br/>
+ないものは作るしか無い、そう思って作り始めたのが10月終わり頃、2.0.0は大した機能も無いのに、リリースまで1ヶ月かかったのは
+初めてのAndroidアプリということだけではなく、突然の<code>NullPointerException</code>にハマったためでした。</p>
+
+<p>2.0.0は本当に機能が少ないので、ブックマークをするにはこれまでどおり別途
+<a href="https://play.google.com/store/apps/details?id=com.hatena.android.bookmark">はてなブックマーク</a>
+をインストールして、ブラウザの共有からブックマークして下さい。<br/>
+WebViewやバックグラウンド更新などはこれからのアップデートで随時対応していきます!<br/>
+フィードバックや要望などありましたら、お気軽に<a href="http://www.twitter.com/yasuoza">@yasuoza</a>までお願いします!</p>
+
+<p>また、HBFavのAndroid版を出すにあたって次の方々にはとても感謝しています。本当にありがとうございました。これからもよろしくお願いします。</p>
+
+<ul>
+<li><a href="http://naoya.github.io/">@naoyaさん</a></li>
+<li><a href="https://github.com/">Githubさん</a></li>
+<li><a href="http://stackoverflow.com/">stackoverflowさん</a></li>
+<li><a href="https://www.crashlytics.com/">Crashlyticsさん</a></li>
+</ul>
+
+
+<p>今はビルトインブラウザ機能を実装中なので、それを年末までに出す予定です。乞うご期待！</p>
+
+<p>HBFav-Android ホームページ<br/>
+<a href="http://yasuoza.github.io/HBFav-Android">HBFav-Android</a></p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -884,92 +951,6 @@ So people can click the link without any doubt.</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2012/12/19/activemodel-attribute-changed-specification-released/">activemodel-attribute_changed_specification</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-12-19T10:02:00+00:00" pubdate data-updated="true">Dec 19<span>th</span>, 2012</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>On Dec 12, one feature suggestion posted to [Rails-core] ML.
-The title was &ldquo;Active Record, changes from.. to..&rdquo;</p>
-
-<p>His suggested feature was like following</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Book</span> <span class="o">&lt;</span> <span class="ss">ActiveRecord</span><span class="p">:</span><span class="ss">:Base</span>
-</span><span class='line'>  <span class="no">STATUS_DELIVER</span> <span class="o">=</span> <span class="o">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="o">]</span>
-</span><span class='line'>  <span class="n">before_save</span> <span class="ss">:send_mail_to_customer</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="k">def</span> <span class="nf">send_mail_to_customer</span>
-</span><span class='line'>   <span class="no">UserMailer</span><span class="o">.</span><span class="n">send_mail_to_customer</span> <span class="k">if</span> <span class="nb">self</span><span class="o">.</span><span class="n">status</span><span class="o">.</span><span class="n">changes</span><span class="p">(</span><span class="ss">from</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="ss">to</span><span class="p">:</span> <span class="mi">1</span><span class="p">)</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>I knew this can be done in <a href="http://api.rubyonrails.org/classes/ActiveModel/Dirty.html">ActiveModel::Dirty</a>, but the feature <code>from</code> and <code>to</code> was interesting. So I implemented into gem named <a href="https://github.com/YasuOza/activemodel-attribute_changed_specification">activemodel-attribute_changed_specification</a>.</p>
-
-<p>You can use this gem like this</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">user</span> <span class="o">=</span> <span class="no">User</span><span class="o">.</span><span class="n">new</span>
-</span><span class='line'><span class="n">user</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;Bob&#39;</span>
-</span><span class='line'><span class="n">user</span><span class="o">.</span><span class="n">name_changed?</span><span class="p">(</span><span class="ss">from</span><span class="p">:</span> <span class="kp">nil</span><span class="p">,</span>  <span class="ss">to</span><span class="p">:</span> <span class="s1">&#39;Bob&#39;</span><span class="p">)</span> <span class="c1"># =&gt; true</span>
-</span><span class='line'><span class="n">user</span><span class="o">.</span><span class="n">name_changed?</span><span class="p">(</span><span class="ss">from</span><span class="p">:</span> <span class="s1">&#39;Paul&#39;</span><span class="p">,</span>  <span class="ss">to</span><span class="p">:</span> <span class="s1">&#39;Bob&#39;</span><span class="p">)</span> <span class="c1"># =&gt; false</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Though I overridden default <code>_changed?</code> method, I kept original <code>_changed?</code> method.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">user</span> <span class="o">=</span> <span class="no">User</span><span class="o">.</span><span class="n">new</span>
-</span><span class='line'><span class="n">user</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;Bob&#39;</span>
-</span><span class='line'><span class="n">user</span><span class="o">.</span><span class="n">name_changed?</span> <span class="c1"># =&gt; true</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>This is my first gem. Yeah, it&rsquo;s fun!</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/page/3/">&larr; Older</a>
@@ -987,6 +968,10 @@ The title was &ldquo;Active Record, changes from.. to..&rdquo;</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2014/04/02/how-to-lost-trust/">人の信頼を失う方法</a>
+      </li>
+    
+      <li class="post">
         <a href="/2014/02/17/kawaii-merge-diff-in-tig/">Kawaii merge diffs in tig</a>
       </li>
     
@@ -1000,10 +985,6 @@ The title was &ldquo;Active Record, changes from.. to..&rdquo;</p>
     
       <li class="post">
         <a href="/2014/01/13/octopress-plus-github-pages-plus-travis/">Octopress + GitHub Pages + Travis</a>
-      </li>
-    
-      <li class="post">
-        <a href="/2014/01/10/docker-in-osx-without-dvm/">Docker in OSX without dvm</a>
       </li>
     
   </ul>

@@ -19,59 +19,8 @@
   <meta name="author" content="Yasuharu Ozaki">
 
   
-  <meta name="description" content="1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-22
-23
-24
-25
-26
-27
-28
-29
-30
-31
-32
-33
-34
-35
-36
-37
-38
-39
-40
-41
-42
-43
-44
-45
-46
-47
-48
-49
-50
-51
-52
-53 &hellip;">
+  <meta name="description" content="On Dec 12, one feature suggestion posted to [Rails-core] ML.
+The title was &ldquo;Active Record, changes from.. to..&rdquo; His suggested feature was &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -140,6 +89,92 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2012/12/19/activemodel-attribute-changed-specification-released/">activemodel-attribute_changed_specification</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-12-19T10:02:00+00:00" pubdate data-updated="true">Dec 19<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>On Dec 12, one feature suggestion posted to [Rails-core] ML.
+The title was &ldquo;Active Record, changes from.. to..&rdquo;</p>
+
+<p>His suggested feature was like following</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Book</span> <span class="o">&lt;</span> <span class="ss">ActiveRecord</span><span class="p">:</span><span class="ss">:Base</span>
+</span><span class='line'>  <span class="no">STATUS_DELIVER</span> <span class="o">=</span> <span class="o">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="o">]</span>
+</span><span class='line'>  <span class="n">before_save</span> <span class="ss">:send_mail_to_customer</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">send_mail_to_customer</span>
+</span><span class='line'>   <span class="no">UserMailer</span><span class="o">.</span><span class="n">send_mail_to_customer</span> <span class="k">if</span> <span class="nb">self</span><span class="o">.</span><span class="n">status</span><span class="o">.</span><span class="n">changes</span><span class="p">(</span><span class="ss">from</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="ss">to</span><span class="p">:</span> <span class="mi">1</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>I knew this can be done in <a href="http://api.rubyonrails.org/classes/ActiveModel/Dirty.html">ActiveModel::Dirty</a>, but the feature <code>from</code> and <code>to</code> was interesting. So I implemented into gem named <a href="https://github.com/YasuOza/activemodel-attribute_changed_specification">activemodel-attribute_changed_specification</a>.</p>
+
+<p>You can use this gem like this</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">user</span> <span class="o">=</span> <span class="no">User</span><span class="o">.</span><span class="n">new</span>
+</span><span class='line'><span class="n">user</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;Bob&#39;</span>
+</span><span class='line'><span class="n">user</span><span class="o">.</span><span class="n">name_changed?</span><span class="p">(</span><span class="ss">from</span><span class="p">:</span> <span class="kp">nil</span><span class="p">,</span>  <span class="ss">to</span><span class="p">:</span> <span class="s1">&#39;Bob&#39;</span><span class="p">)</span> <span class="c1"># =&gt; true</span>
+</span><span class='line'><span class="n">user</span><span class="o">.</span><span class="n">name_changed?</span><span class="p">(</span><span class="ss">from</span><span class="p">:</span> <span class="s1">&#39;Paul&#39;</span><span class="p">,</span>  <span class="ss">to</span><span class="p">:</span> <span class="s1">&#39;Bob&#39;</span><span class="p">)</span> <span class="c1"># =&gt; false</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Though I overridden default <code>_changed?</code> method, I kept original <code>_changed?</code> method.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">user</span> <span class="o">=</span> <span class="no">User</span><span class="o">.</span><span class="n">new</span>
+</span><span class='line'><span class="n">user</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;Bob&#39;</span>
+</span><span class='line'><span class="n">user</span><span class="o">.</span><span class="n">name_changed?</span> <span class="c1"># =&gt; true</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This is my first gem. Yeah, it&rsquo;s fun!</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -928,86 +963,6 @@ vertical分割は画面を縦長に使えて、ざっとdiffの確認したい�
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2012/10/12/bench_for_mroonga_wrapper_mode/">mroongaラッパーモードのベンチマーク</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-10-12T00:00:00+00:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>MySQLで全文検索をさせたくて、</p>
-
-<ul>
-    <li>素のカラム</li>
-    <li>MySQL(inonDB)のインデックス</li>
-    <li>高速な全文検索エンジン<a href="http://mroonga.github.com/" target="_blank">mroonga</a>のラッパーモード</li>
-</ul>
-
-
-<p>のそれぞれに対して対して全文検索を行い、そのベンチマークを取りました。</p>
-
-<p>テーブル定義文</p>
-
-<script src="https://gist.github.com/3873106.js?file=create_bench.sql"></script>
-
-
-<p>ベンチマーク実行プログラム<code>mysqlカラムの検索ワード頭に%を付けないのはインデックスを使った検索を有効にするためです</code></p>
-
-<script src="https://gist.github.com/3873106.js?file=bench_mroonga.rb"></script>
-
-
-<p>結果</p>
-
-<pre>
-       user     system      total        real
-   0.180000   0.090000   0.270000 ( 45.093617) #素のカラム
-   0.050000   0.030000   0.080000 (  1.081635) #MySQLインデックス
-   0.040000   0.030000   0.070000 (  1.024571) #mroonga
-</pre>
-
-
-<p>となり、mroongaがMySQLのインデックスよりも高速に検索を行なっている事がわかりました。</p>
-
-<p>mroongaのラッパーモードの良さは速度だけではなくその導入のしやすさにあると思います。
-mroongaのインストールの方法は<a href="http://mroonga.github.com/ja/docs/install.html#mac-os-x" target="_blank">公式のインストールガイド</a>に詳しく載っていますし、既存のテーブルをmroongaのラッパーモードに変更したい時は<a href="http://nob-log.info/2012/03/22/install-mroonga/" target="_blank">全文検索エンジンmroonga導入の試行錯誤</a>で説明されている通り</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>ALTER TABLE _table_name_ ENGINE = mroonga COMMENT = 'engine &quot;innodb&quot;' DEFAULT CHARSET utf8;</span></code></pre></td></tr></table></div></figure>
-
-
-<p>のように記述することで変更可能です。
-ここらへんのことは<a href="http://mroonga.github.com/ja/docs/reference.html" target="_blank">公式のリファレンス</a>にきちんとまとめられているので、そっちを見るといいと思います。</p>
-
-<p>レンタルサーバを借りている人や、自分のサーバを持っている人はRails + Active Admin + mroongaで自分や特定の範囲の人用に高速で検索できる情報共有システムを簡単に作れそうです。
-mroongaすごいなー。</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/page/4/">&larr; Older</a>
@@ -1025,6 +980,10 @@ mroongaすごいなー。</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2014/04/02/how-to-lost-trust/">人の信頼を失う方法</a>
+      </li>
+    
+      <li class="post">
         <a href="/2014/02/17/kawaii-merge-diff-in-tig/">Kawaii merge diffs in tig</a>
       </li>
     
@@ -1038,10 +997,6 @@ mroongaすごいなー。</p>
     
       <li class="post">
         <a href="/2014/01/13/octopress-plus-github-pages-plus-travis/">Octopress + GitHub Pages + Travis</a>
-      </li>
-    
-      <li class="post">
-        <a href="/2014/01/10/docker-in-osx-without-dvm/">Docker in OSX without dvm</a>
       </li>
     
   </ul>
