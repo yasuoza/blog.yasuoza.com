@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: android | yasuoza diary]]></title>
+  <title><![CDATA[Category: Android | yasuoza diary]]></title>
   <link href="http://blog.yasuoza.com//categories/android/atom.xml" rel="self"/>
   <link href="http://blog.yasuoza.com/"/>
-  <updated>2014-05-13T05:02:18+00:00</updated>
+  <updated>2014-05-14T03:24:57+00:00</updated>
   <id>http://blog.yasuoza.com/</id>
   <author>
     <name><![CDATA[Yasuharu Ozaki]]></name>
@@ -14,241 +14,43 @@
 
   
   <entry>
-    <title type="html"><![CDATA[HBFav-Android 2.1.1リリース]]></title>
-    <link href="http://blog.yasuoza.com/2013/12/27/hbfav-android-2-1-1/"/>
-    <updated>2013-12-27T04:39:25+00:00</updated>
-    <id>http://blog.yasuoza.com/2013/12/27/hbfav-android-2-1-1</id>
-    <content type="html"><![CDATA[<p>HBFav for Androidの2.1.1をリリースしました!</p>
+    <title type="html"><![CDATA[HBFav-Android 2.0.0リリース]]></title>
+    <link href="http://blog.yasuoza.com/2013/12/09/hbfav-2-0-0-release/"/>
+    <updated>2013-12-09T04:52:12+00:00</updated>
+    <id>http://blog.yasuoza.com/2013/12/09/hbfav-2-0-0-release</id>
+    <content type="html"><![CDATA[<p><strong>iOS版の<a href="http://hbfav.bloghackers.net/">HBFav</a>のAndroid版をリリースしました！</strong></p>
 
 <p><a href="https://play.google.com/store/apps/details?id=com.hbfav.android">はてなブックマークをタイムライン形式で HBFav</a></p>
 
-<p>今回のバージョンアップでは</p>
+<p>HBFavとははてなブックマークのお気に入りの人のブックマークをTwitterのタイムライン形式で見れるというアプリです。</p>
+
+<p><img class="center" src="/images/hbfav/timeline.png" width="350"></p>
+
+<p>僕がメインで使う端末をiOSからAndroidに変えて3ヶ月、Androidはとても気に入っていたのですが、ただひとつ、HBFav
+のようにはてなブックマークをタイムラインで見れるアプリ、というかHBFavのAndroid版がないことが唯一の不満でした。<br/>
+ないものは作るしか無い、そう思って作り始めたのが10月終わり頃、2.0.0は大した機能も無いのに、リリースまで1ヶ月かかったのは
+初めてのAndroidアプリということだけではなく、突然の<code>NullPointerException</code>にハマったためでした。</p>
+
+<p>2.0.0は本当に機能が少ないので、ブックマークをするにはこれまでどおり別途
+<a href="https://play.google.com/store/apps/details?id=com.hatena.android.bookmark">はてなブックマーク</a>
+をインストールして、ブラウザの共有からブックマークして下さい。<br/>
+WebViewやバックグラウンド更新などはこれからのアップデートで随時対応していきます!<br/>
+フィードバックや要望などありましたら、お気軽に<a href="http://www.twitter.com/yasuoza">@yasuoza</a>までお願いします!</p>
+
+<p>また、HBFavのAndroid版を出すにあたって次の方々にはとても感謝しています。本当にありがとうございました。これからもよろしくお願いします。</p>
 
 <ul>
-<li>ビルトインブラウザ</li>
-<li>コメントの閲覧</li>
-<li>アプリ単体でのブックマーク登録・更新・削除機能</li>
+<li><a href="http://naoya.github.io/">@naoyaさん</a></li>
+<li><a href="https://github.com/">Githubさん</a></li>
+<li><a href="http://stackoverflow.com/">stackoverflowさん</a></li>
+<li><a href="https://www.crashlytics.com/">Crashlyticsさん</a></li>
 </ul>
 
 
-<p>の追加をしました。</p>
+<p>今はビルトインブラウザ機能を実装中なので、それを年末までに出す予定です。乞うご期待！</p>
 
-<p>いちいちブラウザに飛ぶことはなくなったので、よりシームレスに記事を閲覧することが出来るようになったと思います。</p>
-
-<p><img class="center" src="/images/hbfav/entry_webview.jpg" width="350"></p>
-
-<p><img class="center" src="/images/hbfav/activity_bookmark_entry.jpg" width="350"></p>
-
-<p>OAuth認証したり、異なるサイズのボタンを配置したり、キーボードの開閉に合わせた挙動をさせたりと、まぁまぁ大変でした。<br/>
-1週間ブックマークを見る暇なくずっとブックマーク登録画面だけ開発してたなんてときもありましたが、それでも総じて楽しかったです。</p>
-
-<p>一部の端末で正しくOauth認証出来ないバグが確認されております。年明けから対応していきます。Android大変です。。。<br/>
-また、アプリが落ちたり、うまく動作しない場合は<a href="https://github.com/yasuoza/HBFav-Android/issues">Github</a>に書いて頂くか、<a href="https://www.twitter.com/yasuoza">@yasuoza</a>まで
-お気軽にメンションください。出来る限りのサポートはしていきます。</p>
-
-<p>今後ともHBFav-Androidをよろしくお願いします!</p>
-
-<p>Special thanks :heart::heart::heart:</p>
-
-<ul>
-<li><a href="https://www.hatena.com/">株式会社はてな様</a> 問い合わせに対してご丁寧に対応していただきました。</li>
-<li><a href="http://stackoverflow.com/">stackoverflowさん</a> 今回も引き続きお世話になりました。</li>
-<li><a href="http://android-ui-utils.googlecode.com/hg/asset-studio/dist/index.html">Android Asset Studioさん</a> UI実装に大変役立ちました。</li>
-<li><a href="http://android-holo-colors.com/">Android Holo Colors Generator</a> UI実装に大変役立ちました。</li>
-</ul>
-
-
-<p>年末年始はdockerで遊ぶ予定です。dockerを利用してちょっと作りたいものがあるので、ちょっと実験してみます。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[scribe-java in Android]]></title>
-    <link href="http://blog.yasuoza.com/2013/12/16/scribe-java-in-android/"/>
-    <updated>2013-12-16T07:04:52+00:00</updated>
-    <id>http://blog.yasuoza.com/2013/12/16/scribe-java-in-android</id>
-    <content type="html"><![CDATA[<p>Famous OAuth libraries for Android are</p>
-
-<ul>
-<li><a href="https://code.google.com/p/oauth-signpost/">oauth-signpost</a></li>
-<li><a href="https://github.com/fernandezpablo85/scribe-java">scribe-java</a></li>
-</ul>
-
-
-<p>There are entries about how to make OAuth authentication using oauth-signpost but I could not find any example using scribe-java, even though it is said</p>
-
-<blockquote><p>Scribe is a mature OAuth library for Java by Pablo Fernandez that is intended to work with all APIs</p></blockquote>
-
-<p><a href="http://oauth.net/code/">http://oauth.net/code/</a></p>
-
-<p>The following example is how to make OAuth 1.0a authentication using scribe-java.</p>
-
-<p>First, create oauth api model:</p>
-
-<p>```java api/TwitterApi.java
-public class TwitterApi extends DefaultApi10a {
-  private static final String AUTHORIZE_URL = &ldquo;<a href="https://api.twitter.com/oauth/authorize?oauth_token=%s">https://api.twitter.com/oauth/authorize?oauth_token=%s</a>&rdquo;;
-  private static final String REQUEST_TOKEN_RESOURCE = &ldquo;api.twitter.com/oauth/request_token&rdquo;;
-  private static final String ACCESS_TOKEN_RESOURCE = &ldquo;api.twitter.com/oauth/access_token&rdquo;;</p>
-
-<p>  @Override {
-  public String getAccessTokenEndpoint()</p>
-
-<pre><code>return "http://" + ACCESS_TOKEN_RESOURCE;
-</code></pre>
-
-<p>  }</p>
-
-<p>  @Override
-  public String getRequestTokenEndpoint() {</p>
-
-<pre><code>return "http://" + REQUEST_TOKEN_RESOURCE;
-</code></pre>
-
-<p>  }</p>
-
-<p>  @Override
-  public String getAuthorizationUrl(Token requestToken) {</p>
-
-<pre><code>return String.format(AUTHORIZE_URL, requestToken.getToken());
-</code></pre>
-
-<p>  }</p>
-
-<p>  public static class SSL extends TwitterApi {</p>
-
-<pre><code>@Override
-public String getAccessTokenEndpoint() {
-  return "https://" + ACCESS_TOKEN_RESOURCE;
-}
-
-@Override
-public String getRequestTokenEndpoint() {
-  return "https://" + REQUEST_TOKEN_RESOURCE;
-}
-</code></pre>
-
-<p>  }</p>
-
-<p>  /<em>*
-   * Twitter &lsquo;friendlier&rsquo; authorization endpoint for OAuth.
-   *
-   * Uses SSL.
-   </em>/
-  public static class Authenticate extends SSL {</p>
-
-<pre><code>private static final String AUTHENTICATE_URL = "https://api.twitter.com/oauth/authenticate?oauth_token=%s";
-
-@Override
-public String getAuthorizationUrl(Token requestToken) {
-  return String.format(AUTHENTICATE_URL, requestToken.getToken());
-}
-</code></pre>
-
-<p>  }</p>
-
-<p>  /<em>*
-   * Just an alias to the default (SSL) authorization endpoint.
-   *
-   * Need to include this for symmetry with &lsquo;Authenticate&rsquo; only.
-   </em>/
-  public static class Authorize extends SSL{}
-}
-```
-(Retrieved from <a href="https://github.com/fernandezpablo85/scribe-java/blob/master/src/main/java/org/scribe/builder/api/TwitterApi.java">scribe/builder/api/TwitterApi.java</a>. You can build your own api model like this.)</p>
-
-<p>Then, use this api model in your Activity with WebView :</p>
-
-<p>```java OauthActivity.java
-public class OauthActivity extends Activity {</p>
-
-<pre><code>private static final String CALLBACK_URL = "http://www.twitter.com";
-
-private WebView mWebView;
-private OauthService mOauthService;
-private Token mRequestToken;
-
-@Override
-public void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-
-    mService = new ServiceBuilder()
-      .provider(TwitterApi.class)
-      .apiKey("YOUR_API_KEY")
-      .apiSecret("YOUR_API_SECRET")
-      .callback(HatenaApi.CALLBACK_URL)
-      .build();
-
-    mWebView = (WebView) findViewById(R.id.webView);
-    mWebView.clearCache(true);
-    mWebView.getSettings().setJavaScriptEnabled(true);
-    mWebView.getSettings().setBuiltInZoomControls(true);
-    mWebView.getSettings().setDisplayZoomControls(false);
-    mWebView.setWebViewClient(mWebViewClient);
-    mWebView.setWebChromeClient(mWebChromeClient);
-
-    setContentView(mWebView);
-
-    startAuthorize();
-}
-
-private void startAuthorize() {
-    (new AsyncTask&lt;Void, Void, String&gt;() {
-        @Override
-        protected String doInBackground(Void... params) {
-            mRequestToken = mService.getRequestToken();
-            return mService.getAuthorizationUrl(mRequestToken);
-        }
-
-        @Override
-        protected void onPostExecute(String url) {
-            mWebView.loadUrl(url);
-        }
-    }).execute();
-}
-
-private WebViewClient mWebViewClient = new WebViewClient() {
-    @Override
-    public void onPageStarted(WebView view, String url, Bitmap favicon) {
-        if ((url != null) &amp;&amp; (url.startsWith(CALLBACK_URL))) { // Override webview when user came back to CALLBACK_URL
-            mWebView.stopLoading();
-            mWebView.setVisibility(View.INVISIBLE); // Hide webview if necessary
-            Uri uri = Uri.parse(url);
-            final Verifier verifier = new Verifier(uri.getQueryParameter("oauth_verifier"));
-            (new AsyncTask&lt;Void, Void, Token&gt;() {
-                @Override
-                protected Token doInBackground(Void... params) {
-                    return mService.getAccessToken(mRequestToken, verifier);
-                }
-
-                @Override
-                protected void onPostExecute(Token accessToken) {
-                    // AccessToken is passed here! Do what you want!
-                    finish();
-                }
-            }).execute();
-        } else {
-            super.onPageStarted(view, url, favicon);
-        }
-    }
-};
-</code></pre>
-
-<p>}
-```</p>
-
-<p>Yeah! You&rsquo;ve done! It&rsquo;s easy isn&rsquo;t it?</p>
-
-<p>Keypoints are</p>
-
-<ul>
-<li>Build service</li>
-<li>Get request token</li>
-<li>Get authorize url</li>
-<li>Get verifier</li>
-<li>Get access token based on the verifier</li>
-</ul>
-
+<p>HBFav-Android ホームページ<br/>
+<a href="http://yasuoza.github.io/HBFav-Android">HBFav-Android</a></p>
 ]]></content>
   </entry>
   
