@@ -19,7 +19,7 @@
   <meta name="author" content="Yasuharu Ozaki">
 
   
-  <meta name="description" content="MySQLで全文検索をさせたくて、 素のカラム MySQL(inonDB)のインデックス 高速な全文検索エンジンmroongaのラッパーモード のそれぞれに対して対して全文検索を行い、そのベンチマークを取りました。 テーブル定義文 ベンチマーク実行プログラムmysqlカラムの検索ワード頭に% &hellip;">
+  <meta name="description" content="gitのリポジトリをターミナル上でブラウズするtigのバージョン1.1がリリースされ、新機能がいろいろ増えていました。Release notes バージョンアップで一番嬉しいのはtigのvertical view対応です。これまではhorizontalにしか分割できなかったので、 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -88,6 +88,55 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2012/10/16/tig-11/">tig 1.1でvertical viewにする</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-10-16T00:00:00+00:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>gitのリポジトリをターミナル上でブラウズするtigのバージョン1.1がリリースされ、新機能がいろいろ増えていました。<a href="http://jonas.nitro.dk/tig/NEWS.html" target="_blank">Release notes</a></p>
+
+<p>バージョンアップで一番嬉しいのはtigのvertical view対応です。これまではhorizontalにしか分割できなかったので、
+vertical分割は画面を縦長に使えて、ざっとdiffの確認したい時なんかに役立ちそうです。</p>
+
+<p><img src="/images/2012/10/Screen-Shot-2012-10-16-at-11.05.46-AM-1024x640.png" alt="" title="Screen Shot 2012-10-16 at 11.05.46 AM" width="770" height="481" class="thumbnail alignnone size-large wp-image-323" /></p>
+
+<p>設定の方法は ~/.tigrc ファイルに</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>set vertical-split = yes</span></code></pre></td></tr></table></div></figure>
+
+
+<p>と記入するだけです。</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -824,88 +873,6 @@ Websocketを使った通知の設定方法も書いてあるので、とても�
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2012/06/29/keyremap4macbook_for_programming/">KeyRemap4MacBookでキーレスポンス速度を上げて快適なプログラミングを</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-06-29T00:00:00+00:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h3>背景</h3>
-
-
-<p>Macのキーレスポンスはデフォルトだとかなり丁寧で、むしろ重く感じる時のほうが多くプログラミングをしているときにイライラする時が結構ありました。</p>
-
-<p>そんな折、前に参加した勉強会でKeyRemap4MacBookを使ってキーレスポンスを上げるとかなり捗るよっていうのを教えてもらったので、メモしておこうと思います。</p>
-
-<p><a href="http://pqrs.org/macosx/keyremap4macbook/" target="_blank">KeyRemap4MacBook</a>は言わずと知れたMacでキーの割当を変えるツールです。例えばUSキーボードのコマンドをJISキーボードのかな/英数と同じように振舞わせるみたいなこともできたりして便利です(僕はやってませんが)。</p>
-
-<p>このKeyRemap4MacBookを使うとキーレスポンスの待ち時間少なくすることができます。カメラの連写速度を上げるというイメージが一番近いと思います。</p>
-
-<h3>インストール</h3>
-
-
-<p>インストール方法はまずKeyRemap4MacBookを<a href="http://pqrs.org/macosx/keyremap4macbook/" target="_blank">本家サイト</a>からダウンロードして解凍してインストールします。
-*僕がインストールしたときはThe Unarchiver.appを使うとファイルが壊れるらしく、Macに最初から入っている解凍アプリを使わないとうまく解凍してインストールするということができませんでした。今は直っているかも知れません。</p>
-
-<h3>設定</h3>
-
-
-<p>インストールすると環境設定.appのその他の項目にKeyRemap4MacBookの項目が追加されます。</p>
-
-<p><a href="/images/2012/06/Screen-Shot-2012-06-29-at-1.09.59-AM.png"><img src="/images/2012/06/Screen-Shot-2012-06-29-at-1.09.59-AM.png" alt="" title="環境設定.app" width="782" height="675" class="aligncenter size-full wp-image-153" /></a></p>
-
-<p>それをクリックして「Key Repeat」の項目を開きます。</p>
-
-<p><a href="/images/2012/06/Screen-Shot-2012-06-29-at-1.12.59-AM.png"><img src="/images/2012/06/Screen-Shot-2012-06-29-at-1.12.59-AM.png" alt="" title="環境設定KeyReat" width="782" height="769" class="aligncenter size-full wp-image-155" /></a></p>
-
-<p>変更するのは一番上の[Key Repeat] Initaial Wait の項目とその次の[Key Repeat] Waitの項目。
-それぞれデフォルトは500、83になっていますが、僕は写真のようにそれぞれ200、20に設定しています。</p>
-
-<p>設定したら特に保存ボタンとか押さず環境設定.appを閉じます。</p>
-
-<h3>検証</h3>
-
-
-<p>適当にメモ帳などを開き、文章を入力して、delete(Ctrl+h)ボタンを押してみて下さい。予期していたよりたくさんの文字が消えたはずです。
-たくさん文章を入力してカーソルキー(Ctrl+(n,p,b,f))でカーソルを移動させてみても予期していたよりかなり早くカーソルが移動します。</p>
-
-<p>つまり、より短い時間でテキストを消したり、より短い時間でカーソルを移動させたい場所に移動させることができるようになります！</p>
-
-<h3>まとめ</h3>
-
-
-<p>KeyRemap4MacBookはとても便利なツールです。caps lockをcontrolに変えたりとかは環境設定.appでもできるけど、KeyRemap4MacBookがあれば、コマンドを押したら日本語と英語の切り替えを行うみたいな複雑な設定を行うことができます。</p>
-
-<p>自分はこんな設定で使ってる！こうすると便利！みたいな設定があればぜひ教えて下さい！</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/page/5/">&larr; Older</a>
@@ -923,6 +890,10 @@ Websocketを使った通知の設定方法も書いてあるので、とても�
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2014/05/16/multi-github-pages-with-custom-domain/">Multi GitHub pages with custom domain</a>
+      </li>
+    
+      <li class="post">
         <a href="/2014/04/02/how-to-lost-trust/">人の信頼を失う方法</a>
       </li>
     
@@ -936,10 +907,6 @@ Websocketを使った通知の設定方法も書いてあるので、とても�
     
       <li class="post">
         <a href="/2014/01/17/jenkins-on-osx-via-homebrew/">Jenkins&#8217;s CSS returns 404 on OSX</a>
-      </li>
-    
-      <li class="post">
-        <a href="/2014/01/13/octopress-plus-github-pages-plus-travis/">Octopress + GitHub Pages + Travis</a>
       </li>
     
   </ul>
