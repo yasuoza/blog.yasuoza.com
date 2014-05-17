@@ -169,6 +169,18 @@ article {
 
 }
 
+pre {
+  background: #fafafa !important;
+  @include border-radius(.4em);
+  @extend .mono;
+  border: 1px solid #C8C8C8;
+  line-height: 1.45em;
+  font-size: 13px;
+  margin-bottom: 2.1em;
+  padding: .8em 1em;
+  overflow: auto;
+}
+
 figure.code {
   figcaption {
     border: none;
