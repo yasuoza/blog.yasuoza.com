@@ -4,7 +4,7 @@
   <title><![CDATA[Category: objective-c | yasuoza diary]]></title>
   <link href="http://blog.yasuoza.com//categories/objective-c/atom.xml" rel="self"/>
   <link href="http://blog.yasuoza.com/"/>
-  <updated>2014-05-28T13:55:26+00:00</updated>
+  <updated>2014-05-28T13:56:03+00:00</updated>
   <id>http://blog.yasuoza.com/</id>
   <author>
     <name><![CDATA[Yasuharu Ozaki]]></name>
@@ -46,7 +46,7 @@ If</code>UserModelManager<code>has</code>secretKey` instance method like:</li>
 <p>}
 ```</p>
 
-<p>Then you can call <code>hello</code> method via</p>
+<p>Then you can call <code>secretkey</code> method via</p>
 
 <p><code>objc
 [[UserModelManager sharedManager] secretkey];
