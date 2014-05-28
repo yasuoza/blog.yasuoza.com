@@ -15,11 +15,11 @@
     }());
   </script>
 
-  <title>Trigger authenticated jenkins job - yasuoza diary</title>
+  <title>Stub sharedManager with OCMock - yasuoza diary</title>
   <meta name="author" content="Yasuharu Ozaki">
 
   
-  <meta name="description" content="Trigger job in authenticated jenkins using ruby! 1
+  <meta name="description" content="If you are iOS/Mac developer, you may have written singleton like following convention: 1
 2
 3
 4
@@ -28,19 +28,7 @@
 7
 8
 9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-require &#39;net/http&#39; server = &#39;https &hellip;">
+static UserModelManager *sharedManager_ = &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -49,7 +37,7 @@ require &#39;net/http&#39; server = &#39;https &hellip;">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://blog.yasuoza.com/2013/01/02/trigger-authenticated-jenkins-job">
+  <link rel="canonical" href="http://blog.yasuoza.com/2014/05/28/stub-sharedmanager-with-ocmock">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="yasuoza diary" type="application/atom+xml">
@@ -112,7 +100,7 @@ require &#39;net/http&#39; server = &#39;https &hellip;">
   
   <header>
     
-      <h1 class="entry-title">Trigger authenticated jenkins job</h1>
+      <h1 class="entry-title">Stub sharedManager with OCMock</h1>
     
     
       <p class="meta">
@@ -128,14 +116,14 @@ require &#39;net/http&#39; server = &#39;https &hellip;">
   
 
 
-<time datetime="2013-01-02T22:33:00+00:00" pubdate data-updated="true">Jan 2<span>nd</span>, 2013</time>
+<time datetime="2014-05-28T13:29:24+00:00" pubdate data-updated="true">May 28<span>th</span>, 2014</time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><p>Trigger job in authenticated jenkins using ruby!</p>
+<div class="entry-content"><p>If you are iOS/Mac developer, you may have written singleton like following convention:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -146,43 +134,52 @@ require &#39;net/http&#39; server = &#39;https &hellip;">
 <span class='line-number'>7</span>
 <span class='line-number'>8</span>
 <span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;net/http&#39;</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">static</span> <span class="n">UserModelManager</span> <span class="o">*</span><span class="n">sharedManager_</span> <span class="o">=</span> <span class="nb">nil</span><span class="p">;</span>
 </span><span class='line'>
-</span><span class='line'><span class="n">server</span> <span class="o">=</span> <span class="s1">&#39;https://your.jenkins.com&#39;</span>
-</span><span class='line'><span class="n">jobname</span> <span class="o">=</span> <span class="s1">&#39;your_jobname&#39;</span>
-</span><span class='line'><span class="n">build_token</span> <span class="o">=</span> <span class="s1">&#39;job_build_token&#39;</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">user</span> <span class="o">=</span> <span class="s1">&#39;you&#39;</span>
-</span><span class='line'><span class="n">user_token</span> <span class="o">=</span> <span class="s1">&#39;your_token&#39;</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">uri</span> <span class="o">=</span> <span class="no">URI</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">#{</span><span class="n">server</span><span class="si">}</span><span class="s2">/job/</span><span class="si">#{</span><span class="n">jobname</span><span class="si">}</span><span class="s2">/build?token=</span><span class="si">#{</span><span class="n">build_token</span><span class="si">}</span><span class="s2">&amp;cause=remote+trigger&quot;</span><span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">request</span> <span class="o">=</span> <span class="ss">Net</span><span class="p">:</span><span class="ss">:HTTP</span><span class="o">::</span><span class="no">Get</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">uri</span><span class="o">.</span><span class="n">request_uri</span><span class="p">)</span>
-</span><span class='line'><span class="n">request</span><span class="o">.</span><span class="n">basic_auth</span> <span class="n">user</span><span class="p">,</span> <span class="n">user_token</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">res</span> <span class="o">=</span> <span class="ss">Net</span><span class="p">:</span><span class="ss">:HTTP</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="n">uri</span><span class="o">.</span><span class="n">hostname</span><span class="p">,</span>
-</span><span class='line'>                      <span class="n">uri</span><span class="o">.</span><span class="n">port</span><span class="p">,</span>
-</span><span class='line'>                      <span class="n">use_ssl</span><span class="p">:</span> <span class="n">uri</span><span class="o">.</span><span class="n">scheme</span> <span class="o">==</span> <span class="s1">&#39;https&#39;</span><span class="p">)</span> <span class="p">{</span> <span class="o">|</span><span class="n">http</span><span class="o">|</span>
-</span><span class='line'>  <span class="n">http</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+</span><span class='line'><span class="k">+</span> <span class="p">(</span><span class="n">UserModelManager</span> <span class="o">*</span><span class="p">)</span><span class="nf">sharedManager</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">static</span> <span class="n">dispatch_once_t</span> <span class="n">onceToken</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">dispatch_once</span><span class="p">(</span><span class="o">&amp;</span><span class="n">onceToken</span><span class="p">,</span> <span class="o">^</span><span class="p">{</span>
+</span><span class='line'>        <span class="n">sharedManager_</span> <span class="o">=</span> <span class="p">[[</span><span class="n">UserModelManager</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
+</span><span class='line'>    <span class="p">});</span>
+</span><span class='line'>    <span class="k">return</span> <span class="n">sharedManager_</span><span class="p">;</span>
 </span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="nb">p</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">res</span><span class="o">.</span><span class="n">code</span><span class="si">}</span><span class="s2">: </span><span class="si">#{</span><span class="n">res</span><span class="o">.</span><span class="n">msg</span><span class="si">}</span><span class="s2">&quot;</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>If you use your &lsquo;own&rsquo; ssl certification, ignore <code>Certificate verify failed</code> with <code>OpenSSL::SSL::VERIFY_NONE</code> option like this</p>
+<p>If <code>UserModelManager</code> has <code>secretKey</code> instance method like:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">-</span> <span class="p">(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nf">secretKey</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="k">return</span> <span class="s">&quot;secret key provided from server side&quot;</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Then you can call <code>hello</code> method via</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="p">[[</span><span class="n">UserModelManager</span> <span class="n">sharedManager</span><span class="p">]</span> <span class="n">secretkey</span><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>It&rsquo;s OK until you have to stub <code>secretKey</code> in a test.</p>
+
+<p>The solution to stub <code>sharedManager</code> and <code>secretkey</code> is:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">_mockUserModelManager</span> <span class="o">=</span> <span class="p">[</span><span class="n">OCMockObject</span> <span class="nl">niceMockForClass:</span><span class="p">[</span><span class="n">UserModelManager</span> <span class="n">class</span><span class="p">]];</span>
+</span><span class='line'><span class="p">[[[</span><span class="n">_mockUserModelManager</span> <span class="n">stub</span><span class="p">]</span> <span class="nl">andReturn:</span><span class="s">@&quot;test-key&quot;</span><span class="p">]</span> <span class="n">secretkey</span><span class="p">];</span>
+</span><span class='line'><span class="p">[[[[</span><span class="n">_mockUserModelManager</span> <span class="n">stub</span><span class="p">]</span> <span class="n">classMethod</span><span class="p">]</span> <span class="nl">andReturn:</span><span class="n">_mockUserModelManager</span><span class="p">]</span> <span class="n">sharedManager</span><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>To clean up your stub methods, DO NOT forget <code>stopMocking</code> in <code>tearDown</code>.</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -190,11 +187,11 @@ require &#39;net/http&#39; server = &#39;https &hellip;">
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">res</span> <span class="o">=</span> <span class="ss">Net</span><span class="p">:</span><span class="ss">:HTTP</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="n">uri</span><span class="o">.</span><span class="n">hostname</span><span class="p">,</span>
-</span><span class='line'>                      <span class="n">uri</span><span class="o">.</span><span class="n">port</span><span class="p">,</span>
-</span><span class='line'>                      <span class="n">use_ssl</span><span class="p">:</span> <span class="n">uri</span><span class="o">.</span><span class="n">scheme</span> <span class="o">==</span> <span class="s1">&#39;https&#39;</span><span class="p">,</span>
-</span><span class='line'>                      <span class="n">verify_mode</span><span class="p">:</span> <span class="ss">OpenSSL</span><span class="p">:</span><span class="ss">:SSL</span><span class="o">::</span><span class="no">VERIFY_NONE</span><span class="p">)</span> <span class="p">{</span> <span class="o">|</span><span class="n">http</span><span class="o">|</span>
-</span><span class='line'>  <span class="n">http</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">tearDown</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="p">[</span><span class="n">super</span> <span class="n">tearDown</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="p">[</span><span class="n">_mockUserModelManager</span> <span class="n">stopMocking</span><span class="p">];</span>
 </span><span class='line'><span class="p">}</span>
 </span></code></pre></td></tr></table></div></figure>
 
@@ -220,12 +217,12 @@ require &#39;net/http&#39; server = &#39;https &hellip;">
   
 
 
-<time datetime="2013-01-02T22:33:00+00:00" pubdate data-updated="true">Jan 2<span>nd</span>, 2013</time>
+<time datetime="2014-05-28T13:29:24+00:00" pubdate data-updated="true">May 28<span>th</span>, 2014</time>
       
 
 <span class="categories">
   
-    <a class='category' href='//categories/jenkins/'>jenkins</a>
+    <a class='category' href='//categories/objective-c/'>objective-c</a>
   
 </span>
 
@@ -234,7 +231,7 @@ require &#39;net/http&#39; server = &#39;https &hellip;">
     
       <div class="sharing">
   
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://blog.yasuoza.com/2013/01/02/trigger-authenticated-jenkins-job/" data-via="" data-counturl="http://blog.yasuoza.com/2013/01/02/trigger-authenticated-jenkins-job/" >Tweet</a>
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://blog.yasuoza.com/2014/05/28/stub-sharedmanager-with-ocmock/" data-via="" data-counturl="http://blog.yasuoza.com/2014/05/28/stub-sharedmanager-with-ocmock/" >Tweet</a>
   
   
   
@@ -245,10 +242,8 @@ require &#39;net/http&#39; server = &#39;https &hellip;">
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/2012/12/28/unable-to-install-nokogiri-to-ubuntu-12-dot-04/" title="Previous Post: Solved unable to install nokogiri to ubuntu 12.04">&laquo; Solved unable to install nokogiri to ubuntu 12.04</a>
+        <a class="basic-alignment left" href="/2014/05/16/multi-github-pages-with-custom-domain/" title="Previous Post: Multi GitHub pages with custom domain">&laquo; Multi GitHub pages with custom domain</a>
       
-      
-        <a class="basic-alignment right" href="/2013/01/22/set-another-ip-on-scalatra-spec/" title="Next Post: Set another IP on scalatra spec">Set another IP on scalatra spec &raquo;</a>
       
     </p>
   </footer>
@@ -315,8 +310,8 @@ require &#39;net/http&#39; server = &#39;https &hellip;">
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://blog.yasuoza.com/2013/01/02/trigger-authenticated-jenkins-job/';
-        var disqus_url = 'http://blog.yasuoza.com/2013/01/02/trigger-authenticated-jenkins-job/';
+        var disqus_identifier = 'http://blog.yasuoza.com/2014/05/28/stub-sharedmanager-with-ocmock/';
+        var disqus_url = 'http://blog.yasuoza.com/2014/05/28/stub-sharedmanager-with-ocmock/';
         var disqus_script = 'embed.js';
       
     (function () {

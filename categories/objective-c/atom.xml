@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: objective-c | yasuoza diary]]></title>
+  <link href="http://blog.yasuoza.com//categories/objective-c/atom.xml" rel="self"/>
+  <link href="http://blog.yasuoza.com/"/>
+  <updated>2014-05-28T13:55:26+00:00</updated>
+  <id>http://blog.yasuoza.com/</id>
+  <author>
+    <name><![CDATA[Yasuharu Ozaki]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Stub sharedManager with OCMock]]></title>
+    <link href="http://blog.yasuoza.com/2014/05/28/stub-sharedmanager-with-ocmock/"/>
+    <updated>2014-05-28T13:29:24+00:00</updated>
+    <id>http://blog.yasuoza.com/2014/05/28/stub-sharedmanager-with-ocmock</id>
+    <content type="html"><![CDATA[<p>If you are iOS/Mac developer, you may have written singleton like following convention:</p>
+
+<p>```objc
+static UserModelManager *sharedManager_ = nil;</p>
+
+<ul>
+<li>(UserModelManager *)sharedManager {
+  static dispatch_once_t onceToken;
+  dispatch_once(&amp;onceToken, ^{
+      sharedManager<em> = [[UserModelManager alloc] init];
+  });
+  return sharedManager</em>;
+}
+<code>``
+If</code>UserModelManager<code>has</code>secretKey` instance method like:</li>
+</ul>
+
+
+<p>```objc
+&ndash; (NSString *)secretKey
+{</p>
+
+<pre><code>return "secret key provided from server side";
+</code></pre>
+
+<p>}
+```</p>
+
+<p>Then you can call <code>hello</code> method via</p>
+
+<p><code>objc
+[[UserModelManager sharedManager] secretkey];
+</code></p>
+
+<p>It&rsquo;s OK until you have to stub <code>secretKey</code> in a test.</p>
+
+<p>The solution to stub <code>sharedManager</code> and <code>secretkey</code> is:</p>
+
+<p><code>objc
+_mockUserModelManager = [OCMockObject niceMockForClass:[UserModelManager class]];
+[[[_mockUserModelManager stub] andReturn:@"test-key"] secretkey];
+[[[[_mockUserModelManager stub] classMethod] andReturn:_mockUserModelManager] sharedManager];
+</code></p>
+
+<p>To clean up your stub methods, DO NOT forget <code>stopMocking</code> in <code>tearDown</code>.</p>
+
+<p>```
+&ndash; (void)tearDown
+{</p>
+
+<pre><code>[super tearDown];
+
+[_mockUserModelManager stopMocking];
+</code></pre>
+
+<p>}
+```</p>
+]]></content>
+  </entry>
+  
+</feed>

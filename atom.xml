@@ -4,7 +4,7 @@
   <title><![CDATA[yasuoza diary]]></title>
   <link href="http://blog.yasuoza.com/atom.xml" rel="self"/>
   <link href="http://blog.yasuoza.com/"/>
-  <updated>2014-05-17T11:56:01+00:00</updated>
+  <updated>2014-05-28T13:55:26+00:00</updated>
   <id>http://blog.yasuoza.com/</id>
   <author>
     <name><![CDATA[Yasuharu Ozaki]]></name>
@@ -12,6 +12,86 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Stub sharedManager with OCMock]]></title>
+    <link href="http://blog.yasuoza.com/2014/05/28/stub-sharedmanager-with-ocmock/"/>
+    <updated>2014-05-28T13:29:24+00:00</updated>
+    <id>http://blog.yasuoza.com/2014/05/28/stub-sharedmanager-with-ocmock</id>
+    <content type="html"><![CDATA[<p>If you are iOS/Mac developer, you may have written singleton like following convention:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">static</span> <span class="n">UserModelManager</span> <span class="o">*</span><span class="n">sharedManager_</span> <span class="o">=</span> <span class="nb">nil</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">+</span> <span class="p">(</span><span class="n">UserModelManager</span> <span class="o">*</span><span class="p">)</span><span class="nf">sharedManager</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">static</span> <span class="n">dispatch_once_t</span> <span class="n">onceToken</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">dispatch_once</span><span class="p">(</span><span class="o">&amp;</span><span class="n">onceToken</span><span class="p">,</span> <span class="o">^</span><span class="p">{</span>
+</span><span class='line'>        <span class="n">sharedManager_</span> <span class="o">=</span> <span class="p">[[</span><span class="n">UserModelManager</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
+</span><span class='line'>    <span class="p">});</span>
+</span><span class='line'>    <span class="k">return</span> <span class="n">sharedManager_</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>If <code>UserModelManager</code> has <code>secretKey</code> instance method like:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">-</span> <span class="p">(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nf">secretKey</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="k">return</span> <span class="s">&quot;secret key provided from server side&quot;</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Then you can call <code>hello</code> method via</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="p">[[</span><span class="n">UserModelManager</span> <span class="n">sharedManager</span><span class="p">]</span> <span class="n">secretkey</span><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>It&rsquo;s OK until you have to stub <code>secretKey</code> in a test.</p>
+
+<p>The solution to stub <code>sharedManager</code> and <code>secretkey</code> is:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">_mockUserModelManager</span> <span class="o">=</span> <span class="p">[</span><span class="n">OCMockObject</span> <span class="nl">niceMockForClass:</span><span class="p">[</span><span class="n">UserModelManager</span> <span class="n">class</span><span class="p">]];</span>
+</span><span class='line'><span class="p">[[[</span><span class="n">_mockUserModelManager</span> <span class="n">stub</span><span class="p">]</span> <span class="nl">andReturn:</span><span class="s">@&quot;test-key&quot;</span><span class="p">]</span> <span class="n">secretkey</span><span class="p">];</span>
+</span><span class='line'><span class="p">[[[[</span><span class="n">_mockUserModelManager</span> <span class="n">stub</span><span class="p">]</span> <span class="n">classMethod</span><span class="p">]</span> <span class="nl">andReturn:</span><span class="n">_mockUserModelManager</span><span class="p">]</span> <span class="n">sharedManager</span><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>To clean up your stub methods, DO NOT forget <code>stopMocking</code> in <code>tearDown</code>.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">tearDown</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="p">[</span><span class="n">super</span> <span class="n">tearDown</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="p">[</span><span class="n">_mockUserModelManager</span> <span class="n">stopMocking</span><span class="p">];</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Multi GitHub pages with custom domain]]></title>
@@ -1413,43 +1493,6 @@ The only thing you have to do is set <code>X-Forwarded-For</code> and <code>CLIE
 </span><span class='line'><span class="p">}</span>
 </span></code></pre></td></tr></table></div></figure>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Solved unable to install nokogiri to ubuntu 12.04]]></title>
-    <link href="http://blog.yasuoza.com/2012/12/28/unable-to-install-nokogiri-to-ubuntu-12-dot-04/"/>
-    <updated>2012-12-28T14:10:00+00:00</updated>
-    <id>http://blog.yasuoza.com/2012/12/28/unable-to-install-nokogiri-to-ubuntu-12-dot-04</id>
-    <content type="html"><![CDATA[<p>I tried install nokogiri into my ubuntu 12.04 server, but failed with following error message</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>checking for libxml/parser.h... yes
-</span><span class='line'>checking for libxslt/xslt.h... yes
-</span><span class='line'>checking for libexslt/exslt.h... yes
-</span><span class='line'>checking for iconv_open() in iconv.h... yes
-</span><span class='line'>checking for xmlParseDoc() in -lxml2... yes
-</span><span class='line'>checking for xsltParseStylesheetDoc() in -lxslt... no
-</span><span class='line'>-----
-</span><span class='line'>libxslt is missing.  please visit http://nokogiri.org/tutorials/installing_nokogiri.html for help with installing dependencies.
-</span><span class='line'>-----</span></code></pre></td></tr></table></div></figure>
-
-
-<p><a href="http://nokogiri.org/tutorials/installing_nokogiri.html">Official install guide page</a> and many other sites said to install <code>libxslt1-dev</code>,
-but it does not solve my problem.</p>
-
-<p>Ubuntu 12.04 installs <code>libxslt1-dev</code> instead of <code>libxslt-dev</code>, so I installed libxslt source
-code(<a href="http://www.linuxfromscratch.org/blfs/view/6.3/general/libxslt.html">libxslt-1.1.22</a>) and installed by myself.</p>
-
-<p>Then I cloud install nokogiri.</p>
 ]]></content>
   </entry>
   
