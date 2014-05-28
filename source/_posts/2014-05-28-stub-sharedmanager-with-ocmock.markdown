@@ -29,7 +29,7 @@ If `UserModelManager` has `secretKey` instance method like:
 }
 ```
 
-Then you can call `hello` method via
+Then you can call `secretkey` method via
 
 ```objc
 [[UserModelManager sharedManager] secretkey];
