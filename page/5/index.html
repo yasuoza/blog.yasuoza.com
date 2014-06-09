@@ -19,9 +19,7 @@
   <meta name="author" content="Yasuharu Ozaki">
 
   
-  <meta name="description" content="facebookやツイッターのソーシャルボタンをサイトに置くことが多くなってきています。
-特にサイトのトップページや、ニューストップページには記事の見出しごとにソーシャルボタンを配置したりして、
-かなりページの読み込みが遅くなってしまっているページを良く見かけます。 そこで、 &hellip;">
+  <meta name="description" content="僕はQuitaが開発をしているKobito.appを使って公開できないコードや、オフラインでも使いたいコードをメモしています。 そのKobito.appはEvernoteのように複数端末間でデータを共有できないので、そのデータをDropboxを介して共有するコマンドです。 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -90,6 +88,90 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2012/07/05/share-kobito-app-data/">kobito.appのデータを複数のMacで共有する</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-07-05T00:00:00+00:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>僕はQuitaが開発をしている<a href="http://kobitoapp.com/" target="_blank">Kobito.app</a>を使って公開できないコードや、オフラインでも使いたいコードをメモしています。</p>
+
+
+
+
+<p>そのKobito.appはEvernoteのように複数端末間でデータを共有できないので、そのデータをDropboxを介して共有するコマンドです。
+ターミナルを開いて次のコマンドを入力して下さい。</p>
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ mkdir -p ~/Dropbox/.KobitoDB
+</span><span class='line'>$ mv ~/Library/Kobito/Kobito.db ~/Dropbox/.KobitoDB/
+</span><span class='line'>$ ln -s ~/Dropbox/.KobitoDB/Kobito.db ~/Library/Kobito/</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<p>単純にDropboxに隠しディレクトリを作ってそこに今のKobito.appのDBを移動して、前あった場所にシンボリックリンクを貼るというだけの簡単なコマンドです。</p>
+
+
+
+
+<p>ただ、Kobito.appの挙動を追っているとエントリーを追加して保存(cmd+s)をしてもDBに格納するわけではなく、新規で保存したエントリーはオンメモリで保存しておき、kobito.appが終了(cmd+q)するときに新規で保存したエントリーをDBに格納するようです。</p>
+
+
+
+
+<p>なので、複数端末間でデータを共有するためにはある程度エントリーをある程度書いたらアプリケーションを終了するしかないようです。</p>
+
+
+
+
+<p>また、アプリ起動中はDBに変更があってもアプリケーション側ではDBをロードせず、他の端末で追加されたエントリーをリアルタイムで取得できません。
+これも一度アプリを終了して再度立ち上げると解決します。</p>
+
+
+
+
+<p>僕は基本的に不必要なアプリは終了してメモリを開放してあげるようにしているので、上記の使い方でも問題なく、複数端末間で共有できてかなり捗ってます。</p>
+
+
+
+
+<p>複数端末でKobito.appを使っている場合はぜひお試しください。</p>
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -825,6 +907,10 @@ Macの画面共有が便利とか、vim勉強しようとか。</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2014/06/09/remove-const-vs-stub-const/">remove_const vs stub_const</a>
+      </li>
+    
+      <li class="post">
         <a href="/2014/05/28/stub-sharedmanager-with-ocmock/">Stub sharedManager with OCMock</a>
       </li>
     
@@ -838,10 +924,6 @@ Macの画面共有が便利とか、vim勉強しようとか。</p>
     
       <li class="post">
         <a href="/2014/02/17/kawaii-merge-diff-in-tig/">Kawaii merge diffs in tig</a>
-      </li>
-    
-      <li class="post">
-        <a href="/2014/01/28/advanced-ruby-install-via-rbenv-in-osx/">Advanced ruby install via rbenv in OSX</a>
       </li>
     
   </ul>

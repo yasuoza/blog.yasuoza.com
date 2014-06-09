@@ -2,222 +2,226 @@
 <urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>
     <url>
         <loc>http://blog.yasuoza.com/2012/04/13/markdown/</loc>
-        <lastmod>2014-05-28T13:54:10+00:00</lastmod>
+        <lastmod>2014-06-09T13:26:15+00:00</lastmod>
     </url>
     <url>
         <loc>http://blog.yasuoza.com/2012/04/20/helloworld/</loc>
-        <lastmod>2014-05-28T13:54:10+00:00</lastmod>
+        <lastmod>2014-06-09T13:26:15+00:00</lastmod>
     </url>
     <url>
         <loc>http://blog.yasuoza.com/2012/04/23/fastcgi-on-nginx/</loc>
-        <lastmod>2014-05-28T13:54:10+00:00</lastmod>
+        <lastmod>2014-06-09T13:26:15+00:00</lastmod>
     </url>
     <url>
         <loc>http://blog.yasuoza.com/2012/04/23/forecastpusher/</loc>
-        <lastmod>2014-05-28T13:54:10+00:00</lastmod>
+        <lastmod>2014-06-09T13:26:15+00:00</lastmod>
     </url>
     <url>
         <loc>
             http://blog.yasuoza.com/2012/04/28/coderetreat-in-drecom-powered-by-agileshibuya/
         </loc>
-        <lastmod>2014-05-28T13:54:10+00:00</lastmod>
+        <lastmod>2014-06-09T13:26:15+00:00</lastmod>
     </url>
     <url>
         <loc>http://blog.yasuoza.com/2012/06/24/asynctest_in_quit/</loc>
-        <lastmod>2014-05-28T13:54:10+00:00</lastmod>
+        <lastmod>2014-06-09T13:26:15+00:00</lastmod>
     </url>
     <url>
         <loc>http://blog.yasuoza.com/2012/06/29/keyremap4macbook_for_programming/</loc>
-        <lastmod>2014-05-28T13:54:10+00:00</lastmod>
+        <lastmod>2014-06-09T13:26:15+00:00</lastmod>
     </url>
     <url>
         <loc>http://blog.yasuoza.com/2012/07/01/lazy-social-butto/</loc>
-        <lastmod>2014-05-28T13:54:10+00:00</lastmod>
+        <lastmod>2014-06-09T13:26:15+00:00</lastmod>
     </url>
     <url>
         <loc>http://blog.yasuoza.com/2012/07/05/share-kobito-app-data/</loc>
-        <lastmod>2014-05-28T13:54:10+00:00</lastmod>
+        <lastmod>2014-06-09T13:26:15+00:00</lastmod>
     </url>
     <url>
         <loc>http://blog.yasuoza.com/2012/08/16/devise-omniauth-facebook/</loc>
-        <lastmod>2014-05-28T13:54:10+00:00</lastmod>
+        <lastmod>2014-06-09T13:26:15+00:00</lastmod>
     </url>
     <url>
         <loc>http://blog.yasuoza.com/2012/08/22/jenkins-websocket-plugin/</loc>
-        <lastmod>2014-05-28T13:54:10+00:00</lastmod>
+        <lastmod>2014-06-09T13:26:15+00:00</lastmod>
     </url>
     <url>
         <loc>http://blog.yasuoza.com/2012/08/24/encodinginvalidbytesequenceerror/</loc>
-        <lastmod>2014-05-28T13:54:10+00:00</lastmod>
+        <lastmod>2014-06-09T13:26:15+00:00</lastmod>
     </url>
     <url>
         <loc>http://blog.yasuoza.com/2012/09/18/clear_chromefavicon_cache/</loc>
-        <lastmod>2014-05-28T13:54:10+00:00</lastmod>
+        <lastmod>2014-06-09T13:26:15+00:00</lastmod>
     </url>
     <url>
         <loc>http://blog.yasuoza.com/2012/09/19/swap_variables/</loc>
-        <lastmod>2014-05-28T13:54:10+00:00</lastmod>
+        <lastmod>2014-06-09T13:26:15+00:00</lastmod>
     </url>
     <url>
         <loc>http://blog.yasuoza.com/2012/09/21/brew_upgrade_git_erro/</loc>
-        <lastmod>2014-05-28T13:54:10+00:00</lastmod>
+        <lastmod>2014-06-09T13:26:15+00:00</lastmod>
     </url>
     <url>
         <loc>http://blog.yasuoza.com/2012/10/12/bench_for_mroonga_wrapper_mode/</loc>
-        <lastmod>2014-05-28T13:54:10+00:00</lastmod>
+        <lastmod>2014-06-09T13:26:15+00:00</lastmod>
     </url>
     <url>
         <loc>http://blog.yasuoza.com/2012/10/16/tig-11/</loc>
-        <lastmod>2014-05-28T13:54:10+00:00</lastmod>
+        <lastmod>2014-06-09T13:26:15+00:00</lastmod>
     </url>
     <url>
         <loc>http://blog.yasuoza.com/2012/11/12/chrome-extension-retinasupport/</loc>
-        <lastmod>2014-05-28T13:54:10+00:00</lastmod>
+        <lastmod>2014-06-09T13:26:15+00:00</lastmod>
     </url>
     <url>
         <loc>http://blog.yasuoza.com/2012/11/30/mroonga_in_rails/</loc>
-        <lastmod>2014-05-28T13:54:10+00:00</lastmod>
+        <lastmod>2014-06-09T13:26:15+00:00</lastmod>
     </url>
     <url>
         <loc>http://blog.yasuoza.com/2012/12/02/neocomplcache-ruby-indent/</loc>
-        <lastmod>2014-05-28T13:54:10+00:00</lastmod>
+        <lastmod>2014-06-09T13:26:15+00:00</lastmod>
     </url>
     <url>
         <loc>http://blog.yasuoza.com/2012/12/05/hello-world/</loc>
-        <lastmod>2014-05-28T13:54:10+00:00</lastmod>
+        <lastmod>2014-06-09T13:26:15+00:00</lastmod>
     </url>
     <url>
         <loc>http://blog.yasuoza.com/2012/12/06/no-more-rbenv-rehash/</loc>
-        <lastmod>2014-05-28T13:54:10+00:00</lastmod>
+        <lastmod>2014-06-09T13:26:15+00:00</lastmod>
     </url>
     <url>
         <loc>http://blog.yasuoza.com/2012/12/09/wordpress-to-octpress/</loc>
-        <lastmod>2014-05-28T13:54:10+00:00</lastmod>
+        <lastmod>2014-06-09T13:26:15+00:00</lastmod>
     </url>
     <url>
         <loc>http://blog.yasuoza.com/2012/12/14/array-number-compact-in-coffeescript/</loc>
-        <lastmod>2014-05-28T13:54:10+00:00</lastmod>
+        <lastmod>2014-06-09T13:26:15+00:00</lastmod>
     </url>
     <url>
         <loc>http://blog.yasuoza.com/2012/12/15/blog-update-notificator/</loc>
-        <lastmod>2014-05-28T13:54:10+00:00</lastmod>
+        <lastmod>2014-06-09T13:26:15+00:00</lastmod>
     </url>
     <url>
         <loc>
             http://blog.yasuoza.com/2012/12/19/activemodel-attribute-changed-specification-released/
         </loc>
-        <lastmod>2014-05-28T13:54:10+00:00</lastmod>
+        <lastmod>2014-06-09T13:26:15+00:00</lastmod>
     </url>
     <url>
         <loc>http://blog.yasuoza.com/2012/12/19/alfred-extension-for-git-io/</loc>
-        <lastmod>2014-05-28T13:54:10+00:00</lastmod>
+        <lastmod>2014-06-09T13:26:15+00:00</lastmod>
     </url>
     <url>
         <loc>
             http://blog.yasuoza.com/2012/12/28/unable-to-install-nokogiri-to-ubuntu-12-dot-04/
         </loc>
-        <lastmod>2014-05-28T13:54:10+00:00</lastmod>
+        <lastmod>2014-06-09T13:26:15+00:00</lastmod>
     </url>
     <url>
         <loc>http://blog.yasuoza.com/2013/01/02/trigger-authenticated-jenkins-job/</loc>
-        <lastmod>2014-05-28T13:54:10+00:00</lastmod>
+        <lastmod>2014-06-09T13:26:15+00:00</lastmod>
     </url>
     <url>
         <loc>http://blog.yasuoza.com/2013/01/22/set-another-ip-on-scalatra-spec/</loc>
-        <lastmod>2014-05-28T13:54:10+00:00</lastmod>
+        <lastmod>2014-06-09T13:26:15+00:00</lastmod>
     </url>
     <url>
         <loc>http://blog.yasuoza.com/2013/01/31/start-play-application-from-play-console/</loc>
-        <lastmod>2014-05-28T13:54:10+00:00</lastmod>
+        <lastmod>2014-06-09T13:26:15+00:00</lastmod>
     </url>
     <url>
         <loc>
             http://blog.yasuoza.com/2013/03/31/get-remote-ip-through-nginx-proxy-server-in-rack/
         </loc>
-        <lastmod>2014-05-28T13:54:10+00:00</lastmod>
+        <lastmod>2014-06-09T13:26:15+00:00</lastmod>
     </url>
     <url>
         <loc>http://blog.yasuoza.com/2013/04/06/sprockets-with-padrino-without-plugin/</loc>
-        <lastmod>2014-05-28T13:54:10+00:00</lastmod>
+        <lastmod>2014-06-09T13:26:15+00:00</lastmod>
     </url>
     <url>
         <loc>http://blog.yasuoza.com/2013/08/08/trigger-jenkins-from-gitlab-push-hook/</loc>
-        <lastmod>2014-05-28T13:54:10+00:00</lastmod>
+        <lastmod>2014-06-09T13:26:15+00:00</lastmod>
     </url>
     <url>
         <loc>http://blog.yasuoza.com/2013/11/21/kawaii-git-diff/</loc>
-        <lastmod>2014-05-28T13:54:10+00:00</lastmod>
+        <lastmod>2014-06-09T13:26:15+00:00</lastmod>
     </url>
     <url>
         <loc>http://blog.yasuoza.com/2013/12/09/hbfav-2-0-0-release/</loc>
-        <lastmod>2014-05-28T13:54:10+00:00</lastmod>
+        <lastmod>2014-06-09T13:26:15+00:00</lastmod>
     </url>
     <url>
         <loc>http://blog.yasuoza.com/2013/12/13/akirameru_toiukoto/</loc>
-        <lastmod>2014-05-28T13:54:10+00:00</lastmod>
+        <lastmod>2014-06-09T13:26:15+00:00</lastmod>
     </url>
     <url>
         <loc>http://blog.yasuoza.com/2013/12/16/scribe-java-in-android/</loc>
-        <lastmod>2014-05-28T13:54:10+00:00</lastmod>
+        <lastmod>2014-06-09T13:26:15+00:00</lastmod>
     </url>
     <url>
         <loc>http://blog.yasuoza.com/2013/12/27/hbfav-android-2-1-1/</loc>
-        <lastmod>2014-05-28T13:54:10+00:00</lastmod>
+        <lastmod>2014-06-09T13:26:15+00:00</lastmod>
     </url>
     <url>
         <loc>http://blog.yasuoza.com/2014/01/07/words/</loc>
-        <lastmod>2014-05-28T13:54:10+00:00</lastmod>
+        <lastmod>2014-06-09T13:26:15+00:00</lastmod>
     </url>
     <url>
         <loc>http://blog.yasuoza.com/2014/01/10/docker-in-osx-without-dvm/</loc>
-        <lastmod>2014-05-28T13:54:10+00:00</lastmod>
+        <lastmod>2014-06-09T13:26:15+00:00</lastmod>
     </url>
     <url>
         <loc>http://blog.yasuoza.com/2014/01/13/octopress-plus-github-pages-plus-travis/</loc>
-        <lastmod>2014-05-28T13:54:10+00:00</lastmod>
+        <lastmod>2014-06-09T13:26:15+00:00</lastmod>
     </url>
     <url>
         <loc>http://blog.yasuoza.com/2014/01/17/jenkins-on-osx-via-homebrew/</loc>
-        <lastmod>2014-05-28T13:54:10+00:00</lastmod>
+        <lastmod>2014-06-09T13:26:15+00:00</lastmod>
     </url>
     <url>
         <loc>http://blog.yasuoza.com/2014/01/28/advanced-ruby-install-via-rbenv-in-osx/</loc>
-        <lastmod>2014-05-28T13:54:10+00:00</lastmod>
+        <lastmod>2014-06-09T13:26:15+00:00</lastmod>
     </url>
     <url>
         <loc>http://blog.yasuoza.com/2014/02/17/kawaii-merge-diff-in-tig/</loc>
-        <lastmod>2014-05-28T13:54:10+00:00</lastmod>
+        <lastmod>2014-06-09T13:26:15+00:00</lastmod>
     </url>
     <url>
         <loc>http://blog.yasuoza.com/2014/04/02/how-to-lost-trust/</loc>
-        <lastmod>2014-05-28T13:54:10+00:00</lastmod>
+        <lastmod>2014-06-09T13:26:15+00:00</lastmod>
     </url>
     <url>
         <loc>http://blog.yasuoza.com/2014/05/16/multi-github-pages-with-custom-domain/</loc>
-        <lastmod>2014-05-28T13:54:10+00:00</lastmod>
+        <lastmod>2014-06-09T13:26:15+00:00</lastmod>
     </url>
     <url>
         <loc>http://blog.yasuoza.com/2014/05/28/stub-sharedmanager-with-ocmock/</loc>
-        <lastmod>2014-05-28T13:54:10+00:00</lastmod>
+        <lastmod>2014-06-09T13:26:15+00:00</lastmod>
     </url>
     <url>
-        <loc>http://blog.yasuoza.com/blog/archives/</loc>
-        <lastmod>2014-05-28T13:54:10+00:00</lastmod>
-    </url>
-    <url>
-        <loc>http://blog.yasuoza.com/</loc>
-        <lastmod>2014-05-28T13:54:10+00:00</lastmod>
+        <loc>http://blog.yasuoza.com/2014/06/09/remove-const-vs-stub-const/</loc>
+        <lastmod>2014-06-09T13:26:15+00:00</lastmod>
     </url>
     <url>
         <loc>http://blog.yasuoza.com/archives/</loc>
-        <lastmod>2014-05-28T13:54:10+00:00</lastmod>
+        <lastmod>2014-06-09T13:26:15+00:00</lastmod>
     </url>
     <url>
         <loc>http://blog.yasuoza.com/about/</loc>
-        <lastmod>2014-05-28T13:54:10+00:00</lastmod>
+        <lastmod>2014-06-09T13:26:15+00:00</lastmod>
     </url>
     <url>
         <loc>http://blog.yasuoza.com/robots.txt</loc>
-        <lastmod>2014-05-28T13:54:10+00:00</lastmod>
+        <lastmod>2014-06-09T13:26:15+00:00</lastmod>
+    </url>
+    <url>
+        <loc>http://blog.yasuoza.com/</loc>
+        <lastmod>2014-06-09T13:26:15+00:00</lastmod>
+    </url>
+    <url>
+        <loc>http://blog.yasuoza.com/blog/archives/</loc>
+        <lastmod>2014-06-09T13:26:15+00:00</lastmod>
     </url>
 </urlset>

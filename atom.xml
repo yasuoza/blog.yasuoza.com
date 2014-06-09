@@ -4,7 +4,7 @@
   <title><![CDATA[yasuoza diary]]></title>
   <link href="http://blog.yasuoza.com/atom.xml" rel="self"/>
   <link href="http://blog.yasuoza.com/"/>
-  <updated>2014-05-28T13:56:03+00:00</updated>
+  <updated>2014-06-09T13:27:40+00:00</updated>
   <id>http://blog.yasuoza.com/</id>
   <author>
     <name><![CDATA[Yasuharu Ozaki]]></name>
@@ -12,6 +12,132 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[remove_const vs stub_const]]></title>
+    <link href="http://blog.yasuoza.com/2014/06/09/remove-const-vs-stub-const/"/>
+    <updated>2014-06-09T12:51:16+00:00</updated>
+    <id>http://blog.yasuoza.com/2014/06/09/remove-const-vs-stub-const</id>
+    <content type="html"><![CDATA[<p>If you&rsquo;re writing test with rspec, sometime you want to CHANGE constants like</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># foo.rb</span>
+</span><span class='line'><span class="k">class</span> <span class="nc">Foo</span>
+</span><span class='line'>  <span class="no">BAR</span> <span class="o">=</span> <span class="s1">&#39;bar&#39;</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># foo_spec.rb</span>
+</span><span class='line'><span class="n">describe</span> <span class="no">Foo</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">it</span> <span class="s1">&#39;have constant BAR&#39;</span> <span class="k">do</span>
+</span><span class='line'>    <span class="n">expect</span><span class="p">(</span><span class="no">Foo</span><span class="o">.</span><span class="n">BAR</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">be</span> <span class="s1">&#39;???&#39;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>You can choose many ways to change constants.</p>
+
+<h3>remove_const</h3>
+
+<p>First options is to use <code>Module#remove_const</code>.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># foo_spec.rb</span>
+</span><span class='line'><span class="n">describe</span> <span class="no">Foo</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">before</span> <span class="k">do</span>
+</span><span class='line'>    <span class="vi">@__orig_bar</span> <span class="o">=</span> <span class="ss">Foo</span><span class="p">:</span><span class="ss">:BAR</span><span class="o">.</span><span class="n">dup</span>
+</span><span class='line'>    <span class="no">Foo</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="ss">:remove_const</span><span class="p">,</span> <span class="ss">:BAR</span><span class="p">)</span>
+</span><span class='line'>    <span class="ss">Foo</span><span class="p">:</span><span class="ss">:BAR</span> <span class="o">=</span> <span class="s1">&#39;???&#39;</span>
+</span><span class='line'> <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'> <span class="n">after</span> <span class="k">do</span>
+</span><span class='line'>    <span class="c1"># restore to original constant.</span>
+</span><span class='line'>    <span class="c1"># without this, Foo::BAR remains &#39;???&#39;</span>
+</span><span class='line'>    <span class="no">Foo</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="ss">:remove_const</span><span class="p">,</span> <span class="ss">:BAR</span><span class="p">)</span>
+</span><span class='line'>    <span class="ss">Foo</span><span class="p">:</span><span class="ss">:BAR</span> <span class="o">=</span> <span class="vi">@__orig_bar</span>
+</span><span class='line'> <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">it</span> <span class="s1">&#39;have constant BAR&#39;</span> <span class="k">do</span>
+</span><span class='line'>    <span class="n">expect</span><span class="p">(</span><span class="ss">Foo</span><span class="p">:</span><span class="ss">:BAR</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">eq</span> <span class="s1">&#39;???&#39;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The merit of this way is to change constants completely and the constant is evaluated directly.
+Adding to it, this method works without any libraries.<br/>
+The demerit of this way is that this is something like META programming. This may not be easy to understand for ruby beginner.</p>
+
+<h3>stub_const</h3>
+
+<p>Second option is to use <code>stub_const</code> defined in <a href="https://github.com/rspec/rspec-mocks">rspec-mocks</a>.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># foo_spec.rb</span>
+</span><span class='line'><span class="n">describe</span> <span class="no">Foo</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">before</span> <span class="k">do</span>
+</span><span class='line'>    <span class="c1"># no need to restore.</span>
+</span><span class='line'>    <span class="c1"># It restores after Foo example finished.</span>
+</span><span class='line'>    <span class="n">stub_const</span><span class="p">(</span><span class="s1">&#39;Foo::BAR&#39;</span><span class="p">,</span> <span class="s1">&#39;???&#39;</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">it</span> <span class="s1">&#39;have constant BAR&#39;</span> <span class="k">do</span>
+</span><span class='line'>    <span class="n">expect</span><span class="p">(</span><span class="ss">Foo</span><span class="p">:</span><span class="ss">:BAR</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">eq</span> <span class="s1">&#39;???&#39;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The merit of this way is easy to setup and easy to understand.<br/>
+Ths demerit of this way is that <code>stub_const</code> depends on rspec-mocks, so if you want to use <code>stub_const</code> with minitest,
+you have to HACK minitest.</p>
+
+<h3>conslusion</h3>
+
+<p>Chosing <code>remove_const</code> vs <code>stub_const</code> depends on your situation. I think if the constant is important for buisiness logic,
+you should choose <code>remove_const</code>. If the constant is no so important testing and using rspec, you choose <code>stub_const</code>.<br/>
+I think this discussion has no goal, but I think having many options is one of the the ways to be a HACKER.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Stub sharedManager with OCMock]]></title>
@@ -1420,77 +1546,6 @@ The only thing you have to do is set <code>X-Forwarded-For</code> and <code>CLIE
 </span><span class='line'>    <span class="o">}</span>
 </span><span class='line'>  <span class="o">}</span>
 </span><span class='line'><span class="o">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Trigger authenticated jenkins job]]></title>
-    <link href="http://blog.yasuoza.com/2013/01/02/trigger-authenticated-jenkins-job/"/>
-    <updated>2013-01-02T22:33:00+00:00</updated>
-    <id>http://blog.yasuoza.com/2013/01/02/trigger-authenticated-jenkins-job</id>
-    <content type="html"><![CDATA[<p>Trigger job in authenticated jenkins using ruby!</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;net/http&#39;</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">server</span> <span class="o">=</span> <span class="s1">&#39;https://your.jenkins.com&#39;</span>
-</span><span class='line'><span class="n">jobname</span> <span class="o">=</span> <span class="s1">&#39;your_jobname&#39;</span>
-</span><span class='line'><span class="n">build_token</span> <span class="o">=</span> <span class="s1">&#39;job_build_token&#39;</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">user</span> <span class="o">=</span> <span class="s1">&#39;you&#39;</span>
-</span><span class='line'><span class="n">user_token</span> <span class="o">=</span> <span class="s1">&#39;your_token&#39;</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">uri</span> <span class="o">=</span> <span class="no">URI</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">#{</span><span class="n">server</span><span class="si">}</span><span class="s2">/job/</span><span class="si">#{</span><span class="n">jobname</span><span class="si">}</span><span class="s2">/build?token=</span><span class="si">#{</span><span class="n">build_token</span><span class="si">}</span><span class="s2">&amp;cause=remote+trigger&quot;</span><span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">request</span> <span class="o">=</span> <span class="ss">Net</span><span class="p">:</span><span class="ss">:HTTP</span><span class="o">::</span><span class="no">Get</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">uri</span><span class="o">.</span><span class="n">request_uri</span><span class="p">)</span>
-</span><span class='line'><span class="n">request</span><span class="o">.</span><span class="n">basic_auth</span> <span class="n">user</span><span class="p">,</span> <span class="n">user_token</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">res</span> <span class="o">=</span> <span class="ss">Net</span><span class="p">:</span><span class="ss">:HTTP</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="n">uri</span><span class="o">.</span><span class="n">hostname</span><span class="p">,</span>
-</span><span class='line'>                      <span class="n">uri</span><span class="o">.</span><span class="n">port</span><span class="p">,</span>
-</span><span class='line'>                      <span class="n">use_ssl</span><span class="p">:</span> <span class="n">uri</span><span class="o">.</span><span class="n">scheme</span> <span class="o">==</span> <span class="s1">&#39;https&#39;</span><span class="p">)</span> <span class="p">{</span> <span class="o">|</span><span class="n">http</span><span class="o">|</span>
-</span><span class='line'>  <span class="n">http</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="nb">p</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">res</span><span class="o">.</span><span class="n">code</span><span class="si">}</span><span class="s2">: </span><span class="si">#{</span><span class="n">res</span><span class="o">.</span><span class="n">msg</span><span class="si">}</span><span class="s2">&quot;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>If you use your &lsquo;own&rsquo; ssl certification, ignore <code>Certificate verify failed</code> with <code>OpenSSL::SSL::VERIFY_NONE</code> option like this</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">res</span> <span class="o">=</span> <span class="ss">Net</span><span class="p">:</span><span class="ss">:HTTP</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="n">uri</span><span class="o">.</span><span class="n">hostname</span><span class="p">,</span>
-</span><span class='line'>                      <span class="n">uri</span><span class="o">.</span><span class="n">port</span><span class="p">,</span>
-</span><span class='line'>                      <span class="n">use_ssl</span><span class="p">:</span> <span class="n">uri</span><span class="o">.</span><span class="n">scheme</span> <span class="o">==</span> <span class="s1">&#39;https&#39;</span><span class="p">,</span>
-</span><span class='line'>                      <span class="n">verify_mode</span><span class="p">:</span> <span class="ss">OpenSSL</span><span class="p">:</span><span class="ss">:SSL</span><span class="o">::</span><span class="no">VERIFY_NONE</span><span class="p">)</span> <span class="p">{</span> <span class="o">|</span><span class="n">http</span><span class="o">|</span>
-</span><span class='line'>  <span class="n">http</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
-</span><span class='line'><span class="p">}</span>
 </span></code></pre></td></tr></table></div></figure>
 
 ]]></content>

@@ -19,8 +19,9 @@
   <meta name="author" content="Yasuharu Ozaki">
 
   
-  <meta name="description" content="Famous OAuth libraries for Android are oauth-signpost
-scribe-java There are entries about how to make OAuth authentication using oauth-signpost but I &hellip;">
+  <meta name="description" content="HBFav for Androidの2.1.1をリリースしました! はてなブックマークをタイムライン形式で HBFav 今回のバージョンアップでは ビルトインブラウザ
+コメントの閲覧
+アプリ単体でのブックマーク登録・更新・削除機能 の追加をしました。 いちいちブラウザに飛ぶことはなくなったので、 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -89,6 +90,82 @@ scribe-java There are entries about how to make OAuth authentication using oauth
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2013/12/27/hbfav-android-2-1-1/">HBFav-Android 2.1.1リリース</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-12-27T04:39:25+00:00" pubdate data-updated="true">Dec 27<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>HBFav for Androidの2.1.1をリリースしました!</p>
+
+<p><a href="https://play.google.com/store/apps/details?id=com.hbfav.android">はてなブックマークをタイムライン形式で HBFav</a></p>
+
+<p>今回のバージョンアップでは</p>
+
+<ul>
+<li>ビルトインブラウザ</li>
+<li>コメントの閲覧</li>
+<li>アプリ単体でのブックマーク登録・更新・削除機能</li>
+</ul>
+
+
+<p>の追加をしました。</p>
+
+<p>いちいちブラウザに飛ぶことはなくなったので、よりシームレスに記事を閲覧することが出来るようになったと思います。</p>
+
+<p><img class="center" src="/images/hbfav/entry_webview.jpg" width="350"></p>
+
+<p><img class="center" src="/images/hbfav/activity_bookmark_entry.jpg" width="350"></p>
+
+<p>OAuth認証したり、異なるサイズのボタンを配置したり、キーボードの開閉に合わせた挙動をさせたりと、まぁまぁ大変でした。<br/>
+1週間ブックマークを見る暇なくずっとブックマーク登録画面だけ開発してたなんてときもありましたが、それでも総じて楽しかったです。</p>
+
+<p>一部の端末で正しくOauth認証出来ないバグが確認されております。年明けから対応していきます。Android大変です。。。<br/>
+また、アプリが落ちたり、うまく動作しない場合は<a href="https://github.com/yasuoza/HBFav-Android/issues">Github</a>に書いて頂くか、<a href="https://www.twitter.com/yasuoza">@yasuoza</a>まで
+お気軽にメンションください。出来る限りのサポートはしていきます。</p>
+
+<p>今後ともHBFav-Androidをよろしくお願いします!</p>
+
+<p>Special thanks <img alt="heart" src="/images/emoji/heart.png" class="emoji" /><img alt="heart" src="/images/emoji/heart.png" class="emoji" /><img alt="heart" src="/images/emoji/heart.png" class="emoji" /></p>
+
+<ul>
+<li><a href="https://www.hatena.com/">株式会社はてな様</a> 問い合わせに対してご丁寧に対応していただきました。</li>
+<li><a href="http://stackoverflow.com/">stackoverflowさん</a> 今回も引き続きお世話になりました。</li>
+<li><a href="http://android-ui-utils.googlecode.com/hg/asset-studio/dist/index.html">Android Asset Studioさん</a> UI実装に大変役立ちました。</li>
+<li><a href="http://android-holo-colors.com/">Android Holo Colors Generator</a> UI実装に大変役立ちました。</li>
+</ul>
+
+
+<p>年末年始はdockerで遊ぶ予定です。dockerを利用してちょっと作りたいものがあるので、ちょっと実験してみます。</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -1122,104 +1199,6 @@ The only thing you have to do is set <code>X-Forwarded-For</code> and <code>CLIE
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2013/01/02/trigger-authenticated-jenkins-job/">Trigger authenticated jenkins job</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-01-02T22:33:00+00:00" pubdate data-updated="true">Jan 2<span>nd</span>, 2013</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Trigger job in authenticated jenkins using ruby!</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;net/http&#39;</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">server</span> <span class="o">=</span> <span class="s1">&#39;https://your.jenkins.com&#39;</span>
-</span><span class='line'><span class="n">jobname</span> <span class="o">=</span> <span class="s1">&#39;your_jobname&#39;</span>
-</span><span class='line'><span class="n">build_token</span> <span class="o">=</span> <span class="s1">&#39;job_build_token&#39;</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">user</span> <span class="o">=</span> <span class="s1">&#39;you&#39;</span>
-</span><span class='line'><span class="n">user_token</span> <span class="o">=</span> <span class="s1">&#39;your_token&#39;</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">uri</span> <span class="o">=</span> <span class="no">URI</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">#{</span><span class="n">server</span><span class="si">}</span><span class="s2">/job/</span><span class="si">#{</span><span class="n">jobname</span><span class="si">}</span><span class="s2">/build?token=</span><span class="si">#{</span><span class="n">build_token</span><span class="si">}</span><span class="s2">&amp;cause=remote+trigger&quot;</span><span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">request</span> <span class="o">=</span> <span class="ss">Net</span><span class="p">:</span><span class="ss">:HTTP</span><span class="o">::</span><span class="no">Get</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">uri</span><span class="o">.</span><span class="n">request_uri</span><span class="p">)</span>
-</span><span class='line'><span class="n">request</span><span class="o">.</span><span class="n">basic_auth</span> <span class="n">user</span><span class="p">,</span> <span class="n">user_token</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">res</span> <span class="o">=</span> <span class="ss">Net</span><span class="p">:</span><span class="ss">:HTTP</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="n">uri</span><span class="o">.</span><span class="n">hostname</span><span class="p">,</span>
-</span><span class='line'>                      <span class="n">uri</span><span class="o">.</span><span class="n">port</span><span class="p">,</span>
-</span><span class='line'>                      <span class="n">use_ssl</span><span class="p">:</span> <span class="n">uri</span><span class="o">.</span><span class="n">scheme</span> <span class="o">==</span> <span class="s1">&#39;https&#39;</span><span class="p">)</span> <span class="p">{</span> <span class="o">|</span><span class="n">http</span><span class="o">|</span>
-</span><span class='line'>  <span class="n">http</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="nb">p</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">res</span><span class="o">.</span><span class="n">code</span><span class="si">}</span><span class="s2">: </span><span class="si">#{</span><span class="n">res</span><span class="o">.</span><span class="n">msg</span><span class="si">}</span><span class="s2">&quot;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>If you use your &lsquo;own&rsquo; ssl certification, ignore <code>Certificate verify failed</code> with <code>OpenSSL::SSL::VERIFY_NONE</code> option like this</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">res</span> <span class="o">=</span> <span class="ss">Net</span><span class="p">:</span><span class="ss">:HTTP</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="n">uri</span><span class="o">.</span><span class="n">hostname</span><span class="p">,</span>
-</span><span class='line'>                      <span class="n">uri</span><span class="o">.</span><span class="n">port</span><span class="p">,</span>
-</span><span class='line'>                      <span class="n">use_ssl</span><span class="p">:</span> <span class="n">uri</span><span class="o">.</span><span class="n">scheme</span> <span class="o">==</span> <span class="s1">&#39;https&#39;</span><span class="p">,</span>
-</span><span class='line'>                      <span class="n">verify_mode</span><span class="p">:</span> <span class="ss">OpenSSL</span><span class="p">:</span><span class="ss">:SSL</span><span class="o">::</span><span class="no">VERIFY_NONE</span><span class="p">)</span> <span class="p">{</span> <span class="o">|</span><span class="n">http</span><span class="o">|</span>
-</span><span class='line'>  <span class="n">http</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/page/3/">&larr; Older</a>
@@ -1237,6 +1216,10 @@ The only thing you have to do is set <code>X-Forwarded-For</code> and <code>CLIE
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2014/06/09/remove-const-vs-stub-const/">remove_const vs stub_const</a>
+      </li>
+    
+      <li class="post">
         <a href="/2014/05/28/stub-sharedmanager-with-ocmock/">Stub sharedManager with OCMock</a>
       </li>
     
@@ -1250,10 +1233,6 @@ The only thing you have to do is set <code>X-Forwarded-For</code> and <code>CLIE
     
       <li class="post">
         <a href="/2014/02/17/kawaii-merge-diff-in-tig/">Kawaii merge diffs in tig</a>
-      </li>
-    
-      <li class="post">
-        <a href="/2014/01/28/advanced-ruby-install-via-rbenv-in-osx/">Advanced ruby install via rbenv in OSX</a>
       </li>
     
   </ul>

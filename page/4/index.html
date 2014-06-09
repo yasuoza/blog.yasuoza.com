@@ -19,7 +19,7 @@
   <meta name="author" content="Yasuharu Ozaki">
 
   
-  <meta name="description" content="前に出していたChrome拡張をRetinaディスプレイに対応させました。 Chrome ウェブストア &ndash; Fast Note Before After 参考にしたのは Google Docs Viewer (by Google) &hellip;">
+  <meta name="description" content="昨日行われた全文検索エンジンgroongaを囲む夕べ 3 @groongaはUstで見てました。 (g|m|r)roongaに興味を持った人もいるのではないかと思い、mroongaを既存のRailsアプリケーションに導入する方法を紹介しようと思います。 想定は データベースはMySQLを使っている &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -88,6 +88,200 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2012/11/30/mroonga_in_rails/">Railsでmroongaを使う</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-11-30T00:00:00+00:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>昨日行われた<a href="http://atnd.org/events/33070" target="_blank">全文検索エンジンgroongaを囲む夕べ 3 @groonga</a>はUstで見てました。</p>
+
+<p>(g|m|r)roongaに興味を持った人もいるのではないかと思い、mroongaを既存のRailsアプリケーションに導入する方法を紹介しようと思います。</p>
+
+<p>想定は</p>
+
+<ul>
+  <li>データベースはMySQLを使っている</li>
+  <li>既存のテーブルのカラムに対して全文検索を導入したい</li>
+</ul>
+
+
+<p>という条件です。mroongaはMySQLを必要とするので、そこは必須ですが、新規でmroongaの全文検索カラムを持ったテーブルを作るときにも参考になると思います。</p>
+
+<p>まずはmroongaのインストールをします。公式のドキュメントに綺麗にまとまっているので、そちらを参照して下さい。</p>
+
+<p><a href="http://mroonga.github.com/docs/install.html" target="_blank">Installation Guide mroonga</a></p>
+
+<p>インストールしたら次はマイグレーションファイルを作ります。
+今回の例ではブログ記事の本文(entry.body)を全文検索するように設定していきます。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ rails g migration use_mroonga_in_entries_table</span></code></pre></td></tr></table></div></figure>
+
+
+<p>マイグレーションファイルができたらエディタで開いて次のように編集します。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">UseMroongaInEntriesTable</span> <span class="o">&lt;</span> <span class="ss">ActiveRecord</span><span class="p">:</span><span class="ss">:Migration</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">change</span>
+</span><span class='line'>    <span class="n">execute</span> <span class="o">&lt;&lt;-</span><span class="no">SQL</span>
+</span><span class='line'><span class="sh">    ALTER TABLE entries</span>
+</span><span class='line'><span class="sh">      ENGINE = mroonga COMMENT = &#39;engine &amp;quot;innodb&amp;quot;&#39; DEFAULT CHARSET utf8</span>
+</span><span class='line'><span class="no">    SQL</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">execute</span> <span class="o">&lt;&lt;-</span><span class="no">SQL</span>
+</span><span class='line'><span class="sh">    ALTER TABLE entries</span>
+</span><span class='line'><span class="sh">      ADD FULLTEXT INDEX index_blogs_on_body (body)</span>
+</span><span class='line'><span class="no">    SQL</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>マイグレートします。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="err">$</span> <span class="n">rake</span> <span class="ss">db</span><span class="p">:</span><span class="n">migrate</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>検索します。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="err">$</span> <span class="n">rails</span> <span class="n">c</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="no">Entry</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="s2">&quot;match(body) against(&#39;hello&#39;)&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="o">[&lt;</span><span class="no">Entry</span> <span class="nb">id</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="ss">text</span><span class="p">:</span> <span class="s2">&quot;hello world&quot;</span><span class="o">&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>モデルにはスコープを使って</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Entry</span> <span class="o">&lt;</span> <span class="ss">ActiveRecord</span><span class="p">:</span><span class="ss">:Base</span>
+</span><span class='line'>  <span class="n">scope</span> <span class="ss">:search_with</span><span class="p">,</span> <span class="o">-&gt;</span><span class="p">(</span><span class="n">query</span><span class="p">)</span> <span class="p">{</span> <span class="n">where</span><span class="p">(</span><span class="sx">%Q(match(body) against(&quot;</span><span class="si">#{</span><span class="n">query</span><span class="si">}</span><span class="sx">&quot;))</span><span class="p">)</span> <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1"># attr_accessible is removed.</span>
+</span><span class='line'>  <span class="c1"># Now we are using strong_parameters!</span>
+</span><span class='line'>  <span class="c1"># Refer to https://github.com/rails/strong_parameters</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>などと書いておけます。<code>query</code>の事前処理は必要に応じてして下さい。僕はいろいろ考えましたが、<code>query</code>の事前処理は呼び出し側のコントローラにやらせることにしてます。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="err">$</span> <span class="n">rails</span> <span class="n">c</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="no">Entry</span><span class="o">.</span><span class="n">search_with</span><span class="p">(</span><span class="s1">&#39;hello&#39;</span><span class="p">)</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="o">[&lt;</span><span class="no">Entry</span> <span class="nb">id</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="ss">text</span><span class="p">:</span> <span class="s2">&quot;hello world&quot;</span><span class="o">&gt;]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>これでdevelopment環境とproduction環境では、MySQLのエンジンにmroongaが入っていれば動くはずです。
+テストを書かない人はここで読み終わってOKです。</p>
+
+<p>ここからはテストを書く人用です。</p>
+
+<p>Railsのテストは都度テスト用DBを初期化するところから始まります。その初期化の過程ではテーブルを空にするだけでなく、<code>db/schema.rb</code>を読んでスキーマを再構築するという処理も含まれます。参考: <a href="http://edgeguides.rubyonrails.org/testing.html#rake-tasks-for-preparing-your-application-for-testing" target="_blank">Rake Tasks for Preparing your Application for Testing</a>
+普通ならそれで構わないし、スキーマを再構築してもテストが通るかどうかを確認することは環境に依存しないアプリを作る際に必要になるステップだと思います。
+ただ、今回はmroongaを意図的に使うので<code>db/schema.rb</code>を読み込んでスキーマを初期化されては困ります。そこで、<a href="http://kennyj-jp.blogspot.jp/2011/09/specdbtestprepare.html" target="_blank">kennyjさんのブログ記事</a>で紹介されていた方法を取ります。</p>
+
+<p>Rakefileに以下を追加</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="ss">Rake</span><span class="p">:</span><span class="ss">:TaskManager</span><span class="o">.</span><span class="n">class_eval</span> <span class="k">do</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">remove_task</span><span class="p">(</span><span class="n">task_name</span><span class="p">)</span>
+</span><span class='line'>    <span class="vi">@tasks</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">task_name</span><span class="o">.</span><span class="n">to_s</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>lib/tasks/override_db_test_prepare.rbを作成</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Rake</span><span class="o">.</span><span class="n">application</span><span class="o">.</span><span class="n">remove_task</span> <span class="s1">&#39;db:test:prepare&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">namespace</span> <span class="ss">:db</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">namespace</span> <span class="ss">:test</span> <span class="k">do</span>
+</span><span class='line'>    <span class="n">task</span> <span class="ss">:prepare</span> <span class="k">do</span><span class="p">;</span> <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>これでrake db:test:prepareで何も処理されないようにすることで<code>db/schema.rb</code>の内容でテスト用DBが上書きされずに済むようになります。</p>
+
+<p>ここまで来たらテスト用にDBを用意してテストを走らせるだけです。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="err">$</span> <span class="n">rake</span> <span class="ss">db</span><span class="p">:</span><span class="n">migrate</span> <span class="no">RAILS_ENV</span><span class="o">=</span><span class="nb">test</span>
+</span><span class='line'><span class="err">$</span> <span class="n">rake</span> <span class="n">spec</span>  <span class="c1"># rake test</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>fluentdを使ってgroongaのshardingが出来るようになったりいろいろ進化していくgroonga注目です。</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -793,90 +987,6 @@ Websocketを使った通知の設定方法も書いてあるので、とても�
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2012/07/05/share-kobito-app-data/">kobito.appのデータを複数のMacで共有する</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-07-05T00:00:00+00:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>僕はQuitaが開発をしている<a href="http://kobitoapp.com/" target="_blank">Kobito.app</a>を使って公開できないコードや、オフラインでも使いたいコードをメモしています。</p>
-
-
-
-
-<p>そのKobito.appはEvernoteのように複数端末間でデータを共有できないので、そのデータをDropboxを介して共有するコマンドです。
-ターミナルを開いて次のコマンドを入力して下さい。</p>
-
-
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ mkdir -p ~/Dropbox/.KobitoDB
-</span><span class='line'>$ mv ~/Library/Kobito/Kobito.db ~/Dropbox/.KobitoDB/
-</span><span class='line'>$ ln -s ~/Dropbox/.KobitoDB/Kobito.db ~/Library/Kobito/</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<p>単純にDropboxに隠しディレクトリを作ってそこに今のKobito.appのDBを移動して、前あった場所にシンボリックリンクを貼るというだけの簡単なコマンドです。</p>
-
-
-
-
-<p>ただ、Kobito.appの挙動を追っているとエントリーを追加して保存(cmd+s)をしてもDBに格納するわけではなく、新規で保存したエントリーはオンメモリで保存しておき、kobito.appが終了(cmd+q)するときに新規で保存したエントリーをDBに格納するようです。</p>
-
-
-
-
-<p>なので、複数端末間でデータを共有するためにはある程度エントリーをある程度書いたらアプリケーションを終了するしかないようです。</p>
-
-
-
-
-<p>また、アプリ起動中はDBに変更があってもアプリケーション側ではDBをロードせず、他の端末で追加されたエントリーをリアルタイムで取得できません。
-これも一度アプリを終了して再度立ち上げると解決します。</p>
-
-
-
-
-<p>僕は基本的に不必要なアプリは終了してメモリを開放してあげるようにしているので、上記の使い方でも問題なく、複数端末間で共有できてかなり捗ってます。</p>
-
-
-
-
-<p>複数端末でKobito.appを使っている場合はぜひお試しください。</p>
-
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/page/5/">&larr; Older</a>
@@ -894,6 +1004,10 @@ Websocketを使った通知の設定方法も書いてあるので、とても�
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2014/06/09/remove-const-vs-stub-const/">remove_const vs stub_const</a>
+      </li>
+    
+      <li class="post">
         <a href="/2014/05/28/stub-sharedmanager-with-ocmock/">Stub sharedManager with OCMock</a>
       </li>
     
@@ -907,10 +1021,6 @@ Websocketを使った通知の設定方法も書いてあるので、とても�
     
       <li class="post">
         <a href="/2014/02/17/kawaii-merge-diff-in-tig/">Kawaii merge diffs in tig</a>
-      </li>
-    
-      <li class="post">
-        <a href="/2014/01/28/advanced-ruby-install-via-rbenv-in-osx/">Advanced ruby install via rbenv in OSX</a>
       </li>
     
   </ul>
