@@ -4,7 +4,7 @@
   <title><![CDATA[Category: mac | yasuoza diary]]></title>
   <link href="http://blog.yasuoza.com//categories/mac/atom.xml" rel="self"/>
   <link href="http://blog.yasuoza.com/"/>
-  <updated>2014-06-09T13:27:40+00:00</updated>
+  <updated>2014-06-11T11:55:58+00:00</updated>
   <id>http://blog.yasuoza.com/</id>
   <author>
     <name><![CDATA[Yasuharu Ozaki]]></name>
@@ -65,7 +65,7 @@ $ vagrant up
 <p>Export <code>DOCKER_HOST</code>:</p>
 
 <p><code>bash
-$ export DOCKER_HOST="192.168.42.43:4243" # DOCKER_HOST="$DOCKER_IP:$DOCKER_PORT"
+$ export DOCKER_HOST="tcp://192.168.42.43:4243" # DOCKER_HOST="$DOCKER_IP:$DOCKER_PORT"
 </code></p>
 
 <p>That&rsquo;s all. Now you can access docker container like:</p>
