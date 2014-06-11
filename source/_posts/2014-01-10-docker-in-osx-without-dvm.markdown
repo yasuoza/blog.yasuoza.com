@@ -49,7 +49,7 @@ $ vagrant up
 Export `DOCKER_HOST`:
 
 ```bash
-$ export DOCKER_HOST="192.168.42.43:4243" # DOCKER_HOST="$DOCKER_IP:$DOCKER_PORT"
+$ export DOCKER_HOST="tcp://192.168.42.43:4243" # DOCKER_HOST="$DOCKER_IP:$DOCKER_PORT"
 ```
 
 That's all. Now you can access docker container like:
