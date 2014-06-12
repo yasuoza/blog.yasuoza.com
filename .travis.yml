@@ -1,7 +1,7 @@
 language: ruby
 
 rvm:
-- 2.1.0
+- 2.1.2
 
 branches:
   only:
@@ -23,7 +23,9 @@ before_script:
 script:
 - bundle exec rake gen_deploy
 
-bundler_args: --path vendor/bundle --without test --jobs 8
+bundler_args: --without test development --deployment --jobs 8
+
+cache: bundler
 
 env:
   global:
