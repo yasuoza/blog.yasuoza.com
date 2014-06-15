@@ -15,11 +15,12 @@
     }());
   </script>
 
-  <title>Category: HBFav - yasuoza diary</title>
+  <title>Support tmux with "reattach-to-user-namespace" to work in multi OS - yasuoza diary</title>
   <meta name="author" content="Yasuharu Ozaki">
 
   
-  <meta name="description" content="Category: HBFav">
+  <meta name="description" content="When using tmux with &lsquo;reattach-to-user-namespace&rsquo; to enable clipboard copy paste support in OSX, you may have ~/.tmux.conf 1
+set-option - &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -28,7 +29,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://blog.yasuoza.com/categories/hbfav">
+  <link rel="canonical" href="http://blog.yasuoza.com/2014/06/15/support-tmux-with-reattach-to-user-to-work-in-multi-os">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="yasuoza diary" type="application/atom+xml">
@@ -87,36 +88,133 @@
   <div id="main">
     <div id="content">
       <div>
-<article role="article">
+<article class="hentry" role="article">
   
   <header>
-    <h1 class="entry-title">Category: HBFav</h1>
+    
+      <h1 class="entry-title">Support tmux with "reattach-to-user-namespace" to work in multi OS</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-06-15T08:44:32+00:00" pubdate data-updated="true">Jun 15<span>th</span>, 2014</time>
+        
+      </p>
     
   </header>
-  
-  <div id="blog-archives" class="category">
 
 
+<div class="entry-content"><p>When using tmux with &lsquo;reattach-to-user-namespace&rsquo; to enable clipboard copy paste support in OSX, you may have <code>~/.tmux.conf</code></p>
 
-  
-  <h2>2013</h2>
-
-<article>
-  
-<h1><a href="/2013/12/09/hbfav-2-0-0-release/">HBFav-Android 2.0.0リリース</a></h1>
-<time datetime="2013-12-09T04:52:12+00:00" pubdate><span class='month'>Dec</span> <span class='day'>09</span> <span class='year'>2013</span></time>
-
-<footer>
-  <span class="categories">posted in <a class='category' href='//categories/android/'>Android</a>, <a class='category' href='//categories/hbfav/'>HBFav</a></span>
-</footer>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>set-option -g default-command "reattach-to-user-namespace -l zsh"</span></code></pre></td></tr></table></div></figure>
 
 
-</article>
+<p>However with this configuration, tmux will fails on another platforms such as linux when reattach-to-user-namespace not installed.</p>
 
+<p>So, your have at least 2 option to prevent it.</p>
+
+<ul>
+<li>Prepare another <code>~/.tmux.conf</code>.</li>
+<li>Detect OS and use another <code>default-command</code> for each OS.</li>
+</ul>
+
+
+<p>First option is easy but dull. Who wants to write same content but very last line?</p>
+
+<p>Second option seems not to be easy, but IS easy. You can do like:</p>
+
+<h3>Detect OS pattern</h3>
+
+<p><code>~/.tmux.conf</code></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>if-shell 'test "$(uname -s)" = Darwin' 'set-option -g default-command "exec reattach-to-user-namespace -l zsh"'</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Detect OS and load os specific configuration file pattern</h3>
+
+<p><code>~/.tmux.conf</code></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>if-shell 'test "$(uname -s)" = Darwin' 'source-file $HOME/.tmux-osx.conf'</span></code></pre></td></tr></table></div></figure>
+
+
+<p>and <code>~/.tmux-osx.conf</code></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>set-option -g default-command 'exec reattach-to-user-namespace -l zsh'</span></code></pre></td></tr></table></div></figure>
+
+
+<p>That&rsquo;s it!</p>
+
+<p>Read more:</p>
+
+<p><a href="https://github.com/ChrisJohnsen/tmux-MacOSX-pasteboard/blob/master/Usage.md">ChrisJohnsen/tmux-MacOSX-pasteboard/Usage.md</a></p>
 </div>
 
+
+  <footer>
+    <p class="meta">
+      
   
+
+<span class="byline author vcard">Posted by <span class="fn">Yasuharu Ozaki</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-06-15T08:44:32+00:00" pubdate data-updated="true">Jun 15<span>th</span>, 2014</time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://blog.yasuoza.com/2014/06/15/support-tmux-with-reattach-to-user-to-work-in-multi-os/" data-via="" data-counturl="http://blog.yasuoza.com/2014/06/15/support-tmux-with-reattach-to-user-to-work-in-multi-os/" >Tweet</a>
+  
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/2014/06/09/remove-const-vs-stub-const/" title="Previous Post: remove_const vs stub_const">&laquo; remove_const vs stub_const</a>
+      
+      
+    </p>
+  </footer>
 </article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
 
 
 </div>
@@ -172,7 +270,10 @@
       var disqus_shortname = 'yasuozadiary';
       
         
-        var disqus_script = 'count.js';
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://blog.yasuoza.com/2014/06/15/support-tmux-with-reattach-to-user-to-work-in-multi-os/';
+        var disqus_url = 'http://blog.yasuoza.com/2014/06/15/support-tmux-with-reattach-to-user-to-work-in-multi-os/';
+        var disqus_script = 'embed.js';
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;

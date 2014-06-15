@@ -19,9 +19,8 @@
   <meta name="author" content="Yasuharu Ozaki">
 
   
-  <meta name="description" content="HBFav for Androidの2.1.1をリリースしました! はてなブックマークをタイムライン形式で HBFav 今回のバージョンアップでは ビルトインブラウザ
-コメントの閲覧
-アプリ単体でのブックマーク登録・更新・削除機能 の追加をしました。 いちいちブラウザに飛ぶことはなくなったので、 &hellip;">
+  <meta name="description" content="大工なんて下請けじゃん
+">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -90,6 +89,42 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2014/01/07/words/">年末年始に会った友達の言葉</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-01-07T06:43:15+00:00" pubdate data-updated="true">Jan 7<span>th</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><blockquote><p>大工なんて下請けじゃん</p></blockquote>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -1115,90 +1150,6 @@ The only thing you have to do is set <code>X-Forwarded-For</code> and <code>CLIE
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2013/01/22/set-another-ip-on-scalatra-spec/">Set another IP on scalatra spec</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-01-22T11:23:00+00:00" pubdate data-updated="true">Jan 22<span>nd</span>, 2013</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>When filtering client IP on scalatra, the following code will work</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='scala'><span class='line'><span class="n">get</span><span class="o">(</span><span class="s">&quot;/&quot;</span><span class="o">)</span> <span class="o">{</span>
-</span><span class='line'>  <span class="k">if</span> <span class="o">(!</span><span class="nc">ConfigData</span><span class="o">.</span><span class="n">allowedIP</span><span class="o">.</span><span class="n">contains</span><span class="o">(</span><span class="n">request</span><span class="o">.</span><span class="n">remoteAddress</span><span class="o">))</span> <span class="o">{</span>
-</span><span class='line'>    <span class="n">halt</span><span class="o">(</span><span class="mi">403</span><span class="o">,</span> <span class="s">&quot;Forbbiden&quot;</span><span class="o">)</span>
-</span><span class='line'>  <span class="o">}</span>
-</span><span class='line'>  <span class="n">scaml</span><span class="o">(</span><span class="s">&quot;hello-scalate&quot;</span><span class="o">)</span>
-</span><span class='line'><span class="o">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Spec file will be like this</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-</pre></td><td class='code'><pre><code class='scala'><span class='line'><span class="s">&quot;GET / on MyServlet from 127.0.0.1&quot;</span> <span class="n">should</span> <span class="o">{</span>
-</span><span class='line'>  <span class="s">&quot;return status 200&quot;</span> <span class="n">in</span> <span class="o">{</span>
-</span><span class='line'>    <span class="n">get</span><span class="o">(</span><span class="s">&quot;/&quot;</span><span class="o">,</span> <span class="nc">Seq</span><span class="o">.</span><span class="n">empty</span><span class="o">,</span> <span class="nc">Map</span><span class="o">(</span><span class="s">&quot;X-FORWARDED-FOR&quot;</span> <span class="o">-&gt;</span> <span class="s">&quot;127.0.0.1&quot;</span><span class="o">))</span> <span class="o">{</span>
-</span><span class='line'>      <span class="n">status</span> <span class="n">must_==</span> <span class="mi">200</span>
-</span><span class='line'>    <span class="o">}</span>
-</span><span class='line'>  <span class="o">}</span>
-</span><span class='line'><span class="o">}</span>
-</span><span class='line'><span class="s">&quot;GET / on MyServlet from 0.0.0.0&quot;</span> <span class="n">should</span> <span class="o">{</span>
-</span><span class='line'>  <span class="s">&quot;return status 403&quot;</span> <span class="n">in</span> <span class="o">{</span>
-</span><span class='line'>    <span class="n">get</span><span class="o">(</span><span class="s">&quot;/&quot;</span><span class="o">,</span> <span class="nc">Seq</span><span class="o">.</span><span class="n">empty</span><span class="o">,</span> <span class="nc">Map</span><span class="o">(</span><span class="s">&quot;X-FORWARDED-FOR&quot;</span> <span class="o">-&gt;</span> <span class="s">&quot;0.0.0.0&quot;</span><span class="o">))</span> <span class="o">{</span>
-</span><span class='line'>      <span class="n">status</span> <span class="n">must_==</span> <span class="mi">403</span>
-</span><span class='line'>    <span class="o">}</span>
-</span><span class='line'>  <span class="o">}</span>
-</span><span class='line'><span class="o">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/page/3/">&larr; Older</a>
@@ -1216,6 +1167,10 @@ The only thing you have to do is set <code>X-Forwarded-For</code> and <code>CLIE
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2014/06/15/support-tmux-with-reattach-to-user-to-work-in-multi-os/">Support tmux with &#8220;reattach-to-user-namespace&#8221; to work in multi OS</a>
+      </li>
+    
+      <li class="post">
         <a href="/2014/06/09/remove-const-vs-stub-const/">remove_const vs stub_const</a>
       </li>
     
@@ -1229,10 +1184,6 @@ The only thing you have to do is set <code>X-Forwarded-For</code> and <code>CLIE
     
       <li class="post">
         <a href="/2014/04/02/how-to-lost-trust/">人の信頼を失う方法</a>
-      </li>
-    
-      <li class="post">
-        <a href="/2014/02/17/kawaii-merge-diff-in-tig/">Kawaii merge diffs in tig</a>
       </li>
     
   </ul>

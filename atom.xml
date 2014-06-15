@@ -4,7 +4,7 @@
   <title><![CDATA[yasuoza diary]]></title>
   <link href="http://blog.yasuoza.com/atom.xml" rel="self"/>
   <link href="http://blog.yasuoza.com/"/>
-  <updated>2014-06-12T11:02:07+00:00</updated>
+  <updated>2014-06-15T09:01:59+00:00</updated>
   <id>http://blog.yasuoza.com/</id>
   <author>
     <name><![CDATA[Yasuharu Ozaki]]></name>
@@ -12,6 +12,61 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Support tmux with "reattach-to-user-namespace" to work in multi OS]]></title>
+    <link href="http://blog.yasuoza.com/2014/06/15/support-tmux-with-reattach-to-user-to-work-in-multi-os/"/>
+    <updated>2014-06-15T08:44:32+00:00</updated>
+    <id>http://blog.yasuoza.com/2014/06/15/support-tmux-with-reattach-to-user-to-work-in-multi-os</id>
+    <content type="html"><![CDATA[<p>When using tmux with &lsquo;reattach-to-user-namespace&rsquo; to enable clipboard copy paste support in OSX, you may have <code>~/.tmux.conf</code></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>set-option -g default-command "reattach-to-user-namespace -l zsh"</span></code></pre></td></tr></table></div></figure>
+
+
+<p>However with this configuration, tmux will fails on another platforms such as linux when reattach-to-user-namespace not installed.</p>
+
+<p>So, your have at least 2 option to prevent it.</p>
+
+<ul>
+<li>Prepare another <code>~/.tmux.conf</code>.</li>
+<li>Detect OS and use another <code>default-command</code> for each OS.</li>
+</ul>
+
+
+<p>First option is easy but dull. Who wants to write same content but very last line?</p>
+
+<p>Second option seems not to be easy, but IS easy. You can do like:</p>
+
+<h3>Detect OS pattern</h3>
+
+<p><code>~/.tmux.conf</code></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>if-shell 'test "$(uname -s)" = Darwin' 'set-option -g default-command "exec reattach-to-user-namespace -l zsh"'</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Detect OS and load os specific configuration file pattern</h3>
+
+<p><code>~/.tmux.conf</code></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>if-shell 'test "$(uname -s)" = Darwin' 'source-file $HOME/.tmux-osx.conf'</span></code></pre></td></tr></table></div></figure>
+
+
+<p>and <code>~/.tmux-osx.conf</code></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>set-option -g default-command 'exec reattach-to-user-namespace -l zsh'</span></code></pre></td></tr></table></div></figure>
+
+
+<p>That&rsquo;s it!</p>
+
+<p>Read more:</p>
+
+<p><a href="https://github.com/ChrisJohnsen/tmux-MacOSX-pasteboard/blob/master/Usage.md">ChrisJohnsen/tmux-MacOSX-pasteboard/Usage.md</a></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[remove_const vs stub_const]]></title>
@@ -1491,63 +1546,6 @@ The only thing you have to do is set <code>X-Forwarded-For</code> and <code>CLIE
 <p>Then, you can do what you want.</p>
 
 <p>source: <a href="https://groups.google.com/forum/?fromgroups=#!topic/play-framework/EFYnWC1yYsg">[2.0] how to start application from play console</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Set another IP on scalatra spec]]></title>
-    <link href="http://blog.yasuoza.com/2013/01/22/set-another-ip-on-scalatra-spec/"/>
-    <updated>2013-01-22T11:23:00+00:00</updated>
-    <id>http://blog.yasuoza.com/2013/01/22/set-another-ip-on-scalatra-spec</id>
-    <content type="html"><![CDATA[<p>When filtering client IP on scalatra, the following code will work</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='scala'><span class='line'><span class="n">get</span><span class="o">(</span><span class="s">&quot;/&quot;</span><span class="o">)</span> <span class="o">{</span>
-</span><span class='line'>  <span class="k">if</span> <span class="o">(!</span><span class="nc">ConfigData</span><span class="o">.</span><span class="n">allowedIP</span><span class="o">.</span><span class="n">contains</span><span class="o">(</span><span class="n">request</span><span class="o">.</span><span class="n">remoteAddress</span><span class="o">))</span> <span class="o">{</span>
-</span><span class='line'>    <span class="n">halt</span><span class="o">(</span><span class="mi">403</span><span class="o">,</span> <span class="s">&quot;Forbbiden&quot;</span><span class="o">)</span>
-</span><span class='line'>  <span class="o">}</span>
-</span><span class='line'>  <span class="n">scaml</span><span class="o">(</span><span class="s">&quot;hello-scalate&quot;</span><span class="o">)</span>
-</span><span class='line'><span class="o">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Spec file will be like this</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-</pre></td><td class='code'><pre><code class='scala'><span class='line'><span class="s">&quot;GET / on MyServlet from 127.0.0.1&quot;</span> <span class="n">should</span> <span class="o">{</span>
-</span><span class='line'>  <span class="s">&quot;return status 200&quot;</span> <span class="n">in</span> <span class="o">{</span>
-</span><span class='line'>    <span class="n">get</span><span class="o">(</span><span class="s">&quot;/&quot;</span><span class="o">,</span> <span class="nc">Seq</span><span class="o">.</span><span class="n">empty</span><span class="o">,</span> <span class="nc">Map</span><span class="o">(</span><span class="s">&quot;X-FORWARDED-FOR&quot;</span> <span class="o">-&gt;</span> <span class="s">&quot;127.0.0.1&quot;</span><span class="o">))</span> <span class="o">{</span>
-</span><span class='line'>      <span class="n">status</span> <span class="n">must_==</span> <span class="mi">200</span>
-</span><span class='line'>    <span class="o">}</span>
-</span><span class='line'>  <span class="o">}</span>
-</span><span class='line'><span class="o">}</span>
-</span><span class='line'><span class="s">&quot;GET / on MyServlet from 0.0.0.0&quot;</span> <span class="n">should</span> <span class="o">{</span>
-</span><span class='line'>  <span class="s">&quot;return status 403&quot;</span> <span class="n">in</span> <span class="o">{</span>
-</span><span class='line'>    <span class="n">get</span><span class="o">(</span><span class="s">&quot;/&quot;</span><span class="o">,</span> <span class="nc">Seq</span><span class="o">.</span><span class="n">empty</span><span class="o">,</span> <span class="nc">Map</span><span class="o">(</span><span class="s">&quot;X-FORWARDED-FOR&quot;</span> <span class="o">-&gt;</span> <span class="s">&quot;0.0.0.0&quot;</span><span class="o">))</span> <span class="o">{</span>
-</span><span class='line'>      <span class="n">status</span> <span class="n">must_==</span> <span class="mi">403</span>
-</span><span class='line'>    <span class="o">}</span>
-</span><span class='line'>  <span class="o">}</span>
-</span><span class='line'><span class="o">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
 ]]></content>
   </entry>
   
