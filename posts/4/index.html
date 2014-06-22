@@ -29,7 +29,7 @@ NeoBundle 'vim-ruby/vim-ruby' neocomplcacheオンにしてruby書くとelseの�
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://blog.yasuoza.com/page/4">
+  <link rel="canonical" href="http://blog.yasuoza.com/posts/4">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="yasuoza diary" type="application/atom+xml">
@@ -124,15 +124,8 @@ NeoBundle 'vim-ruby/vim-ruby' neocomplcacheオンにしてruby書くとelseの�
 </pre></td><td class='code'><pre><code class=''><span class='line'>NeoBundle 'vim-ruby/vim-ruby'</span></code></pre></td></tr></table></div></figure>
 
 
-
-
-<br>
-
-
-<br>
-
-
-
+<p><br>
+<br></p>
 
 <blockquote class="twitter-tweet"><p>neocomplcacheオンにしてruby書くとelseのインデントが左寄せにならない。</p>&mdash; Yasuharu Ozaki (@YasuOza) <a href="https://twitter.com/YasuOza/status/271541758087819264" data-datetime="2012-11-22T09:12:54+00:00">November 22, 2012</a></blockquote>
 
@@ -233,7 +226,7 @@ NeoBundle 'vim-ruby/vim-ruby' neocomplcacheオンにしてruby書くとelseの�
 <span class='line-number'>11</span>
 <span class='line-number'>12</span>
 <span class='line-number'>13</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">UseMroongaInEntriesTable</span> <span class="o">&lt;</span> <span class="ss">ActiveRecord</span><span class="p">:</span><span class="ss">:Migration</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">UseMroongaInEntriesTable</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Migration</span>
 </span><span class='line'>  <span class="k">def</span> <span class="nf">change</span>
 </span><span class='line'>    <span class="n">execute</span> <span class="o">&lt;&lt;-</span><span class="no">SQL</span>
 </span><span class='line'><span class="sh">    ALTER TABLE entries</span>
@@ -276,7 +269,7 @@ NeoBundle 'vim-ruby/vim-ruby' neocomplcacheオンにしてruby書くとelseの�
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
 <span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Entry</span> <span class="o">&lt;</span> <span class="ss">ActiveRecord</span><span class="p">:</span><span class="ss">:Base</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Entry</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
 </span><span class='line'>  <span class="n">scope</span> <span class="ss">:search_with</span><span class="p">,</span> <span class="o">-&gt;</span><span class="p">(</span><span class="n">query</span><span class="p">)</span> <span class="p">{</span> <span class="n">where</span><span class="p">(</span><span class="sx">%Q(match(body) against(&quot;</span><span class="si">#{</span><span class="n">query</span><span class="si">}</span><span class="sx">&quot;))</span><span class="p">)</span> <span class="p">}</span>
 </span><span class='line'>
 </span><span class='line'>  <span class="c1"># attr_accessible is removed.</span>
@@ -313,7 +306,7 @@ NeoBundle 'vim-ruby/vim-ruby' neocomplcacheオンにしてruby書くとelseの�
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="ss">Rake</span><span class="p">:</span><span class="ss">:TaskManager</span><span class="o">.</span><span class="n">class_eval</span> <span class="k">do</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Rake</span><span class="o">::</span><span class="no">TaskManager</span><span class="o">.</span><span class="n">class_eval</span> <span class="k">do</span>
 </span><span class='line'>  <span class="k">def</span> <span class="nf">remove_task</span><span class="p">(</span><span class="n">task_name</span><span class="p">)</span>
 </span><span class='line'>    <span class="vi">@tasks</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">task_name</span><span class="o">.</span><span class="n">to_s</span><span class="p">)</span>
 </span><span class='line'>  <span class="k">end</span>
@@ -389,7 +382,7 @@ NeoBundle 'vim-ruby/vim-ruby' neocomplcacheオンにしてruby書くとelseの�
 
   <div class="entry-content"><p>前に出していたChrome拡張をRetinaディスプレイに対応させました。</p>
 
-<p><a href="https://chrome.google.com/webstore/detail/fast-note/jehbplmdjbmcbbdlghcphdhfakcgaiaj" target="_blank">Chrome ウェブストア &ndash; Fast Note</a></p>
+<p><a href="https://chrome.google.com/webstore/detail/fast-note/jehbplmdjbmcbbdlghcphdhfakcgaiaj" target="_blank">Chrome ウェブストア - Fast Note</a></p>
 
 <p>Before
 <img src="/images/2012/11/Screen-Shot-2012-11-12-at-10.01.47-PM.png" alt="" title="Screen Shot 2012-11-12 at 10.01.47 PM" width="198" height="118" class="thumbnail alignnone size-full wp-image-337" /></p>
@@ -411,10 +404,10 @@ NeoBundle 'vim-ruby/vim-ruby' neocomplcacheオンにしてruby書くとelseの�
 </span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
 
 
-<p>48x48のサイズは必須(<a href="http://developer.chrome.com/extensions/manifest.html#icons" target="_blank">Formats: Manifest Files &ndash; Google Chrome</a>)なのですでに手元にあると思います。
+<p>48x48のサイズは必須(<a href="http://developer.chrome.com/extensions/manifest.html#icons" target="_blank">Formats: Manifest Files - Google Chrome</a>)なのですでに手元にあると思います。
 これだけです。</p>
 
-<p>なお、manifest.jsonでmanifest_versionを2に設定しなければなりません。manifest_version 1 はサポートが打ち切られ、検索結果に出なくなったり、最終的に2013年3/4から動かなくなります。詳しくは <a href="http://developer.chrome.com/extensions/manifestVersion.html" target="_blank">Manifest Version &ndash; Google Chrome</a> を参照して下さい。</p>
+<p>なお、manifest.jsonでmanifest_versionを2に設定しなければなりません。manifest_version 1 はサポートが打ち切られ、検索結果に出なくなったり、最終的に2013年3/4から動かなくなります。詳しくは <a href="http://developer.chrome.com/extensions/manifestVersion.html" target="_blank">Manifest Version - Google Chrome</a> を参照して下さい。</p>
 
 <p>Retinaディスプレイはテキストとか非常にきれいなんですが、Retina非対応なサイトだと特に画像の荒さが目立って逆に見づらいです。</p>
 
@@ -627,7 +620,7 @@ mroongaすごいなー。</p>
 
 <p>このlibiconvがどこで入ってきたのか謎すぎる。</p>
 
-<p><a href="https://github.com/mxcl/homebrew/issues/11229" target="_blank">Error when installing git: symbol(s) not found for architecture x86_64 &ndash; github</a></p>
+<p><a href="https://github.com/mxcl/homebrew/issues/11229" target="_blank">Error when installing git: symbol(s) not found for architecture x86_64 - github</a></p>
 </div>
   
   
@@ -707,7 +700,7 @@ mroongaすごいなー。</p>
 
 
 <p>JavaScriptはIEでのバグが怖いので素直に一時変数使ってスワップするといいと思います。
-<a href="http://stackoverflow.com/questions/872310/javascript-swap-array-elements" target="_blank">Javascript swap array elements &ndash; stackoverflow</a></p>
+<a href="http://stackoverflow.com/questions/872310/javascript-swap-array-elements" target="_blank">Javascript swap array elements - stackoverflow</a></p>
 
 <p>スワップに迫られる場面殆ど無いですが、あるとしたらイケてる方(※個人の感想です)を使いたいものです。</p>
 
@@ -751,7 +744,7 @@ mroongaすごいなー。</p>
   <div class="entry-content"><p>いろんなフレームワークでWebアプリケーションを開発していると、localhost:3000やlocalhost:8080などで動作検証することが多くなります。
 その検証ページで前のアプリケーションのfaviconが表示され続けてとても邪魔だったので、調べたら特定のURLのfaviconのキャッシュだけ削除する方法が紹介されてました。</p>
 
-<p><a href="http://d.hatena.ne.jp/hokaccha/20120106/1325829511" target="_blank">chromeで特定のfaviconのキャッシュを削除する &ndash; hokaccha.hamalog v2</a></p>
+<p><a href="http://d.hatena.ne.jp/hokaccha/20120106/1325829511" target="_blank">chromeで特定のfaviconのキャッシュを削除する - hokaccha.hamalog v2</a></p>
 
 <p>faviconのキャッシュはsqliteで管理されているので、そこからデータを消すだけでOKらしい。</p>
 
@@ -917,11 +910,11 @@ Websocketを使った通知の設定方法も書いてあるので、とても�
   
   <div class="pagination">
     
-      <a class="prev" href="/page/5/">&larr; Older</a>
+      <a class="prev" href="5">&larr; Older</a>
     
     <a href="/archives">Blog Archives</a>
     
-    <a class="next" href="/page/3/">Newer &rarr;</a>
+    <a class="next" href="3">Newer &rarr;</a>
     
   </div>
 </div>

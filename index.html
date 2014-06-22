@@ -111,7 +111,7 @@ set-option - &hellip;">
   
 
 
-<time datetime="2014-06-15T08:44:32+00:00" pubdate data-updated="true">Jun 15<span>th</span>, 2014</time>
+<time datetime="2014-06-15T08:44:32+00:00" pubdate data-updated="true">Jun 15<sup>th</sup>, 2014</time>
         
       </p>
     
@@ -193,7 +193,7 @@ set-option - &hellip;">
   
 
 
-<time datetime="2014-06-09T12:51:16+00:00" pubdate data-updated="true">Jun 9<span>th</span>, 2014</time>
+<time datetime="2014-06-09T12:51:16+00:00" pubdate data-updated="true">Jun 9<sup>th</sup>, 2014</time>
         
       </p>
     
@@ -255,20 +255,20 @@ set-option - &hellip;">
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># foo_spec.rb</span>
 </span><span class='line'><span class="n">describe</span> <span class="no">Foo</span> <span class="k">do</span>
 </span><span class='line'>  <span class="n">before</span> <span class="k">do</span>
-</span><span class='line'>    <span class="vi">@__orig_bar</span> <span class="o">=</span> <span class="ss">Foo</span><span class="p">:</span><span class="ss">:BAR</span><span class="o">.</span><span class="n">dup</span>
+</span><span class='line'>    <span class="vi">@__orig_bar</span> <span class="o">=</span> <span class="no">Foo</span><span class="o">::</span><span class="no">BAR</span><span class="o">.</span><span class="n">dup</span>
 </span><span class='line'>    <span class="no">Foo</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="ss">:remove_const</span><span class="p">,</span> <span class="ss">:BAR</span><span class="p">)</span>
-</span><span class='line'>    <span class="ss">Foo</span><span class="p">:</span><span class="ss">:BAR</span> <span class="o">=</span> <span class="s1">&#39;???&#39;</span>
+</span><span class='line'>    <span class="no">Foo</span><span class="o">::</span><span class="no">BAR</span> <span class="o">=</span> <span class="s1">&#39;???&#39;</span>
 </span><span class='line'> <span class="k">end</span>
 </span><span class='line'>
 </span><span class='line'> <span class="n">after</span> <span class="k">do</span>
 </span><span class='line'>    <span class="c1"># restore to original constant.</span>
 </span><span class='line'>    <span class="c1"># without this, Foo::BAR remains &#39;???&#39;</span>
 </span><span class='line'>    <span class="no">Foo</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="ss">:remove_const</span><span class="p">,</span> <span class="ss">:BAR</span><span class="p">)</span>
-</span><span class='line'>    <span class="ss">Foo</span><span class="p">:</span><span class="ss">:BAR</span> <span class="o">=</span> <span class="vi">@__orig_bar</span>
+</span><span class='line'>    <span class="no">Foo</span><span class="o">::</span><span class="no">BAR</span> <span class="o">=</span> <span class="vi">@__orig_bar</span>
 </span><span class='line'> <span class="k">end</span>
 </span><span class='line'>
 </span><span class='line'>  <span class="n">it</span> <span class="s1">&#39;have constant BAR&#39;</span> <span class="k">do</span>
-</span><span class='line'>    <span class="n">expect</span><span class="p">(</span><span class="ss">Foo</span><span class="p">:</span><span class="ss">:BAR</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">eq</span> <span class="s1">&#39;???&#39;</span>
+</span><span class='line'>    <span class="n">expect</span><span class="p">(</span><span class="no">Foo</span><span class="o">::</span><span class="no">BAR</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">eq</span> <span class="s1">&#39;???&#39;</span>
 </span><span class='line'>  <span class="k">end</span>
 </span><span class='line'><span class="k">end</span>
 </span></code></pre></td></tr></table></div></figure>
@@ -303,7 +303,7 @@ The demerit of this way is that this is something like META programming. This ma
 </span><span class='line'>  <span class="k">end</span>
 </span><span class='line'>
 </span><span class='line'>  <span class="n">it</span> <span class="s1">&#39;have constant BAR&#39;</span> <span class="k">do</span>
-</span><span class='line'>    <span class="n">expect</span><span class="p">(</span><span class="ss">Foo</span><span class="p">:</span><span class="ss">:BAR</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">eq</span> <span class="s1">&#39;???&#39;</span>
+</span><span class='line'>    <span class="n">expect</span><span class="p">(</span><span class="no">Foo</span><span class="o">::</span><span class="no">BAR</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">eq</span> <span class="s1">&#39;???&#39;</span>
 </span><span class='line'>  <span class="k">end</span>
 </span><span class='line'><span class="k">end</span>
 </span></code></pre></td></tr></table></div></figure>
@@ -346,7 +346,7 @@ I think this discussion has no goal, but I think having many options is one of t
   
 
 
-<time datetime="2014-05-28T13:29:24+00:00" pubdate data-updated="true">May 28<span>th</span>, 2014</time>
+<time datetime="2014-05-28T13:29:24+00:00" pubdate data-updated="true">May 28<sup>th</sup>, 2014</time>
         
       </p>
     
@@ -367,7 +367,7 @@ I think this discussion has no goal, but I think having many options is one of t
 </pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">static</span> <span class="n">UserModelManager</span> <span class="o">*</span><span class="n">sharedManager_</span> <span class="o">=</span> <span class="nb">nil</span><span class="p">;</span>
 </span><span class='line'>
 </span><span class='line'><span class="k">+</span> <span class="p">(</span><span class="n">UserModelManager</span> <span class="o">*</span><span class="p">)</span><span class="nf">sharedManager</span> <span class="p">{</span>
-</span><span class='line'>    <span class="k">static</span> <span class="n">dispatch_once_t</span> <span class="n">onceToken</span><span class="p">;</span>
+</span><span class='line'>    <span class="k">static</span> <span class="kt">dispatch_once_t</span> <span class="n">onceToken</span><span class="p">;</span>
 </span><span class='line'>    <span class="n">dispatch_once</span><span class="p">(</span><span class="o">&amp;</span><span class="n">onceToken</span><span class="p">,</span> <span class="o">^</span><span class="p">{</span>
 </span><span class='line'>        <span class="n">sharedManager_</span> <span class="o">=</span> <span class="p">[[</span><span class="n">UserModelManager</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
 </span><span class='line'>    <span class="p">});</span>
@@ -403,9 +403,9 @@ I think this discussion has no goal, but I think having many options is one of t
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">_mockUserModelManager</span> <span class="o">=</span> <span class="p">[</span><span class="n">OCMockObject</span> <span class="nl">niceMockForClass:</span><span class="p">[</span><span class="n">UserModelManager</span> <span class="n">class</span><span class="p">]];</span>
-</span><span class='line'><span class="p">[[[</span><span class="n">_mockUserModelManager</span> <span class="n">stub</span><span class="p">]</span> <span class="nl">andReturn:</span><span class="s">@&quot;test-key&quot;</span><span class="p">]</span> <span class="n">secretkey</span><span class="p">];</span>
-</span><span class='line'><span class="p">[[[[</span><span class="n">_mockUserModelManager</span> <span class="n">stub</span><span class="p">]</span> <span class="n">classMethod</span><span class="p">]</span> <span class="nl">andReturn:</span><span class="n">_mockUserModelManager</span><span class="p">]</span> <span class="n">sharedManager</span><span class="p">];</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">_mockUserModelManager</span> <span class="o">=</span> <span class="p">[</span><span class="n">OCMockObject</span> <span class="n">niceMockForClass</span><span class="o">:</span><span class="p">[</span><span class="n">UserModelManager</span> <span class="n">class</span><span class="p">]];</span>
+</span><span class='line'><span class="p">[[[</span><span class="n">_mockUserModelManager</span> <span class="n">stub</span><span class="p">]</span> <span class="n">andReturn</span><span class="o">:</span><span class="s">@&quot;test-key&quot;</span><span class="p">]</span> <span class="n">secretkey</span><span class="p">];</span>
+</span><span class='line'><span class="p">[[[[</span><span class="n">_mockUserModelManager</span> <span class="n">stub</span><span class="p">]</span> <span class="n">classMethod</span><span class="p">]</span> <span class="n">andReturn</span><span class="o">:</span><span class="n">_mockUserModelManager</span><span class="p">]</span> <span class="n">sharedManager</span><span class="p">];</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
@@ -453,7 +453,7 @@ I think this discussion has no goal, but I think having many options is one of t
   
 
 
-<time datetime="2014-05-16T14:31:42+00:00" pubdate data-updated="true">May 16<span>th</span>, 2014</time>
+<time datetime="2014-05-16T14:31:42+00:00" pubdate data-updated="true">May 16<sup>th</sup>, 2014</time>
         
       </p>
     
@@ -494,7 +494,7 @@ I think this discussion has no goal, but I think having many options is one of t
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
 </pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>dig www.example.com +nostats +nocomments +nocmd
-</span><span class='line'>;www.example.com.                     IN      A
+</span><span class='line'><span class="p">;</span>www.example.com.                     IN      A
 </span><span class='line'>www.example.com.              3592    IN      CNAME   username.github.io.
 </span><span class='line'>username.github.io.           43192   IN      CNAME   github.map.fastly.net.
 </span><span class='line'>github.map.fastly.net.        22      IN      A       199.27.76.133
@@ -555,7 +555,7 @@ Cheers<img alt="sunglasses" src="/images/emoji/sunglasses.png" class="emoji" /><
   
 
 
-<time datetime="2014-04-02T01:13:24+00:00" pubdate data-updated="true">Apr 2<span>nd</span>, 2014</time>
+<time datetime="2014-04-02T01:13:24+00:00" pubdate data-updated="true">Apr 2<sup>nd</sup>, 2014</time>
         
       </p>
     
@@ -596,7 +596,7 @@ Cheers<img alt="sunglasses" src="/images/emoji/sunglasses.png" class="emoji" /><
   
 
 
-<time datetime="2014-02-17T01:58:07+00:00" pubdate data-updated="true">Feb 17<span>th</span>, 2014</time>
+<time datetime="2014-02-17T01:58:07+00:00" pubdate data-updated="true">Feb 17<sup>th</sup>, 2014</time>
         
       </p>
     
@@ -674,7 +674,7 @@ Cheers<img alt="sunglasses" src="/images/emoji/sunglasses.png" class="emoji" /><
   
 
 
-<time datetime="2014-01-28T04:25:51+00:00" pubdate data-updated="true">Jan 28<span>th</span>, 2014</time>
+<time datetime="2014-01-28T04:25:51+00:00" pubdate data-updated="true">Jan 28<sup>th</sup>, 2014</time>
         
       </p>
     
@@ -730,7 +730,7 @@ Cheers<img alt="sunglasses" src="/images/emoji/sunglasses.png" class="emoji" /><
   
 
 
-<time datetime="2014-01-17T02:11:20+00:00" pubdate data-updated="true">Jan 17<span>th</span>, 2014</time>
+<time datetime="2014-01-17T02:11:20+00:00" pubdate data-updated="true">Jan 17<sup>th</sup>, 2014</time>
         
       </p>
     
@@ -840,7 +840,7 @@ for the issue.</p>
   
 
 
-<time datetime="2014-01-13T06:57:31+00:00" pubdate data-updated="true">Jan 13<span>th</span>, 2014</time>
+<time datetime="2014-01-13T06:57:31+00:00" pubdate data-updated="true">Jan 13<sup>th</sup>, 2014</time>
         
       </p>
     
@@ -870,7 +870,7 @@ for the issue.</p>
 </pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>ssh-keygen -t rsa -C <span class="s1">&#39;youremail@examp.com&#39;</span> -f ~/.ssh/travis_rsa
 </span><span class='line'>
 </span><span class='line'><span class="c"># Copy public key to clipboard</span>
-</span><span class='line'><span class="nv">$ </span>cat ~/.ssh/travis_rsa.pub | pbcopy
+</span><span class='line'><span class="nv">$ </span>cat ~/.ssh/travis_rsa.pub <span class="p">|</span> pbcopy
 </span><span class='line'>
 </span><span class='line'><span class="c"># Set copied public key to deploy key in GitHub</span>
 </span><span class='line'><span class="nv">$ </span>open  https://github.com/_username_/_repository_/settings/keys
@@ -947,14 +947,14 @@ for the issue.</p>
 </span><span class='line'><span class="c"># If in linux</span>
 </span><span class='line'><span class="c"># base64 --wrap=0 ~/.ssh/travis_rsa &gt; ~/.ssh/travis_rsa_64</span>
 </span><span class='line'>
-</span><span class='line'><span class="nv">$ </span>bash &lt;<span class="o">(</span>cat ~/.ssh/travis_rsa_64 | perl -pe <span class="s1">&#39;s/(.{100})/$1\n/g&#39;</span> | nl | perl -pe <span class="s1">&#39;s/\s*(\d+)\s*(.*)/travis encrypt id_rsa_$1=&quot;$2&quot; --add/&#39;</span><span class="o">)</span>
+</span><span class='line'><span class="nv">$ </span>bash &lt;<span class="o">(</span>cat ~/.ssh/travis_rsa_64 <span class="p">|</span> perl -pe <span class="s1">&#39;s/(.{100})/$1\n/g&#39;</span> <span class="p">|</span> nl <span class="p">|</span> perl -pe <span class="s1">&#39;s/\s*(\d+)\s*(.*)/travis encrypt id_rsa_$1=&quot;$2&quot; --add/&#39;</span><span class="o">)</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
 <p>Count <code>id_rsa_{1..$RSA_LENGTH}</code>.</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>cat ~/.ssh/travis_rsa_64 | perl -pe <span class="s1">&#39;s/(.{100})/$1\n/g&#39;</span> | nl | tail
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>cat ~/.ssh/travis_rsa_64 <span class="p">|</span> perl -pe <span class="s1">&#39;s/(.{100})/$1\n/g&#39;</span> <span class="p">|</span> nl <span class="p">|</span> tail
 </span></code></pre></td></tr></table></div></figure>
 
 
@@ -992,8 +992,8 @@ for the issue.</p>
 <p>That&rsquo;s it. Connect blog repository to Travis CI, and commit change!</p>
 
 <p>Refs:<br/>
-&ndash; <a href="http://pchw.github.io/blog/2013/06/27/octopress-travis/  ">http://pchw.github.io/blog/2013/06/27/octopress-travis/  </a>
-&ndash; <a href="http://www.harimenon.com/blog/2013/01/27/auto-deploying-to-my-octopress-blog/">http://www.harimenon.com/blog/2013/01/27/auto-deploying-to-my-octopress-blog/</a></p>
+- <a href="http://pchw.github.io/blog/2013/06/27/octopress-travis/  ">http://pchw.github.io/blog/2013/06/27/octopress-travis/  </a>
+- <a href="http://www.harimenon.com/blog/2013/01/27/auto-deploying-to-my-octopress-blog/">http://www.harimenon.com/blog/2013/01/27/auto-deploying-to-my-octopress-blog/</a></p>
 </div>
   
   
@@ -1022,7 +1022,7 @@ for the issue.</p>
   
 
 
-<time datetime="2014-01-10T02:35:08+00:00" pubdate data-updated="true">Jan 10<span>th</span>, 2014</time>
+<time datetime="2014-01-10T02:35:08+00:00" pubdate data-updated="true">Jan 10<sup>th</sup>, 2014</time>
         
       </p>
     
@@ -1108,7 +1108,7 @@ for the issue.</p>
   
   <div class="pagination">
     
-      <a class="prev" href="/page/2/">&larr; Older</a>
+      <a class="prev" href="2">&larr; Older</a>
     
     <a href="/archives">Blog Archives</a>
     

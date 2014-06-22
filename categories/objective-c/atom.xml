@@ -4,7 +4,7 @@
   <title><![CDATA[Category: objective-c | yasuoza diary]]></title>
   <link href="http://blog.yasuoza.com//categories/objective-c/atom.xml" rel="self"/>
   <link href="http://blog.yasuoza.com/"/>
-  <updated>2014-06-15T09:01:59+00:00</updated>
+  <updated>2014-06-22T11:51:00+00:00</updated>
   <id>http://blog.yasuoza.com/</id>
   <author>
     <name><![CDATA[Yasuharu Ozaki]]></name>
@@ -20,61 +20,48 @@
     <id>http://blog.yasuoza.com/2014/05/28/stub-sharedmanager-with-ocmock</id>
     <content type="html"><![CDATA[<p>If you are iOS/Mac developer, you may have written singleton like following convention:</p>
 
-<p>```objc
-static UserModelManager *sharedManager_ = nil;</p>
+<pre><code class="objc">static UserModelManager *sharedManager_ = nil;
 
-<ul>
-<li>(UserModelManager *)sharedManager {
-  static dispatch_once_t onceToken;
-  dispatch_once(&amp;onceToken, ^{
-      sharedManager<em> = [[UserModelManager alloc] init];
-  });
-  return sharedManager</em>;
++ (UserModelManager *)sharedManager {
+    static dispatch_once_t onceToken;
+    dispatch_once(&amp;onceToken, ^{
+        sharedManager_ = [[UserModelManager alloc] init];
+    });
+    return sharedManager_;
 }
-<code>``
-If</code>UserModelManager<code>has</code>secretKey` instance method like:</li>
-</ul>
-
-
-<p>```objc
-&ndash; (NSString *)secretKey
-{</p>
-
-<pre><code>return "secret key provided from server side";
 </code></pre>
 
-<p>}
-```</p>
+<p>If <code>UserModelManager</code> has <code>secretKey</code> instance method like:</p>
+
+<pre><code class="objc">- (NSString *)secretKey
+{
+    return "secret key provided from server side";
+}
+</code></pre>
 
 <p>Then you can call <code>secretkey</code> method via</p>
 
-<p><code>objc
-[[UserModelManager sharedManager] secretkey];
-</code></p>
+<pre><code class="objc">[[UserModelManager sharedManager] secretkey];
+</code></pre>
 
 <p>It&rsquo;s OK until you have to stub <code>secretKey</code> in a test.</p>
 
 <p>The solution to stub <code>sharedManager</code> and <code>secretkey</code> is:</p>
 
-<p><code>objc
-_mockUserModelManager = [OCMockObject niceMockForClass:[UserModelManager class]];
+<pre><code class="objc">_mockUserModelManager = [OCMockObject niceMockForClass:[UserModelManager class]];
 [[[_mockUserModelManager stub] andReturn:@"test-key"] secretkey];
 [[[[_mockUserModelManager stub] classMethod] andReturn:_mockUserModelManager] sharedManager];
-</code></p>
+</code></pre>
 
 <p>To clean up your stub methods, DO NOT forget <code>stopMocking</code> in <code>tearDown</code>.</p>
 
-<p>```
-&ndash; (void)tearDown
-{</p>
+<pre><code>- (void)tearDown
+{
+    [super tearDown];
 
-<pre><code>[super tearDown];
-
-[_mockUserModelManager stopMocking];
+    [_mockUserModelManager stopMocking];
+}
 </code></pre>
-
-<p>}
-```</p>
 ]]></content>
   </entry>
   

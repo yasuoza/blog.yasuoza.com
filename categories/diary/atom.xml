@@ -4,7 +4,7 @@
   <title><![CDATA[Category: diary | yasuoza diary]]></title>
   <link href="http://blog.yasuoza.com//categories/diary/atom.xml" rel="self"/>
   <link href="http://blog.yasuoza.com/"/>
-  <updated>2014-06-15T09:01:59+00:00</updated>
+  <updated>2014-06-22T11:51:00+00:00</updated>
   <id>http://blog.yasuoza.com/</id>
   <author>
     <name><![CDATA[Yasuharu Ozaki]]></name>
@@ -18,83 +18,70 @@
     <link href="http://blog.yasuoza.com/2012/12/15/blog-update-notificator/"/>
     <updated>2012-12-15T16:22:00+00:00</updated>
     <id>http://blog.yasuoza.com/2012/12/15/blog-update-notificator</id>
-    <content type="html"><![CDATA[<p>```ruby
-require &lsquo;feed-normalizer&rsquo;
-require &lsquo;twitter&rsquo;</p>
+    <content type="html"><![CDATA[<pre><code class="ruby">require 'feed-normalizer'
+require 'twitter'
 
-<p>option = Hash[[ARGV]]</p>
+option = Hash[[ARGV]]
 
-<p>url = option[&lsquo;&mdash;url&rsquo;]</p>
+url = option['--url']
 
-<p>class FeedTweeter
-  def initialize(arg = {url: nil})</p>
-
-<pre><code>@url = arg[:url]
-</code></pre>
-
-<p>  end</p>
-
-<p>  def site_updated?</p>
-
-<pre><code>@feed = FeedNormalizer::FeedNormalizer.parse open(@url)
-@new_entry = @feed.entries.first
-
-return true unless File.exist? "#{current_file_dirpath}/#{remember_text_file}"
-
-last_tweeted_on = Time.parse(File.open(remember_text_file).read)
-last_tweeted_on &lt; @new_entry.last_updated
-</code></pre>
-
-<p>  end</p>
-
-<p>  def tweet!</p>
-
-<pre><code>tweet_text = make_tweet_text
-Twitter.update(tweet_text)
-
-remember_last_tweeted_on!
-</code></pre>
-
-<p>  end</p>
-
-<p>  private</p>
-
-<pre><code>def current_file_dirpath
-  "#{File.expand_path('../',  __FILE__)}"
-end
-
-def remember_text_file
-  'last_tweeted_on.txt';
-end
-
-def make_tweet_text
-  blog_title = @feed.title
-  new_entry_title = @new_entry.title
-  new_entry_url = @new_entry.url
-  "#{new_entry_title} - #{blog_title} #{new_entry_url}"
-end
-
-def remember_last_tweeted_on!
-  File.open("#{current_file_dirpath}/#{remember_text_file}", 'w') do |file|
-    file.write(@new_entry.last_updated)
+class FeedTweeter
+  def initialize(arg = {url: nil})
+    @url = arg[:url]
   end
+
+  def site_updated?
+    @feed = FeedNormalizer::FeedNormalizer.parse open(@url)
+    @new_entry = @feed.entries.first
+
+    return true unless File.exist? "#{current_file_dirpath}/#{remember_text_file}"
+
+    last_tweeted_on = Time.parse(File.open(remember_text_file).read)
+    last_tweeted_on &lt; @new_entry.last_updated
+  end
+
+  def tweet!
+    tweet_text = make_tweet_text
+    Twitter.update(tweet_text)
+
+    remember_last_tweeted_on!
+  end
+
+  private
+    def current_file_dirpath
+      "#{File.expand_path('../',  __FILE__)}"
+    end
+
+    def remember_text_file
+      'last_tweeted_on.txt';
+    end
+
+    def make_tweet_text
+      blog_title = @feed.title
+      new_entry_title = @new_entry.title
+      new_entry_url = @new_entry.url
+      "#{new_entry_title} - #{blog_title} #{new_entry_url}"
+    end
+
+    def remember_last_tweeted_on!
+      File.open("#{current_file_dirpath}/#{remember_text_file}", 'w') do |file|
+        file.write(@new_entry.last_updated)
+      end
+    end
 end
-</code></pre>
 
-<p>end</p>
+Twitter.configure do |config|
+  config.consumer_key = 'CONSUMER_KEY'
+  config.consumer_secret = 'CONSUMER_SECRET'
+  config.oauth_token = 'OAUTH_TOKEN'
+  config.oauth_token_secret = 'OAUTH_TOKEN_SECRET'
+end
 
-<p>Twitter.configure do |config|
-  config.consumer_key = &lsquo;CONSUMER_KEY&rsquo;
-  config.consumer_secret = &lsquo;CONSUMER_SECRET&rsquo;
-  config.oauth_token = &lsquo;OAUTH_TOKEN&rsquo;
-  config.oauth_token_secret = &lsquo;OAUTH_TOKEN_SECRET&rsquo;
-end</p>
-
-<p>feed_tweeter = FeedTweeter.new url: url
+feed_tweeter = FeedTweeter.new url: url
 if feed_tweeter.site_updated?
   feed_tweeter.tweet!
 end
-```</p>
+</code></pre>
 
 <p>This works with jenkins very well!</p>
 ]]></content>
@@ -107,38 +94,31 @@ end
     <id>http://blog.yasuoza.com/2012/12/09/wordpress-to-octpress</id>
     <content type="html"><![CDATA[<p>It&rsquo;s very easy.</p>
 
-<p>```ruby</p>
+<pre><code class="ruby"># Downlowd wordpressdotocm.rb first
+# https://github.com/mojombo/jekyll/blob/master/lib/jekyll/migrators/wordpressdotcom.rb
 
-<h1>Downlowd wordpressdotocm.rb first</h1>
+require './wordpressdotcom'
 
-<h1><a href="https://github.com/mojombo/jekyll/blob/master/lib/jekyll/migrators/wordpressdotcom.rb">https://github.com/mojombo/jekyll/blob/master/lib/jekyll/migrators/wordpressdotcom.rb</a></h1>
+WORDPRESS_XML = 'wordpress_exported.xml'
+WORDPRESS_URL = 'http://yourhost.com'
 
-<p>require &lsquo;./wordpressdotcom&rsquo;</p>
+Jekyll::WordpressDotCom.process(WORDPRESS_XML)
 
-<p>WORDPRESS_XML = &lsquo;wordpress_exported.xml&rsquo;
-WORDPRESS_URL = &lsquo;<a href="http://yourhost.com">http://yourhost.com</a>&rsquo;</p>
-
-<p>Jekyll::WordpressDotCom.process(WORDPRESS_XML)</p>
-
-<h1>Copy _posts/.html file to markdown_posts/.markdown</h1>
-
-<p>FileUtils.mkdir_p(&lsquo;markdown_posts&rsquo;)
-Dir[File.join(File.expand_path(&ldquo;../_posts/&rdquo;,  <strong>FILE</strong>),  &ldquo;*.html&rdquo;)].each do |file|
+# Copy _posts/.html file to markdown_posts/.markdown
+FileUtils.mkdir_p('markdown_posts')
+Dir[File.join(File.expand_path("../_posts/",  __FILE__),  "*.html")].each do |file|
   # Change wp image path to octpress image path
   # Change SyntaxHighlighter Evolved favor to mrkdown favor
   source = open(file).read
-  file.match(/([\w-]+).html/)
-  File.open(&ldquo;markdown_posts/#{$1}.markdown&rdquo;,  &lsquo;w&rsquo;) do |dest|</p>
-
-<pre><code>source.gsub!("#{WORDPRESS_URL}/wp-content/uploads/",  '/images/')
-source.gsub!(/\[(\w+)\]/,  "```")
-source.gsub!(/\[\/\w+\]/,  "```")
-dest.write(source)
-</code></pre>
-
-<p>  end
+  file.match(/([\w-]+)\.html/)
+  File.open("markdown_posts/#{$1}.markdown",  'w') do |dest|
+    source.gsub!("#{WORDPRESS_URL}/wp-content/uploads/",  '/images/')
+    source.gsub!(/\[(\w+)\]/,  "```")
+    source.gsub!(/\[\/\w+\]/,  "```")
+    dest.write(source)
+  end
 end
-```</p>
+</code></pre>
 ]]></content>
   </entry>
   

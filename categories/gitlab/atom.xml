@@ -4,7 +4,7 @@
   <title><![CDATA[Category: gitlab | yasuoza diary]]></title>
   <link href="http://blog.yasuoza.com//categories/gitlab/atom.xml" rel="self"/>
   <link href="http://blog.yasuoza.com/"/>
-  <updated>2014-06-15T09:01:59+00:00</updated>
+  <updated>2014-06-22T11:51:00+00:00</updated>
   <id>http://blog.yasuoza.com/</id>
   <author>
     <name><![CDATA[Yasuharu Ozaki]]></name>
@@ -36,9 +36,8 @@ My Jenkins does these things:</p>
 
 <p>Next, set jenkins&rsquo;s public key to blog server so that jenkins can login the server without password.</p>
 
-<p><code>plain
-$ sudo -u jenkins -H ssh user@yourhost.com
-</code></p>
+<pre><code class="plain">$ sudo -u jenkins -H ssh user@yourhost.com
+</code></pre>
 
 <p>Then, install Jenkins plugin <a href="https://wiki.jenkins-ci.org/display/JENKINS/Gitlab+Hook+Plugin">Gitlab Hook Plugin</a> and set <code>http://your-jenkins-server/gitlab/build_now</code>
 in your Gitlab like this:</p>
@@ -53,11 +52,10 @@ For more: <a href="https://github.com/elvanja/jenkins-gitlab-hook-plugin/issues/
 
 <p>Finally, configure Jenkins job to deploy Octopress:</p>
 
-<p><code>plain Execute shell
-bundle
+<pre><code class="plain Execute shell">bundle
 bundle exec rake generate
 bundle exec rake deploy
-</code></p>
+</code></pre>
 
 <p><strong> NOTE </strong><br/>
 OCTOPRESS REQUIRES RUBY 1.9.3-P194.<br/>

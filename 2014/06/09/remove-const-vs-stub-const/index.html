@@ -119,7 +119,7 @@ class Foo BAR = &#39;bar&#39; &hellip;">
   
 
 
-<time datetime="2014-06-09T12:51:16+00:00" pubdate data-updated="true">Jun 9<span>th</span>, 2014</time>
+<time datetime="2014-06-09T12:51:16+00:00" pubdate data-updated="true">Jun 9<sup>th</sup>, 2014</time>
         
       </p>
     
@@ -181,20 +181,20 @@ class Foo BAR = &#39;bar&#39; &hellip;">
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># foo_spec.rb</span>
 </span><span class='line'><span class="n">describe</span> <span class="no">Foo</span> <span class="k">do</span>
 </span><span class='line'>  <span class="n">before</span> <span class="k">do</span>
-</span><span class='line'>    <span class="vi">@__orig_bar</span> <span class="o">=</span> <span class="ss">Foo</span><span class="p">:</span><span class="ss">:BAR</span><span class="o">.</span><span class="n">dup</span>
+</span><span class='line'>    <span class="vi">@__orig_bar</span> <span class="o">=</span> <span class="no">Foo</span><span class="o">::</span><span class="no">BAR</span><span class="o">.</span><span class="n">dup</span>
 </span><span class='line'>    <span class="no">Foo</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="ss">:remove_const</span><span class="p">,</span> <span class="ss">:BAR</span><span class="p">)</span>
-</span><span class='line'>    <span class="ss">Foo</span><span class="p">:</span><span class="ss">:BAR</span> <span class="o">=</span> <span class="s1">&#39;???&#39;</span>
+</span><span class='line'>    <span class="no">Foo</span><span class="o">::</span><span class="no">BAR</span> <span class="o">=</span> <span class="s1">&#39;???&#39;</span>
 </span><span class='line'> <span class="k">end</span>
 </span><span class='line'>
 </span><span class='line'> <span class="n">after</span> <span class="k">do</span>
 </span><span class='line'>    <span class="c1"># restore to original constant.</span>
 </span><span class='line'>    <span class="c1"># without this, Foo::BAR remains &#39;???&#39;</span>
 </span><span class='line'>    <span class="no">Foo</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="ss">:remove_const</span><span class="p">,</span> <span class="ss">:BAR</span><span class="p">)</span>
-</span><span class='line'>    <span class="ss">Foo</span><span class="p">:</span><span class="ss">:BAR</span> <span class="o">=</span> <span class="vi">@__orig_bar</span>
+</span><span class='line'>    <span class="no">Foo</span><span class="o">::</span><span class="no">BAR</span> <span class="o">=</span> <span class="vi">@__orig_bar</span>
 </span><span class='line'> <span class="k">end</span>
 </span><span class='line'>
 </span><span class='line'>  <span class="n">it</span> <span class="s1">&#39;have constant BAR&#39;</span> <span class="k">do</span>
-</span><span class='line'>    <span class="n">expect</span><span class="p">(</span><span class="ss">Foo</span><span class="p">:</span><span class="ss">:BAR</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">eq</span> <span class="s1">&#39;???&#39;</span>
+</span><span class='line'>    <span class="n">expect</span><span class="p">(</span><span class="no">Foo</span><span class="o">::</span><span class="no">BAR</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">eq</span> <span class="s1">&#39;???&#39;</span>
 </span><span class='line'>  <span class="k">end</span>
 </span><span class='line'><span class="k">end</span>
 </span></code></pre></td></tr></table></div></figure>
@@ -229,7 +229,7 @@ The demerit of this way is that this is something like META programming. This ma
 </span><span class='line'>  <span class="k">end</span>
 </span><span class='line'>
 </span><span class='line'>  <span class="n">it</span> <span class="s1">&#39;have constant BAR&#39;</span> <span class="k">do</span>
-</span><span class='line'>    <span class="n">expect</span><span class="p">(</span><span class="ss">Foo</span><span class="p">:</span><span class="ss">:BAR</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">eq</span> <span class="s1">&#39;???&#39;</span>
+</span><span class='line'>    <span class="n">expect</span><span class="p">(</span><span class="no">Foo</span><span class="o">::</span><span class="no">BAR</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">eq</span> <span class="s1">&#39;???&#39;</span>
 </span><span class='line'>  <span class="k">end</span>
 </span><span class='line'><span class="k">end</span>
 </span></code></pre></td></tr></table></div></figure>
@@ -266,7 +266,7 @@ I think this discussion has no goal, but I think having many options is one of t
   
 
 
-<time datetime="2014-06-09T12:51:16+00:00" pubdate data-updated="true">Jun 9<span>th</span>, 2014</time>
+<time datetime="2014-06-09T12:51:16+00:00" pubdate data-updated="true">Jun 9<sup>th</sup>, 2014</time>
       
 
 

@@ -154,7 +154,7 @@
 <span class='line-number'>11</span>
 <span class='line-number'>12</span>
 <span class='line-number'>13</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">UseMroongaInEntriesTable</span> <span class="o">&lt;</span> <span class="ss">ActiveRecord</span><span class="p">:</span><span class="ss">:Migration</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">UseMroongaInEntriesTable</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Migration</span>
 </span><span class='line'>  <span class="k">def</span> <span class="nf">change</span>
 </span><span class='line'>    <span class="n">execute</span> <span class="o">&lt;&lt;-</span><span class="no">SQL</span>
 </span><span class='line'><span class="sh">    ALTER TABLE entries</span>
@@ -197,7 +197,7 @@
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
 <span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Entry</span> <span class="o">&lt;</span> <span class="ss">ActiveRecord</span><span class="p">:</span><span class="ss">:Base</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Entry</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
 </span><span class='line'>  <span class="n">scope</span> <span class="ss">:search_with</span><span class="p">,</span> <span class="o">-&gt;</span><span class="p">(</span><span class="n">query</span><span class="p">)</span> <span class="p">{</span> <span class="n">where</span><span class="p">(</span><span class="sx">%Q(match(body) against(&quot;</span><span class="si">#{</span><span class="n">query</span><span class="si">}</span><span class="sx">&quot;))</span><span class="p">)</span> <span class="p">}</span>
 </span><span class='line'>
 </span><span class='line'>  <span class="c1"># attr_accessible is removed.</span>
@@ -234,7 +234,7 @@
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="ss">Rake</span><span class="p">:</span><span class="ss">:TaskManager</span><span class="o">.</span><span class="n">class_eval</span> <span class="k">do</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Rake</span><span class="o">::</span><span class="no">TaskManager</span><span class="o">.</span><span class="n">class_eval</span> <span class="k">do</span>
 </span><span class='line'>  <span class="k">def</span> <span class="nf">remove_task</span><span class="p">(</span><span class="n">task_name</span><span class="p">)</span>
 </span><span class='line'>    <span class="vi">@tasks</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">task_name</span><span class="o">.</span><span class="n">to_s</span><span class="p">)</span>
 </span><span class='line'>  <span class="k">end</span>

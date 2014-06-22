@@ -4,7 +4,7 @@
   <title><![CDATA[Category: playframework | yasuoza diary]]></title>
   <link href="http://blog.yasuoza.com//categories/playframework/atom.xml" rel="self"/>
   <link href="http://blog.yasuoza.com/"/>
-  <updated>2014-06-15T09:01:59+00:00</updated>
+  <updated>2014-06-22T11:51:00+00:00</updated>
   <id>http://blog.yasuoza.com/</id>
   <author>
     <name><![CDATA[Yasuharu Ozaki]]></name>
@@ -22,17 +22,15 @@
 
 <p>First, start play console with auto evolution mode.</p>
 
-<p><code>
-$ play -DapplyEvolutions.default=true console
-</code></p>
+<pre><code>$ play -DapplyEvolutions.default=true console
+</code></pre>
 
 <p>And start your application.</p>
 
-<p>```
-scala> import play.core.StaticApplication</p>
+<pre><code>scala&gt; import play.core.StaticApplication
 
-<p>scala> new StaticApplication(new java.io.File(&ldquo;.&rdquo;))
-```</p>
+scala&gt; new StaticApplication(new java.io.File("."))
+</code></pre>
 
 <p>Then, you can do what you want.</p>
 

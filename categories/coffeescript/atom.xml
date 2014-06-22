@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: CoffeeScript | yasuoza diary]]></title>
+  <title><![CDATA[Category: coffeescript | yasuoza diary]]></title>
   <link href="http://blog.yasuoza.com//categories/coffeescript/atom.xml" rel="self"/>
   <link href="http://blog.yasuoza.com/"/>
-  <updated>2014-06-15T09:01:59+00:00</updated>
+  <updated>2014-06-22T11:51:00+00:00</updated>
   <id>http://blog.yasuoza.com/</id>
   <author>
     <name><![CDATA[Yasuharu Ozaki]]></name>
@@ -18,16 +18,15 @@
     <link href="http://blog.yasuoza.com/2012/12/14/array-number-compact-in-coffeescript/"/>
     <updated>2012-12-14T17:05:00+00:00</updated>
     <id>http://blog.yasuoza.com/2012/12/14/array-number-compact-in-coffeescript</id>
-    <content type="html"><![CDATA[<p>```coffeescript
-Array::compact = &ndash;>
-  (elem for elem in this when elem?)</p>
+    <content type="html"><![CDATA[<pre><code class="coffeescript">Array::compact = -&gt;
+  (elem for elem in this when elem?)
 
-<p>arr = [0..10]
+arr = [0..10]
 delete arr[7]
-delete arr[8]</p>
+delete arr[8]
 
-<p>console.log arr.compact() #=> [0, 1, 2, 3, 4, 5, 6, 9, 10]
-```</p>
+console.log arr.compact() #=&gt; [0, 1, 2, 3, 4, 5, 6, 9, 10]
+</code></pre>
 
 <p>Yeah!</p>
 ]]></content>

@@ -4,7 +4,7 @@
   <title><![CDATA[Category: mroonga | yasuoza diary]]></title>
   <link href="http://blog.yasuoza.com//categories/mroonga/atom.xml" rel="self"/>
   <link href="http://blog.yasuoza.com/"/>
-  <updated>2014-06-15T09:01:59+00:00</updated>
+  <updated>2014-06-22T11:51:00+00:00</updated>
   <id>http://blog.yasuoza.com/</id>
   <author>
     <name><![CDATA[Yasuharu Ozaki]]></name>
@@ -39,36 +39,30 @@
 <p>インストールしたら次はマイグレーションファイルを作ります。
 今回の例ではブログ記事の本文(entry.body)を全文検索するように設定していきます。</p>
 
-<p><code>
-$ rails g migration use_mroonga_in_entries_table
-</code></p>
+<pre><code>$ rails g migration use_mroonga_in_entries_table
+</code></pre>
 
 <p>マイグレーションファイルができたらエディタで開いて次のように編集します。</p>
 
-<p>```ruby
-class UseMroongaInEntriesTable &lt; ActiveRecord::Migration
-  def change</p>
+<pre><code class="ruby">class UseMroongaInEntriesTable &lt; ActiveRecord::Migration
+  def change
+    execute &lt;&lt;-SQL
+    ALTER TABLE entries
+      ENGINE = mroonga COMMENT = 'engine &amp;quot;innodb&amp;quot;' DEFAULT CHARSET utf8
+    SQL
 
-<pre><code>execute &lt;&lt;-SQL
-ALTER TABLE entries
-  ENGINE = mroonga COMMENT = 'engine &amp;quot;innodb&amp;quot;' DEFAULT CHARSET utf8
-SQL
-
-execute &lt;&lt;-SQL
-ALTER TABLE entries
-  ADD FULLTEXT INDEX index_blogs_on_body (body)
-SQL
-</code></pre>
-
-<p>  end
+    execute &lt;&lt;-SQL
+    ALTER TABLE entries
+      ADD FULLTEXT INDEX index_blogs_on_body (body)
+    SQL
+  end
 end
-```</p>
+</code></pre>
 
 <p>マイグレートします。</p>
 
-<p><code>
-$ rake db:migrate
-</code></p>
+<pre><code>$ rake db:migrate
+</code></pre>
 
 <p>検索します。
 ```
@@ -80,24 +74,21 @@ $ rails c</p>
 
 <p>モデルにはスコープを使って</p>
 
-<p>```ruby
-class Entry &lt; ActiveRecord::Base
-  scope :search_with, &ndash;>(query) { where(%Q(match(body) against(&ldquo;#{query}&rdquo;))) }</p>
+<pre><code class="ruby">class Entry &lt; ActiveRecord::Base
+  scope :search_with, -&gt;(query) { where(%Q(match(body) against("#{query}"))) }
 
-<p>  # attr_accessible is removed.
+  # attr_accessible is removed.
   # Now we are using strong_parameters!
-  # Refer to <a href="https://github.com/rails/strong_parameters">https://github.com/rails/strong_parameters</a>
+  # Refer to https://github.com/rails/strong_parameters
 end
-```</p>
+</code></pre>
 
 <p>などと書いておけます。<code>query</code>の事前処理は必要に応じてして下さい。僕はいろいろ考えましたが、<code>query</code>の事前処理は呼び出し側のコントローラにやらせることにしてます。</p>
 
-<p>```
-$ rails c</p>
-
-<blockquote><p>Entry.search_with(&lsquo;hello&rsquo;)
-[<Entry id: 1, text: "hello world">]
-```</p></blockquote>
+<pre><code>$ rails c
+&gt; Entry.search_with('hello')
+&gt; [&lt;Entry id: 1, text: "hello world"&gt;]
+</code></pre>
 
 <p>これでdevelopment環境とproduction環境では、MySQLのエンジンにmroongaが入っていれば動くはずです。
 テストを書かない人はここで読み終わってOKです。</p>
@@ -109,28 +100,22 @@ $ rails c</p>
 ただ、今回はmroongaを意図的に使うので<code>db/schema.rb</code>を読み込んでスキーマを初期化されては困ります。そこで、<a href="http://kennyj-jp.blogspot.jp/2011/09/specdbtestprepare.html" target="_blank">kennyjさんのブログ記事</a>で紹介されていた方法を取ります。</p>
 
 <p>Rakefileに以下を追加
-```ruby
+<code>ruby
 Rake::TaskManager.class_eval do
-  def remove_task(task_name)</p>
-
-<pre><code>@tasks.delete(task_name.to_s)
-</code></pre>
-
-<p>  end
+  def remove_task(task_name)
+    @tasks.delete(task_name.to_s)
+  end
 end
-```</p>
+</code></p>
 
 <p>lib/tasks/override_db_test_prepare.rbを作成
 ```ruby
 Rake.application.remove_task &lsquo;db:test:prepare&rsquo;</p>
 
 <p>namespace :db do
-  namespace :test do</p>
-
-<pre><code>task :prepare do; end
-</code></pre>
-
-<p>  end
+  namespace :test do
+    task :prepare do; end
+  end
 end
 ```</p>
 

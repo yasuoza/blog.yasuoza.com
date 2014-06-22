@@ -29,7 +29,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://blog.yasuoza.com/page/2">
+  <link rel="canonical" href="http://blog.yasuoza.com/posts/2">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="yasuoza diary" type="application/atom+xml">
@@ -111,7 +111,7 @@
   
 
 
-<time datetime="2014-01-07T06:43:15+00:00" pubdate data-updated="true">Jan 7<span>th</span>, 2014</time>
+<time datetime="2014-01-07T06:43:15+00:00" pubdate data-updated="true">Jan 7<sup>th</sup>, 2014</time>
         
       </p>
     
@@ -147,7 +147,7 @@
   
 
 
-<time datetime="2013-12-27T04:39:25+00:00" pubdate data-updated="true">Dec 27<span>th</span>, 2013</time>
+<time datetime="2013-12-27T04:39:25+00:00" pubdate data-updated="true">Dec 27<sup>th</sup>, 2013</time>
         
       </p>
     
@@ -223,7 +223,7 @@
   
 
 
-<time datetime="2013-12-16T07:04:52+00:00" pubdate data-updated="true">Dec 16<span>th</span>, 2013</time>
+<time datetime="2013-12-16T07:04:52+00:00" pubdate data-updated="true">Dec 16<sup>th</sup>, 2013</time>
         
       </p>
     
@@ -550,7 +550,7 @@
   
 
 
-<time datetime="2013-12-13T16:09:48+00:00" pubdate data-updated="true">Dec 13<span>th</span>, 2013</time>
+<time datetime="2013-12-13T16:09:48+00:00" pubdate data-updated="true">Dec 13<sup>th</sup>, 2013</time>
         
       </p>
     
@@ -608,7 +608,7 @@
   
 
 
-<time datetime="2013-12-09T04:52:12+00:00" pubdate data-updated="true">Dec 9<span>th</span>, 2013</time>
+<time datetime="2013-12-09T04:52:12+00:00" pubdate data-updated="true">Dec 9<sup>th</sup>, 2013</time>
         
       </p>
     
@@ -676,7 +676,7 @@ WebViewやバックグラウンド更新などはこれからのアップデー�
   
 
 
-<time datetime="2013-11-21T13:34:55+00:00" pubdate data-updated="true">Nov 21<span>st</span>, 2013</time>
+<time datetime="2013-11-21T13:34:55+00:00" pubdate data-updated="true">Nov 21<sup>st</sup>, 2013</time>
         
       </p>
     
@@ -750,7 +750,7 @@ If you want to define <code>diff</code>s globally, define like following:</p>
   
 
 
-<time datetime="2013-08-08T09:10:00+00:00" pubdate data-updated="true">Aug 8<span>th</span>, 2013</time>
+<time datetime="2013-08-08T09:10:00+00:00" pubdate data-updated="true">Aug 8<sup>th</sup>, 2013</time>
         
       </p>
     
@@ -835,7 +835,7 @@ It is easy to use.</p>
   
 
 
-<time datetime="2013-04-06T18:24:00+00:00" pubdate data-updated="true">Apr 6<span>th</span>, 2013</time>
+<time datetime="2013-04-06T18:24:00+00:00" pubdate data-updated="true">Apr 6<sup>th</sup>, 2013</time>
         
       </p>
     
@@ -884,9 +884,9 @@ So, <code>Gemfile</code>, <code>config/sprockets.rb</code> and <code>Rakefile</c
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">module</span> <span class="nn">SprocketsInitializer</span>
 </span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">registered</span><span class="p">(</span><span class="n">app</span><span class="p">)</span>
 </span><span class='line'>    <span class="c1"># Make it lazy</span>
-</span><span class='line'>    <span class="n">options</span><span class="o">[</span><span class="ss">:asset_prefix</span><span class="o">]</span> <span class="o">=</span> <span class="o">-&gt;</span> <span class="p">{</span> <span class="ss">Sprockets</span><span class="p">:</span><span class="ss">:Helpers</span><span class="o">.</span><span class="n">prefix</span> <span class="p">}</span>
+</span><span class='line'>    <span class="n">options</span><span class="o">[</span><span class="ss">:asset_prefix</span><span class="o">]</span> <span class="o">=</span> <span class="o">-&gt;</span> <span class="p">{</span> <span class="no">Sprockets</span><span class="o">::</span><span class="no">Helpers</span><span class="o">.</span><span class="n">prefix</span> <span class="p">}</span>
 </span><span class='line'>
-</span><span class='line'>    <span class="n">app</span><span class="o">.</span><span class="n">use</span> <span class="o">::</span><span class="ss">SprocketsInitializer</span><span class="p">:</span><span class="ss">:Rack</span><span class="p">,</span> <span class="n">options</span>
+</span><span class='line'>    <span class="n">app</span><span class="o">.</span><span class="n">use</span> <span class="o">::</span><span class="no">SprocketsInitializer</span><span class="o">::</span><span class="no">Rack</span><span class="p">,</span> <span class="n">options</span>
 </span><span class='line'>  <span class="k">end</span>
 </span><span class='line'>
 </span><span class='line'>  <span class="k">class</span> <span class="nc">Rack</span>
@@ -921,12 +921,12 @@ So, <code>Gemfile</code>, <code>config/sprockets.rb</code> and <code>Rakefile</c
 <span class='line-number'>9</span>
 <span class='line-number'>10</span>
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">module</span> <span class="nn">Web</span>
-</span><span class='line'>  <span class="k">class</span> <span class="nc">App</span> <span class="o">&lt;</span> <span class="ss">Padrino</span><span class="p">:</span><span class="ss">:Application</span>
-</span><span class='line'>    <span class="n">register</span> <span class="ss">Padrino</span><span class="p">:</span><span class="ss">:Rendering</span>
-</span><span class='line'>    <span class="n">register</span> <span class="ss">Padrino</span><span class="p">:</span><span class="ss">:Mailer</span>
-</span><span class='line'>    <span class="n">register</span> <span class="ss">Padrino</span><span class="p">:</span><span class="ss">:Helpers</span>
+</span><span class='line'>  <span class="k">class</span> <span class="nc">App</span> <span class="o">&lt;</span> <span class="no">Padrino</span><span class="o">::</span><span class="no">Application</span>
+</span><span class='line'>    <span class="n">register</span> <span class="no">Padrino</span><span class="o">::</span><span class="no">Rendering</span>
+</span><span class='line'>    <span class="n">register</span> <span class="no">Padrino</span><span class="o">::</span><span class="no">Mailer</span>
+</span><span class='line'>    <span class="n">register</span> <span class="no">Padrino</span><span class="o">::</span><span class="no">Helpers</span>
 </span><span class='line'>    <span class="n">register</span> <span class="no">SprocketsInitializer</span> <span class="k">unless</span> <span class="no">Padrino</span><span class="o">.</span><span class="n">env</span> <span class="o">==</span> <span class="ss">:production</span>
-</span><span class='line'>    <span class="n">helpers</span> <span class="ss">Sprockets</span><span class="p">:</span><span class="ss">:Helpers</span>
+</span><span class='line'>    <span class="n">helpers</span> <span class="no">Sprockets</span><span class="o">::</span><span class="no">Helpers</span>
 </span><span class='line'>
 </span><span class='line'>  <span class="k">end</span>
 </span><span class='line'><span class="k">end</span>
@@ -979,7 +979,7 @@ So, <code>Gemfile</code>, <code>config/sprockets.rb</code> and <code>Rakefile</c
   
 
 
-<time datetime="2013-03-31T22:07:00+00:00" pubdate data-updated="true">Mar 31<span>st</span>, 2013</time>
+<time datetime="2013-03-31T22:07:00+00:00" pubdate data-updated="true">Mar 31<sup>st</sup>, 2013</time>
         
       </p>
     
@@ -1115,7 +1115,7 @@ The only thing you have to do is set <code>X-Forwarded-For</code> and <code>CLIE
   
 
 
-<time datetime="2013-01-31T16:22:00+00:00" pubdate data-updated="true">Jan 31<span>st</span>, 2013</time>
+<time datetime="2013-01-31T16:22:00+00:00" pubdate data-updated="true">Jan 31<sup>st</sup>, 2013</time>
         
       </p>
     
@@ -1152,11 +1152,11 @@ The only thing you have to do is set <code>X-Forwarded-For</code> and <code>CLIE
   
   <div class="pagination">
     
-      <a class="prev" href="/page/3/">&larr; Older</a>
+      <a class="prev" href="3">&larr; Older</a>
     
     <a href="/archives">Blog Archives</a>
     
-    <a class="next" href="/">Newer &rarr;</a>
+    <a class="next" href="1">Newer &rarr;</a>
     
   </div>
 </div>

@@ -4,7 +4,7 @@
   <title><![CDATA[Category: ubuntu | yasuoza diary]]></title>
   <link href="http://blog.yasuoza.com//categories/ubuntu/atom.xml" rel="self"/>
   <link href="http://blog.yasuoza.com/"/>
-  <updated>2014-06-15T09:01:59+00:00</updated>
+  <updated>2014-06-22T11:51:00+00:00</updated>
   <id>http://blog.yasuoza.com/</id>
   <author>
     <name><![CDATA[Yasuharu Ozaki]]></name>
@@ -20,18 +20,16 @@
     <id>http://blog.yasuoza.com/2012/12/28/unable-to-install-nokogiri-to-ubuntu-12-dot-04</id>
     <content type="html"><![CDATA[<p>I tried install nokogiri into my ubuntu 12.04 server, but failed with following error message</p>
 
-<p>```
-checking for libxml/parser.h&hellip; yes
-checking for libxslt/xslt.h&hellip; yes
-checking for libexslt/exslt.h&hellip; yes
-checking for iconv_open() in iconv.h&hellip; yes
-checking for xmlParseDoc() in -lxml2&hellip; yes</p>
-
-<h2>checking for xsltParseStylesheetDoc() in -lxslt&hellip; no</h2>
-
-<h2>libxslt is missing.  please visit <a href="http://nokogiri.org/tutorials/installing_nokogiri.html">http://nokogiri.org/tutorials/installing_nokogiri.html</a> for help with installing dependencies.</h2>
-
-<p>```</p>
+<pre><code>checking for libxml/parser.h... yes
+checking for libxslt/xslt.h... yes
+checking for libexslt/exslt.h... yes
+checking for iconv_open() in iconv.h... yes
+checking for xmlParseDoc() in -lxml2... yes
+checking for xsltParseStylesheetDoc() in -lxslt... no
+-----
+libxslt is missing.  please visit http://nokogiri.org/tutorials/installing_nokogiri.html for help with installing dependencies.
+-----
+</code></pre>
 
 <p><a href="http://nokogiri.org/tutorials/installing_nokogiri.html">Official install guide page</a> and many other sites said to install <code>libxslt1-dev</code>,
 but it does not solve my problem.</p>

@@ -4,7 +4,7 @@
   <title><![CDATA[Category: ruby | yasuoza diary]]></title>
   <link href="http://blog.yasuoza.com//categories/ruby/atom.xml" rel="self"/>
   <link href="http://blog.yasuoza.com/"/>
-  <updated>2014-06-15T09:01:59+00:00</updated>
+  <updated>2014-06-22T11:51:00+00:00</updated>
   <id>http://blog.yasuoza.com/</id>
   <author>
     <name><![CDATA[Yasuharu Ozaki]]></name>
@@ -20,24 +20,21 @@
     <id>http://blog.yasuoza.com/2014/01/28/advanced-ruby-install-via-rbenv-in-osx</id>
     <content type="html"><![CDATA[<p><strong>Parallel compile</strong></p>
 
-<p><code>
-$ MAKE_OPTS="-j 4" rbenv install 2.1.0
-</code></p>
+<pre><code>$ MAKE_OPTS="-j 4" rbenv install 2.1.0
+</code></pre>
 
 <p>Above example compiles ruby with 4 workers.</p>
 
 <p><strong>Readline support</strong></p>
 
-<p><code>
-$ brew install readline
+<pre><code>$ brew install readline
 $ RUBY_CONFIGURE_OPTS=--with-readline-dir=`brew --prefix readline` rbenv install 2.1.0
-</code></p>
+</code></pre>
 
 <p>Mixed</p>
 
-<p><code>
-$ MAKE_OPTS="-j 4" RUBY_CONFIGURE_OPTS=--with-readline-dir=`brew --prefix readline` rbenv install 2.1.0
-</code></p>
+<pre><code>$ MAKE_OPTS="-j 4" RUBY_CONFIGURE_OPTS=--with-readline-dir=`brew --prefix readline` rbenv install 2.1.0
+</code></pre>
 ]]></content>
   </entry>
   
@@ -61,69 +58,57 @@ So, <code>Gemfile</code>, <code>config/sprockets.rb</code> and <code>Rakefile</c
 
 <p><code>lib/sprockets_initializer.rb</code> is used to register to use <a href="https://github.com/sstephenson/sprockets/blob/master/lib/sprockets/server.rb">Sprockets::Server</a> for assets request handler.</p>
 
-<p>```ruby lib/sprockets_initializer.rb
-module SprocketsInitializer
-  def self.registered(app)</p>
+<pre><code class="ruby lib/sprockets_initializer.rb">module SprocketsInitializer
+  def self.registered(app)
+    # Make it lazy
+    options[:asset_prefix] = -&gt; { Sprockets::Helpers.prefix }
 
-<pre><code># Make it lazy
-options[:asset_prefix] = -&gt; { Sprockets::Helpers.prefix }
-
-app.use ::SprocketsInitializer::Rack, options
-</code></pre>
-
-<p>  end</p>
-
-<p>  class Rack</p>
-
-<pre><code>def initialize(app, options={})
-  @app = app
-  @asset_prefix = options[:asset_prefix].call
-end
-
-def call(env)
-  if env['PATH_INFO'].match(@asset_prefix)
-    env['PATH_INFO'].gsub!(@asset_prefix, '')
-    return PadrinoSprocekts.environment.call(env)
+    app.use ::SprocketsInitializer::Rack, options
   end
 
-  @app.call(env)
+  class Rack
+    def initialize(app, options={})
+      @app = app
+      @asset_prefix = options[:asset_prefix].call
+    end
+
+    def call(env)
+      if env['PATH_INFO'].match(@asset_prefix)
+        env['PATH_INFO'].gsub!(@asset_prefix, '')
+        return PadrinoSprocekts.environment.call(env)
+      end
+
+      @app.call(env)
+    end
+  end
 end
 </code></pre>
-
-<p>  end
-end
-```</p>
 
 <p>In <code>app/app.rb</code> register it only for not production environment because in production environment, I want to let application read assets from compiled assets path.</p>
 
-<p>``` ruby app/app.rb
-module Web
-  class App &lt; Padrino::Application</p>
+<pre><code class="ruby app/app.rb">module Web
+  class App &lt; Padrino::Application
+    register Padrino::Rendering
+    register Padrino::Mailer
+    register Padrino::Helpers
+    register SprocketsInitializer unless Padrino.env == :production
+    helpers Sprockets::Helpers
 
-<pre><code>register Padrino::Rendering
-register Padrino::Mailer
-register Padrino::Helpers
-register SprocketsInitializer unless Padrino.env == :production
-helpers Sprockets::Helpers
-</code></pre>
-
-<p>  end
+  end
 end
-```</p>
+</code></pre>
 
 <p>If you want, delete mounted sprockets from <code>config.ru</code></p>
 
-<p>``` ruby config.ru
-require File.expand_path(&ldquo;../config/boot.rb&rdquo;, <strong>FILE</strong>)</p>
+<pre><code class="ruby config.ru">require File.expand_path("../config/boot.rb", __FILE__)
 
-<p>run Padrino.application
-```</p>
+run Padrino.application
+</code></pre>
 
 <p>After changed configuration like above, you can test your application previous style.</p>
 
-<p><code>plain
-$ rake spec
-</code></p>
+<pre><code class="plain">$ rake spec
+</code></pre>
 
 <p>Thank you for reading!</p>
 ]]></content>
@@ -139,35 +124,32 @@ The title was &ldquo;Active Record, changes from.. to..&rdquo;</p>
 
 <p>His suggested feature was like following</p>
 
-<p>```ruby
-class Book &lt; ActiveRecord::Base
+<pre><code class="ruby">class Book &lt; ActiveRecord::Base
   STATUS_DELIVER = [0, 1]
-  before_save :send_mail_to_customer</p>
+  before_save :send_mail_to_customer
 
-<p>  def send_mail_to_customer
+  def send_mail_to_customer
    UserMailer.send_mail_to_customer if self.status.changes(from: 0, to: 1)
   end
 end
-```</p>
+</code></pre>
 
 <p>I knew this can be done in <a href="http://api.rubyonrails.org/classes/ActiveModel/Dirty.html">ActiveModel::Dirty</a>, but the feature <code>from</code> and <code>to</code> was interesting. So I implemented into gem named <a href="https://github.com/YasuOza/activemodel-attribute_changed_specification">activemodel-attribute_changed_specification</a>.</p>
 
 <p>You can use this gem like this</p>
 
-<p><code>ruby
-user = User.new
+<pre><code class="ruby">user = User.new
 user.name = 'Bob'
 user.name_changed?(from: nil,  to: 'Bob') # =&gt; true
 user.name_changed?(from: 'Paul',  to: 'Bob') # =&gt; false
-</code></p>
+</code></pre>
 
 <p>Though I overridden default <code>_changed?</code> method, I kept original <code>_changed?</code> method.</p>
 
-<p><code>ruby
-user = User.new
+<pre><code class="ruby">user = User.new
 user.name = 'Bob'
 user.name_changed? # =&gt; true
-</code></p>
+</code></pre>
 
 <p>This is my first gem. Yeah, it&rsquo;s fun!</p>
 ]]></content>
@@ -178,83 +160,70 @@ user.name_changed? # =&gt; true
     <link href="http://blog.yasuoza.com/2012/12/15/blog-update-notificator/"/>
     <updated>2012-12-15T16:22:00+00:00</updated>
     <id>http://blog.yasuoza.com/2012/12/15/blog-update-notificator</id>
-    <content type="html"><![CDATA[<p>```ruby
-require &lsquo;feed-normalizer&rsquo;
-require &lsquo;twitter&rsquo;</p>
+    <content type="html"><![CDATA[<pre><code class="ruby">require 'feed-normalizer'
+require 'twitter'
 
-<p>option = Hash[[ARGV]]</p>
+option = Hash[[ARGV]]
 
-<p>url = option[&lsquo;&mdash;url&rsquo;]</p>
+url = option['--url']
 
-<p>class FeedTweeter
-  def initialize(arg = {url: nil})</p>
-
-<pre><code>@url = arg[:url]
-</code></pre>
-
-<p>  end</p>
-
-<p>  def site_updated?</p>
-
-<pre><code>@feed = FeedNormalizer::FeedNormalizer.parse open(@url)
-@new_entry = @feed.entries.first
-
-return true unless File.exist? "#{current_file_dirpath}/#{remember_text_file}"
-
-last_tweeted_on = Time.parse(File.open(remember_text_file).read)
-last_tweeted_on &lt; @new_entry.last_updated
-</code></pre>
-
-<p>  end</p>
-
-<p>  def tweet!</p>
-
-<pre><code>tweet_text = make_tweet_text
-Twitter.update(tweet_text)
-
-remember_last_tweeted_on!
-</code></pre>
-
-<p>  end</p>
-
-<p>  private</p>
-
-<pre><code>def current_file_dirpath
-  "#{File.expand_path('../',  __FILE__)}"
-end
-
-def remember_text_file
-  'last_tweeted_on.txt';
-end
-
-def make_tweet_text
-  blog_title = @feed.title
-  new_entry_title = @new_entry.title
-  new_entry_url = @new_entry.url
-  "#{new_entry_title} - #{blog_title} #{new_entry_url}"
-end
-
-def remember_last_tweeted_on!
-  File.open("#{current_file_dirpath}/#{remember_text_file}", 'w') do |file|
-    file.write(@new_entry.last_updated)
+class FeedTweeter
+  def initialize(arg = {url: nil})
+    @url = arg[:url]
   end
+
+  def site_updated?
+    @feed = FeedNormalizer::FeedNormalizer.parse open(@url)
+    @new_entry = @feed.entries.first
+
+    return true unless File.exist? "#{current_file_dirpath}/#{remember_text_file}"
+
+    last_tweeted_on = Time.parse(File.open(remember_text_file).read)
+    last_tweeted_on &lt; @new_entry.last_updated
+  end
+
+  def tweet!
+    tweet_text = make_tweet_text
+    Twitter.update(tweet_text)
+
+    remember_last_tweeted_on!
+  end
+
+  private
+    def current_file_dirpath
+      "#{File.expand_path('../',  __FILE__)}"
+    end
+
+    def remember_text_file
+      'last_tweeted_on.txt';
+    end
+
+    def make_tweet_text
+      blog_title = @feed.title
+      new_entry_title = @new_entry.title
+      new_entry_url = @new_entry.url
+      "#{new_entry_title} - #{blog_title} #{new_entry_url}"
+    end
+
+    def remember_last_tweeted_on!
+      File.open("#{current_file_dirpath}/#{remember_text_file}", 'w') do |file|
+        file.write(@new_entry.last_updated)
+      end
+    end
 end
-</code></pre>
 
-<p>end</p>
+Twitter.configure do |config|
+  config.consumer_key = 'CONSUMER_KEY'
+  config.consumer_secret = 'CONSUMER_SECRET'
+  config.oauth_token = 'OAUTH_TOKEN'
+  config.oauth_token_secret = 'OAUTH_TOKEN_SECRET'
+end
 
-<p>Twitter.configure do |config|
-  config.consumer_key = &lsquo;CONSUMER_KEY&rsquo;
-  config.consumer_secret = &lsquo;CONSUMER_SECRET&rsquo;
-  config.oauth_token = &lsquo;OAUTH_TOKEN&rsquo;
-  config.oauth_token_secret = &lsquo;OAUTH_TOKEN_SECRET&rsquo;
-end</p>
-
-<p>feed_tweeter = FeedTweeter.new url: url
+feed_tweeter = FeedTweeter.new url: url
 if feed_tweeter.site_updated?
   feed_tweeter.tweet!
 end
-```</p>
+</code></pre>
 
 <p>This works with jenkins very well!</p>
 ]]></content>

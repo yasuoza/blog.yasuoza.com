@@ -4,7 +4,7 @@
   <title><![CDATA[Category: jenkins | yasuoza diary]]></title>
   <link href="http://blog.yasuoza.com//categories/jenkins/atom.xml" rel="self"/>
   <link href="http://blog.yasuoza.com/"/>
-  <updated>2014-06-15T09:01:59+00:00</updated>
+  <updated>2014-06-22T11:51:00+00:00</updated>
   <id>http://blog.yasuoza.com/</id>
   <author>
     <name><![CDATA[Yasuharu Ozaki]]></name>
@@ -22,47 +22,41 @@
 
 <p>Create tmp directory under <code>$JENKINS_HOME</code></p>
 
-<p><code>bash
-$ mkdir -p ~/.jenkins/tmpdir
-</code></p>
+<pre><code class="bash">$ mkdir -p ~/.jenkins/tmpdir
+</code></pre>
 
 <p>Then rewrite <code>homebrew.mxcl.jenkins.plist</code> like:</p>
 
-<p>```xml
-&lt;?xml version=&ldquo;1.0&rdquo; encoding=&ldquo;UTF-8&rdquo;?>
-&lt;!DOCTYPE plist PUBLIC &ldquo;&ndash;//Apple//DTD PLIST 1.0//EN&rdquo; &ldquo;<a href="http://www.apple.com/DTDs/PropertyList-1.0.dtd">http://www.apple.com/DTDs/PropertyList-1.0.dtd</a>&rdquo;>
-<plist version="1.0"></p>
-
-<pre><code>&lt;dict&gt;
-    &lt;key&gt;Label&lt;/key&gt;
-    &lt;string&gt;#{plist_name}&lt;/string&gt;
-    &lt;key&gt;ProgramArguments&lt;/key&gt;
-    &lt;array&gt;
-        &lt;string&gt;/usr/bin/java&lt;/string&gt;
-        &lt;string&gt;-Dmail.smtp.starttls.enable=true&lt;/string&gt;
-        &lt;string&gt;-Dfile.encoding=UTF-8&lt;/string&gt;
-        &lt;string&gt;-Djava.io.tmpdir=/Users/__USERNAME__/.jenkins/tmpdir&lt;/string&gt;
-        &lt;string&gt;-jar&lt;/string&gt;
-        &lt;string&gt;/usr/local/opt/jenkins/libexec/jenkins.war&lt;/string&gt;
-        &lt;string&gt;--httpListenAddress=127.0.0.1&lt;/string&gt;
-        &lt;string&gt;--httpPort=8080&lt;/string&gt;
-    &lt;/array&gt;
-    &lt;key&gt;RunAtLoad&lt;/key&gt;
-    &lt;true/&gt;
-&lt;/dict&gt;
+<pre><code class="xml">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd"&gt;
+&lt;plist version="1.0"&gt;
+    &lt;dict&gt;
+        &lt;key&gt;Label&lt;/key&gt;
+        &lt;string&gt;#{plist_name}&lt;/string&gt;
+        &lt;key&gt;ProgramArguments&lt;/key&gt;
+        &lt;array&gt;
+            &lt;string&gt;/usr/bin/java&lt;/string&gt;
+            &lt;string&gt;-Dmail.smtp.starttls.enable=true&lt;/string&gt;
+            &lt;string&gt;-Dfile.encoding=UTF-8&lt;/string&gt;
+            &lt;string&gt;-Djava.io.tmpdir=/Users/__USERNAME__/.jenkins/tmpdir&lt;/string&gt;
+            &lt;string&gt;-jar&lt;/string&gt;
+            &lt;string&gt;/usr/local/opt/jenkins/libexec/jenkins.war&lt;/string&gt;
+            &lt;string&gt;--httpListenAddress=127.0.0.1&lt;/string&gt;
+            &lt;string&gt;--httpPort=8080&lt;/string&gt;
+        &lt;/array&gt;
+        &lt;key&gt;RunAtLoad&lt;/key&gt;
+        &lt;true/&gt;
+    &lt;/dict&gt;
+&lt;/plist&gt;
 </code></pre>
-
-<p></plist>
-```</p>
 
 <p>As you can see, the point is to set <code>-Djava.io.tmpdir</code> to created tmp directory.</p>
 
 <p>Restart jenkins</p>
 
-<p><code>bash
-$ launchctl unload ~/Library/LaunchAgents/homebrew.mxcl.jenkins.plist
+<pre><code class="bash">$ launchctl unload ~/Library/LaunchAgents/homebrew.mxcl.jenkins.plist
 $ launchctl load ~/Library/LaunchAgents/homebrew.mxcl.jenkins.plist
-</code></p>
+</code></pre>
 
 <h2>Description</h2>
 
@@ -98,9 +92,8 @@ My Jenkins does these things:</p>
 
 <p>Next, set jenkins&rsquo;s public key to blog server so that jenkins can login the server without password.</p>
 
-<p><code>plain
-$ sudo -u jenkins -H ssh user@yourhost.com
-</code></p>
+<pre><code class="plain">$ sudo -u jenkins -H ssh user@yourhost.com
+</code></pre>
 
 <p>Then, install Jenkins plugin <a href="https://wiki.jenkins-ci.org/display/JENKINS/Gitlab+Hook+Plugin">Gitlab Hook Plugin</a> and set <code>http://your-jenkins-server/gitlab/build_now</code>
 in your Gitlab like this:</p>
@@ -115,11 +108,10 @@ For more: <a href="https://github.com/elvanja/jenkins-gitlab-hook-plugin/issues/
 
 <p>Finally, configure Jenkins job to deploy Octopress:</p>
 
-<p><code>plain Execute shell
-bundle
+<pre><code class="plain Execute shell">bundle
 bundle exec rake generate
 bundle exec rake deploy
-</code></p>
+</code></pre>
 
 <p><strong> NOTE </strong><br/>
 OCTOPRESS REQUIRES RUBY 1.9.3-P194.<br/>
@@ -138,46 +130,38 @@ It is easy to use.</p>
     <id>http://blog.yasuoza.com/2013/01/02/trigger-authenticated-jenkins-job</id>
     <content type="html"><![CDATA[<p>Trigger job in authenticated jenkins using ruby!</p>
 
-<p>```ruby
-require &lsquo;net/http&rsquo;</p>
+<pre><code class="ruby">require 'net/http'
 
-<p>server = &lsquo;<a href="https://your.jenkins.com">https://your.jenkins.com</a>&rsquo;
-jobname = &lsquo;your_jobname&rsquo;
-build_token = &lsquo;job_build_token&rsquo;</p>
+server = 'https://your.jenkins.com'
+jobname = 'your_jobname'
+build_token = 'job_build_token'
 
-<p>user = &lsquo;you&rsquo;
-user_token = &lsquo;your_token&rsquo;</p>
+user = 'you'
+user_token = 'your_token'
 
-<p>uri = URI(&ldquo;#{server}/job/#{jobname}/build?token=#{build_token}&amp;cause=remote+trigger&rdquo;)</p>
+uri = URI("#{server}/job/#{jobname}/build?token=#{build_token}&amp;cause=remote+trigger")
 
-<p>request = Net::<a href="HTTP::Get.new">HTTP::Get.new</a>(uri.request_uri)
-request.basic_auth user, user_token</p>
+request = Net::HTTP::Get.new(uri.request_uri)
+request.basic_auth user, user_token
 
-<p>res = Net::HTTP.start(uri.hostname,</p>
+res = Net::HTTP.start(uri.hostname,
+                      uri.port,
+                      use_ssl: uri.scheme == 'https') { |http|
+  http.request(request)
+}
 
-<pre><code>                  uri.port,
-                  use_ssl: uri.scheme == 'https') { |http|
+p "#{res.code}: #{res.msg}"
 </code></pre>
-
-<p>  http.request(request)
-}</p>
-
-<p>p &ldquo;#{res.code}: #{res.msg}&rdquo;
-```</p>
 
 <p>If you use your &lsquo;own&rsquo; ssl certification, ignore <code>Certificate verify failed</code> with <code>OpenSSL::SSL::VERIFY_NONE</code> option like this</p>
 
-<p>```ruby
-res = Net::HTTP.start(uri.hostname,</p>
-
-<pre><code>                  uri.port,
-                  use_ssl: uri.scheme == 'https',
-                  verify_mode: OpenSSL::SSL::VERIFY_NONE) { |http|
-</code></pre>
-
-<p>  http.request(request)
+<pre><code class="ruby">res = Net::HTTP.start(uri.hostname,
+                      uri.port,
+                      use_ssl: uri.scheme == 'https',
+                      verify_mode: OpenSSL::SSL::VERIFY_NONE) { |http|
+  http.request(request)
 }
-```</p>
+</code></pre>
 ]]></content>
   </entry>
   

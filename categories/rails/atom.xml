@@ -4,7 +4,7 @@
   <title><![CDATA[Category: rails | yasuoza diary]]></title>
   <link href="http://blog.yasuoza.com//categories/rails/atom.xml" rel="self"/>
   <link href="http://blog.yasuoza.com/"/>
-  <updated>2014-06-15T09:01:59+00:00</updated>
+  <updated>2014-06-22T11:51:00+00:00</updated>
   <id>http://blog.yasuoza.com/</id>
   <author>
     <name><![CDATA[Yasuharu Ozaki]]></name>
@@ -23,35 +23,32 @@ The title was &ldquo;Active Record, changes from.. to..&rdquo;</p>
 
 <p>His suggested feature was like following</p>
 
-<p>```ruby
-class Book &lt; ActiveRecord::Base
+<pre><code class="ruby">class Book &lt; ActiveRecord::Base
   STATUS_DELIVER = [0, 1]
-  before_save :send_mail_to_customer</p>
+  before_save :send_mail_to_customer
 
-<p>  def send_mail_to_customer
+  def send_mail_to_customer
    UserMailer.send_mail_to_customer if self.status.changes(from: 0, to: 1)
   end
 end
-```</p>
+</code></pre>
 
 <p>I knew this can be done in <a href="http://api.rubyonrails.org/classes/ActiveModel/Dirty.html">ActiveModel::Dirty</a>, but the feature <code>from</code> and <code>to</code> was interesting. So I implemented into gem named <a href="https://github.com/YasuOza/activemodel-attribute_changed_specification">activemodel-attribute_changed_specification</a>.</p>
 
 <p>You can use this gem like this</p>
 
-<p><code>ruby
-user = User.new
+<pre><code class="ruby">user = User.new
 user.name = 'Bob'
 user.name_changed?(from: nil,  to: 'Bob') # =&gt; true
 user.name_changed?(from: 'Paul',  to: 'Bob') # =&gt; false
-</code></p>
+</code></pre>
 
 <p>Though I overridden default <code>_changed?</code> method, I kept original <code>_changed?</code> method.</p>
 
-<p><code>ruby
-user = User.new
+<pre><code class="ruby">user = User.new
 user.name = 'Bob'
 user.name_changed? # =&gt; true
-</code></p>
+</code></pre>
 
 <p>This is my first gem. Yeah, it&rsquo;s fun!</p>
 ]]></content>
@@ -83,36 +80,30 @@ user.name_changed? # =&gt; true
 <p>インストールしたら次はマイグレーションファイルを作ります。
 今回の例ではブログ記事の本文(entry.body)を全文検索するように設定していきます。</p>
 
-<p><code>
-$ rails g migration use_mroonga_in_entries_table
-</code></p>
+<pre><code>$ rails g migration use_mroonga_in_entries_table
+</code></pre>
 
 <p>マイグレーションファイルができたらエディタで開いて次のように編集します。</p>
 
-<p>```ruby
-class UseMroongaInEntriesTable &lt; ActiveRecord::Migration
-  def change</p>
+<pre><code class="ruby">class UseMroongaInEntriesTable &lt; ActiveRecord::Migration
+  def change
+    execute &lt;&lt;-SQL
+    ALTER TABLE entries
+      ENGINE = mroonga COMMENT = 'engine &amp;quot;innodb&amp;quot;' DEFAULT CHARSET utf8
+    SQL
 
-<pre><code>execute &lt;&lt;-SQL
-ALTER TABLE entries
-  ENGINE = mroonga COMMENT = 'engine &amp;quot;innodb&amp;quot;' DEFAULT CHARSET utf8
-SQL
-
-execute &lt;&lt;-SQL
-ALTER TABLE entries
-  ADD FULLTEXT INDEX index_blogs_on_body (body)
-SQL
-</code></pre>
-
-<p>  end
+    execute &lt;&lt;-SQL
+    ALTER TABLE entries
+      ADD FULLTEXT INDEX index_blogs_on_body (body)
+    SQL
+  end
 end
-```</p>
+</code></pre>
 
 <p>マイグレートします。</p>
 
-<p><code>
-$ rake db:migrate
-</code></p>
+<pre><code>$ rake db:migrate
+</code></pre>
 
 <p>検索します。
 ```
@@ -124,24 +115,21 @@ $ rails c</p>
 
 <p>モデルにはスコープを使って</p>
 
-<p>```ruby
-class Entry &lt; ActiveRecord::Base
-  scope :search_with, &ndash;>(query) { where(%Q(match(body) against(&ldquo;#{query}&rdquo;))) }</p>
+<pre><code class="ruby">class Entry &lt; ActiveRecord::Base
+  scope :search_with, -&gt;(query) { where(%Q(match(body) against("#{query}"))) }
 
-<p>  # attr_accessible is removed.
+  # attr_accessible is removed.
   # Now we are using strong_parameters!
-  # Refer to <a href="https://github.com/rails/strong_parameters">https://github.com/rails/strong_parameters</a>
+  # Refer to https://github.com/rails/strong_parameters
 end
-```</p>
+</code></pre>
 
 <p>などと書いておけます。<code>query</code>の事前処理は必要に応じてして下さい。僕はいろいろ考えましたが、<code>query</code>の事前処理は呼び出し側のコントローラにやらせることにしてます。</p>
 
-<p>```
-$ rails c</p>
-
-<blockquote><p>Entry.search_with(&lsquo;hello&rsquo;)
-[<Entry id: 1, text: "hello world">]
-```</p></blockquote>
+<pre><code>$ rails c
+&gt; Entry.search_with('hello')
+&gt; [&lt;Entry id: 1, text: "hello world"&gt;]
+</code></pre>
 
 <p>これでdevelopment環境とproduction環境では、MySQLのエンジンにmroongaが入っていれば動くはずです。
 テストを書かない人はここで読み終わってOKです。</p>
@@ -153,28 +141,22 @@ $ rails c</p>
 ただ、今回はmroongaを意図的に使うので<code>db/schema.rb</code>を読み込んでスキーマを初期化されては困ります。そこで、<a href="http://kennyj-jp.blogspot.jp/2011/09/specdbtestprepare.html" target="_blank">kennyjさんのブログ記事</a>で紹介されていた方法を取ります。</p>
 
 <p>Rakefileに以下を追加
-```ruby
+<code>ruby
 Rake::TaskManager.class_eval do
-  def remove_task(task_name)</p>
-
-<pre><code>@tasks.delete(task_name.to_s)
-</code></pre>
-
-<p>  end
+  def remove_task(task_name)
+    @tasks.delete(task_name.to_s)
+  end
 end
-```</p>
+</code></p>
 
 <p>lib/tasks/override_db_test_prepare.rbを作成
 ```ruby
 Rake.application.remove_task &lsquo;db:test:prepare&rsquo;</p>
 
 <p>namespace :db do
-  namespace :test do</p>
-
-<pre><code>task :prepare do; end
-</code></pre>
-
-<p>  end
+  namespace :test do
+    task :prepare do; end
+  end
 end
 ```</p>
 
@@ -212,13 +194,10 @@ end
 ```ruby
 class OmniauthCallbacksController &lt; Devise::OmniauthCallbacksController</p>
 
-<p>  def facebook</p>
-
-<pre><code>@user = User.find_or_create_from(request.env['omniauth.auth'])
-sign_in_and_redirect @user
-</code></pre>
-
-<p>  end</p>
+<p>  def facebook
+    @user = User.find_or_create_from(request.env[&lsquo;omniauth.auth&rsquo;])
+    sign_in_and_redirect @user
+  end</p>
 
 <p>end
 ```</p>
@@ -229,33 +208,27 @@ sign_in_and_redirect @user
 class UsersController &lt; ApplicationController
   before_filter :authenticate_user!</p>
 
-<p>  def show</p>
-
-<pre><code>@user = current_user
-</code></pre>
-
-<p>  end
+<p>  def show
+    @user = current_user
+  end
 end
 ```
 のようにしてbefore_filter噛ませてあげると簡単ですが、このままだとユーザが直接/users/:idページを叩いた時にfacebookログインが行われず、基本設定のままだと、ルートにリダイレクトされます。</p>
 
 <p>これを/users/:idページを直接叩いたときは直でfacebookログインにリダイレクトさせて、callbackを受け取った時にもともとリクエストされた/users/:idにリダイレクトさせるには次のように設定します。</p>
 
-<p>```ruby
-class ApplicationController &lt; ActionController::Base
-  protect_from_forgery</p>
+<pre><code class="ruby">class ApplicationController &lt; ActionController::Base
+  protect_from_forgery
 
-<p>  protected
-  def authenticate_user!</p>
-
-<pre><code>session[:user_return_to] = env['PATH_INFO']
-redirect_to user_omniauth_authorize_path(:facebook) unless user_signed_in?
+  protected
+  def authenticate_user!
+    session[:user_return_to] = env['PATH_INFO']
+    redirect_to user_omniauth_authorize_path(:facebook) unless user_signed_in?
+  end
+end
 </code></pre>
 
-<p>  end
-end
-```
-<code>authenticate_user!</code>をapplication_controller.rbでオーバーライドします。
+<p><code>authenticate_user!</code>をapplication_controller.rbでオーバーライドします。
 ポイントは6行目で<code>session[:user_return_to]</code>にリクエストURLを保存しておくことです。
 <code>authenticate_member!</code>の場合は<code>session[:member_return_to]</code>に保存します。</p>
 

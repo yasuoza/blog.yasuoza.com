@@ -4,7 +4,7 @@
   <title><![CDATA[Category: octopress | yasuoza diary]]></title>
   <link href="http://blog.yasuoza.com//categories/octopress/atom.xml" rel="self"/>
   <link href="http://blog.yasuoza.com/"/>
-  <updated>2014-06-15T09:01:59+00:00</updated>
+  <updated>2014-06-22T11:51:00+00:00</updated>
   <id>http://blog.yasuoza.com/</id>
   <author>
     <name><![CDATA[Yasuharu Ozaki]]></name>
@@ -24,88 +24,68 @@
 
 <p>First, install travis command from rubygems.</p>
 
-<p><code>bash
-$ gem install travis
-</code></p>
+<pre><code class="bash">$ gem install travis
+</code></pre>
 
 <p>Generate ssh-key accessible to only blog repository.</p>
 
-<p>```bash
-$ ssh-keygen -t rsa -C &lsquo;<a href="&#x6d;&#97;&#105;&#x6c;&#116;&#x6f;&#x3a;&#x79;&#111;&#x75;&#114;&#101;&#x6d;&#x61;&#x69;&#x6c;&#64;&#101;&#120;&#x61;&#x6d;&#x70;&#x2e;&#99;&#111;&#109;">&#121;&#x6f;&#117;&#114;&#101;&#109;&#x61;&#x69;&#x6c;&#x40;&#101;&#120;&#x61;&#x6d;&#x70;&#x2e;&#x63;&#x6f;&#109;</a>&rsquo; -f ~/.ssh/travis_rsa</p>
+<pre><code class="bash">$ ssh-keygen -t rsa -C 'youremail@examp.com' -f ~/.ssh/travis_rsa
 
-<h1>Copy public key to clipboard</h1>
+# Copy public key to clipboard
+$ cat ~/.ssh/travis_rsa.pub | pbcopy
 
-<p>$ cat ~/.ssh/travis_rsa.pub | pbcopy</p>
-
-<h1>Set copied public key to deploy key in GitHub</h1>
-
-<p>$ open  <a href="https://github.com/_username_/_repository_/settings/keys">https://github.com/_username_/_repository_/settings/keys</a>
-```</p>
+# Set copied public key to deploy key in GitHub
+$ open  https://github.com/_username_/_repository_/settings/keys
+</code></pre>
 
 <p>Then, setup <code>.travis.yml</code> like:</p>
 
-<p>```yaml
-language: ruby
+<pre><code class="yaml">language: ruby
 rvm:
-&ndash; 2.1.0
+- 2.1.0
 branches:
   only:
-  &ndash; master
+  - master
 before_script:
-&ndash; git config &mdash;global user.name &ldquo;<em>username</em>(via Travis CI)&rdquo;
-&ndash; git config &mdash;global user.email &ldquo;<a href="&#x6d;&#97;&#105;&#x6c;&#116;&#x6f;&#58;&#121;&#111;&#117;&#114;&#x65;&#x6d;&#x61;&#x69;&#x6c;&#64;&#x67;&#109;&#x61;&#105;&#108;&#x2e;&#x63;&#x6f;&#109;">&#121;&#111;&#117;&#x72;&#101;&#x6d;&#97;&#105;&#108;&#64;&#103;&#x6d;&#97;&#105;&#x6c;&#x2e;&#x63;&#111;&#109;</a>&rdquo;
-&ndash; git remote set-url origin $REPO.git</p>
-
-<h1>array length 23 is calculated later as $RSA_LENGTH</h1>
-
-<ul>
-<li>if [ -z &ldquo;$id_rsa<em>{1..23}&rdquo; ]; then echo &lsquo;No $id_rsa</em>{1..23} found !&rsquo; ; exit 1; fi</li>
-<li>echo -n $id_rsa_{1..23} >> ~/.ssh/travis_rsa_64</li>
-<li>base64 &mdash;decode &mdash;ignore-garbage ~/.ssh/travis_rsa_64 > ~/.ssh/id_rsa</li>
-<li>chmod 600 ~/.ssh/id_rsa</li>
-<li>echo -e &ldquo;Host github.com\n\tStrictHostKeyChecking no\n&rdquo; >> ~/.ssh/config</li>
-<li>bundle exec rake setup_github_pages[$REPO]</li>
-<li>git checkout &mdash; _config.yml
-script:</li>
-<li>bundle exec rake generate
-after_script:</li>
-<li>bundle exec rake deploy
+- git config --global user.name "_username_(via Travis CI)"
+- git config --global user.email "youremail@gmail.com"
+- git remote set-url origin $REPO.git
+# array length 23 is calculated later as $RSA_LENGTH
+- if [ -z "$id_rsa_{1..23}" ]; then echo 'No $id_rsa_{1..23} found !' ; exit 1; fi
+- echo -n $id_rsa_{1..23} &gt;&gt; ~/.ssh/travis_rsa_64
+- base64 --decode --ignore-garbage ~/.ssh/travis_rsa_64 &gt; ~/.ssh/id_rsa
+- chmod 600 ~/.ssh/id_rsa
+- echo -e "Host github.com\n\tStrictHostKeyChecking no\n" &gt;&gt; ~/.ssh/config
+- bundle exec rake setup_github_pages[$REPO]
+- git checkout -- _config.yml
+script:
+- bundle exec rake generate
+after_script:
+- bundle exec rake deploy
 env:
-global:
-
-<ul>
-<li>REPO=&ldquo;git@github.com:<em>username</em>/<em>repository</em>&rdquo;
-```</li>
-</ul>
-</li>
-</ul>
-
+  global:
+  - REPO="git@github.com:_username_/_repository_"
+</code></pre>
 
 <p>Encrypt ssh-key via base64.</p>
 
-<p>```bash</p>
+<pre><code class="bash"># On a Mac, use this script to generate secure deployment key
+$ base64 --break=0 ~/.ssh/travis_rsa &gt; ~/.ssh/travis_rsa_64
 
-<h1>On a Mac, use this script to generate secure deployment key</h1>
+# If in linux
+# base64 --wrap=0 ~/.ssh/travis_rsa &gt; ~/.ssh/travis_rsa_64
 
-<p>$ base64 &mdash;break=0 ~/.ssh/travis_rsa > ~/.ssh/travis_rsa_64</p>
-
-<h1>If in linux</h1>
-
-<h1>base64 &mdash;wrap=0 ~/.ssh/travis_rsa > ~/.ssh/travis_rsa_64</h1>
-
-<p>$ bash &lt;(cat ~/.ssh/travis_rsa_64 | perl -pe &rsquo;s/(.{100})/$1\n/g' | nl | perl -pe &rsquo;s/\s<em>(\d+)\s</em>(.*)/travis encrypt id_rsa_$1=&ldquo;$2&rdquo; &mdash;add/&lsquo;)
-```</p>
+$ bash &lt;(cat ~/.ssh/travis_rsa_64 | perl -pe 's/(.{100})/$1\n/g' | nl | perl -pe 's/\s*(\d+)\s*(.*)/travis encrypt id_rsa_$1="$2" --add/')
+</code></pre>
 
 <p>Count <code>id_rsa_{1..$RSA_LENGTH}</code>.</p>
 
-<p><code>bash
-$ cat ~/.ssh/travis_rsa_64 | perl -pe 's/(.{100})/$1\n/g' | nl | tail
-</code></p>
+<pre><code class="bash">$ cat ~/.ssh/travis_rsa_64 | perl -pe 's/(.{100})/$1\n/g' | nl | tail
+</code></pre>
 
 <p>Finally, you should apply following patch to <code>rake deploy</code> to pulls from origin #{deploy_branch}.</p>
 
-<p><code>diff
---- a/Rakefile
+<pre><code class="diff">--- a/Rakefile
 +++ b/Rakefile
 @@ -248,8 +248,8 @@ desc "deploy public directory to github pages"
  multitask :push do
@@ -118,13 +98,13 @@ $ cat ~/.ssh/travis_rsa_64 | perl -pe 's/(.{100})/$1\n/g' | nl | tail
    end
    (Dir["#{deploy_dir}/*"]).each { |f| rm_rf(f) }
    Rake::Task[:copydot].invoke(public_dir, deploy_dir)
-</code></p>
+</code></pre>
 
 <p>That&rsquo;s it. Connect blog repository to Travis CI, and commit change!</p>
 
 <p>Refs:<br/>
-&ndash; <a href="http://pchw.github.io/blog/2013/06/27/octopress-travis/  ">http://pchw.github.io/blog/2013/06/27/octopress-travis/  </a>
-&ndash; <a href="http://www.harimenon.com/blog/2013/01/27/auto-deploying-to-my-octopress-blog/">http://www.harimenon.com/blog/2013/01/27/auto-deploying-to-my-octopress-blog/</a></p>
+- <a href="http://pchw.github.io/blog/2013/06/27/octopress-travis/  ">http://pchw.github.io/blog/2013/06/27/octopress-travis/  </a>
+- <a href="http://www.harimenon.com/blog/2013/01/27/auto-deploying-to-my-octopress-blog/">http://www.harimenon.com/blog/2013/01/27/auto-deploying-to-my-octopress-blog/</a></p>
 ]]></content>
   </entry>
   

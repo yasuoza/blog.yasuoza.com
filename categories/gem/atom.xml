@@ -4,7 +4,7 @@
   <title><![CDATA[Category: gem | yasuoza diary]]></title>
   <link href="http://blog.yasuoza.com//categories/gem/atom.xml" rel="self"/>
   <link href="http://blog.yasuoza.com/"/>
-  <updated>2014-06-15T09:01:59+00:00</updated>
+  <updated>2014-06-22T11:51:00+00:00</updated>
   <id>http://blog.yasuoza.com/</id>
   <author>
     <name><![CDATA[Yasuharu Ozaki]]></name>
@@ -23,35 +23,32 @@ The title was &ldquo;Active Record, changes from.. to..&rdquo;</p>
 
 <p>His suggested feature was like following</p>
 
-<p>```ruby
-class Book &lt; ActiveRecord::Base
+<pre><code class="ruby">class Book &lt; ActiveRecord::Base
   STATUS_DELIVER = [0, 1]
-  before_save :send_mail_to_customer</p>
+  before_save :send_mail_to_customer
 
-<p>  def send_mail_to_customer
+  def send_mail_to_customer
    UserMailer.send_mail_to_customer if self.status.changes(from: 0, to: 1)
   end
 end
-```</p>
+</code></pre>
 
 <p>I knew this can be done in <a href="http://api.rubyonrails.org/classes/ActiveModel/Dirty.html">ActiveModel::Dirty</a>, but the feature <code>from</code> and <code>to</code> was interesting. So I implemented into gem named <a href="https://github.com/YasuOza/activemodel-attribute_changed_specification">activemodel-attribute_changed_specification</a>.</p>
 
 <p>You can use this gem like this</p>
 
-<p><code>ruby
-user = User.new
+<pre><code class="ruby">user = User.new
 user.name = 'Bob'
 user.name_changed?(from: nil,  to: 'Bob') # =&gt; true
 user.name_changed?(from: 'Paul',  to: 'Bob') # =&gt; false
-</code></p>
+</code></pre>
 
 <p>Though I overridden default <code>_changed?</code> method, I kept original <code>_changed?</code> method.</p>
 
-<p><code>ruby
-user = User.new
+<pre><code class="ruby">user = User.new
 user.name = 'Bob'
 user.name_changed? # =&gt; true
-</code></p>
+</code></pre>
 
 <p>This is my first gem. Yeah, it&rsquo;s fun!</p>
 ]]></content>

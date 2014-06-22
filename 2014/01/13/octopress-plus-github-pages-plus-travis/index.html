@@ -107,7 +107,7 @@
   
 
 
-<time datetime="2014-01-13T06:57:31+00:00" pubdate data-updated="true">Jan 13<span>th</span>, 2014</time>
+<time datetime="2014-01-13T06:57:31+00:00" pubdate data-updated="true">Jan 13<sup>th</sup>, 2014</time>
         
       </p>
     
@@ -137,7 +137,7 @@
 </pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>ssh-keygen -t rsa -C <span class="s1">&#39;youremail@examp.com&#39;</span> -f ~/.ssh/travis_rsa
 </span><span class='line'>
 </span><span class='line'><span class="c"># Copy public key to clipboard</span>
-</span><span class='line'><span class="nv">$ </span>cat ~/.ssh/travis_rsa.pub | pbcopy
+</span><span class='line'><span class="nv">$ </span>cat ~/.ssh/travis_rsa.pub <span class="p">|</span> pbcopy
 </span><span class='line'>
 </span><span class='line'><span class="c"># Set copied public key to deploy key in GitHub</span>
 </span><span class='line'><span class="nv">$ </span>open  https://github.com/_username_/_repository_/settings/keys
@@ -214,14 +214,14 @@
 </span><span class='line'><span class="c"># If in linux</span>
 </span><span class='line'><span class="c"># base64 --wrap=0 ~/.ssh/travis_rsa &gt; ~/.ssh/travis_rsa_64</span>
 </span><span class='line'>
-</span><span class='line'><span class="nv">$ </span>bash &lt;<span class="o">(</span>cat ~/.ssh/travis_rsa_64 | perl -pe <span class="s1">&#39;s/(.{100})/$1\n/g&#39;</span> | nl | perl -pe <span class="s1">&#39;s/\s*(\d+)\s*(.*)/travis encrypt id_rsa_$1=&quot;$2&quot; --add/&#39;</span><span class="o">)</span>
+</span><span class='line'><span class="nv">$ </span>bash &lt;<span class="o">(</span>cat ~/.ssh/travis_rsa_64 <span class="p">|</span> perl -pe <span class="s1">&#39;s/(.{100})/$1\n/g&#39;</span> <span class="p">|</span> nl <span class="p">|</span> perl -pe <span class="s1">&#39;s/\s*(\d+)\s*(.*)/travis encrypt id_rsa_$1=&quot;$2&quot; --add/&#39;</span><span class="o">)</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
 <p>Count <code>id_rsa_{1..$RSA_LENGTH}</code>.</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>cat ~/.ssh/travis_rsa_64 | perl -pe <span class="s1">&#39;s/(.{100})/$1\n/g&#39;</span> | nl | tail
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>cat ~/.ssh/travis_rsa_64 <span class="p">|</span> perl -pe <span class="s1">&#39;s/(.{100})/$1\n/g&#39;</span> <span class="p">|</span> nl <span class="p">|</span> tail
 </span></code></pre></td></tr></table></div></figure>
 
 
@@ -259,8 +259,8 @@
 <p>That&rsquo;s it. Connect blog repository to Travis CI, and commit change!</p>
 
 <p>Refs:<br/>
-&ndash; <a href="http://pchw.github.io/blog/2013/06/27/octopress-travis/  ">http://pchw.github.io/blog/2013/06/27/octopress-travis/  </a>
-&ndash; <a href="http://www.harimenon.com/blog/2013/01/27/auto-deploying-to-my-octopress-blog/">http://www.harimenon.com/blog/2013/01/27/auto-deploying-to-my-octopress-blog/</a></p>
+- <a href="http://pchw.github.io/blog/2013/06/27/octopress-travis/  ">http://pchw.github.io/blog/2013/06/27/octopress-travis/  </a>
+- <a href="http://www.harimenon.com/blog/2013/01/27/auto-deploying-to-my-octopress-blog/">http://www.harimenon.com/blog/2013/01/27/auto-deploying-to-my-octopress-blog/</a></p>
 </div>
 
 
@@ -283,12 +283,12 @@
   
 
 
-<time datetime="2014-01-13T06:57:31+00:00" pubdate data-updated="true">Jan 13<span>th</span>, 2014</time>
+<time datetime="2014-01-13T06:57:31+00:00" pubdate data-updated="true">Jan 13<sup>th</sup>, 2014</time>
       
 
 <span class="categories">
   
-    <a class='category' href='//categories/github/'>GitHub</a>, <a class='category' href='//categories/octopress/'>octopress</a>, <a class='category' href='//categories/travis/'>travis</a>
+    <a class='category' href='//categories/github/'>github</a>, <a class='category' href='//categories/octopress/'>octopress</a>, <a class='category' href='//categories/travis/'>travis</a>
   
 </span>
 

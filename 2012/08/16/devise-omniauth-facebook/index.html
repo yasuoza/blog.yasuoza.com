@@ -145,7 +145,7 @@
 <span class='line-number'>6</span>
 <span class='line-number'>7</span>
 <span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">OmniauthCallbacksController</span> <span class="o">&lt;</span> <span class="ss">Devise</span><span class="p">:</span><span class="ss">:OmniauthCallbacksController</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">OmniauthCallbacksController</span> <span class="o">&lt;</span> <span class="no">Devise</span><span class="o">::</span><span class="no">OmniauthCallbacksController</span>
 </span><span class='line'>
 </span><span class='line'>  <span class="k">def</span> <span class="nf">facebook</span>
 </span><span class='line'>    <span class="vi">@user</span> <span class="o">=</span> <span class="no">User</span><span class="o">.</span><span class="n">find_or_create_from</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">env</span><span class="o">[</span><span class="s1">&#39;omniauth.auth&#39;</span><span class="o">]</span><span class="p">)</span>
@@ -189,7 +189,7 @@
 <span class='line-number'>7</span>
 <span class='line-number'>8</span>
 <span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">ApplicationController</span> <span class="o">&lt;</span> <span class="ss">ActionController</span><span class="p">:</span><span class="ss">:Base</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">ApplicationController</span> <span class="o">&lt;</span> <span class="no">ActionController</span><span class="o">::</span><span class="no">Base</span>
 </span><span class='line'>  <span class="n">protect_from_forgery</span>
 </span><span class='line'>
 </span><span class='line'>  <span class="kp">protected</span>
@@ -218,7 +218,7 @@
 <span class='line-number'>7</span>
 <span class='line-number'>8</span>
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">stored_location_for</span><span class="p">(</span><span class="n">resource_or_scope</span><span class="p">)</span>
-</span><span class='line'>  <span class="n">scope</span> <span class="o">=</span> <span class="ss">Devise</span><span class="p">:</span><span class="ss">:Mapping</span><span class="o">.</span><span class="n">find_scope!</span><span class="p">(</span><span class="n">resource_or_scope</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">scope</span> <span class="o">=</span> <span class="no">Devise</span><span class="o">::</span><span class="no">Mapping</span><span class="o">.</span><span class="n">find_scope!</span><span class="p">(</span><span class="n">resource_or_scope</span><span class="p">)</span>
 </span><span class='line'>  <span class="n">session</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">#{</span><span class="n">scope</span><span class="si">}</span><span class="s2">_return_to&quot;</span><span class="p">)</span>
 </span><span class='line'><span class="k">end</span>
 </span><span class='line'>

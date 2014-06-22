@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: HBFav | yasuoza diary]]></title>
+  <title><![CDATA[Category: hbfav | yasuoza diary]]></title>
   <link href="http://blog.yasuoza.com//categories/hbfav/atom.xml" rel="self"/>
   <link href="http://blog.yasuoza.com/"/>
-  <updated>2014-06-15T09:01:59+00:00</updated>
+  <updated>2014-06-22T11:51:00+00:00</updated>
   <id>http://blog.yasuoza.com/</id>
   <author>
     <name><![CDATA[Yasuharu Ozaki]]></name>
@@ -12,6 +12,55 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[HBFav-Android 2.1.1リリース]]></title>
+    <link href="http://blog.yasuoza.com/2013/12/27/hbfav-android-2-1-1/"/>
+    <updated>2013-12-27T04:39:25+00:00</updated>
+    <id>http://blog.yasuoza.com/2013/12/27/hbfav-android-2-1-1</id>
+    <content type="html"><![CDATA[<p>HBFav for Androidの2.1.1をリリースしました!</p>
+
+<p><a href="https://play.google.com/store/apps/details?id=com.hbfav.android">はてなブックマークをタイムライン形式で HBFav</a></p>
+
+<p>今回のバージョンアップでは</p>
+
+<ul>
+<li>ビルトインブラウザ</li>
+<li>コメントの閲覧</li>
+<li>アプリ単体でのブックマーク登録・更新・削除機能</li>
+</ul>
+
+
+<p>の追加をしました。</p>
+
+<p>いちいちブラウザに飛ぶことはなくなったので、よりシームレスに記事を閲覧することが出来るようになったと思います。</p>
+
+<p><img class="center" src="/images/hbfav/entry_webview.jpg" width="350"></p>
+
+<p><img class="center" src="/images/hbfav/activity_bookmark_entry.jpg" width="350"></p>
+
+<p>OAuth認証したり、異なるサイズのボタンを配置したり、キーボードの開閉に合わせた挙動をさせたりと、まぁまぁ大変でした。<br/>
+1週間ブックマークを見る暇なくずっとブックマーク登録画面だけ開発してたなんてときもありましたが、それでも総じて楽しかったです。</p>
+
+<p>一部の端末で正しくOauth認証出来ないバグが確認されております。年明けから対応していきます。Android大変です。。。<br/>
+また、アプリが落ちたり、うまく動作しない場合は<a href="https://github.com/yasuoza/HBFav-Android/issues">Github</a>に書いて頂くか、<a href="https://www.twitter.com/yasuoza">@yasuoza</a>まで
+お気軽にメンションください。出来る限りのサポートはしていきます。</p>
+
+<p>今後ともHBFav-Androidをよろしくお願いします!</p>
+
+<p>Special thanks :heart::heart::heart:</p>
+
+<ul>
+<li><a href="https://www.hatena.com/">株式会社はてな様</a> 問い合わせに対してご丁寧に対応していただきました。</li>
+<li><a href="http://stackoverflow.com/">stackoverflowさん</a> 今回も引き続きお世話になりました。</li>
+<li><a href="http://android-ui-utils.googlecode.com/hg/asset-studio/dist/index.html">Android Asset Studioさん</a> UI実装に大変役立ちました。</li>
+<li><a href="http://android-holo-colors.com/">Android Holo Colors Generator</a> UI実装に大変役立ちました。</li>
+</ul>
+
+
+<p>年末年始はdockerで遊ぶ予定です。dockerを利用してちょっと作りたいものがあるので、ちょっと実験してみます。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[HBFav-Android 2.0.0リリース]]></title>

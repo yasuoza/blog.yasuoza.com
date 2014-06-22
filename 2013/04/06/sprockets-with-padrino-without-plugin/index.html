@@ -108,7 +108,7 @@ Sprockets &amp; Bower in my Padrino &hellip;">
   
 
 
-<time datetime="2013-04-06T18:24:00+00:00" pubdate data-updated="true">Apr 6<span>th</span>, 2013</time>
+<time datetime="2013-04-06T18:24:00+00:00" pubdate data-updated="true">Apr 6<sup>th</sup>, 2013</time>
         
       </p>
     
@@ -157,9 +157,9 @@ So, <code>Gemfile</code>, <code>config/sprockets.rb</code> and <code>Rakefile</c
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">module</span> <span class="nn">SprocketsInitializer</span>
 </span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">registered</span><span class="p">(</span><span class="n">app</span><span class="p">)</span>
 </span><span class='line'>    <span class="c1"># Make it lazy</span>
-</span><span class='line'>    <span class="n">options</span><span class="o">[</span><span class="ss">:asset_prefix</span><span class="o">]</span> <span class="o">=</span> <span class="o">-&gt;</span> <span class="p">{</span> <span class="ss">Sprockets</span><span class="p">:</span><span class="ss">:Helpers</span><span class="o">.</span><span class="n">prefix</span> <span class="p">}</span>
+</span><span class='line'>    <span class="n">options</span><span class="o">[</span><span class="ss">:asset_prefix</span><span class="o">]</span> <span class="o">=</span> <span class="o">-&gt;</span> <span class="p">{</span> <span class="no">Sprockets</span><span class="o">::</span><span class="no">Helpers</span><span class="o">.</span><span class="n">prefix</span> <span class="p">}</span>
 </span><span class='line'>
-</span><span class='line'>    <span class="n">app</span><span class="o">.</span><span class="n">use</span> <span class="o">::</span><span class="ss">SprocketsInitializer</span><span class="p">:</span><span class="ss">:Rack</span><span class="p">,</span> <span class="n">options</span>
+</span><span class='line'>    <span class="n">app</span><span class="o">.</span><span class="n">use</span> <span class="o">::</span><span class="no">SprocketsInitializer</span><span class="o">::</span><span class="no">Rack</span><span class="p">,</span> <span class="n">options</span>
 </span><span class='line'>  <span class="k">end</span>
 </span><span class='line'>
 </span><span class='line'>  <span class="k">class</span> <span class="nc">Rack</span>
@@ -194,12 +194,12 @@ So, <code>Gemfile</code>, <code>config/sprockets.rb</code> and <code>Rakefile</c
 <span class='line-number'>9</span>
 <span class='line-number'>10</span>
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">module</span> <span class="nn">Web</span>
-</span><span class='line'>  <span class="k">class</span> <span class="nc">App</span> <span class="o">&lt;</span> <span class="ss">Padrino</span><span class="p">:</span><span class="ss">:Application</span>
-</span><span class='line'>    <span class="n">register</span> <span class="ss">Padrino</span><span class="p">:</span><span class="ss">:Rendering</span>
-</span><span class='line'>    <span class="n">register</span> <span class="ss">Padrino</span><span class="p">:</span><span class="ss">:Mailer</span>
-</span><span class='line'>    <span class="n">register</span> <span class="ss">Padrino</span><span class="p">:</span><span class="ss">:Helpers</span>
+</span><span class='line'>  <span class="k">class</span> <span class="nc">App</span> <span class="o">&lt;</span> <span class="no">Padrino</span><span class="o">::</span><span class="no">Application</span>
+</span><span class='line'>    <span class="n">register</span> <span class="no">Padrino</span><span class="o">::</span><span class="no">Rendering</span>
+</span><span class='line'>    <span class="n">register</span> <span class="no">Padrino</span><span class="o">::</span><span class="no">Mailer</span>
+</span><span class='line'>    <span class="n">register</span> <span class="no">Padrino</span><span class="o">::</span><span class="no">Helpers</span>
 </span><span class='line'>    <span class="n">register</span> <span class="no">SprocketsInitializer</span> <span class="k">unless</span> <span class="no">Padrino</span><span class="o">.</span><span class="n">env</span> <span class="o">==</span> <span class="ss">:production</span>
-</span><span class='line'>    <span class="n">helpers</span> <span class="ss">Sprockets</span><span class="p">:</span><span class="ss">:Helpers</span>
+</span><span class='line'>    <span class="n">helpers</span> <span class="no">Sprockets</span><span class="o">::</span><span class="no">Helpers</span>
 </span><span class='line'>
 </span><span class='line'>  <span class="k">end</span>
 </span><span class='line'><span class="k">end</span>
@@ -246,7 +246,7 @@ So, <code>Gemfile</code>, <code>config/sprockets.rb</code> and <code>Rakefile</c
   
 
 
-<time datetime="2013-04-06T18:24:00+00:00" pubdate data-updated="true">Apr 6<span>th</span>, 2013</time>
+<time datetime="2013-04-06T18:24:00+00:00" pubdate data-updated="true">Apr 6<sup>th</sup>, 2013</time>
       
 
 <span class="categories">

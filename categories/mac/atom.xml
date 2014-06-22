@@ -4,7 +4,7 @@
   <title><![CDATA[Category: mac | yasuoza diary]]></title>
   <link href="http://blog.yasuoza.com//categories/mac/atom.xml" rel="self"/>
   <link href="http://blog.yasuoza.com/"/>
-  <updated>2014-06-15T09:01:59+00:00</updated>
+  <updated>2014-06-22T11:51:00+00:00</updated>
   <id>http://blog.yasuoza.com/</id>
   <author>
     <name><![CDATA[Yasuharu Ozaki]]></name>
@@ -24,55 +24,44 @@
 
 <p>Install docker client via Homebrew:</p>
 
-<p><code>bash
-$ brew update
+<pre><code class="bash">$ brew update
 $ brew tap homebrew/binary
 $ brew install docker
-</code></p>
+</code></pre>
 
 <p>Next, setup Vagrantfile like:</p>
 
-<p>```ruby
-DOCKER_IP   = ENV[&ldquo;DOCKER_IP&rdquo;]   || &ldquo;192.168.42.43&rdquo;
-DOCKER_PORT = ENV[&ldquo;DOCKER_PORT&rdquo;] || 4243</p>
+<pre><code class="ruby">DOCKER_IP   = ENV["DOCKER_IP"]   || "192.168.42.43"
+DOCKER_PORT = ENV["DOCKER_PORT"] || 4243
 
-<p>Vagrant.configure(&ldquo;2&rdquo;) do |config|
-  config.vm.box     = &ldquo;precise64&rdquo;
-  config.vm.box_url = &ldquo;<a href="http://files.vagrantup.com/precise64.box">http://files.vagrantup.com/precise64.box</a>&rdquo;
+Vagrant.configure("2") do |config|
+  config.vm.box     = "precise64"
+  config.vm.box_url = "http://files.vagrantup.com/precise64.box"
   config.vm.network :private_network, ip: DOCKER_IP
-  config.vm.provision :docker do |d|</p>
-
-<pre><code>d.pull_images "base"
-</code></pre>
-
-<p>  end
-  config.vm.provision :shell, inline: &lt;&lt;-SHELL</p>
-
-<pre><code>sudo sed -i -e 's/DOCKER_OPTS=/DOCKER_OPTS=\"-H #{DOCKER_IP}:#{DOCKER_PORT}\"/g' /etc/init/docker.conf
-sudo service docker restart
-</code></pre>
-
-<p>  SHELL
+  config.vm.provision :docker do |d|
+    d.pull_images "base"
+  end
+  config.vm.provision :shell, inline: &lt;&lt;-SHELL
+    sudo sed -i -e 's/DOCKER_OPTS=/DOCKER_OPTS=\"-H #{DOCKER_IP}:#{DOCKER_PORT}\"/g' /etc/init/docker.conf
+    sudo service docker restart
+  SHELL
 end
-```</p>
+</code></pre>
 
 <p>Then run VM:</p>
 
-<p><code>bash
-$ vagrant up
-</code></p>
+<pre><code class="bash">$ vagrant up
+</code></pre>
 
 <p>Export <code>DOCKER_HOST</code>:</p>
 
-<p><code>bash
-$ export DOCKER_HOST="tcp://192.168.42.43:4243" # DOCKER_HOST="$DOCKER_IP:$DOCKER_PORT"
-</code></p>
+<pre><code class="bash">$ export DOCKER_HOST="tcp://192.168.42.43:4243" # DOCKER_HOST="$DOCKER_IP:$DOCKER_PORT"
+</code></pre>
 
 <p>That&rsquo;s all. Now you can access docker container like:</p>
 
-<p><code>bash
-$ docker run base echo "hello world!"
-</code></p>
+<pre><code class="bash">$ docker run base echo "hello world!"
+</code></pre>
 ]]></content>
   </entry>
   
