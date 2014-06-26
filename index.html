@@ -19,8 +19,37 @@
   <meta name="author" content="Yasuharu Ozaki">
 
   
-  <meta name="description" content="When using tmux with &lsquo;reattach-to-user-namespace&rsquo; to enable clipboard copy paste support in OSX, you may have ~/.tmux.conf 1
-set-option - &hellip;">
+  <meta name="description" content="Save following content as new-post. 1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+#!/usr/bin/env bash function &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -89,6 +118,114 @@ set-option - &hellip;">
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2014/06/26/octpress-rake-new-post-wrapper-command/">octpress rake new_post wrapper command</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-06-26T09:28:21+00:00" pubdate data-updated="true">Jun 26<sup>th</sup>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Save following content as <code>new-post</code>.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c">#!/usr/bin/env bash</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">function </span>create <span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>  <span class="nb">local </span><span class="nv">title</span><span class="o">=</span><span class="nv">$@</span>
+</span><span class='line'>  rake new_post<span class="o">[</span><span class="s2">&quot;$title&quot;</span><span class="o">]</span>
+</span><span class='line'><span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">function </span>usage<span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>  <span class="nb">echo</span> <span class="s2">&quot;USAGE&quot;</span>
+</span><span class='line'>  <span class="nb">echo</span> <span class="s2">&quot;    new-post &#39;This is my new post&#39;&quot;</span>
+</span><span class='line'><span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="k">if</span> <span class="o">[[</span> -z <span class="nv">$1</span> <span class="o">]]</span><span class="p">;</span> <span class="k">then</span>
+</span><span class='line'><span class="k">  </span>usage
+</span><span class='line'>  <span class="nb">exit </span>1
+</span><span class='line'><span class="k">fi</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">while</span> <span class="o">[</span> <span class="s2">&quot;$1&quot;</span> !<span class="o">=</span> <span class="s2">&quot;&quot;</span> <span class="o">]</span><span class="p">;</span> <span class="k">do</span>
+</span><span class='line'><span class="k">      </span><span class="nv">arg</span><span class="o">=</span><span class="nv">$1</span>
+</span><span class='line'>    <span class="k">case</span> <span class="s2">&quot;$arg&quot;</span> in
+</span><span class='line'>        -h <span class="p">|</span> --help <span class="o">)</span> usage
+</span><span class='line'>                      <span class="nb">exit</span>
+</span><span class='line'>                      <span class="p">;;</span>
+</span><span class='line'>        * <span class="o">)</span>           create <span class="k">${</span><span class="nv">arg</span><span class="p">[@]</span><span class="k">}</span>
+</span><span class='line'>                      <span class="nb">exit</span>
+</span><span class='line'>                      <span class="p">;;</span>
+</span><span class='line'>    <span class="k">esac</span>
+</span><span class='line'><span class="k">    </span><span class="nb">shift</span>
+</span><span class='line'><span class="k">done</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>With above command, you can start writing new post via</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>new-post <span class="s1">&#39;This is my super entry&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><img alt="sunglasses" src="/images/emoji/sunglasses.png" class="emoji" /><img alt="sunglasses" src="/images/emoji/sunglasses.png" class="emoji" /><img alt="sunglasses" src="/images/emoji/sunglasses.png" class="emoji" /></p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -1001,111 +1138,6 @@ for the issue.</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2014/01/10/docker-in-osx-without-dvm/">Docker in OSX without dvm</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-01-10T02:35:08+00:00" pubdate data-updated="true">Jan 10<sup>th</sup>, 2014</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Docker client for OSX released as of <a href="https://github.com/dotcloud/docker/blob/master/CHANGELOG.md#073-2014-01-02">0.7.3</a></p>
-
-<p>Now, we OSX user can access docker container without ssh command by followlig without <a href="http://fnichol.github.io/dvm/">dvm</a></p>
-
-<p>Install docker client via Homebrew:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>brew update
-</span><span class='line'><span class="nv">$ </span>brew tap homebrew/binary
-</span><span class='line'><span class="nv">$ </span>brew install docker
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Next, setup Vagrantfile like:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">DOCKER_IP</span>   <span class="o">=</span> <span class="no">ENV</span><span class="o">[</span><span class="s2">&quot;DOCKER_IP&quot;</span><span class="o">]</span>   <span class="o">||</span> <span class="s2">&quot;192.168.42.43&quot;</span>
-</span><span class='line'><span class="no">DOCKER_PORT</span> <span class="o">=</span> <span class="no">ENV</span><span class="o">[</span><span class="s2">&quot;DOCKER_PORT&quot;</span><span class="o">]</span> <span class="o">||</span> <span class="mi">4243</span>
-</span><span class='line'>
-</span><span class='line'><span class="no">Vagrant</span><span class="o">.</span><span class="n">configure</span><span class="p">(</span><span class="s2">&quot;2&quot;</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">config</span><span class="o">|</span>
-</span><span class='line'>  <span class="n">config</span><span class="o">.</span><span class="n">vm</span><span class="o">.</span><span class="n">box</span>     <span class="o">=</span> <span class="s2">&quot;precise64&quot;</span>
-</span><span class='line'>  <span class="n">config</span><span class="o">.</span><span class="n">vm</span><span class="o">.</span><span class="n">box_url</span> <span class="o">=</span> <span class="s2">&quot;http://files.vagrantup.com/precise64.box&quot;</span>
-</span><span class='line'>  <span class="n">config</span><span class="o">.</span><span class="n">vm</span><span class="o">.</span><span class="n">network</span> <span class="ss">:private_network</span><span class="p">,</span> <span class="ss">ip</span><span class="p">:</span> <span class="no">DOCKER_IP</span>
-</span><span class='line'>  <span class="n">config</span><span class="o">.</span><span class="n">vm</span><span class="o">.</span><span class="n">provision</span> <span class="ss">:docker</span> <span class="k">do</span> <span class="o">|</span><span class="n">d</span><span class="o">|</span>
-</span><span class='line'>    <span class="n">d</span><span class="o">.</span><span class="n">pull_images</span> <span class="s2">&quot;base&quot;</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'>  <span class="n">config</span><span class="o">.</span><span class="n">vm</span><span class="o">.</span><span class="n">provision</span> <span class="ss">:shell</span><span class="p">,</span> <span class="ss">inline</span><span class="p">:</span> <span class="o">&lt;&lt;-</span><span class="no">SHELL</span>
-</span><span class='line'><span class="sh">    sudo sed -i -e &#39;s/DOCKER_OPTS=/DOCKER_OPTS=\&quot;-H #{DOCKER_IP}:#{DOCKER_PORT}\&quot;/g&#39; /etc/init/docker.conf</span>
-</span><span class='line'><span class="sh">    sudo service docker restart</span>
-</span><span class='line'><span class="no">  SHELL</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Then run VM:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>vagrant up
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Export <code>DOCKER_HOST</code>:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span><span class="nb">export </span><span class="nv">DOCKER_HOST</span><span class="o">=</span><span class="s2">&quot;tcp://192.168.42.43:4243&quot;</span> <span class="c"># DOCKER_HOST=&quot;$DOCKER_IP:$DOCKER_PORT&quot;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>That&rsquo;s all. Now you can access docker container like:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>docker run base <span class="nb">echo</span> <span class="s2">&quot;hello world!&quot;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="2">&larr; Older</a>
@@ -1121,6 +1153,10 @@ for the issue.</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2014/06/26/octpress-rake-new-post-wrapper-command/">octpress rake new_post wrapper command</a>
+      </li>
+    
+      <li class="post">
         <a href="/2014/06/15/support-tmux-with-reattach-to-user-to-work-in-multi-os/">Support tmux with &#8220;reattach-to-user-namespace&#8221; to work in multi OS</a>
       </li>
     
@@ -1134,10 +1170,6 @@ for the issue.</p>
     
       <li class="post">
         <a href="/2014/05/16/multi-github-pages-with-custom-domain/">Multi GitHub pages with custom domain</a>
-      </li>
-    
-      <li class="post">
-        <a href="/2014/04/02/how-to-lost-trust/">人の信頼を失う方法</a>
       </li>
     
   </ul>

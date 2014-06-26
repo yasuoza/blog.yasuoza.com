@@ -15,11 +15,41 @@
     }());
   </script>
 
-  <title>HBFav-Android 2.0.0リリース - yasuoza diary</title>
+  <title>octpress rake new_post wrapper command - yasuoza diary</title>
   <meta name="author" content="Yasuharu Ozaki">
 
   
-  <meta name="description" content="iOS版のHBFavのAndroid版をリリースしました！ はてなブックマークをタイムライン形式で HBFav HBFavとははてなブックマークのお気に入りの人のブックマークをTwitterのタイムライン形式で見れるというアプリです。 僕がメインで使う端末をiOSからAndroidに変えて3ヶ月、 &hellip;">
+  <meta name="description" content="Save following content as new-post. 1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+#!/usr/bin/env bash function &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -28,7 +58,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://blog.yasuoza.com/2013/12/09/hbfav-2-0-0-release">
+  <link rel="canonical" href="http://blog.yasuoza.com/2014/06/26/octpress-rake-new-post-wrapper-command">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="yasuoza diary" type="application/atom+xml">
@@ -91,7 +121,7 @@
   
   <header>
     
-      <h1 class="entry-title">HBFav-Android 2.0.0リリース</h1>
+      <h1 class="entry-title">octpress rake new_post wrapper command</h1>
     
     
       <p class="meta">
@@ -107,46 +137,86 @@
   
 
 
-<time datetime="2013-12-09T04:52:12+00:00" pubdate data-updated="true">Dec 9<sup>th</sup>, 2013</time>
+<time datetime="2014-06-26T09:28:21+00:00" pubdate data-updated="true">Jun 26<sup>th</sup>, 2014</time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><p><strong>iOS版の<a href="http://hbfav.bloghackers.net/">HBFav</a>のAndroid版をリリースしました！</strong></p>
+<div class="entry-content"><p>Save following content as <code>new-post</code>.</p>
 
-<p><a href="https://play.google.com/store/apps/details?id=com.hbfav.android">はてなブックマークをタイムライン形式で HBFav</a></p>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c">#!/usr/bin/env bash</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">function </span>create <span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>  <span class="nb">local </span><span class="nv">title</span><span class="o">=</span><span class="nv">$@</span>
+</span><span class='line'>  rake new_post<span class="o">[</span><span class="s2">&quot;$title&quot;</span><span class="o">]</span>
+</span><span class='line'><span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">function </span>usage<span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>  <span class="nb">echo</span> <span class="s2">&quot;USAGE&quot;</span>
+</span><span class='line'>  <span class="nb">echo</span> <span class="s2">&quot;    new-post &#39;This is my new post&#39;&quot;</span>
+</span><span class='line'><span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="k">if</span> <span class="o">[[</span> -z <span class="nv">$1</span> <span class="o">]]</span><span class="p">;</span> <span class="k">then</span>
+</span><span class='line'><span class="k">  </span>usage
+</span><span class='line'>  <span class="nb">exit </span>1
+</span><span class='line'><span class="k">fi</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">while</span> <span class="o">[</span> <span class="s2">&quot;$1&quot;</span> !<span class="o">=</span> <span class="s2">&quot;&quot;</span> <span class="o">]</span><span class="p">;</span> <span class="k">do</span>
+</span><span class='line'><span class="k">      </span><span class="nv">arg</span><span class="o">=</span><span class="nv">$1</span>
+</span><span class='line'>    <span class="k">case</span> <span class="s2">&quot;$arg&quot;</span> in
+</span><span class='line'>        -h <span class="p">|</span> --help <span class="o">)</span> usage
+</span><span class='line'>                      <span class="nb">exit</span>
+</span><span class='line'>                      <span class="p">;;</span>
+</span><span class='line'>        * <span class="o">)</span>           create <span class="k">${</span><span class="nv">arg</span><span class="p">[@]</span><span class="k">}</span>
+</span><span class='line'>                      <span class="nb">exit</span>
+</span><span class='line'>                      <span class="p">;;</span>
+</span><span class='line'>    <span class="k">esac</span>
+</span><span class='line'><span class="k">    </span><span class="nb">shift</span>
+</span><span class='line'><span class="k">done</span>
+</span></code></pre></td></tr></table></div></figure>
 
-<p>HBFavとははてなブックマークのお気に入りの人のブックマークをTwitterのタイムライン形式で見れるというアプリです。</p>
 
-<p><img class="center" src="/images/hbfav/timeline.png" width="350"></p>
+<p>With above command, you can start writing new post via</p>
 
-<p>僕がメインで使う端末をiOSからAndroidに変えて3ヶ月、Androidはとても気に入っていたのですが、ただひとつ、HBFav
-のようにはてなブックマークをタイムラインで見れるアプリ、というかHBFavのAndroid版がないことが唯一の不満でした。<br/>
-ないものは作るしか無い、そう思って作り始めたのが10月終わり頃、2.0.0は大した機能も無いのに、リリースまで1ヶ月かかったのは
-初めてのAndroidアプリということだけではなく、突然の<code>NullPointerException</code>にハマったためでした。</p>
-
-<p>2.0.0は本当に機能が少ないので、ブックマークをするにはこれまでどおり別途
-<a href="https://play.google.com/store/apps/details?id=com.hatena.android.bookmark">はてなブックマーク</a>
-をインストールして、ブラウザの共有からブックマークして下さい。<br/>
-WebViewやバックグラウンド更新などはこれからのアップデートで随時対応していきます!<br/>
-フィードバックや要望などありましたら、お気軽に<a href="http://www.twitter.com/yasuoza">@yasuoza</a>までお願いします!</p>
-
-<p>また、HBFavのAndroid版を出すにあたって次の方々にはとても感謝しています。本当にありがとうございました。これからもよろしくお願いします。</p>
-
-<ul>
-<li><a href="http://naoya.github.io/">@naoyaさん</a></li>
-<li><a href="https://github.com/">Githubさん</a></li>
-<li><a href="http://stackoverflow.com/">stackoverflowさん</a></li>
-<li><a href="https://www.crashlytics.com/">Crashlyticsさん</a></li>
-</ul>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>new-post <span class="s1">&#39;This is my super entry&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
-<p>今はビルトインブラウザ機能を実装中なので、それを年末までに出す予定です。乞うご期待！</p>
-
-<p>HBFav-Android ホームページ<br/>
-<a href="http://yasuoza.github.io/HBFav-Android">HBFav-Android</a></p>
+<p><img alt="sunglasses" src="/images/emoji/sunglasses.png" class="emoji" /><img alt="sunglasses" src="/images/emoji/sunglasses.png" class="emoji" /><img alt="sunglasses" src="/images/emoji/sunglasses.png" class="emoji" /></p>
 </div>
 
 
@@ -169,21 +239,15 @@ WebViewやバックグラウンド更新などはこれからのアップデー�
   
 
 
-<time datetime="2013-12-09T04:52:12+00:00" pubdate data-updated="true">Dec 9<sup>th</sup>, 2013</time>
+<time datetime="2014-06-26T09:28:21+00:00" pubdate data-updated="true">Jun 26<sup>th</sup>, 2014</time>
       
-
-<span class="categories">
-  
-    <a class='category' href='//categories/android/'>android</a>, <a class='category' href='//categories/hbfav/'>hbfav</a>
-  
-</span>
 
 
     </p>
     
       <div class="sharing">
   
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://blog.yasuoza.com/2013/12/09/hbfav-2-0-0-release/" data-via="" data-counturl="http://blog.yasuoza.com/2013/12/09/hbfav-2-0-0-release/" >Tweet</a>
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://blog.yasuoza.com/2014/06/26/octpress-rake-new-post-wrapper-command/" data-via="" data-counturl="http://blog.yasuoza.com/2014/06/26/octpress-rake-new-post-wrapper-command/" >Tweet</a>
   
   
   
@@ -194,10 +258,8 @@ WebViewやバックグラウンド更新などはこれからのアップデー�
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/2013/11/21/kawaii-git-diff/" title="Previous Post: Kawaii git diff in my local repository">&laquo; Kawaii git diff in my local repository</a>
+        <a class="basic-alignment left" href="/2014/06/15/support-tmux-with-reattach-to-user-to-work-in-multi-os/" title="Previous Post: Support tmux with "reattach-to-user-namespace" to work in multi OS">&laquo; Support tmux with "reattach-to-user-namespace" to work in multi OS</a>
       
-      
-        <a class="basic-alignment right" href="/2013/12/13/akirameru_toiukoto/" title="Next Post: 諦めるということ">諦めるということ &raquo;</a>
       
     </p>
   </footer>
@@ -264,8 +326,8 @@ WebViewやバックグラウンド更新などはこれからのアップデー�
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://blog.yasuoza.com/2013/12/09/hbfav-2-0-0-release/';
-        var disqus_url = 'http://blog.yasuoza.com/2013/12/09/hbfav-2-0-0-release/';
+        var disqus_identifier = 'http://blog.yasuoza.com/2014/06/26/octpress-rake-new-post-wrapper-command/';
+        var disqus_url = 'http://blog.yasuoza.com/2014/06/26/octpress-rake-new-post-wrapper-command/';
         var disqus_script = 'embed.js';
       
     (function () {

@@ -19,8 +19,9 @@
   <meta name="author" content="Yasuharu Ozaki">
 
   
-  <meta name="description" content="vim-ruby入れましょう 1
-NeoBundle 'vim-ruby/vim-ruby' neocomplcacheオンにしてruby書くとelseのインデントが左寄せにならない。&mdash; Yasuharu Ozaki (@YasuOza) November 22, 2012 @ &hellip;">
+  <meta name="description" content="I&rsquo;ve changed wordpress to octpress! hello_world.pl1
+say &quot;Hello World!&quot; hello_world.rb1
+puts &quot;Hello World!&quot; hello_world. &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -89,6 +90,61 @@ NeoBundle 'vim-ruby/vim-ruby' neocomplcacheオンにしてruby書くとelseの�
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2012/12/05/hello-world/">Hello World!</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-12-05T19:29:00+00:00" pubdate data-updated="true">Dec 5<sup>th</sup>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>I&rsquo;ve changed wordpress to <a href="http://octopress.org/">octpress</a>!</p>
+
+<figure class='code'><figcaption><span>hello_world.pl</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='perl'><span class='line'><span class="n">say</span> <span class="s">&quot;Hello World!&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span>hello_world.rb</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">puts</span> <span class="s2">&quot;Hello World!&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span>hello_world.coffee</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='coffee-script'><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span> <span class="s">&quot;Hello World!&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -855,59 +911,6 @@ URLにlocalhostが含まれるもののfaviconを削除するようにしまし�
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2012/08/22/jenkins-websocket-plugin/">Jenkins Websocket Pluginを使う</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-08-22T00:00:00+00:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>JenkinsのXFDにWebsocketを使ってそれぞれのビルド結果を表示するようにしました。</p>
-
-<p><img src="/images/2012/08/IMG_0546-223x300.jpg" alt="" title="IMG_0546" width="223" height="300" class="alignnone size-medium wp-image-246" /></p>
-
-<script src="https://gist.github.com/3411816.js?file=index.html"></script>
-
-
-<p>参考にしたのは次のサイトです。
-Websocketを使った通知の設定方法も書いてあるので、とても参考になりました。
-<a href="http://d.hatena.ne.jp/mzp/20110612/jenkins" target="_blank">Jenkinsのビルド結果をリアルタイム通知するプラグイン『Jenkins Websocket Notifier』を作りました</a>
-<a href="http://d.hatena.ne.jp/mallowlabs/20110613/xfd" target="_blank">iPhoneをJenkinsのXFD (eXtreme Feedback Device)にしてみた</a></p>
-
-<p>どちらもそのままだとジョブの名前が出ないので、ジョブが1つだけだといいのですが、2つ以上になるとそれぞれのジョブがどんなステータスなのかわからなかったので、ジョブの名前とステータスを色で表示するようにしています。</p>
-
-<p>はじめは何も表示されませんが、ジョブが完了するとその結果に応じてステータスがビューに表示されます。
-2回目以降のジョブは既存のビューのステータスを更新するようになっています。</p>
-
-<p>Jenkinsとても便利です。</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="5">&larr; Older</a>
@@ -925,6 +928,10 @@ Websocketを使った通知の設定方法も書いてあるので、とても�
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2014/06/26/octpress-rake-new-post-wrapper-command/">octpress rake new_post wrapper command</a>
+      </li>
+    
+      <li class="post">
         <a href="/2014/06/15/support-tmux-with-reattach-to-user-to-work-in-multi-os/">Support tmux with &#8220;reattach-to-user-namespace&#8221; to work in multi OS</a>
       </li>
     
@@ -938,10 +945,6 @@ Websocketを使った通知の設定方法も書いてあるので、とても�
     
       <li class="post">
         <a href="/2014/05/16/multi-github-pages-with-custom-domain/">Multi GitHub pages with custom domain</a>
-      </li>
-    
-      <li class="post">
-        <a href="/2014/04/02/how-to-lost-trust/">人の信頼を失う方法</a>
       </li>
     
   </ul>
