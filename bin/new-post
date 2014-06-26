@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+
+function create () {
+	local title=$@
+	rake new_post["$title"]
+}
+
+function usage() {
+	echo "USAGE"
+	echo "	new-post 'This is my new post'"
+}
+
+
+if [[ -z $1 ]]; then
+  usage
+  exit 1
+fi
+
+while [ "$1" != "" ]; do
+		arg=$1
+    case "$arg" in
+        -h | --help ) usage
+                      exit
+                      ;;
+        * )           create ${arg[@]}
+                      exit
+                      ;;
+    esac
+    shift
+done
