@@ -310,29 +310,29 @@
   
   
   <url>
+    <loc>http://blog.yasuoza.com/archives/</loc>
+    <lastmod>2014-06-28T13:49:18+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <url>
     <loc>http://blog.yasuoza.com/blog/archives/</loc>
-    <lastmod>2014-06-26T09:35:18+00:00</lastmod>
+    <lastmod>2014-06-28T13:49:18+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   
   <url>
     <loc>http://blog.yasuoza.com/</loc>
-    <lastmod>2014-06-26T09:35:18+00:00</lastmod>
+    <lastmod>2014-06-28T13:49:18+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   
   <url>
-    <loc>http://blog.yasuoza.com/archives/</loc>
-    <lastmod>2014-06-26T09:35:18+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  
-  <url>
     <loc>http://blog.yasuoza.com/about/</loc>
-    <lastmod>2014-06-26T09:35:18+00:00</lastmod>
+    <lastmod>2014-06-28T13:49:18+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
