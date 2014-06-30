@@ -4,7 +4,7 @@
   <title><![CDATA[yasuoza diary]]></title>
   <link href="http://blog.yasuoza.com/atom.xml" rel="self"/>
   <link href="http://blog.yasuoza.com/"/>
-  <updated>2014-06-28T13:49:18+00:00</updated>
+  <updated>2014-06-30T13:40:56+00:00</updated>
   <id>http://blog.yasuoza.com/</id>
   <author>
     <name><![CDATA[Yasuharu Ozaki]]></name>
@@ -12,6 +12,35 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[2014年前半を振り返って]]></title>
+    <link href="http://blog.yasuoza.com/2014/06/30/2014nian-qian-ban-wozhen-rifan-tute/"/>
+    <updated>2014-06-30T13:14:49+00:00</updated>
+    <id>http://blog.yasuoza.com/2014/06/30/2014nian-qian-ban-wozhen-rifan-tute</id>
+    <content type="html"><![CDATA[<p>2014年も前半が終わった。2014年になっていろんなイベントもあり、
+働き始めた頃とはだいぶ考え方が変わったことも多かった。</p>
+
+<p>まず、スキルの話。ここで言うスキルは技術力、課題・問題を解決、回避出来る能力と自分は定義している。
+これまではバックエンドからフロントエンドまですべてを予め網羅しようと考えて勉強してきた。
+ただ、最近はすべてを前もって網羅しておく必要はなく、必要になったらその時に勉強すればいいやと思うようになった。
+勉強はもともと好きだから、苦じゃないんだけど、これまでは知らないことに恐怖を感じていた事が多く、何かに追われて
+勉強していた気がする。
+これからはそうではなく、わからなかったことは今勉強できるという考えでスキルを伸ばして行ければと思う。</p>
+
+<p>次に時間の話。タイム・イズ・マネー、この言葉はすべてを表していると思った。これまではそこまで時間を意識することは
+なかったけど、これからは時間を大事にしたい。</p>
+
+<p>最後にお金の話。お金は大事だと考えるようになった。
+お金のためだけに働くのはたぶん無理だけど、やっぱり、お金が無いのは困る。
+自分の中での優先順位でもお金はだいぶ低かったんだけど、この半年、具体的には結婚してからはお金の優先順位が上がった。
+自分の中の優先順位、何が自分にとって幸せなのかは、これからもたまに考えたい。</p>
+
+<p>これから30歳まではスケールするお金の稼ぎ方を慌てず考えていきたいなーなんて思った。</p>
+
+<p>疲れやすいから、年末まで程よく一生懸命生きたい。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[octpress rake new_post wrapper command]]></title>
@@ -1489,115 +1518,6 @@ So, <code>Gemfile</code>, <code>config/sprockets.rb</code> and <code>Rakefile</c
 
 
 <p>Thank you for reading!</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Get remote ip through nginx proxy server in rack]]></title>
-    <link href="http://blog.yasuoza.com/2013/03/31/get-remote-ip-through-nginx-proxy-server-in-rack/"/>
-    <updated>2013-03-31T22:07:00+00:00</updated>
-    <id>http://blog.yasuoza.com/2013/03/31/get-remote-ip-through-nginx-proxy-server-in-rack</id>
-    <content type="html"><![CDATA[<p>When developer wants to filter request based on remote ip, he will do like this</p>
-
-<figure class='code'><figcaption><span>sinatra_server.rb</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">get</span> <span class="s1">&#39;/&#39;</span> <span class="k">do</span>
-</span><span class='line'>  <span class="k">return</span> <span class="mi">403</span> <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">ip</span> <span class="o">!=</span> <span class="n">desired_request_ip</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="s2">&quot;OK!&quot;</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>If you&rsquo;re using tcp socket in nginx proxy server it will be good, but if you&rsquo;re using unix
-socket proxy server, <code>remote.ip</code> will be 127.0.0.1. Because the request proxied.</p>
-
-<p>But, <code>rack</code> treat <code>request.ip</code> very well in <a href="https://github.com/chneukirchen/rack/blob/master/lib/rack/request.rb#L352-L367">request.rb</a>
-The only thing you have to do is set <code>X-Forwarded-For</code> and <code>CLIENT_IP</code> and <code>X-Real-IP</code> precisely.</p>
-
-<figure class='code'><figcaption><span>site.nginx.conf</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-</pre></td><td class='code'><pre><code class='nginx'><span class='line'><span class="k">upstream</span> <span class="s">pretty_site</span> <span class="p">{</span>
-</span><span class='line'>  <span class="kn">server</span> <span class="s">unix:/tmp/pretty_site.sock</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">server</span> <span class="p">{</span>
-</span><span class='line'>  <span class="kn">listen</span> <span class="mi">80</span><span class="p">;</span>         <span class="c1"># e.g., listen 192.168.1.1:80;</span>
-</span><span class='line'>  <span class="kn">server_name</span> <span class="s">pretty.yoursite.com</span><span class="p">;</span>     <span class="c1"># e.g., server_name source.example.com;</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="kn">root</span> <span class="s">/home/www/pretty_site</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="c1"># individual nginx logs for this pretty_site vhost</span>
-</span><span class='line'>  <span class="kn">access_log</span>  <span class="s">/var/log/nginx/pretty/access.log</span><span class="p">;</span>
-</span><span class='line'>  <span class="kn">error_log</span>   <span class="s">/var/log/nginx/pretty/error.log</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="kn">location</span> <span class="s">/</span> <span class="p">{</span>
-</span><span class='line'>    <span class="c1"># serve static files from defined root folder;.</span>
-</span><span class='line'>    <span class="c1"># @pretty_site is a named location for the upstream fallback, see below</span>
-</span><span class='line'>    <span class="kn">try_files</span> <span class="nv">$uri</span> <span class="nv">$uri/index.html</span> <span class="nv">$uri.html</span> <span class="s">@pretty_site</span><span class="p">;</span>
-</span><span class='line'>  <span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="c1"># if a file, which is not found in the root folder is requested,</span>
-</span><span class='line'>  <span class="c1"># then the proxy pass the request to the upsteam (pretty_site unicorn)</span>
-</span><span class='line'>  <span class="kn">location</span> <span class="s">@pretty_site</span> <span class="p">{</span>
-</span><span class='line'>    <span class="kn">proxy_read_timeout</span> <span class="mi">300</span><span class="p">;</span>
-</span><span class='line'>    <span class="kn">proxy_connect_timeout</span> <span class="mi">300</span><span class="p">;</span>
-</span><span class='line'>    <span class="kn">proxy_redirect</span>     <span class="no">off</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="c1"># &#39;X-Forwarded-For&#39; header is required for rack request.ip</span>
-</span><span class='line'>    <span class="c1"># https://github.com/chneukirchen/rack/blob/master/lib/rack/request.rb#L352-L367</span>
-</span><span class='line'>    <span class="kn">proxy_set_header</span>   <span class="s">X-Forwarded-For</span>   <span class="nv">$proxy_add_x_forwarded_for</span><span class="p">;</span>
-</span><span class='line'>    <span class="kn">proxy_set_header</span>   <span class="s">X-Forwarded-Proto</span> <span class="nv">$scheme</span><span class="p">;</span>
-</span><span class='line'>    <span class="kn">proxy_set_header</span>   <span class="s">Host</span>              <span class="nv">$http_host</span><span class="p">;</span>
-</span><span class='line'>    <span class="kn">proxy_set_header</span>   <span class="s">X-Real-IP</span>         <span class="nv">$remote_addr</span><span class="p">;</span>
-</span><span class='line'>    <span class="kn">proxy_set_header</span>   <span class="s">CLIENT_IP</span>         <span class="nv">$remote_addr</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="kn">proxy_pass</span> <span class="s">http://pretty_site</span><span class="p">;</span>
-</span><span class='line'>  <span class="p">}</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Then you can get <code>request.ip</code> as you want.</p>
 ]]></content>
   </entry>
   

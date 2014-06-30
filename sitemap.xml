@@ -3,6 +3,12 @@
   
   
   <url>
+    <loc>http://blog.yasuoza.com/2014/06/30/2014nian-qian-ban-wozhen-rifan-tute/</loc>
+    <lastmod>2014-06-30T13:14:49+00:00</lastmod>
+    <priority>0.8</priority>
+  </url>
+  
+  <url>
     <loc>http://blog.yasuoza.com/2014/06/26/octpress-rake-new-post-wrapper-command/</loc>
     <lastmod>2014-06-26T09:28:21+00:00</lastmod>
     <priority>0.8</priority>
@@ -310,29 +316,29 @@
   
   
   <url>
-    <loc>http://blog.yasuoza.com/archives/</loc>
-    <lastmod>2014-06-28T13:49:18+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  
-  <url>
     <loc>http://blog.yasuoza.com/blog/archives/</loc>
-    <lastmod>2014-06-28T13:49:18+00:00</lastmod>
+    <lastmod>2014-06-30T13:40:56+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   
   <url>
     <loc>http://blog.yasuoza.com/</loc>
-    <lastmod>2014-06-28T13:49:18+00:00</lastmod>
+    <lastmod>2014-06-30T13:40:56+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   
   <url>
+    <loc>http://blog.yasuoza.com/archives/</loc>
+    <lastmod>2014-06-30T13:40:56+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <url>
     <loc>http://blog.yasuoza.com/about/</loc>
-    <lastmod>2014-06-28T13:49:18+00:00</lastmod>
+    <lastmod>2014-06-30T13:40:56+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
