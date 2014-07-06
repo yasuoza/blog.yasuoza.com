@@ -4,7 +4,7 @@
   <title><![CDATA[yasuoza diary]]></title>
   <link href="http://blog.yasuoza.com/atom.xml" rel="self"/>
   <link href="http://blog.yasuoza.com/"/>
-  <updated>2014-07-02T05:45:40+00:00</updated>
+  <updated>2014-07-06T12:19:48+00:00</updated>
   <id>http://blog.yasuoza.com/</id>
   <author>
     <name><![CDATA[Yasuharu Ozaki]]></name>
@@ -12,6 +12,45 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[NeoBundleLazy 'VimFiler']]></title>
+    <link href="http://blog.yasuoza.com/2014/07/04/neobundlelazy-vimfiler/"/>
+    <updated>2014-07-04T09:05:17+00:00</updated>
+    <id>http://blog.yasuoza.com/2014/07/04/neobundlelazy-vimfiler</id>
+    <content type="html"><![CDATA[<p>To NeoBundleLazy <a href="https://github.com/Shougo/vimfiler.vim">VimFiler</a>, <a href="https://github.com/Shougo/neobundle.vim">NeoBundle</a> supports <code>explorer</code> option.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='vim'><span class='line'>NeoBundleLazy <span class="s1">&#39;Shougo/vimfiler.vim&#39;</span><span class="p">,</span> {
+</span><span class='line'>\   <span class="s1">&#39;depends&#39;</span> : <span class="s1">&#39;Shougo/unite.vim&#39;</span><span class="p">,</span>
+</span><span class='line'>\   <span class="s1">&#39;autoload&#39;</span> : {
+</span><span class='line'>\       <span class="s1">&#39;commands&#39;</span> : [<span class="s1">&#39;VimFiler&#39;</span><span class="p">,</span> <span class="s1">&#39;VimFilerCurrentDir&#39;</span><span class="p">,</span>
+</span><span class='line'>\                     <span class="s1">&#39;VimFilerBufferDir&#39;</span><span class="p">,</span> <span class="s1">&#39;VimFilerSplit&#39;</span><span class="p">,</span>
+</span><span class='line'>\                     <span class="s1">&#39;VimFilerExplorer&#39;</span><span class="p">,</span> <span class="s1">&#39;VimFilerDouble&#39;</span>]<span class="p">,</span>
+</span><span class='line'>\       <span class="s1">&#39;explorer&#39;</span> : <span class="m">1</span>
+</span><span class='line'>\   }
+</span><span class='line'>\ }
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This works with following option!</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='vim'><span class='line'><span class="k">let</span> <span class="k">g</span>:vimfiler_as_default_explorer <span class="p">=</span> <span class="m">1</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Wow!:heart_eyes:</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[How do you indent ruby's if..else assignment?]]></title>
@@ -1420,64 +1459,6 @@ If you want to define <code>diff</code>s globally, define like following:</p>
 </pre></td><td class='code'><pre><code class='text'><span class='line'>*.rb diff=ruby
 </span></code></pre></td></tr></table></div></figure>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Trigger jenkins from Gitlab push hook]]></title>
-    <link href="http://blog.yasuoza.com/2013/08/08/trigger-jenkins-from-gitlab-push-hook/"/>
-    <updated>2013-08-08T09:10:00+00:00</updated>
-    <id>http://blog.yasuoza.com/2013/08/08/trigger-jenkins-from-gitlab-push-hook</id>
-    <content type="html"><![CDATA[<p>Jenkins is awesome secretary and my friend. I can&rsquo;t live without him.<br/>
-My Jenkins does these things:</p>
-
-<ul>
-<li>Deploy blog.yasuoza.com</li>
-<li>Test my private repositories</li>
-<li>Cron jobs</li>
-</ul>
-
-
-<p>This blog and some private repositories are hosted by my <a href="http://gitlab.org/">Gitlab</a>.</p>
-
-<p>Today I want to share how to build job via Gitlab push hook with concrete example: how to deploy <a href="http://octopress.org/">Octopress</a> blog with Giatlab.</p>
-
-<p>First, you need to configure Octopress with rsync deployment. See more: <a href="http://octopress.org/docs/configuring/">Configuring Octopress</a></p>
-
-<p>Next, set jenkins&rsquo;s public key to blog server so that jenkins can login the server without password.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ sudo -u jenkins -H ssh user@yourhost.com</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Then, install Jenkins plugin <a href="https://wiki.jenkins-ci.org/display/JENKINS/Gitlab+Hook+Plugin">Gitlab Hook Plugin</a> and set <code>http://your-jenkins-server/gitlab/build_now</code>
-in your Gitlab like this:</p>
-
-<p><img src="http://blog.yasuoza.com/images/jenkins_gitlab_hook_plugin.png"></p>
-
-<p>This plugin works even if jenkins requires authentication to enter jenkins home.</p>
-
-<p><strong> NOTE </strong><br/>
-Gitlab Hook Plugin v0.2.11 does not work well when the job is not parameterized. So, use >= v0.2.12.<br/>
-For more: <a href="https://github.com/elvanja/jenkins-gitlab-hook-plugin/issues/15">Build no longer triggering (Maybe running too bleeding edge?)</a></p>
-
-<p>Finally, configure Jenkins job to deploy Octopress:</p>
-
-<figure class='code'><figcaption><span>Execute shell</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>bundle
-</span><span class='line'>bundle exec rake generate
-</span><span class='line'>bundle exec rake deploy</span></code></pre></td></tr></table></div></figure>
-
-
-<p><strong> NOTE </strong><br/>
-OCTOPRESS REQUIRES RUBY 1.9.3-P194.<br/>
-Ensure to jenkins&rsquo;s ruby version is 1.9.3-p194 or use ruby version management framework such as rvm or rbenv.<br/>
-If you want to let jenkins run not only system ruby, I recomend you to use <a href="https://wiki.jenkins-ci.org/display/JENKINS/Rbenv+Plugin">rbenv plugin</a>.<br/>
-It is easy to use.</p>
-
-<p>Well, you done. Now push changes to your own Gitlab. Jenkins works for you.</p>
 ]]></content>
   </entry>
   
