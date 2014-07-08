@@ -19,17 +19,8 @@
   <meta name="author" content="Yasuharu Ozaki">
 
   
-  <meta name="description" content="To NeoBundleLazy VimFiler, NeoBundle supports explorer option. 1
-2
-3
-4
-5
-6
-7
-8
-9
-NeoBundleLazy &#39;Shougo/vimfiler.vim&#39;, {
-\ &#39;depends&#39 &hellip;">
+  <meta name="description" content="できる、できないを考える前に行動する。行動してからどうやったら達成できるか考える。 やっぱり、これくらいのほうが後悔しない人生を送れるんじゃないかなー。
+">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -98,6 +89,44 @@ NeoBundleLazy &#39;Shougo/vimfiler.vim&#39;, {
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2014/07/08/no-time-pochiri/">ノータイムポチリ</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-07-08T12:05:17+00:00" pubdate data-updated="true">Jul 8<sup>th</sup>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>できる、できないを考える前に行動する。行動してからどうやったら達成できるか考える。</p>
+
+<p>やっぱり、これくらいのほうが後悔しない人生を送れるんじゃないかなー。</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -918,84 +947,6 @@ Cheers<img alt="sunglasses" src="/images/emoji/sunglasses.png" class="emoji" /><
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2014/02/17/kawaii-merge-diff-in-tig/">Kawaii merge diffs in tig</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-02-17T01:58:07+00:00" pubdate data-updated="true">Feb 17<sup>th</sup>, 2014</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Tig&rsquo;s original merge diffs looks like this:</p>
-
-<p><img class="center" src="/images/2014/02/original_tig_merge.png"></p>
-
-<p>But I WANT to see merge diff like GitHub&rsquo;s merge diff like:</p>
-
-<p><img class="center" src="/images/2014/02/gh_merge_diff.png"></p>
-
-<p>This is enabled via <a href="https://github.com/jonas/tig/commit/8370101fa9f46d814cef724b65b08e83a2a52e8e">tig@8370101fa</a>.</p>
-
-<p>To power this commit, install tig-HEAD.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>git clone https://github.com/jonas/tig.git
-</span><span class='line'><span class="nv">$ </span><span class="nb">cd </span>tig
-</span><span class='line'><span class="nv">$ </span>brew install autoconf           <span class="c"># If you are using OSX</span>
-</span><span class='line'><span class="nv">$ </span><span class="c"># sudo apt-get install autoconf # If you are using Debian</span>
-</span><span class='line'><span class="nv">$ </span>make configure                  <span class="c"># This step requires &#39;autoconf&#39; package</span>
-</span><span class='line'><span class="nv">$ </span>./configure
-</span><span class='line'><span class="nv">$ </span>make
-</span><span class='line'><span class="nv">$ </span>make install
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>After installation, open <code>~/.tigrc</code> and set following option.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='text'><span class='line'>set diff-options = -m --first-parent
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Then, merge diffs in tig will be:</p>
-
-<p><img class="center" src="/images/2014/02/kawaii_tig_merge.png"></p>
-
-<p>It&rsquo;s Kawaii <img alt="heart_eyes" src="/images/emoji/heart_eyes.png" class="emoji" /></p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="2">&larr; Older</a>
@@ -1011,6 +962,10 @@ Cheers<img alt="sunglasses" src="/images/emoji/sunglasses.png" class="emoji" /><
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2014/07/08/no-time-pochiri/">ノータイムポチリ</a>
+      </li>
+    
+      <li class="post">
         <a href="/2014/07/04/neobundlelazy-vimfiler/">NeoBundleLazy &#8216;VimFiler&#8217;</a>
       </li>
     
@@ -1024,10 +979,6 @@ Cheers<img alt="sunglasses" src="/images/emoji/sunglasses.png" class="emoji" /><
     
       <li class="post">
         <a href="/2014/06/26/octpress-rake-new-post-wrapper-command/">octpress rake new_post wrapper command</a>
-      </li>
-    
-      <li class="post">
-        <a href="/2014/06/15/support-tmux-with-reattach-to-user-to-work-in-multi-os/">Support tmux with &#8220;reattach-to-user-namespace&#8221; to work in multi OS</a>
       </li>
     
   </ul>

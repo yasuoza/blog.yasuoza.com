@@ -4,7 +4,7 @@
   <title><![CDATA[yasuoza diary]]></title>
   <link href="http://blog.yasuoza.com/atom.xml" rel="self"/>
   <link href="http://blog.yasuoza.com/"/>
-  <updated>2014-07-06T12:19:48+00:00</updated>
+  <updated>2014-07-08T12:18:35+00:00</updated>
   <id>http://blog.yasuoza.com/</id>
   <author>
     <name><![CDATA[Yasuharu Ozaki]]></name>
@@ -12,6 +12,17 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[ノータイムポチリ]]></title>
+    <link href="http://blog.yasuoza.com/2014/07/08/no-time-pochiri/"/>
+    <updated>2014-07-08T12:05:17+00:00</updated>
+    <id>http://blog.yasuoza.com/2014/07/08/no-time-pochiri</id>
+    <content type="html"><![CDATA[<p>できる、できないを考える前に行動する。行動してからどうやったら達成できるか考える。</p>
+
+<p>やっぱり、これくらいのほうが後悔しない人生を送れるんじゃないかなー。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[NeoBundleLazy 'VimFiler']]></title>
@@ -1412,53 +1423,6 @@ WebViewやバックグラウンド更新などはこれからのアップデー�
 
 <p>HBFav-Android ホームページ<br/>
 <a href="http://yasuoza.github.io/HBFav-Android">HBFav-Android</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Kawaii git diff in my local repository]]></title>
-    <link href="http://blog.yasuoza.com/2013/11/21/kawaii-git-diff/"/>
-    <updated>2013-11-21T13:34:55+00:00</updated>
-    <id>http://blog.yasuoza.com/2013/11/21/kawaii-git-diff</id>
-    <content type="html"><![CDATA[<p>Diff on GitHub is super :heart_eyes: to me because it shows method name.<br/>
-This post shows how to make it in local repository.</p>
-
-<p>For example, GitHub shows diff with <code>def is_repo?</code>.
-<img src="https://qiita-image-store.s3.amazonaws.com/0/4402/34d6ecf8-7437-b881-b1ff-80c90ec1689d.png" alt="Screen Shot 2013-11-21 at 7.17.20 PM.png" />
-<a href="https://github.com/github/hub/commit/87050ce94a97b0c382b99c975bde0c833332b38e">https://github.com/github/hub/commit/87050ce94a97b0c382b99c975bde0c833332b38e</a></p>
-
-<p>Normal local diff looks like this :confounded:
-<img src="https://qiita-image-store.s3.amazonaws.com/0/4402/b4942b6f-b522-50ac-3a7a-2234b55760b4.png" alt="Screen Shot 2013-11-21 at 7.20.04 PM.png" /></p>
-
-<p>The answer is:</p>
-
-<figure class='code'><figcaption><span>.gitattributes</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='text'><span class='line'>*.rb diff=ruby
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>My local diff is now :heart_eyes:
-<img src="https://qiita-image-store.s3.amazonaws.com/0/4402/b02ab578-b778-048b-5607-877ae8a41ece.png" alt="Screen Shot 2013-11-21 at 7.29.07 PM.png" /></p>
-
-<p>Following <code>diff</code>s are available.<br/>
- <a href="http://git-scm.com/docs/gitattributes#_defining_a_custom_hunk-header">http://git-scm.com/docs/gitattributes#_defining_a_custom_hunk-header</a></p>
-
-<p><strong>2013/11/24 UPDATE</strong><br/>
-If you want to define <code>diff</code>s globally, define like following:</p>
-
-<figure class='code'><figcaption><span>~/.gitconfig</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='text'><span class='line'>[core]
-</span><span class='line'>      attributesfile = ~/.gitattributes_global
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><figcaption><span>~/.gitattributes_global</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='text'><span class='line'>*.rb diff=ruby
-</span></code></pre></td></tr></table></div></figure>
-
 ]]></content>
   </entry>
   

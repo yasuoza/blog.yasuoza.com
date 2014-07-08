@@ -19,9 +19,10 @@
   <meta name="author" content="Yasuharu Ozaki">
 
   
-  <meta name="description" content="大学時代にC言語でプログラミングしているとき、変数のスワップをする必要が出た場合は一時変数用いるように教わりました。 こんなかんじでした。 1
-2
-3 int tmp = x; int x = y; int y = tmp; それから数年。今では主に動的言語を使ってプログラミングをしています。 &hellip;">
+  <meta name="description" content="Homebrewで 1
+$ brew upgrade git を実行すると 1
+symbol(s) not found for architecture x86_64 というエラーが出てgitをアップグレードできない問題にハマったので、解決法のメモ。 1
+$ brew list すると &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -90,6 +91,86 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2012/09/21/brew_upgrade_git_erro/">brew upgrade gitでハマる</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-09-21T00:00:00+00:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><a href="http://mxcl.github.com/homebrew/" target="_blank">Homebrew</a>で</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ brew upgrade git</span></code></pre></td></tr></table></div></figure>
+
+
+<p>を実行すると</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>symbol(s) not found for architecture x86_64</span></code></pre></td></tr></table></div></figure>
+
+
+<p>というエラーが出てgitをアップグレードできない問題にハマったので、解決法のメモ。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ brew list</span></code></pre></td></tr></table></div></figure>
+
+
+<p>すると
+<code>libiconv</code>
+というモジュールがあると思うので、それを次のようにアンインストール</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ brew remove libiconv</span></code></pre></td></tr></table></div></figure>
+
+
+<p>パーミッションのエラーなどでアンインストール出来ない場合は</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ sudo rm -rf /usr/local/Cellar/libiconv</span></code></pre></td></tr></table></div></figure>
+
+
+<p>で削除。</p>
+
+<p>その後</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ brew upgrade git</span></code></pre></td></tr></table></div></figure>
+
+
+<p>でうまくいく。</p>
+
+<p>このlibiconvがどこで入ってきたのか謎すぎる。</p>
+
+<p><a href="https://github.com/mxcl/homebrew/issues/11229" target="_blank">Error when installing git: symbol(s) not found for architecture x86_64 - github</a></p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -908,101 +989,6 @@ Websocketを使った通知の設定方法も書いてあるので、とても�
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2012/04/28/coderetreat-in-drecom-powered-by-agileshibuya/">Coderetreat in Drecom powered by AgileShibuya に参加してきました</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-04-28T00:00:00+00:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>GW初日にCoderetreatに参加してきました。</p>
-
-
-
-
-<p>Coderetreatは決められた課題を2人一組で45分間でTDD開発して、そのセッションが終わったら書いたコードは消して新しセッションでは組む人を変えてまた一からコードを書きなおすというルールのもと、進めていく勉強会で、全世界で行われているものらしいです。</p>
-
-
-
-
-<p>今回は名古屋と同時開催で、取り上げた課題内容は<a href="http://ja.wikipedia.org/wiki/%E3%83%A9%E3%82%A4%E3%83%95%E3%82%B2%E3%83%BC%E3%83%A0">ライフゲーム</a>でした。</p>
-
-
-
-
-<p>ライフゲームの概念はとてもシンプルで8近傍のセルの状態と現在の自分の状態で次の状態が決まるというものですが、これを45分でパートナーと設計からTDD開発までやるとかなり時間が足りなかったです。</p>
-
-
-
-
-<p>今回は計6セッションを行ったのですが、僕は</p>
-
-
-
-
-<ul>
-<li>Java (JUnit)</li>
-<li>JavaScript (JsTestDriver)</li>
-<li>JavaScript (mocha)</li>
-<li>JavaScript (mocha)</li>
-<li>Ruby (RSpec)</li>
-<li>Ruby (RSpec)</li>
-</ul>
-
-
-
-
-<p>で開発しました。Perlやりたかったけど、需要なかったですね。</p>
-
-
-
-
-<p>でも、普段使わないJavaとRubyで開発できたのが良かったです。</p>
-
-
-
-
-<p>あと、ペアプロで開発するので、パートナーの課題に対する設計思想や、テストに対する設計思想を吸収できたり、エディタや開発環境を比べて情報交換できたりしたので、すごく良かったです。</p>
-
-
-
-
-<p>課題を解決できるかどうかが問題ではなくて、パートナーとペアプロでTDD開発するというところが目的なので、参加された皆さんはそれぞれいろんな吸収があったみたいでした。
-Macの画面共有が便利とか、vim勉強しようとか。</p>
-
-
-
-
-<p>最後に会場を提供して下さった、<a href="http://www.drecom.co.jp/">ドリコム</a>さん、お昼を提供して下さった<a href="http://www.esm.co.jp/">永和システムマネジメント</a>さん、主催して下さった<a href="https://twitter.com/#!/HIROCASTER">@hirocaster</a>さん、本当に有難うございました!</p>
-
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="6">&larr; Older</a>
@@ -1020,6 +1006,10 @@ Macの画面共有が便利とか、vim勉強しようとか。</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2014/07/08/no-time-pochiri/">ノータイムポチリ</a>
+      </li>
+    
+      <li class="post">
         <a href="/2014/07/04/neobundlelazy-vimfiler/">NeoBundleLazy &#8216;VimFiler&#8217;</a>
       </li>
     
@@ -1033,10 +1023,6 @@ Macの画面共有が便利とか、vim勉強しようとか。</p>
     
       <li class="post">
         <a href="/2014/06/26/octpress-rake-new-post-wrapper-command/">octpress rake new_post wrapper command</a>
-      </li>
-    
-      <li class="post">
-        <a href="/2014/06/15/support-tmux-with-reattach-to-user-to-work-in-multi-os/">Support tmux with &#8220;reattach-to-user-namespace&#8221; to work in multi OS</a>
       </li>
     
   </ul>
