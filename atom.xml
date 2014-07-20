@@ -4,7 +4,7 @@
   <title><![CDATA[yasuoza diary]]></title>
   <link href="http://blog.yasuoza.com/atom.xml" rel="self"/>
   <link href="http://blog.yasuoza.com/"/>
-  <updated>2014-07-08T12:18:35+00:00</updated>
+  <updated>2014-07-20T13:35:27+00:00</updated>
   <id>http://blog.yasuoza.com/</id>
   <author>
     <name><![CDATA[Yasuharu Ozaki]]></name>
@@ -14,13 +14,38 @@
 
   
   <entry>
-    <title type="html"><![CDATA[ノータイムポチリ]]></title>
-    <link href="http://blog.yasuoza.com/2014/07/08/no-time-pochiri/"/>
-    <updated>2014-07-08T12:05:17+00:00</updated>
-    <id>http://blog.yasuoza.com/2014/07/08/no-time-pochiri</id>
-    <content type="html"><![CDATA[<p>できる、できないを考える前に行動する。行動してからどうやったら達成できるか考える。</p>
+    <title type="html"><![CDATA[checkout with updating tags]]></title>
+    <link href="http://blog.yasuoza.com/2014/07/18/checkout-with-updating-tags/"/>
+    <updated>2014-07-18T10:55:05+00:00</updated>
+    <id>http://blog.yasuoza.com/2014/07/18/checkout-with-updating-tags</id>
+    <content type="html"><![CDATA[<p>When writing middle - big application, <code>tags</code> is very useful to find method and variable definition.
+Especially for RoR application, <code>ripper-tags</code> is useful and it would be great if update tags when <code>git checkout</code>.</p>
 
-<p>やっぱり、これくらいのほうが後悔しない人生を送れるんじゃないかなー。</p>
+<p>Here is the solution.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>touch .git/hooks/post-checkout
+</span><span class='line'>chmod +x .git/hooks/post-checkout
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>post-checkout will be</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c">#!/bin/sh</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">if</span> <span class="o">[</span> -z <span class="nv">$SKIP_TAG</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
+</span><span class='line'><span class="k">  </span>ripper-tags -R --exclude<span class="o">=</span><span class="s1">&#39;test&#39;</span> --exclude<span class="o">=</span><span class="s1">&#39;spec&#39;</span> --exclude<span class="o">=</span><span class="s1">&#39;vendor/bundle&#39;</span>
+</span><span class='line'><span class="k">fi</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>If you don&rsquo;t want to update tags when checkout, simply export <code>SKIP_TAG</code> environment variable.</p>
 ]]></content>
   </entry>
   
