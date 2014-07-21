@@ -21,9 +21,13 @@ post-checkout will be
 ```
 #!/bin/sh
 
-if [ -z $SKIP_TAG ]; then
+if [[ -z $SKIP_TAG || $SKIP_TAG != 0 ]]; then
 	ripper-tags -R --exclude='test' --exclude='spec' --exclude='vendor/bundle'
 fi
 ```
 
-If you don't want to update tags when checkout, simply export `SKIP_TAG` environment variable.
+If you don't want to update tags when checkout, simply set `SKIP_TAG` environment variable to 1 like
+
+```bash
+SKIP_TAG=1 git checkout your_branch
+```
