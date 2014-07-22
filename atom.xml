@@ -4,7 +4,7 @@
   <title><![CDATA[yasuoza diary]]></title>
   <link href="http://blog.yasuoza.com/atom.xml" rel="self"/>
   <link href="http://blog.yasuoza.com/"/>
-  <updated>2014-07-21T08:27:08+00:00</updated>
+  <updated>2014-07-22T04:16:39+00:00</updated>
   <id>http://blog.yasuoza.com/</id>
   <author>
     <name><![CDATA[Yasuharu Ozaki]]></name>
@@ -39,7 +39,7 @@ Especially for RoR application, <code>ripper-tags</code> is useful and it would 
 <span class='line-number'>5</span>
 </pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c">#!/bin/sh</span>
 </span><span class='line'>
-</span><span class='line'><span class="k">if</span> <span class="o">[[</span> -z <span class="nv">$SKIP_TAG</span> <span class="o">||</span> <span class="nv">$SKIP_TAG</span> !<span class="o">=</span> 0 <span class="o">]]</span><span class="p">;</span> <span class="k">then</span>
+</span><span class='line'><span class="k">if</span> <span class="o">[[</span> -z <span class="nv">$SKIP_TAG</span> <span class="o">||</span> <span class="nv">$SKIP_TAG</span> !<span class="o">=</span> 1 <span class="o">]]</span><span class="p">;</span> <span class="k">then</span>
 </span><span class='line'><span class="k">  </span>ripper-tags -R --exclude<span class="o">=</span><span class="s1">&#39;test&#39;</span> --exclude<span class="o">=</span><span class="s1">&#39;spec&#39;</span> --exclude<span class="o">=</span><span class="s1">&#39;vendor/bundle&#39;</span>
 </span><span class='line'><span class="k">fi</span>
 </span></code></pre></td></tr></table></div></figure>
