@@ -21,7 +21,7 @@ post-checkout will be
 ```
 #!/bin/sh
 
-if [[ -z $SKIP_TAG || $SKIP_TAG != 0 ]]; then
+if [[ -z $SKIP_TAG || $SKIP_TAG != 1 ]]; then
 	ripper-tags -R --exclude='test' --exclude='spec' --exclude='vendor/bundle'
 fi
 ```
