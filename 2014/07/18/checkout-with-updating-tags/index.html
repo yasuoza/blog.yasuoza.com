@@ -118,7 +118,7 @@ Especially for RoR application, ripper-tags is &hellip;">
 <div class="entry-content"><p>When writing middle - big application, <code>tags</code> is very useful to find method and variable definition.
 Especially for RoR application, <code>ripper-tags</code> is useful and it would be great if update tags when <code>git checkout</code>.</p>
 
-<p>Here is the solution.</p>
+<p>Here is the opt out solution.</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -136,7 +136,7 @@ Especially for RoR application, <code>ripper-tags</code> is useful and it would 
 <span class='line-number'>5</span>
 </pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c">#!/bin/sh</span>
 </span><span class='line'>
-</span><span class='line'><span class="k">if</span> <span class="o">[[</span> -z <span class="nv">$SKIP_TAG</span> <span class="o">||</span> <span class="nv">$SKIP_TAG</span> !<span class="o">=</span> 1 <span class="o">]]</span><span class="p">;</span> <span class="k">then</span>
+</span><span class='line'><span class="k">if</span> <span class="o">[[</span> -n <span class="nv">$SKIP_TAG</span> <span class="o">||</span> <span class="nv">$SKIP_TAG</span> !<span class="o">=</span> 1 <span class="o">]]</span><span class="p">;</span> <span class="k">then</span>
 </span><span class='line'><span class="k">  </span>ripper-tags -R --exclude<span class="o">=</span><span class="s1">&#39;test&#39;</span> --exclude<span class="o">=</span><span class="s1">&#39;spec&#39;</span> --exclude<span class="o">=</span><span class="s1">&#39;vendor/bundle&#39;</span>
 </span><span class='line'><span class="k">fi</span>
 </span></code></pre></td></tr></table></div></figure>
@@ -146,6 +146,28 @@ Especially for RoR application, <code>ripper-tags</code> is useful and it would 
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">SKIP_TAG</span><span class="o">=</span>1 git checkout your_branch
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Opt in</h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c">#!/bin/sh</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">if</span> <span class="o">[[</span> -n <span class="nv">$UPDATE_TAG</span> <span class="o">&amp;&amp;</span> <span class="nv">$UPDATE_TAG</span> <span class="o">==</span> 1 <span class="o">]]</span><span class="p">;</span> <span class="k">then</span>
+</span><span class='line'><span class="k">  </span>ripper-tags -R --exclude<span class="o">=</span><span class="s1">&#39;test&#39;</span> --exclude<span class="o">=</span><span class="s1">&#39;spec&#39;</span> --exclude<span class="o">=</span><span class="s1">&#39;vendor/bundle&#39;</span>
+</span><span class='line'><span class="k">fi</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">UPDATE_TAG</span><span class="o">=</span>1 git checkout your_branch
 </span></code></pre></td></tr></table></div></figure>
 
 </div>
