@@ -19,7 +19,7 @@
   <meta name="author" content="Yasuharu Ozaki">
 
   
-  <meta name="description" content="GW初日にCoderetreatに参加してきました。 Coderetreatは決められた課題を2人一組で45分間でTDD開発して、そのセッションが終わったら書いたコードは消して新しセッションでは組む人を変えてまた一からコードを書きなおすというルールのもと、進めていく勉強会で、 &hellip;">
+  <meta name="description" content="最近はiPhoneアプリの開発を勉強しています。 で、iPhoneアプリを作る上でももちろんテストを書きたいと思い、いろいろ調べた結果、XCode4系標準のQUnit、非同期を簡単に扱えるGHUitあたりが有名だとわかりました(他にもたくさんあります)。 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -88,6 +88,166 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2012/06/24/asynctest_in_quit/">&#8220;`Xcodeで非同期通信のテストを行う</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-06-24T00:00:00+00:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>最近はiPhoneアプリの開発を勉強しています。</p>
+
+<p>で、iPhoneアプリを作る上でももちろんテストを書きたいと思い、いろいろ調べた結果、XCode4系標準のQUnit、非同期を簡単に扱えるGHUitあたりが有名だとわかりました(他にもたくさんあります)。</p>
+
+<p>XCode標準ということはAppleの人たちもきっとQUitを使って開発しているはず！という勝手な思い込みからQUitを使うことにしました。
+そのQUnitは標準で非同期をサポートしていないので、自前で非同期のテストを書かないといけません。
+その実装をメモしておきます。</p>
+
+<p>まずはコードから。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>- (void)testAsyncronousRequest
+</span><span class='line'>{
+</span><span class='line'>  dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
+</span><span class='line'>
+</span><span class='line'>  NSURLRequest *request = [NSURLRequest requestWithURL:url];
+</span><span class='line'>  asyncConnection = [[AsyncConnection alloc] initWithRequest:request]; 
+</span><span class='line'>  //Automatically asyncConnection.delegate is set asyncConnection in AsyncConnection
+</span><span class='line'>
+</span><span class='line'>  asyncConnection.completion = ^(JSONConnection *connection,
+</span><span class='line'>                                  NSData *downloadData,
+</span><span class='line'>                                  NSHTTPURLResponse* response,
+</span><span class='line'>                                  NSError* error) {
+</span><span class='line'>        // Test code here..
+</span><span class='line'>    
+</span><span class='line'>        dispatch_semaphore_signal(semaphore);
+</span><span class='line'>    };
+</span><span class='line'>    
+</span><span class='line'>    
+</span><span class='line'>    while (dispatch_semaphore_wait(semaphore, DISPATCH_TIME_NOW)) {
+</span><span class='line'>        [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode 
+</span><span class='line'>                                 beforeDate:[NSDate dateWithTimeIntervalSinceNow:5]];
+</span><span class='line'>    } 
+</span><span class='line'>
+</span><span class='line'>    dispatch_release(semaphore);
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>まず、</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>  dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);</span></code></pre></td></tr></table></div></figure>
+
+
+<p>でセマフォをプールサイズ0で登録します。</p>
+
+<p>その後、</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>while (dispatch_semaphore_wait(semaphore, DISPATCH_TIME_NOW)) {
+</span><span class='line'> [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode 
+</span><span class='line'>                             beforeDate:[NSDate dateWithTimeIntervalSinceNow:5]];
+</span><span class='line'>} </span></code></pre></td></tr></table></div></figure>
+
+
+<p>でセマフォのカウンタが0の時は</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode 
+</span><span class='line'>                           beforeDate:[NSDate dateWithTimeIntervalSinceNow:5]];</span></code></pre></td></tr></table></div></figure>
+
+
+<p>を実行してメインループをブロックします。
+ブロックしている間にasyncConnection.completionのブロックで指定した関数が実行され、</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>dispatch_semaphore_signal(semaphore);</span></code></pre></td></tr></table></div></figure>
+
+
+<p>によってセマフォのカウンタが1インクリメントされます。
+セマフォのカウンタが1以上だった、もしくは待機中にカウンタが1以上になった場合は</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>dispatch_semaphore_wait(semaphore, DISPATCH_TIME_NOW)</span></code></pre></td></tr></table></div></figure>
+
+
+<p>が0になり、while文を抜け出し、セマフォを開放した後、testAsyncronousRequestが終了します。</p>
+
+<p>こんなかんじでGCDを使って非同期テストを行うことができました。</p>
+
+<p>GCDについて詳しくは</p>
+
+<div class="amazlet-box" style="margin-bottom:0px;"><div class="amazlet-image" style="float:left;margin:0px 12px 1px 0px;"><a href="http://www.amazon.co.jp/exec/obidos/ASIN/4844331094/yasuoza-22/ref=nosim/" name="amazletlink" target="_blank"><img src="http://ecx.images-amazon.com/images/I/41FcW2yiPXL._SL160_.jpg" alt="エキスパートObjective-Cプログラミング －iOS/OS Xのメモリ管理とマルチスレッド－" style="border: none;" /></a></div><div class="amazlet-info" style="line-height:120%; margin-bottom: 10px"><div class="amazlet-name" style="margin-bottom:10px;line-height:120%"><a href="http://www.amazon.co.jp/exec/obidos/ASIN/4844331094/yasuoza-22/ref=nosim/" name="amazletlink" target="_blank">エキスパートObjective-Cプログラミング －iOS/OS Xのメモリ管理とマルチスレッド－</a><div class="amazlet-powered-date" style="font-size:80%;margin-top:5px;line-height:120%">posted with <a href="http://www.amazlet.com/browse/ASIN/4844331094/yasuoza-22/ref=nosim/" title="エキスパートObjective-Cプログラミング －iOS/OS Xのメモリ管理とマルチスレッド－" target="_blank">amazlet</a> at 12.06.24</div></div><div class="amazlet-detail">坂本 一樹 <br />インプレスジャパン <br />売り上げランキング: 119084<br /></div><div class="amazlet-sub-info" style="float: left;"><div class="amazlet-link" style="margin-top: 5px"><a href="http://www.amazon.co.jp/exec/obidos/ASIN/4844331094/yasuoza-22/ref=nosim/" name="amazletlink" target="_blank">Amazon.co.jp で詳細を見る</a></div></div></div><div class="amazlet-footer" style="clear: left"></div></div>
+
+
+<p><br/></p>
+
+<p><strong>参考サイト</strong></p>
+
+<ul>
+    <li>元ネタ: <a href="http://stackoverflow.com/questions/4326350/how-do-i-wait-for-an-asynchronously-dispatched-block-to-finish" title="How do I wait for an asynchronously dispatched block to finish?" target="_blank">How do I wait for an asynchronously dispatched block to finish?</a>
+</li>
+    <li><a href="http://developer.apple.com/library/ios/#documentation/General/Conceptual/ConcurrencyProgrammingGuide/OperationQueues/OperationQueues.html#//apple_ref/doc/uid/TP40008091-CH102-SW24" target="_blank">Using Dispatch Semaphores to Regulate the Use of Finite Resources</a></li>
+
+    <li><a href="http://developer.apple.com/library/mac/#documentation/Cocoa/Reference/Foundation/Classes/NSRunLoop_Class/Reference/Reference" target="_blank">runMode:beforeDate</a></li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -515,6 +675,10 @@ Macの画面共有が便利とか、vim勉強しようとか。</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2014/07/28/howaitobbjie-yue-karafalsezai-qi-yue/">ホワイトBB解約からの再契約</a>
+      </li>
+    
+      <li class="post">
         <a href="/2014/07/18/checkout-with-updating-tags/">checkout with updating tags</a>
       </li>
     
@@ -528,10 +692,6 @@ Macの画面共有が便利とか、vim勉強しようとか。</p>
     
       <li class="post">
         <a href="/2014/06/30/2014nian-qian-ban-wozhen-rifan-tute/">2014年前半を振り返って</a>
-      </li>
-    
-      <li class="post">
-        <a href="/2014/06/26/octpress-rake-new-post-wrapper-command/">octpress rake new_post wrapper command</a>
       </li>
     
   </ul>
