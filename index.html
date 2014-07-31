@@ -19,9 +19,8 @@
   <meta name="author" content="Yasuharu Ozaki">
 
   
-  <meta name="description" content="ホワイトBBをこれまでは加入権無しで契約していて、引越しを機に固定電話を契約することにしたので、
-加入権無しから加入権ありに契約を変更したいとソフトバンクに電話したら、それは一旦契約を
-解約しないといけないですね、ってことで今日解約してきた。 解約はサクッとできたんだけど、 &hellip;">
+  <meta name="description" content="I&rsquo;m using GitHub for job and my code hosting.
+Especially for co-working project, PullRequest based development is very useful to maintain codes &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -90,6 +89,80 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2014/07/31/im-hub-immigrant/">I&#8217;m a hub immigrant</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-07-31T10:10:49+00:00" pubdate data-updated="true">Jul 31<sup>st</sup>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>I&rsquo;m using GitHub for job and my code hosting.
+Especially for co-working project, PullRequest based development is very useful to maintain codes clean.</p>
+
+<p>Using git in terminal, to submit PullRequest,</p>
+
+<ul>
+<li>Push remote</li>
+<li>Open GitHub</li>
+<li>Write PR&rsquo;s description</li>
+<li>Submit</li>
+</ul>
+
+
+<p>workflow is necessaly. But with <a href="https://github.com/github/hub">hub</a>, you can submit PR within terminal only with</p>
+
+<pre><code>git pull-request
+</code></pre>
+
+<p>command.</p>
+
+<p>Those days I used Ruby based hub, but changed to use <a href="https://github.com/jingweno/gh">gh</a> Go based hub replacer because of its speed.
+And now I&rsquo;m using hub build with Go! Yes, hub is going to be developed with Go in the <a href="https://github.com/github/hub/issues/475#issuecomment-50217006">future</a>!</p>
+
+<p>To start using hub with Go,</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>git clone git@github.com:github/hub.git -b gh
+</span><span class='line'><span class="nb">cd </span>hub
+</span><span class='line'>./script/bootstrap
+</span><span class='line'>./script/build
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Then you can see executable <code>hub</code> binary at the root of the project. Copy or symlink the executable to your <code>$PATH</code>.</p>
+
+<p>Have a Happy GitHub life!</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -903,108 +976,6 @@ I think this discussion has no goal, but I think having many options is one of t
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2014/05/16/multi-github-pages-with-custom-domain/">Multi GitHub pages with custom domain</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-05-16T14:31:42+00:00" pubdate data-updated="true">May 16<sup>th</sup>, 2014</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>I have two GitHub pages</p>
-
-<ul>
-<li><a href="http://www.yasuoza.com/">YasuOza&rsquo;s website</a></li>
-<li><a href="http://blog.yasuoza.com/">yasuoza diary</a></li>
-</ul>
-
-
-<p>each sites are hosted by <a href="https://pages.github.com/">GitHub pages</a> using <a href="https://help.github.com/articles/setting-up-a-custom-domain-with-github-pages">custom domain</a>.</p>
-
-<p>To use custom domain for GitHub pages, create <code>CNAME</code> file and write like:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>www.yasuoza.com</span></code></pre></td></tr></table></div></figure>
-
-
-<p>With this file, you can see domain setting on Github repository > Settings > GitHub Pages like:</p>
-
-<p><img src="/images/2014/05/settings-github-pages.png"></p>
-
-<p>Next, open your DNS configure page, setup like:</p>
-
-<p><img src="/images/2014/05/githubpages-dns.png"></p>
-
-<p>Wait 1~3 hours(depend on you DNS server or environment).</p>
-
-<p>Then open teminal and type like:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>dig www.example.com +nostats +nocomments +nocmd
-</span><span class='line'><span class="p">;</span>www.example.com.                     IN      A
-</span><span class='line'>www.example.com.              3592    IN      CNAME   username.github.io.
-</span><span class='line'>username.github.io.           43192   IN      CNAME   github.map.fastly.net.
-</span><span class='line'>github.map.fastly.net.        22      IN      A       199.27.76.133
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>Tips</h3>
-
-<p>If you publish <em>username</em>.github.io repository to <em>www.yoursite.com</em>, then GitHub redirects
-<em>username.github.io</em> to <em>www.yoursite.com</em>.<br/>
-However, if you publish <em>another</em> repository to <em>subdomain.yoursite.com</em>, GitHub does not redirect
-<em>www.yoursite.com/another</em> to <em>subdomain.yoursite.com</em>.<br/>
-If you want to redirect <em>www.yoursite.com/another</em> to <em>subdomain.yoursite.com</em>, you should write
-redirect JavaScript like:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-</span><span class='line'>   <span class="kd">var</span> <span class="nx">GITHUB_PAGES_HOST</span> <span class="o">=</span> <span class="s1">&#39;www.yoursite.com&#39;</span><span class="p">;</span>
-</span><span class='line'>   <span class="k">if</span> <span class="p">(</span><span class="nb">document</span><span class="p">.</span><span class="nx">location</span><span class="p">.</span><span class="nx">host</span> <span class="o">===</span> <span class="nx">GITHUB_PAGES_HOST</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>       <span class="nb">document</span><span class="p">.</span><span class="nx">location</span><span class="p">.</span><span class="nx">href</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">location</span><span class="p">.</span><span class="nx">href</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="nx">GITHUB_PAGES_HOST</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">);</span>
-</span><span class='line'>   <span class="p">}</span>
-</span><span class='line'><span class="p">}());</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Then <em>www.yoursite.com/another</em> will be redirected to <em>subdomain.yoursite.com</em>.<br/>
-Cheers<img alt="sunglasses" src="/images/emoji/sunglasses.png" class="emoji" /></p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="2">&larr; Older</a>
@@ -1020,6 +991,10 @@ Cheers<img alt="sunglasses" src="/images/emoji/sunglasses.png" class="emoji" /><
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2014/07/31/im-hub-immigrant/">I&#8217;m a hub immigrant</a>
+      </li>
+    
+      <li class="post">
         <a href="/2014/07/28/howaitobbjie-yue-karafalsezai-qi-yue/">ホワイトBB解約からの再契約</a>
       </li>
     
@@ -1033,10 +1008,6 @@ Cheers<img alt="sunglasses" src="/images/emoji/sunglasses.png" class="emoji" /><
     
       <li class="post">
         <a href="/2014/07/02/indent-rubys-if-dot-else-assignment/">How do you indent ruby&#8217;s if..else assignment?</a>
-      </li>
-    
-      <li class="post">
-        <a href="/2014/06/30/2014nian-qian-ban-wozhen-rifan-tute/">2014年前半を振り返って</a>
       </li>
     
   </ul>

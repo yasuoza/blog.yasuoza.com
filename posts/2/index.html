@@ -19,10 +19,8 @@
   <meta name="author" content="Yasuharu Ozaki">
 
   
-  <meta name="description" content="
-経営陣の顔色ばかり気にする
-情報を公開/共有しない
-女性(特に若い女性)と男性で態度を変える ">
+  <meta name="description" content="I have two GitHub pages YasuOza&rsquo;s website
+yasuoza diary each sites are hosted by GitHub pages using custom domain. To use custom domain for &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -91,6 +89,108 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2014/05/16/multi-github-pages-with-custom-domain/">Multi GitHub pages with custom domain</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-05-16T14:31:42+00:00" pubdate data-updated="true">May 16<sup>th</sup>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>I have two GitHub pages</p>
+
+<ul>
+<li><a href="http://www.yasuoza.com/">YasuOza&rsquo;s website</a></li>
+<li><a href="http://blog.yasuoza.com/">yasuoza diary</a></li>
+</ul>
+
+
+<p>each sites are hosted by <a href="https://pages.github.com/">GitHub pages</a> using <a href="https://help.github.com/articles/setting-up-a-custom-domain-with-github-pages">custom domain</a>.</p>
+
+<p>To use custom domain for GitHub pages, create <code>CNAME</code> file and write like:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>www.yasuoza.com</span></code></pre></td></tr></table></div></figure>
+
+
+<p>With this file, you can see domain setting on Github repository > Settings > GitHub Pages like:</p>
+
+<p><img src="/images/2014/05/settings-github-pages.png"></p>
+
+<p>Next, open your DNS configure page, setup like:</p>
+
+<p><img src="/images/2014/05/githubpages-dns.png"></p>
+
+<p>Wait 1~3 hours(depend on you DNS server or environment).</p>
+
+<p>Then open teminal and type like:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>dig www.example.com +nostats +nocomments +nocmd
+</span><span class='line'><span class="p">;</span>www.example.com.                     IN      A
+</span><span class='line'>www.example.com.              3592    IN      CNAME   username.github.io.
+</span><span class='line'>username.github.io.           43192   IN      CNAME   github.map.fastly.net.
+</span><span class='line'>github.map.fastly.net.        22      IN      A       199.27.76.133
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Tips</h3>
+
+<p>If you publish <em>username</em>.github.io repository to <em>www.yoursite.com</em>, then GitHub redirects
+<em>username.github.io</em> to <em>www.yoursite.com</em>.<br/>
+However, if you publish <em>another</em> repository to <em>subdomain.yoursite.com</em>, GitHub does not redirect
+<em>www.yoursite.com/another</em> to <em>subdomain.yoursite.com</em>.<br/>
+If you want to redirect <em>www.yoursite.com/another</em> to <em>subdomain.yoursite.com</em>, you should write
+redirect JavaScript like:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>   <span class="kd">var</span> <span class="nx">GITHUB_PAGES_HOST</span> <span class="o">=</span> <span class="s1">&#39;www.yoursite.com&#39;</span><span class="p">;</span>
+</span><span class='line'>   <span class="k">if</span> <span class="p">(</span><span class="nb">document</span><span class="p">.</span><span class="nx">location</span><span class="p">.</span><span class="nx">host</span> <span class="o">===</span> <span class="nx">GITHUB_PAGES_HOST</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>       <span class="nb">document</span><span class="p">.</span><span class="nx">location</span><span class="p">.</span><span class="nx">href</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">location</span><span class="p">.</span><span class="nx">href</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="nx">GITHUB_PAGES_HOST</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">);</span>
+</span><span class='line'>   <span class="p">}</span>
+</span><span class='line'><span class="p">}());</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Then <em>www.yoursite.com/another</em> will be redirected to <em>subdomain.yoursite.com</em>.<br/>
+Cheers<img alt="sunglasses" src="/images/emoji/sunglasses.png" class="emoji" /></p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -1103,64 +1203,6 @@ for the issue.</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2013/12/13/akirameru_toiukoto/">諦めるということ</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-12-13T16:09:48+00:00" pubdate data-updated="true">Dec 13<sup>th</sup>, 2013</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>最近、諦める、年をとるということに関するブログや記事に目が行く。<br/>
-特に覚えているのは20代の頃を振り返るエンジニアの方のブログだった(記事探せなかった&hellip;)</p>
-
-<p>20代のころは若くて、出来ないエンジニアやディレクターの人にたいそう生意気な態度を取っていたが、
-30を過ぎたあたりで、周りとの協調を大事にするようになったと、そういう内容だったと思う。ちょっと違っているかも。</p>
-
-<p>先日20代の後半戦に入った俺は生意気の絶頂にいると思う。
-誰よりも技術で突出したいと思っているし、誰よりも論理的でありたいと思っている。
-それに、生まれつきのどうしよもない負けず嫌いが相伴って、仕事をしているなかで自分のいいように出来なくて、
-明らかに嫌な態度を取ることがある。</p>
-
-<p>20歳前後は、全然そんなこと無いのに、何事も自分は誰よりも考え尽くしているという自信があって、
-人の意見なんか3割位聞くと欠点がわかったりして、まるで、生きている価値ないという勢いでその人の意見を否定して生きていた。<br/>
-20代も進んでくると人の意見も聞けるようになった。自分の意見を聞いてもらいたかったら、先に人の意見を聞かないと
-ダメと先輩に教えられたことが大きな要因だったと思う。一つ丸くなったんだと思う。</p>
-
-<p>ずっと尖っていることは不可能なのだろうか。不可能ではくても、生きづらい世の中なのだろうか。<br/>
-でもきっと、ずっと尖っていることは出来ないんだろうと心のどこかで分かり始めてきている。
-2~3年で丸くなったように、これからの2~3年でも大なり小なり変わってしまうんではないかと思っている。</p>
-
-<p>それでも俺はずっと尖っていたいし、誰よりも技術的に上を目指して走り続けることを諦めたくはないと本当に思っている。</p>
-
-<p>26歳になった記念として。</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="3">&larr; Older</a>
@@ -1178,6 +1220,10 @@ for the issue.</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2014/07/31/im-hub-immigrant/">I&#8217;m a hub immigrant</a>
+      </li>
+    
+      <li class="post">
         <a href="/2014/07/28/howaitobbjie-yue-karafalsezai-qi-yue/">ホワイトBB解約からの再契約</a>
       </li>
     
@@ -1191,10 +1237,6 @@ for the issue.</p>
     
       <li class="post">
         <a href="/2014/07/02/indent-rubys-if-dot-else-assignment/">How do you indent ruby&#8217;s if..else assignment?</a>
-      </li>
-    
-      <li class="post">
-        <a href="/2014/06/30/2014nian-qian-ban-wozhen-rifan-tute/">2014年前半を振り返って</a>
       </li>
     
   </ul>

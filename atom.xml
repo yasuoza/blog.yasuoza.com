@@ -4,7 +4,7 @@
   <title><![CDATA[yasuoza diary]]></title>
   <link href="http://blog.yasuoza.com/atom.xml" rel="self"/>
   <link href="http://blog.yasuoza.com/"/>
-  <updated>2014-07-28T08:10:10+00:00</updated>
+  <updated>2014-07-31T10:29:19+00:00</updated>
   <id>http://blog.yasuoza.com/</id>
   <author>
     <name><![CDATA[Yasuharu Ozaki]]></name>
@@ -12,6 +12,53 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[I'm a hub immigrant]]></title>
+    <link href="http://blog.yasuoza.com/2014/07/31/im-hub-immigrant/"/>
+    <updated>2014-07-31T10:10:49+00:00</updated>
+    <id>http://blog.yasuoza.com/2014/07/31/im-hub-immigrant</id>
+    <content type="html"><![CDATA[<p>I&rsquo;m using GitHub for job and my code hosting.
+Especially for co-working project, PullRequest based development is very useful to maintain codes clean.</p>
+
+<p>Using git in terminal, to submit PullRequest,</p>
+
+<ul>
+<li>Push remote</li>
+<li>Open GitHub</li>
+<li>Write PR&rsquo;s description</li>
+<li>Submit</li>
+</ul>
+
+
+<p>workflow is necessaly. But with <a href="https://github.com/github/hub">hub</a>, you can submit PR within terminal only with</p>
+
+<pre><code>git pull-request
+</code></pre>
+
+<p>command.</p>
+
+<p>Those days I used Ruby based hub, but changed to use <a href="https://github.com/jingweno/gh">gh</a> Go based hub replacer because of its speed.
+And now I&rsquo;m using hub build with Go! Yes, hub is going to be developed with Go in the <a href="https://github.com/github/hub/issues/475#issuecomment-50217006">future</a>!</p>
+
+<p>To start using hub with Go,</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>git clone git@github.com:github/hub.git -b gh
+</span><span class='line'><span class="nb">cd </span>hub
+</span><span class='line'>./script/bootstrap
+</span><span class='line'>./script/build
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Then you can see executable <code>hub</code> binary at the root of the project. Copy or symlink the executable to your <code>$PATH</code>.</p>
+
+<p>Have a Happy GitHub life!</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[ホワイトBB解約からの再契約]]></title>
@@ -1422,37 +1469,6 @@ for the issue.</p>
 <li>Get access token based on the verifier</li>
 </ul>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[諦めるということ]]></title>
-    <link href="http://blog.yasuoza.com/2013/12/13/akirameru_toiukoto/"/>
-    <updated>2013-12-13T16:09:48+00:00</updated>
-    <id>http://blog.yasuoza.com/2013/12/13/akirameru_toiukoto</id>
-    <content type="html"><![CDATA[<p>最近、諦める、年をとるということに関するブログや記事に目が行く。<br/>
-特に覚えているのは20代の頃を振り返るエンジニアの方のブログだった(記事探せなかった&hellip;)</p>
-
-<p>20代のころは若くて、出来ないエンジニアやディレクターの人にたいそう生意気な態度を取っていたが、
-30を過ぎたあたりで、周りとの協調を大事にするようになったと、そういう内容だったと思う。ちょっと違っているかも。</p>
-
-<p>先日20代の後半戦に入った俺は生意気の絶頂にいると思う。
-誰よりも技術で突出したいと思っているし、誰よりも論理的でありたいと思っている。
-それに、生まれつきのどうしよもない負けず嫌いが相伴って、仕事をしているなかで自分のいいように出来なくて、
-明らかに嫌な態度を取ることがある。</p>
-
-<p>20歳前後は、全然そんなこと無いのに、何事も自分は誰よりも考え尽くしているという自信があって、
-人の意見なんか3割位聞くと欠点がわかったりして、まるで、生きている価値ないという勢いでその人の意見を否定して生きていた。<br/>
-20代も進んでくると人の意見も聞けるようになった。自分の意見を聞いてもらいたかったら、先に人の意見を聞かないと
-ダメと先輩に教えられたことが大きな要因だったと思う。一つ丸くなったんだと思う。</p>
-
-<p>ずっと尖っていることは不可能なのだろうか。不可能ではくても、生きづらい世の中なのだろうか。<br/>
-でもきっと、ずっと尖っていることは出来ないんだろうと心のどこかで分かり始めてきている。
-2~3年で丸くなったように、これからの2~3年でも大なり小なり変わってしまうんではないかと思っている。</p>
-
-<p>それでも俺はずっと尖っていたいし、誰よりも技術的に上を目指して走り続けることを諦めたくはないと本当に思っている。</p>
-
-<p>26歳になった記念として。</p>
 ]]></content>
   </entry>
   
