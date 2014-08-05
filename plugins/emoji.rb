@@ -27,6 +27,8 @@ module Jekyll
       return false if !content
 
       config = @context.registers[:site].config
+      return if config['emoji_dir'].nil?
+
       if config['emoji_dir']
         if config['emoji_dir'].start_with?('http')
           emoji_dir = config['emoji_dir']
@@ -36,8 +38,8 @@ module Jekyll
       end
 
       content.to_str.gsub(/:([a-z0-9\+\-_]+):/) do |match|
-        if Emoji.find_by_alias($1) { false } and emoji_dir
-          '<img alt="' + $1 + '" src="' + emoji_dir + "/#{$1}.png" + '" class="emoji" />'
+        if emoji_dir && emoji = Emoji.find_by_alias($1) { false }
+          %Q(<img alt="#{$1}" src="#{emoji_dir}/#{emoji.image_filename}" class="emoji" />)
         else
           match
         end
@@ -58,8 +60,8 @@ module Jekyll
       FileUtils.mkdir_p(emoji_dir)
 
       # Copy Gemoji files
-      Dir["#{Emoji.images_path}/emoji/*.png"].each do |src|
-        FileUtils.cp src, emoji_dir
+      Dir["#{Emoji.images_path}/emoji/*"].each do |src|
+        FileUtils.cp_r src, emoji_dir
       end
     end
   end
