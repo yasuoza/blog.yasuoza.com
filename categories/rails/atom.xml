@@ -4,7 +4,7 @@
   <title><![CDATA[Category: rails | yasuoza diary]]></title>
   <link href="http://blog.yasuoza.com//categories/rails/atom.xml" rel="self"/>
   <link href="http://blog.yasuoza.com/"/>
-  <updated>2014-07-31T10:29:19+00:00</updated>
+  <updated>2014-08-05T07:43:24+00:00</updated>
   <id>http://blog.yasuoza.com/</id>
   <author>
     <name><![CDATA[Yasuharu Ozaki]]></name>
@@ -106,12 +106,12 @@ end
 </code></pre>
 
 <p>検索します。
-```
+&#8220;`
 $ rails c</p>
 
 <blockquote><p>Entry.where(&ldquo;match(body) against(&lsquo;hello&rsquo;)&rdquo;)
 [<Entry id: 1, text: "hello world">
-```</p></blockquote>
+&#8220;`</p></blockquote>
 
 <p>モデルにはスコープを使って</p>
 
@@ -150,7 +150,7 @@ end
 </code></p>
 
 <p>lib/tasks/override_db_test_prepare.rbを作成
-```ruby
+&#8220;`ruby
 Rake.application.remove_task &lsquo;db:test:prepare&rsquo;</p>
 
 <p>namespace :db do
@@ -158,7 +158,7 @@ Rake.application.remove_task &lsquo;db:test:prepare&rsquo;</p>
     task :prepare do; end
   end
 end
-```</p>
+&#8220;`</p>
 
 <p>これでrake db:test:prepareで何も処理されないようにすることで<code>db/schema.rb</code>の内容でテスト用DBが上書きされずに済むようになります。</p>
 
@@ -191,7 +191,7 @@ end
 </code></p>
 
 <p>コールバックは次のクラスで受け取ります。
-```ruby
+&#8220;`ruby
 class OmniauthCallbacksController &lt; Devise::OmniauthCallbacksController</p>
 
 <p>  def facebook
@@ -200,11 +200,11 @@ class OmniauthCallbacksController &lt; Devise::OmniauthCallbacksController</p>
   end</p>
 
 <p>end
-```</p>
+&#8220;`</p>
 
 <p>それで例えば、/users以下を閲覧するときには認証をかけたいっていうことが往々にしてあると思います。
 それは
-```ruby
+&#8220;`ruby
 class UsersController &lt; ApplicationController
   before_filter :authenticate_user!</p>
 
@@ -212,7 +212,7 @@ class UsersController &lt; ApplicationController
     @user = current_user
   end
 end
-```
+&#8220;`
 のようにしてbefore_filter噛ませてあげると簡単ですが、このままだとユーザが直接/users/:idページを叩いた時にfacebookログインが行われず、基本設定のままだと、ルートにリダイレクトされます。</p>
 
 <p>これを/users/:idページを直接叩いたときは直でfacebookログインにリダイレクトさせて、callbackを受け取った時にもともとリクエストされた/users/:idにリダイレクトさせるには次のように設定します。</p>
@@ -235,7 +235,7 @@ end
 <p>これでdeviseの内部実装のちからを借りて<code>sign_in_and_redirect_to @user</code>をした時に元のリクエストURLにリダイレクトされます。</p>
 
 <p>devise自体はそんなに難しいことをしていないので、内部実装を覗くとlib/devise/controllers/helpers.rbの次の2つの関数で<code>session[:user_return_to]</code>からリダイレクト先を取得していることがわかります。
-```ruby
+&#8220;`ruby
 def stored_location_for(resource_or_scope)
   scope = Devise::Mapping.find_scope!(resource_or_scope)
   session.delete(&ldquo;#{scope}_return_to&rdquo;)
@@ -244,7 +244,7 @@ end</p>
 <p>def after_sign_in_path_for(resource_or_scope)
   stored_location_for(resource_or_scope) || signed_in_root_path(resource_or_scope)
 end
-```</p>
+&#8220;`</p>
 
 <p>Railsはとても素敵で便利なフレームワークだと思います！Rubyもすごく素敵な言語だなと思います！</p>
 ]]></content>

@@ -4,7 +4,7 @@
   <title><![CDATA[Category: mroonga | yasuoza diary]]></title>
   <link href="http://blog.yasuoza.com//categories/mroonga/atom.xml" rel="self"/>
   <link href="http://blog.yasuoza.com/"/>
-  <updated>2014-07-31T10:29:19+00:00</updated>
+  <updated>2014-08-05T07:43:24+00:00</updated>
   <id>http://blog.yasuoza.com/</id>
   <author>
     <name><![CDATA[Yasuharu Ozaki]]></name>
@@ -65,12 +65,12 @@ end
 </code></pre>
 
 <p>検索します。
-```
+&#8220;`
 $ rails c</p>
 
 <blockquote><p>Entry.where(&ldquo;match(body) against(&lsquo;hello&rsquo;)&rdquo;)
 [<Entry id: 1, text: "hello world">
-```</p></blockquote>
+&#8220;`</p></blockquote>
 
 <p>モデルにはスコープを使って</p>
 
@@ -109,7 +109,7 @@ end
 </code></p>
 
 <p>lib/tasks/override_db_test_prepare.rbを作成
-```ruby
+&#8220;`ruby
 Rake.application.remove_task &lsquo;db:test:prepare&rsquo;</p>
 
 <p>namespace :db do
@@ -117,7 +117,7 @@ Rake.application.remove_task &lsquo;db:test:prepare&rsquo;</p>
     task :prepare do; end
   end
 end
-```</p>
+&#8220;`</p>
 
 <p>これでrake db:test:prepareで何も処理されないようにすることで<code>db/schema.rb</code>の内容でテスト用DBが上書きされずに済むようになります。</p>
 
