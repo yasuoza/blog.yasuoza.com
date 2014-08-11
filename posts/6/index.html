@@ -19,7 +19,9 @@
   <meta name="author" content="Yasuharu Ozaki">
 
   
-  <meta name="description" content="背景 Macのキーレスポンスはデフォルトだとかなり丁寧で、むしろ重く感じる時のほうが多くプログラミングをしているときにイライラする時が結構ありました。 そんな折、前に参加した勉強会でKeyRemap4MacBookを使ってキーレスポンスを上げるとかなり捗るよっていうのを教えてもらったので、 &hellip;">
+  <meta name="description" content="facebookやツイッターのソーシャルボタンをサイトに置くことが多くなってきています。
+特にサイトのトップページや、ニューストップページには記事の見出しごとにソーシャルボタンを配置したりして、
+かなりページの読み込みが遅くなってしまっているページを良く見かけます。 そこで、 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -88,6 +90,69 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2012/07/01/lazy-social-butto/">非同期ソーシャルボタン</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-07-01T00:00:00+00:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>facebookやツイッターのソーシャルボタンをサイトに置くことが多くなってきています。
+特にサイトのトップページや、ニューストップページには記事の見出しごとにソーシャルボタンを配置したりして、
+かなりページの読み込みが遅くなってしまっているページを良く見かけます。</p>
+
+
+
+
+<p>そこで、初期のページ読み込み時にはソーシャルボタンは読み込まず、ユーザがソーシャルボタンを押す動作を
+した時に非同期でソーシャルボタンを読み込むようにするjQueryのスニペットを書きました。</p>
+
+
+
+
+<p>デモは次のページで見ることができます。
+<a href="http://www.yasuoza.com/jq_plugin/lazy_sb/" target="_blank">Demo</a></p>
+
+
+
+
+<p>詳しくはgistを参照して下さい。
+<a href="https://gist.github.com/3027177" target="_blank">Lazy share button (jQuery plugin)</a></p>
+
+
+
+
+<p>基本的にはTechCrunchのコードを参考にしましたが、最適化を施したり、はてなブックマークにも対応しました。
+良ければ使って下さい。</p>
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -757,6 +822,10 @@ Macの画面共有が便利とか、vim勉強しようとか。</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2014/08/04/octopress-heart-emoji/">Octopress :heart: Emoji</a>
+      </li>
+    
+      <li class="post">
         <a href="/2014/07/31/im-hub-immigrant/">I&#8217;m a hub immigrant</a>
       </li>
     
@@ -770,10 +839,6 @@ Macの画面共有が便利とか、vim勉強しようとか。</p>
     
       <li class="post">
         <a href="/2014/07/04/neobundlelazy-vimfiler/">NeoBundleLazy &#8216;VimFiler&#8217;</a>
-      </li>
-    
-      <li class="post">
-        <a href="/2014/07/02/indent-rubys-if-dot-else-assignment/">How do you indent ruby&#8217;s if..else assignment?</a>
       </li>
     
   </ul>

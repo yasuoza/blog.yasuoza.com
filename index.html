@@ -19,8 +19,9 @@
   <meta name="author" content="Yasuharu Ozaki">
 
   
-  <meta name="description" content="I&rsquo;m using GitHub for job and my code hosting.
-Especially for co-working project, PullRequest based development is very useful to maintain codes &hellip;">
+  <meta name="description" content="Do you like Emoji? I do. If you want to use emoji in octopress, follow the steps. First, add &lsquo;gemoji&rsquo; to development dependencies. 1
+2
+3 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -89,6 +90,259 @@ Especially for co-working project, PullRequest based development is very useful 
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2014/08/04/octopress-heart-emoji/">Octopress <img alt="heart" src="/images/emoji/unicode/2764-fe0f.png" class="emoji" /> Emoji</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-08-04T11:33:44+00:00" pubdate data-updated="true">Aug 4<sup>th</sup>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Do you like Emoji? I do.</p>
+
+<p>If you want to use emoji in octopress, follow the steps.</p>
+
+<p>First, add &lsquo;gemoji&rsquo; to development dependencies.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">group</span> <span class="ss">:development</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;gemoji&#39;</span><span class="p">,</span> <span class="s1">&#39;~&gt; 2.0.0&#39;</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Then open <code>_config.yml</code> and define <code>emoji_dir</code>.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='diff'><span class='line'><span class="gh">diff --git a/_config.yml b/_config.yml</span>
+</span><span class='line'><span class="gh">index 21b236a..b1136d3 100644</span>
+</span><span class='line'><span class="gd">--- a/_config.yml</span>
+</span><span class='line'><span class="gi">+++ b/_config.yml</span>
+</span><span class='line'><span class="gu">@@ -33,6 +33,7 @@ destination: public</span>
+</span><span class='line'> plugins: plugins
+</span><span class='line'> code_dir: downloads/code
+</span><span class='line'> category_dir: /categories
+</span><span class='line'><span class="gi">+emoji_dir: images/emoji</span>
+</span><span class='line'> markdown: rdiscount
+</span><span class='line'> rdiscount:
+</span><span class='line'>   extensions:
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Create <code>emoji.rb</code> in plugins directory with following content.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># Jekyll Emoji</span>
+</span><span class='line'><span class="c1">#</span>
+</span><span class='line'><span class="c1"># Originally developed by</span>
+</span><span class='line'><span class="c1"># Chris Kempson (http://chriskempson.com)</span>
+</span><span class='line'><span class="c1"># https://github.com/chriskempson/jekyll-emoji</span>
+</span><span class='line'><span class="c1">#</span>
+</span><span class='line'><span class="c1"># A jekyll plug-in that provides a Liquid filter for emojifying text with</span>
+</span><span class='line'><span class="c1"># https://github.com/github/gemoji. See http://www.emoji-cheat-sheet.com for</span>
+</span><span class='line'><span class="c1"># a full listing of emoji codes.</span>
+</span><span class='line'><span class="c1">#</span>
+</span><span class='line'><span class="c1"># Installation:</span>
+</span><span class='line'><span class="c1">#   - Run `gem install gemoji` or add `gem &#39;gemoji&#39;` to your gemfile and run `bundle install`</span>
+</span><span class='line'><span class="c1">#   - Copy this file to your `_plugins` directory</span>
+</span><span class='line'><span class="c1">#   - Add a line like `emoji_dir: images/emoji` to your `_config.yml`</span>
+</span><span class='line'><span class="c1">#   - If you want to use external source for emoji, set `emoji_dir: http://...` to your `_config.yml`.</span>
+</span><span class='line'><span class="c1">#</span>
+</span><span class='line'><span class="c1"># Usage:</span>
+</span><span class='line'><span class="c1">#   - Apply the filter wherever needed e.g. false</span>
+</span><span class='line'><span class="c1">#   - Add some emoji to your article! e.g. &quot;Hello <img alt="wink" src="/images/emoji/unicode/1f609.png" class="emoji" />&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;gemoji&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">module</span> <span class="nn">Jekyll</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">module</span> <span class="nn">EmojiFilter</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">def</span> <span class="nf">emojify</span><span class="p">(</span><span class="n">content</span><span class="p">)</span>
+</span><span class='line'>      <span class="k">return</span> <span class="kp">false</span> <span class="k">if</span> <span class="o">!</span><span class="n">content</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="n">config</span> <span class="o">=</span> <span class="vi">@context</span><span class="o">.</span><span class="n">registers</span><span class="o">[</span><span class="ss">:site</span><span class="o">].</span><span class="n">config</span>
+</span><span class='line'>      <span class="k">return</span> <span class="k">if</span> <span class="n">config</span><span class="o">[</span><span class="s1">&#39;emoji_dir&#39;</span><span class="o">].</span><span class="n">nil?</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="k">if</span> <span class="n">config</span><span class="o">[</span><span class="s1">&#39;emoji_dir&#39;</span><span class="o">]</span>
+</span><span class='line'>        <span class="k">if</span> <span class="n">config</span><span class="o">[</span><span class="s1">&#39;emoji_dir&#39;</span><span class="o">].</span><span class="n">start_with?</span><span class="p">(</span><span class="s1">&#39;http&#39;</span><span class="p">)</span>
+</span><span class='line'>          <span class="n">emoji_dir</span> <span class="o">=</span> <span class="n">config</span><span class="o">[</span><span class="s1">&#39;emoji_dir&#39;</span><span class="o">]</span>
+</span><span class='line'>        <span class="k">else</span>
+</span><span class='line'>          <span class="n">emoji_dir</span> <span class="o">=</span> <span class="s1">&#39;/&#39;</span> <span class="o">+</span> <span class="no">File</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">config</span><span class="o">[</span><span class="s1">&#39;emoji_dir&#39;</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>        <span class="k">end</span>
+</span><span class='line'>      <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="n">content</span><span class="o">.</span><span class="n">to_str</span><span class="o">.</span><span class="n">gsub</span><span class="p">(</span><span class="sr">/:([a-z0-9\+\-_]+):/</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">match</span><span class="o">|</span>
+</span><span class='line'>        <span class="k">if</span> <span class="n">emoji_dir</span> <span class="o">&amp;&amp;</span> <span class="n">emoji</span> <span class="o">=</span> <span class="no">Emoji</span><span class="o">.</span><span class="n">find_by_alias</span><span class="p">(</span><span class="vg">$1</span><span class="p">)</span> <span class="p">{</span> <span class="kp">false</span> <span class="p">}</span>
+</span><span class='line'>          <span class="sx">%Q(&lt;img alt=&quot;</span><span class="si">#{</span><span class="vg">$1</span><span class="si">}</span><span class="sx">&quot; src=&quot;</span><span class="si">#{</span><span class="n">emoji_dir</span><span class="si">}</span><span class="sx">/</span><span class="si">#{</span><span class="n">emoji</span><span class="o">.</span><span class="n">image_filename</span><span class="si">}</span><span class="sx">&quot; class=&quot;emoji&quot; /&gt;)</span>
+</span><span class='line'>        <span class="k">else</span>
+</span><span class='line'>          <span class="n">match</span>
+</span><span class='line'>        <span class="k">end</span>
+</span><span class='line'>      <span class="k">end</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">class</span> <span class="nc">EmojiGenerator</span> <span class="o">&lt;</span> <span class="no">Generator</span>
+</span><span class='line'>    <span class="k">def</span> <span class="nf">generate</span><span class="p">(</span><span class="n">site</span><span class="p">)</span>
+</span><span class='line'>      <span class="n">config</span> <span class="o">=</span> <span class="n">site</span><span class="o">.</span><span class="n">config</span>
+</span><span class='line'>      <span class="k">return</span> <span class="kp">false</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">config</span><span class="o">[</span><span class="s1">&#39;emoji_dir&#39;</span><span class="o">]</span>
+</span><span class='line'>      <span class="k">return</span> <span class="kp">false</span> <span class="k">if</span> <span class="n">config</span><span class="o">[</span><span class="s1">&#39;emoji_dir&#39;</span><span class="o">].</span><span class="n">start_with?</span><span class="p">(</span><span class="s1">&#39;http&#39;</span><span class="p">)</span>
+</span><span class='line'>      <span class="n">emoji_dir</span> <span class="o">=</span> <span class="no">File</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">config</span><span class="o">[</span><span class="s1">&#39;source&#39;</span><span class="o">]</span><span class="p">,</span> <span class="n">config</span><span class="o">[</span><span class="s1">&#39;emoji_dir&#39;</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>      <span class="k">return</span> <span class="kp">false</span> <span class="k">if</span> <span class="no">File</span><span class="o">.</span><span class="n">exist?</span><span class="p">(</span><span class="n">emoji_dir</span> <span class="o">+</span> <span class="s1">&#39;/smiley.png&#39;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="c1"># Make Emoji directory</span>
+</span><span class='line'>      <span class="no">FileUtils</span><span class="o">.</span><span class="n">mkdir_p</span><span class="p">(</span><span class="n">emoji_dir</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="c1"># Copy Gemoji files</span>
+</span><span class='line'>      <span class="no">Dir</span><span class="o">[</span><span class="s2">&quot;</span><span class="si">#{</span><span class="no">Emoji</span><span class="o">.</span><span class="n">images_path</span><span class="si">}</span><span class="s2">/emoji/*&quot;</span><span class="o">].</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">src</span><span class="o">|</span>
+</span><span class='line'>        <span class="no">FileUtils</span><span class="o">.</span><span class="n">cp_r</span> <span class="n">src</span><span class="p">,</span> <span class="n">emoji_dir</span>
+</span><span class='line'>      <span class="k">end</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="no">Liquid</span><span class="o">::</span><span class="no">Template</span><span class="o">.</span><span class="n">register_filter</span><span class="p">(</span><span class="no">Jekyll</span><span class="o">::</span><span class="no">EmojiFilter</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Next open <code>sass/custom/_styles.scss</code> and add</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='sass'><span class='line'><span class="nc">.emoji</span> <span class="err">{</span>
+</span><span class='line'>  <span class="na">box-shadow</span><span class="o">:</span> <span class="no">none</span><span class="err">;</span>
+</span><span class='line'>  <span class="na">border</span><span class="o">:</span> <span class="mi">0</span><span class="err">;</span>
+</span><span class='line'>  <span class="na">height</span><span class="o">:</span> <span class="mi">20</span><span class="kt">px</span><span class="err">;</span>
+</span><span class='line'>  <span class="na">margin-bottom</span><span class="o">:</span> <span class="mi">5</span><span class="kt">px</span><span class="err">;</span>
+</span><span class='line'>  <span class="na">vertical-align</span><span class="o">:</span> <span class="no">middle</span><span class="err">;</span>
+</span><span class='line'><span class="err">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Finally edit <code>source/_includes/article.html</code> and <code>emojify</code> your content like</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">&lt;</span><span class="n">div</span> <span class="n">class</span><span class="o">=</span><span class="s2">&quot;entry-content&quot;</span><span class="o">&gt;</span><span class="p">{{</span> <span class="n">content</span> <span class="o">|</span> <span class="n">excerpt</span> <span class="o">|</span> <span class="n">emojify</span> <span class="p">}}</span><span class="o">&lt;</span><span class="sr">/div&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Done! You can use emoji now! Enjoy!<img alt="sunglasses" src="/images/emoji/unicode/1f60e.png" class="emoji" /><img alt="sunglasses" src="/images/emoji/unicode/1f60e.png" class="emoji" /><img alt="sunglasses" src="/images/emoji/unicode/1f60e.png" class="emoji" /></p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -869,113 +1123,6 @@ I think this discussion has no goal, but I think having many options is one of t
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2014/05/28/stub-sharedmanager-with-ocmock/">Stub sharedManager with OCMock</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-05-28T13:29:24+00:00" pubdate data-updated="true">May 28<sup>th</sup>, 2014</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>If you are iOS/Mac developer, you may have written singleton like following convention:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">static</span> <span class="n">UserModelManager</span> <span class="o">*</span><span class="n">sharedManager_</span> <span class="o">=</span> <span class="nb">nil</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">+</span> <span class="p">(</span><span class="n">UserModelManager</span> <span class="o">*</span><span class="p">)</span><span class="nf">sharedManager</span> <span class="p">{</span>
-</span><span class='line'>    <span class="k">static</span> <span class="kt">dispatch_once_t</span> <span class="n">onceToken</span><span class="p">;</span>
-</span><span class='line'>    <span class="n">dispatch_once</span><span class="p">(</span><span class="o">&amp;</span><span class="n">onceToken</span><span class="p">,</span> <span class="o">^</span><span class="p">{</span>
-</span><span class='line'>        <span class="n">sharedManager_</span> <span class="o">=</span> <span class="p">[[</span><span class="n">UserModelManager</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
-</span><span class='line'>    <span class="p">});</span>
-</span><span class='line'>    <span class="k">return</span> <span class="n">sharedManager_</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>If <code>UserModelManager</code> has <code>secretKey</code> instance method like:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">-</span> <span class="p">(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nf">secretKey</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="k">return</span> <span class="s">&quot;secret key provided from server side&quot;</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Then you can call <code>secretkey</code> method via</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="p">[[</span><span class="n">UserModelManager</span> <span class="n">sharedManager</span><span class="p">]</span> <span class="n">secretkey</span><span class="p">];</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>It&rsquo;s OK until you have to stub <code>secretKey</code> in a test.</p>
-
-<p>The solution to stub <code>sharedManager</code> and <code>secretkey</code> is:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">_mockUserModelManager</span> <span class="o">=</span> <span class="p">[</span><span class="n">OCMockObject</span> <span class="n">niceMockForClass</span><span class="o">:</span><span class="p">[</span><span class="n">UserModelManager</span> <span class="n">class</span><span class="p">]];</span>
-</span><span class='line'><span class="p">[[[</span><span class="n">_mockUserModelManager</span> <span class="n">stub</span><span class="p">]</span> <span class="n">andReturn</span><span class="o">:</span><span class="s">@&quot;test-key&quot;</span><span class="p">]</span> <span class="n">secretkey</span><span class="p">];</span>
-</span><span class='line'><span class="p">[[[[</span><span class="n">_mockUserModelManager</span> <span class="n">stub</span><span class="p">]</span> <span class="n">classMethod</span><span class="p">]</span> <span class="n">andReturn</span><span class="o">:</span><span class="n">_mockUserModelManager</span><span class="p">]</span> <span class="n">sharedManager</span><span class="p">];</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>To clean up your stub methods, DO NOT forget <code>stopMocking</code> in <code>tearDown</code>.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">tearDown</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>  <span class="p">[</span><span class="n">super</span> <span class="n">tearDown</span><span class="p">];</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="p">[</span><span class="n">_mockUserModelManager</span> <span class="n">stopMocking</span><span class="p">];</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/2">&larr; Older</a>
@@ -991,6 +1138,10 @@ I think this discussion has no goal, but I think having many options is one of t
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2014/08/04/octopress-heart-emoji/">Octopress :heart: Emoji</a>
+      </li>
+    
+      <li class="post">
         <a href="/2014/07/31/im-hub-immigrant/">I&#8217;m a hub immigrant</a>
       </li>
     
@@ -1004,10 +1155,6 @@ I think this discussion has no goal, but I think having many options is one of t
     
       <li class="post">
         <a href="/2014/07/04/neobundlelazy-vimfiler/">NeoBundleLazy &#8216;VimFiler&#8217;</a>
-      </li>
-    
-      <li class="post">
-        <a href="/2014/07/02/indent-rubys-if-dot-else-assignment/">How do you indent ruby&#8217;s if..else assignment?</a>
       </li>
     
   </ul>

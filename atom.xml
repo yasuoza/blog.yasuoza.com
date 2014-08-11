@@ -4,7 +4,7 @@
   <title><![CDATA[yasuoza diary]]></title>
   <link href="http://blog.yasuoza.com/atom.xml" rel="self"/>
   <link href="http://blog.yasuoza.com/"/>
-  <updated>2014-08-08T06:32:00+00:00</updated>
+  <updated>2014-08-11T04:39:12+00:00</updated>
   <id>http://blog.yasuoza.com/</id>
   <author>
     <name><![CDATA[Yasuharu Ozaki]]></name>
@@ -12,6 +12,232 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Octopress :heart: Emoji]]></title>
+    <link href="http://blog.yasuoza.com/2014/08/04/octopress-heart-emoji/"/>
+    <updated>2014-08-04T11:33:44+00:00</updated>
+    <id>http://blog.yasuoza.com/2014/08/04/octopress-heart-emoji</id>
+    <content type="html"><![CDATA[<p>Do you like Emoji? I do.</p>
+
+<p>If you want to use emoji in octopress, follow the steps.</p>
+
+<p>First, add &lsquo;gemoji&rsquo; to development dependencies.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">group</span> <span class="ss">:development</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;gemoji&#39;</span><span class="p">,</span> <span class="s1">&#39;~&gt; 2.0.0&#39;</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Then open <code>_config.yml</code> and define <code>emoji_dir</code>.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='diff'><span class='line'><span class="gh">diff --git a/_config.yml b/_config.yml</span>
+</span><span class='line'><span class="gh">index 21b236a..b1136d3 100644</span>
+</span><span class='line'><span class="gd">--- a/_config.yml</span>
+</span><span class='line'><span class="gi">+++ b/_config.yml</span>
+</span><span class='line'><span class="gu">@@ -33,6 +33,7 @@ destination: public</span>
+</span><span class='line'> plugins: plugins
+</span><span class='line'> code_dir: downloads/code
+</span><span class='line'> category_dir: /categories
+</span><span class='line'><span class="gi">+emoji_dir: images/emoji</span>
+</span><span class='line'> markdown: rdiscount
+</span><span class='line'> rdiscount:
+</span><span class='line'>   extensions:
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Create <code>emoji.rb</code> in plugins directory with following content.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># Jekyll Emoji</span>
+</span><span class='line'><span class="c1">#</span>
+</span><span class='line'><span class="c1"># Originally developed by</span>
+</span><span class='line'><span class="c1"># Chris Kempson (http://chriskempson.com)</span>
+</span><span class='line'><span class="c1"># https://github.com/chriskempson/jekyll-emoji</span>
+</span><span class='line'><span class="c1">#</span>
+</span><span class='line'><span class="c1"># A jekyll plug-in that provides a Liquid filter for emojifying text with</span>
+</span><span class='line'><span class="c1"># https://github.com/github/gemoji. See http://www.emoji-cheat-sheet.com for</span>
+</span><span class='line'><span class="c1"># a full listing of emoji codes.</span>
+</span><span class='line'><span class="c1">#</span>
+</span><span class='line'><span class="c1"># Installation:</span>
+</span><span class='line'><span class="c1">#   - Run `gem install gemoji` or add `gem &#39;gemoji&#39;` to your gemfile and run `bundle install`</span>
+</span><span class='line'><span class="c1">#   - Copy this file to your `_plugins` directory</span>
+</span><span class='line'><span class="c1">#   - Add a line like `emoji_dir: images/emoji` to your `_config.yml`</span>
+</span><span class='line'><span class="c1">#   - If you want to use external source for emoji, set `emoji_dir: http://...` to your `_config.yml`.</span>
+</span><span class='line'><span class="c1">#</span>
+</span><span class='line'><span class="c1"># Usage:</span>
+</span><span class='line'><span class="c1">#   - Apply the filter wherever needed e.g. false</span>
+</span><span class='line'><span class="c1">#   - Add some emoji to your article! e.g. &quot;Hello :wink:&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;gemoji&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">module</span> <span class="nn">Jekyll</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">module</span> <span class="nn">EmojiFilter</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">def</span> <span class="nf">emojify</span><span class="p">(</span><span class="n">content</span><span class="p">)</span>
+</span><span class='line'>      <span class="k">return</span> <span class="kp">false</span> <span class="k">if</span> <span class="o">!</span><span class="n">content</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="n">config</span> <span class="o">=</span> <span class="vi">@context</span><span class="o">.</span><span class="n">registers</span><span class="o">[</span><span class="ss">:site</span><span class="o">].</span><span class="n">config</span>
+</span><span class='line'>      <span class="k">return</span> <span class="k">if</span> <span class="n">config</span><span class="o">[</span><span class="s1">&#39;emoji_dir&#39;</span><span class="o">].</span><span class="n">nil?</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="k">if</span> <span class="n">config</span><span class="o">[</span><span class="s1">&#39;emoji_dir&#39;</span><span class="o">]</span>
+</span><span class='line'>        <span class="k">if</span> <span class="n">config</span><span class="o">[</span><span class="s1">&#39;emoji_dir&#39;</span><span class="o">].</span><span class="n">start_with?</span><span class="p">(</span><span class="s1">&#39;http&#39;</span><span class="p">)</span>
+</span><span class='line'>          <span class="n">emoji_dir</span> <span class="o">=</span> <span class="n">config</span><span class="o">[</span><span class="s1">&#39;emoji_dir&#39;</span><span class="o">]</span>
+</span><span class='line'>        <span class="k">else</span>
+</span><span class='line'>          <span class="n">emoji_dir</span> <span class="o">=</span> <span class="s1">&#39;/&#39;</span> <span class="o">+</span> <span class="no">File</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">config</span><span class="o">[</span><span class="s1">&#39;emoji_dir&#39;</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>        <span class="k">end</span>
+</span><span class='line'>      <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="n">content</span><span class="o">.</span><span class="n">to_str</span><span class="o">.</span><span class="n">gsub</span><span class="p">(</span><span class="sr">/:([a-z0-9\+\-_]+):/</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">match</span><span class="o">|</span>
+</span><span class='line'>        <span class="k">if</span> <span class="n">emoji_dir</span> <span class="o">&amp;&amp;</span> <span class="n">emoji</span> <span class="o">=</span> <span class="no">Emoji</span><span class="o">.</span><span class="n">find_by_alias</span><span class="p">(</span><span class="vg">$1</span><span class="p">)</span> <span class="p">{</span> <span class="kp">false</span> <span class="p">}</span>
+</span><span class='line'>          <span class="sx">%Q(&lt;img alt=&quot;</span><span class="si">#{</span><span class="vg">$1</span><span class="si">}</span><span class="sx">&quot; src=&quot;</span><span class="si">#{</span><span class="n">emoji_dir</span><span class="si">}</span><span class="sx">/</span><span class="si">#{</span><span class="n">emoji</span><span class="o">.</span><span class="n">image_filename</span><span class="si">}</span><span class="sx">&quot; class=&quot;emoji&quot; /&gt;)</span>
+</span><span class='line'>        <span class="k">else</span>
+</span><span class='line'>          <span class="n">match</span>
+</span><span class='line'>        <span class="k">end</span>
+</span><span class='line'>      <span class="k">end</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">class</span> <span class="nc">EmojiGenerator</span> <span class="o">&lt;</span> <span class="no">Generator</span>
+</span><span class='line'>    <span class="k">def</span> <span class="nf">generate</span><span class="p">(</span><span class="n">site</span><span class="p">)</span>
+</span><span class='line'>      <span class="n">config</span> <span class="o">=</span> <span class="n">site</span><span class="o">.</span><span class="n">config</span>
+</span><span class='line'>      <span class="k">return</span> <span class="kp">false</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">config</span><span class="o">[</span><span class="s1">&#39;emoji_dir&#39;</span><span class="o">]</span>
+</span><span class='line'>      <span class="k">return</span> <span class="kp">false</span> <span class="k">if</span> <span class="n">config</span><span class="o">[</span><span class="s1">&#39;emoji_dir&#39;</span><span class="o">].</span><span class="n">start_with?</span><span class="p">(</span><span class="s1">&#39;http&#39;</span><span class="p">)</span>
+</span><span class='line'>      <span class="n">emoji_dir</span> <span class="o">=</span> <span class="no">File</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">config</span><span class="o">[</span><span class="s1">&#39;source&#39;</span><span class="o">]</span><span class="p">,</span> <span class="n">config</span><span class="o">[</span><span class="s1">&#39;emoji_dir&#39;</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>      <span class="k">return</span> <span class="kp">false</span> <span class="k">if</span> <span class="no">File</span><span class="o">.</span><span class="n">exist?</span><span class="p">(</span><span class="n">emoji_dir</span> <span class="o">+</span> <span class="s1">&#39;/smiley.png&#39;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="c1"># Make Emoji directory</span>
+</span><span class='line'>      <span class="no">FileUtils</span><span class="o">.</span><span class="n">mkdir_p</span><span class="p">(</span><span class="n">emoji_dir</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="c1"># Copy Gemoji files</span>
+</span><span class='line'>      <span class="no">Dir</span><span class="o">[</span><span class="s2">&quot;</span><span class="si">#{</span><span class="no">Emoji</span><span class="o">.</span><span class="n">images_path</span><span class="si">}</span><span class="s2">/emoji/*&quot;</span><span class="o">].</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">src</span><span class="o">|</span>
+</span><span class='line'>        <span class="no">FileUtils</span><span class="o">.</span><span class="n">cp_r</span> <span class="n">src</span><span class="p">,</span> <span class="n">emoji_dir</span>
+</span><span class='line'>      <span class="k">end</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="no">Liquid</span><span class="o">::</span><span class="no">Template</span><span class="o">.</span><span class="n">register_filter</span><span class="p">(</span><span class="no">Jekyll</span><span class="o">::</span><span class="no">EmojiFilter</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Next open <code>sass/custom/_styles.scss</code> and add</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='sass'><span class='line'><span class="nc">.emoji</span> <span class="err">{</span>
+</span><span class='line'>  <span class="na">box-shadow</span><span class="o">:</span> <span class="no">none</span><span class="err">;</span>
+</span><span class='line'>  <span class="na">border</span><span class="o">:</span> <span class="mi">0</span><span class="err">;</span>
+</span><span class='line'>  <span class="na">height</span><span class="o">:</span> <span class="mi">20</span><span class="kt">px</span><span class="err">;</span>
+</span><span class='line'>  <span class="na">margin-bottom</span><span class="o">:</span> <span class="mi">5</span><span class="kt">px</span><span class="err">;</span>
+</span><span class='line'>  <span class="na">vertical-align</span><span class="o">:</span> <span class="no">middle</span><span class="err">;</span>
+</span><span class='line'><span class="err">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Finally edit <code>source/_includes/article.html</code> and <code>emojify</code> your content like</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">&lt;</span><span class="n">div</span> <span class="n">class</span><span class="o">=</span><span class="s2">&quot;entry-content&quot;</span><span class="o">&gt;</span><span class="p">{{</span> <span class="n">content</span> <span class="o">|</span> <span class="n">excerpt</span> <span class="o">|</span> <span class="n">emojify</span> <span class="p">}}</span><span class="o">&lt;</span><span class="sr">/div&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Done! You can use emoji now! Enjoy!:sunglasses::sunglasses::sunglasses:</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[I'm a hub immigrant]]></title>
@@ -1169,306 +1395,6 @@ for the issue.</p>
 
 
 <p>年末年始はdockerで遊ぶ予定です。dockerを利用してちょっと作りたいものがあるので、ちょっと実験してみます。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[scribe-java in Android]]></title>
-    <link href="http://blog.yasuoza.com/2013/12/16/scribe-java-in-android/"/>
-    <updated>2013-12-16T07:04:52+00:00</updated>
-    <id>http://blog.yasuoza.com/2013/12/16/scribe-java-in-android</id>
-    <content type="html"><![CDATA[<p>Famous OAuth libraries for Android are</p>
-
-<ul>
-<li><a href="https://code.google.com/p/oauth-signpost/">oauth-signpost</a></li>
-<li><a href="https://github.com/fernandezpablo85/scribe-java">scribe-java</a></li>
-</ul>
-
-
-<p>There are entries about how to make OAuth authentication using oauth-signpost but I could not find any example using scribe-java, even though it is said</p>
-
-<blockquote><p>Scribe is a mature OAuth library for Java by Pablo Fernandez that is intended to work with all APIs</p></blockquote>
-
-<p><a href="http://oauth.net/code/">http://oauth.net/code/</a></p>
-
-<p>The following example is how to make OAuth 1.0a authentication using scribe-java.</p>
-
-<p>First, create oauth api model:</p>
-
-<figure class='code'><figcaption><span>api/TwitterApi.java</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-<span class='line-number'>47</span>
-<span class='line-number'>48</span>
-<span class='line-number'>49</span>
-<span class='line-number'>50</span>
-<span class='line-number'>51</span>
-<span class='line-number'>52</span>
-<span class='line-number'>53</span>
-</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nc">TwitterApi</span> <span class="kd">extends</span> <span class="n">DefaultApi10a</span> <span class="o">{</span>
-</span><span class='line'>  <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">AUTHORIZE_URL</span> <span class="o">=</span> <span class="s">&quot;https://api.twitter.com/oauth/authorize?oauth_token=%s&quot;</span><span class="o">;</span>
-</span><span class='line'>  <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">REQUEST_TOKEN_RESOURCE</span> <span class="o">=</span> <span class="s">&quot;api.twitter.com/oauth/request_token&quot;</span><span class="o">;</span>
-</span><span class='line'>  <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">ACCESS_TOKEN_RESOURCE</span> <span class="o">=</span> <span class="s">&quot;api.twitter.com/oauth/access_token&quot;</span><span class="o">;</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="nd">@Override</span> <span class="o">{</span>
-</span><span class='line'>  <span class="kd">public</span> <span class="n">String</span> <span class="nf">getAccessTokenEndpoint</span><span class="o">()</span>
-</span><span class='line'>    <span class="k">return</span> <span class="s">&quot;http://&quot;</span> <span class="o">+</span> <span class="n">ACCESS_TOKEN_RESOURCE</span><span class="o">;</span>
-</span><span class='line'>  <span class="o">}</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="nd">@Override</span>
-</span><span class='line'>  <span class="kd">public</span> <span class="n">String</span> <span class="nf">getRequestTokenEndpoint</span><span class="o">()</span> <span class="o">{</span>
-</span><span class='line'>    <span class="k">return</span> <span class="s">&quot;http://&quot;</span> <span class="o">+</span> <span class="n">REQUEST_TOKEN_RESOURCE</span><span class="o">;</span>
-</span><span class='line'>  <span class="o">}</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="nd">@Override</span>
-</span><span class='line'>  <span class="kd">public</span> <span class="n">String</span> <span class="nf">getAuthorizationUrl</span><span class="o">(</span><span class="n">Token</span> <span class="n">requestToken</span><span class="o">)</span> <span class="o">{</span>
-</span><span class='line'>    <span class="k">return</span> <span class="n">String</span><span class="o">.</span><span class="na">format</span><span class="o">(</span><span class="n">AUTHORIZE_URL</span><span class="o">,</span> <span class="n">requestToken</span><span class="o">.</span><span class="na">getToken</span><span class="o">());</span>
-</span><span class='line'>  <span class="o">}</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="kd">public</span> <span class="kd">static</span> <span class="kd">class</span> <span class="nc">SSL</span> <span class="kd">extends</span> <span class="n">TwitterApi</span> <span class="o">{</span>
-</span><span class='line'>    <span class="nd">@Override</span>
-</span><span class='line'>    <span class="kd">public</span> <span class="n">String</span> <span class="nf">getAccessTokenEndpoint</span><span class="o">()</span> <span class="o">{</span>
-</span><span class='line'>      <span class="k">return</span> <span class="s">&quot;https://&quot;</span> <span class="o">+</span> <span class="n">ACCESS_TOKEN_RESOURCE</span><span class="o">;</span>
-</span><span class='line'>    <span class="o">}</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="nd">@Override</span>
-</span><span class='line'>    <span class="kd">public</span> <span class="n">String</span> <span class="nf">getRequestTokenEndpoint</span><span class="o">()</span> <span class="o">{</span>
-</span><span class='line'>      <span class="k">return</span> <span class="s">&quot;https://&quot;</span> <span class="o">+</span> <span class="n">REQUEST_TOKEN_RESOURCE</span><span class="o">;</span>
-</span><span class='line'>    <span class="o">}</span>
-</span><span class='line'>  <span class="o">}</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="cm">/**</span>
-</span><span class='line'><span class="cm">   * Twitter &#39;friendlier&#39; authorization endpoint for OAuth.</span>
-</span><span class='line'><span class="cm">   *</span>
-</span><span class='line'><span class="cm">   * Uses SSL.</span>
-</span><span class='line'><span class="cm">   */</span>
-</span><span class='line'>  <span class="kd">public</span> <span class="kd">static</span> <span class="kd">class</span> <span class="nc">Authenticate</span> <span class="kd">extends</span> <span class="n">SSL</span> <span class="o">{</span>
-</span><span class='line'>    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">AUTHENTICATE_URL</span> <span class="o">=</span> <span class="s">&quot;https://api.twitter.com/oauth/authenticate?oauth_token=%s&quot;</span><span class="o">;</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="nd">@Override</span>
-</span><span class='line'>    <span class="kd">public</span> <span class="n">String</span> <span class="nf">getAuthorizationUrl</span><span class="o">(</span><span class="n">Token</span> <span class="n">requestToken</span><span class="o">)</span> <span class="o">{</span>
-</span><span class='line'>      <span class="k">return</span> <span class="n">String</span><span class="o">.</span><span class="na">format</span><span class="o">(</span><span class="n">AUTHENTICATE_URL</span><span class="o">,</span> <span class="n">requestToken</span><span class="o">.</span><span class="na">getToken</span><span class="o">());</span>
-</span><span class='line'>    <span class="o">}</span>
-</span><span class='line'>  <span class="o">}</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="cm">/**</span>
-</span><span class='line'><span class="cm">   * Just an alias to the default (SSL) authorization endpoint.</span>
-</span><span class='line'><span class="cm">   *</span>
-</span><span class='line'><span class="cm">   * Need to include this for symmetry with &#39;Authenticate&#39; only.</span>
-</span><span class='line'><span class="cm">   */</span>
-</span><span class='line'>  <span class="kd">public</span> <span class="kd">static</span> <span class="kd">class</span> <span class="nc">Authorize</span> <span class="kd">extends</span> <span class="n">SSL</span><span class="o">{}</span>
-</span><span class='line'><span class="o">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>(Retrieved from <a href="https://github.com/fernandezpablo85/scribe-java/blob/master/src/main/java/org/scribe/builder/api/TwitterApi.java">scribe/builder/api/TwitterApi.java</a>. You can build your own api model like this.)</p>
-
-<p>Then, use this api model in your Activity with WebView :</p>
-
-<figure class='code'><figcaption><span>OauthActivity.java</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-<span class='line-number'>47</span>
-<span class='line-number'>48</span>
-<span class='line-number'>49</span>
-<span class='line-number'>50</span>
-<span class='line-number'>51</span>
-<span class='line-number'>52</span>
-<span class='line-number'>53</span>
-<span class='line-number'>54</span>
-<span class='line-number'>55</span>
-<span class='line-number'>56</span>
-<span class='line-number'>57</span>
-<span class='line-number'>58</span>
-<span class='line-number'>59</span>
-<span class='line-number'>60</span>
-<span class='line-number'>61</span>
-<span class='line-number'>62</span>
-<span class='line-number'>63</span>
-<span class='line-number'>64</span>
-<span class='line-number'>65</span>
-<span class='line-number'>66</span>
-<span class='line-number'>67</span>
-<span class='line-number'>68</span>
-<span class='line-number'>69</span>
-<span class='line-number'>70</span>
-<span class='line-number'>71</span>
-<span class='line-number'>72</span>
-<span class='line-number'>73</span>
-</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nc">OauthActivity</span> <span class="kd">extends</span> <span class="n">Activity</span> <span class="o">{</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">CALLBACK_URL</span> <span class="o">=</span> <span class="s">&quot;http://www.twitter.com&quot;</span><span class="o">;</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="kd">private</span> <span class="n">WebView</span> <span class="n">mWebView</span><span class="o">;</span>
-</span><span class='line'>    <span class="kd">private</span> <span class="n">OauthService</span> <span class="n">mOauthService</span><span class="o">;</span>
-</span><span class='line'>    <span class="kd">private</span> <span class="n">Token</span> <span class="n">mRequestToken</span><span class="o">;</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="nd">@Override</span>
-</span><span class='line'>    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onCreate</span><span class="o">(</span><span class="n">Bundle</span> <span class="n">savedInstanceState</span><span class="o">)</span> <span class="o">{</span>
-</span><span class='line'>        <span class="kd">super</span><span class="o">.</span><span class="na">onCreate</span><span class="o">(</span><span class="n">savedInstanceState</span><span class="o">);</span>
-</span><span class='line'>
-</span><span class='line'>        <span class="n">mService</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ServiceBuilder</span><span class="o">()</span>
-</span><span class='line'>          <span class="o">.</span><span class="na">provider</span><span class="o">(</span><span class="n">TwitterApi</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
-</span><span class='line'>          <span class="o">.</span><span class="na">apiKey</span><span class="o">(</span><span class="s">&quot;YOUR_API_KEY&quot;</span><span class="o">)</span>
-</span><span class='line'>          <span class="o">.</span><span class="na">apiSecret</span><span class="o">(</span><span class="s">&quot;YOUR_API_SECRET&quot;</span><span class="o">)</span>
-</span><span class='line'>          <span class="o">.</span><span class="na">callback</span><span class="o">(</span><span class="n">HatenaApi</span><span class="o">.</span><span class="na">CALLBACK_URL</span><span class="o">)</span>
-</span><span class='line'>          <span class="o">.</span><span class="na">build</span><span class="o">();</span>
-</span><span class='line'>
-</span><span class='line'>        <span class="n">mWebView</span> <span class="o">=</span> <span class="o">(</span><span class="n">WebView</span><span class="o">)</span> <span class="n">findViewById</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">webView</span><span class="o">);</span>
-</span><span class='line'>        <span class="n">mWebView</span><span class="o">.</span><span class="na">clearCache</span><span class="o">(</span><span class="kc">true</span><span class="o">);</span>
-</span><span class='line'>        <span class="n">mWebView</span><span class="o">.</span><span class="na">getSettings</span><span class="o">().</span><span class="na">setJavaScriptEnabled</span><span class="o">(</span><span class="kc">true</span><span class="o">);</span>
-</span><span class='line'>        <span class="n">mWebView</span><span class="o">.</span><span class="na">getSettings</span><span class="o">().</span><span class="na">setBuiltInZoomControls</span><span class="o">(</span><span class="kc">true</span><span class="o">);</span>
-</span><span class='line'>        <span class="n">mWebView</span><span class="o">.</span><span class="na">getSettings</span><span class="o">().</span><span class="na">setDisplayZoomControls</span><span class="o">(</span><span class="kc">false</span><span class="o">);</span>
-</span><span class='line'>        <span class="n">mWebView</span><span class="o">.</span><span class="na">setWebViewClient</span><span class="o">(</span><span class="n">mWebViewClient</span><span class="o">);</span>
-</span><span class='line'>        <span class="n">mWebView</span><span class="o">.</span><span class="na">setWebChromeClient</span><span class="o">(</span><span class="n">mWebChromeClient</span><span class="o">);</span>
-</span><span class='line'>
-</span><span class='line'>        <span class="n">setContentView</span><span class="o">(</span><span class="n">mWebView</span><span class="o">);</span>
-</span><span class='line'>
-</span><span class='line'>        <span class="n">startAuthorize</span><span class="o">();</span>
-</span><span class='line'>    <span class="o">}</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="kd">private</span> <span class="kt">void</span> <span class="nf">startAuthorize</span><span class="o">()</span> <span class="o">{</span>
-</span><span class='line'>        <span class="o">(</span><span class="k">new</span> <span class="n">AsyncTask</span><span class="o">&lt;</span><span class="n">Void</span><span class="o">,</span> <span class="n">Void</span><span class="o">,</span> <span class="n">String</span><span class="o">&gt;()</span> <span class="o">{</span>
-</span><span class='line'>            <span class="nd">@Override</span>
-</span><span class='line'>            <span class="kd">protected</span> <span class="n">String</span> <span class="nf">doInBackground</span><span class="o">(</span><span class="n">Void</span><span class="o">...</span> <span class="n">params</span><span class="o">)</span> <span class="o">{</span>
-</span><span class='line'>                <span class="n">mRequestToken</span> <span class="o">=</span> <span class="n">mService</span><span class="o">.</span><span class="na">getRequestToken</span><span class="o">();</span>
-</span><span class='line'>                <span class="k">return</span> <span class="n">mService</span><span class="o">.</span><span class="na">getAuthorizationUrl</span><span class="o">(</span><span class="n">mRequestToken</span><span class="o">);</span>
-</span><span class='line'>            <span class="o">}</span>
-</span><span class='line'>
-</span><span class='line'>            <span class="nd">@Override</span>
-</span><span class='line'>            <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">onPostExecute</span><span class="o">(</span><span class="n">String</span> <span class="n">url</span><span class="o">)</span> <span class="o">{</span>
-</span><span class='line'>                <span class="n">mWebView</span><span class="o">.</span><span class="na">loadUrl</span><span class="o">(</span><span class="n">url</span><span class="o">);</span>
-</span><span class='line'>            <span class="o">}</span>
-</span><span class='line'>        <span class="o">}).</span><span class="na">execute</span><span class="o">();</span>
-</span><span class='line'>    <span class="o">}</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="kd">private</span> <span class="n">WebViewClient</span> <span class="n">mWebViewClient</span> <span class="o">=</span> <span class="k">new</span> <span class="n">WebViewClient</span><span class="o">()</span> <span class="o">{</span>
-</span><span class='line'>        <span class="nd">@Override</span>
-</span><span class='line'>        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onPageStarted</span><span class="o">(</span><span class="n">WebView</span> <span class="n">view</span><span class="o">,</span> <span class="n">String</span> <span class="n">url</span><span class="o">,</span> <span class="n">Bitmap</span> <span class="n">favicon</span><span class="o">)</span> <span class="o">{</span>
-</span><span class='line'>            <span class="k">if</span> <span class="o">((</span><span class="n">url</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">&amp;&amp;</span> <span class="o">(</span><span class="n">url</span><span class="o">.</span><span class="na">startsWith</span><span class="o">(</span><span class="n">CALLBACK_URL</span><span class="o">)))</span> <span class="o">{</span> <span class="c1">// Override webview when user came back to CALLBACK_URL</span>
-</span><span class='line'>                <span class="n">mWebView</span><span class="o">.</span><span class="na">stopLoading</span><span class="o">();</span>
-</span><span class='line'>                <span class="n">mWebView</span><span class="o">.</span><span class="na">setVisibility</span><span class="o">(</span><span class="n">View</span><span class="o">.</span><span class="na">INVISIBLE</span><span class="o">);</span> <span class="c1">// Hide webview if necessary</span>
-</span><span class='line'>                <span class="n">Uri</span> <span class="n">uri</span> <span class="o">=</span> <span class="n">Uri</span><span class="o">.</span><span class="na">parse</span><span class="o">(</span><span class="n">url</span><span class="o">);</span>
-</span><span class='line'>                <span class="kd">final</span> <span class="n">Verifier</span> <span class="n">verifier</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Verifier</span><span class="o">(</span><span class="n">uri</span><span class="o">.</span><span class="na">getQueryParameter</span><span class="o">(</span><span class="s">&quot;oauth_verifier&quot;</span><span class="o">));</span>
-</span><span class='line'>                <span class="o">(</span><span class="k">new</span> <span class="n">AsyncTask</span><span class="o">&lt;</span><span class="n">Void</span><span class="o">,</span> <span class="n">Void</span><span class="o">,</span> <span class="n">Token</span><span class="o">&gt;()</span> <span class="o">{</span>
-</span><span class='line'>                    <span class="nd">@Override</span>
-</span><span class='line'>                    <span class="kd">protected</span> <span class="n">Token</span> <span class="nf">doInBackground</span><span class="o">(</span><span class="n">Void</span><span class="o">...</span> <span class="n">params</span><span class="o">)</span> <span class="o">{</span>
-</span><span class='line'>                        <span class="k">return</span> <span class="n">mService</span><span class="o">.</span><span class="na">getAccessToken</span><span class="o">(</span><span class="n">mRequestToken</span><span class="o">,</span> <span class="n">verifier</span><span class="o">);</span>
-</span><span class='line'>                    <span class="o">}</span>
-</span><span class='line'>
-</span><span class='line'>                    <span class="nd">@Override</span>
-</span><span class='line'>                    <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">onPostExecute</span><span class="o">(</span><span class="n">Token</span> <span class="n">accessToken</span><span class="o">)</span> <span class="o">{</span>
-</span><span class='line'>                        <span class="c1">// AccessToken is passed here! Do what you want!</span>
-</span><span class='line'>                        <span class="n">finish</span><span class="o">();</span>
-</span><span class='line'>                    <span class="o">}</span>
-</span><span class='line'>                <span class="o">}).</span><span class="na">execute</span><span class="o">();</span>
-</span><span class='line'>            <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
-</span><span class='line'>                <span class="kd">super</span><span class="o">.</span><span class="na">onPageStarted</span><span class="o">(</span><span class="n">view</span><span class="o">,</span> <span class="n">url</span><span class="o">,</span> <span class="n">favicon</span><span class="o">);</span>
-</span><span class='line'>            <span class="o">}</span>
-</span><span class='line'>        <span class="o">}</span>
-</span><span class='line'>    <span class="o">};</span>
-</span><span class='line'><span class="o">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Yeah! You&rsquo;ve done! It&rsquo;s easy isn&rsquo;t it?</p>
-
-<p>Keypoints are</p>
-
-<ul>
-<li>Build service</li>
-<li>Get request token</li>
-<li>Get authorize url</li>
-<li>Get verifier</li>
-<li>Get access token based on the verifier</li>
-</ul>
-
 ]]></content>
   </entry>
   

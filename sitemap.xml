@@ -3,6 +3,12 @@
   
   
   <url>
+    <loc>http://blog.yasuoza.com/2014/08/04/octopress-heart-emoji/</loc>
+    <lastmod>2014-08-04T11:33:44+00:00</lastmod>
+    <priority>0.8</priority>
+  </url>
+  
+  <url>
     <loc>http://blog.yasuoza.com/2014/07/31/im-hub-immigrant/</loc>
     <lastmod>2014-07-31T10:10:49+00:00</lastmod>
     <priority>0.8</priority>
@@ -346,29 +352,29 @@
   
   
   <url>
-    <loc>http://blog.yasuoza.com/archives/</loc>
-    <lastmod>2014-08-08T06:32:00+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  
-  <url>
     <loc>http://blog.yasuoza.com/</loc>
-    <lastmod>2014-08-08T06:32:00+00:00</lastmod>
+    <lastmod>2014-08-11T04:39:12+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   
   <url>
+    <loc>http://blog.yasuoza.com/archives/</loc>
+    <lastmod>2014-08-11T04:39:12+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <url>
     <loc>http://blog.yasuoza.com/blog/archives/</loc>
-    <lastmod>2014-08-08T06:32:00+00:00</lastmod>
+    <lastmod>2014-08-11T04:39:12+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   
   <url>
     <loc>http://blog.yasuoza.com/about/</loc>
-    <lastmod>2014-08-08T06:32:00+00:00</lastmod>
+    <lastmod>2014-08-11T04:39:12+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>

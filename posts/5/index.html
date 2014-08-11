@@ -19,7 +19,7 @@
   <meta name="author" content="Yasuharu Ozaki">
 
   
-  <meta name="description" content="gitのリポジトリをターミナル上でブラウズするtigのバージョン1.1がリリースされ、新機能がいろいろ増えていました。Release notes バージョンアップで一番嬉しいのはtigのvertical view対応です。これまではhorizontalにしか分割できなかったので、 &hellip;">
+  <meta name="description" content="前に出していたChrome拡張をRetinaディスプレイに対応させました。 Chrome ウェブストア - Fast Note Before After 参考にしたのは Google Docs Viewer (by Google) &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -88,6 +88,73 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2012/11/12/chrome-extension-retinasupport/">Chrome拡張のRetina対応</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-11-12T00:00:00+00:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>前に出していたChrome拡張をRetinaディスプレイに対応させました。</p>
+
+<p><a href="https://chrome.google.com/webstore/detail/fast-note/jehbplmdjbmcbbdlghcphdhfakcgaiaj" target="_blank">Chrome ウェブストア - Fast Note</a></p>
+
+<p>Before
+<img src="/images/2012/11/Screen-Shot-2012-11-12-at-10.01.47-PM.png" alt="" title="Screen Shot 2012-11-12 at 10.01.47 PM" width="198" height="118" class="thumbnail alignnone size-full wp-image-337" /></p>
+
+<p>After
+<img src="/images/2012/11/Screen-Shot-2012-11-12-at-10.02.21-PM.png" alt="" title="Screen Shot 2012-11-12 at 10.02.21 PM" width="194" height="120" class="thumbnail alignnone size-full wp-image-338" /></p>
+
+<p>参考にしたのは</p>
+
+<p><a href="https://chrome.google.com/webstore/detail/google-docs-viewer-by-goo/kkjmcfdcdbbkdacicmpokoddagejpknh" target="_blank">Google Docs Viewer (by Google)</a></p>
+
+<p>Chrome拡張をRetina対応するには次のようにmanifest.jsonの<code>default_icon</code>を48x48にします。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&quot;browser_action&quot;: {
+</span><span class='line'>   &quot;default_icon&quot;: &quot;logo48.png&quot;,
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>48x48のサイズは必須(<a href="http://developer.chrome.com/extensions/manifest.html#icons" target="_blank">Formats: Manifest Files - Google Chrome</a>)なのですでに手元にあると思います。
+これだけです。</p>
+
+<p>なお、manifest.jsonでmanifest_versionを2に設定しなければなりません。manifest_version 1 はサポートが打ち切られ、検索結果に出なくなったり、最終的に2013年3/4から動かなくなります。詳しくは <a href="http://developer.chrome.com/extensions/manifestVersion.html" target="_blank">Manifest Version - Google Chrome</a> を参照して下さい。</p>
+
+<p>Retinaディスプレイはテキストとか非常にきれいなんですが、Retina非対応なサイトだと特に画像の荒さが目立って逆に見づらいです。</p>
+
+<p>次回はWebサイトのRetina対応について書こうと思いますー。</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -810,69 +877,6 @@ Websocketを使った通知の設定方法も書いてあるので、とても�
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2012/07/01/lazy-social-butto/">非同期ソーシャルボタン</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-07-01T00:00:00+00:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>facebookやツイッターのソーシャルボタンをサイトに置くことが多くなってきています。
-特にサイトのトップページや、ニューストップページには記事の見出しごとにソーシャルボタンを配置したりして、
-かなりページの読み込みが遅くなってしまっているページを良く見かけます。</p>
-
-
-
-
-<p>そこで、初期のページ読み込み時にはソーシャルボタンは読み込まず、ユーザがソーシャルボタンを押す動作を
-した時に非同期でソーシャルボタンを読み込むようにするjQueryのスニペットを書きました。</p>
-
-
-
-
-<p>デモは次のページで見ることができます。
-<a href="http://www.yasuoza.com/jq_plugin/lazy_sb/" target="_blank">Demo</a></p>
-
-
-
-
-<p>詳しくはgistを参照して下さい。
-<a href="https://gist.github.com/3027177" target="_blank">Lazy share button (jQuery plugin)</a></p>
-
-
-
-
-<p>基本的にはTechCrunchのコードを参考にしましたが、最適化を施したり、はてなブックマークにも対応しました。
-良ければ使って下さい。</p>
-
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/6">&larr; Older</a>
@@ -890,6 +894,10 @@ Websocketを使った通知の設定方法も書いてあるので、とても�
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2014/08/04/octopress-heart-emoji/">Octopress :heart: Emoji</a>
+      </li>
+    
+      <li class="post">
         <a href="/2014/07/31/im-hub-immigrant/">I&#8217;m a hub immigrant</a>
       </li>
     
@@ -903,10 +911,6 @@ Websocketを使った通知の設定方法も書いてあるので、とても�
     
       <li class="post">
         <a href="/2014/07/04/neobundlelazy-vimfiler/">NeoBundleLazy &#8216;VimFiler&#8217;</a>
-      </li>
-    
-      <li class="post">
-        <a href="/2014/07/02/indent-rubys-if-dot-else-assignment/">How do you indent ruby&#8217;s if..else assignment?</a>
       </li>
     
   </ul>

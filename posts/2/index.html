@@ -19,8 +19,16 @@
   <meta name="author" content="Yasuharu Ozaki">
 
   
-  <meta name="description" content="I have two GitHub pages YasuOza&rsquo;s website
-yasuoza diary each sites are hosted by GitHub pages using custom domain. To use custom domain for &hellip;">
+  <meta name="description" content="If you are iOS/Mac developer, you may have written singleton like following convention: 1
+2
+3
+4
+5
+6
+7
+8
+9
+static UserModelManager *sharedManager_ = &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -89,6 +97,113 @@ yasuoza diary each sites are hosted by GitHub pages using custom domain. To use 
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2014/05/28/stub-sharedmanager-with-ocmock/">Stub sharedManager with OCMock</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-05-28T13:29:24+00:00" pubdate data-updated="true">May 28<sup>th</sup>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>If you are iOS/Mac developer, you may have written singleton like following convention:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">static</span> <span class="n">UserModelManager</span> <span class="o">*</span><span class="n">sharedManager_</span> <span class="o">=</span> <span class="nb">nil</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">+</span> <span class="p">(</span><span class="n">UserModelManager</span> <span class="o">*</span><span class="p">)</span><span class="nf">sharedManager</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">static</span> <span class="kt">dispatch_once_t</span> <span class="n">onceToken</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">dispatch_once</span><span class="p">(</span><span class="o">&amp;</span><span class="n">onceToken</span><span class="p">,</span> <span class="o">^</span><span class="p">{</span>
+</span><span class='line'>        <span class="n">sharedManager_</span> <span class="o">=</span> <span class="p">[[</span><span class="n">UserModelManager</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
+</span><span class='line'>    <span class="p">});</span>
+</span><span class='line'>    <span class="k">return</span> <span class="n">sharedManager_</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>If <code>UserModelManager</code> has <code>secretKey</code> instance method like:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">-</span> <span class="p">(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nf">secretKey</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="k">return</span> <span class="s">&quot;secret key provided from server side&quot;</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Then you can call <code>secretkey</code> method via</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="p">[[</span><span class="n">UserModelManager</span> <span class="n">sharedManager</span><span class="p">]</span> <span class="n">secretkey</span><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>It&rsquo;s OK until you have to stub <code>secretKey</code> in a test.</p>
+
+<p>The solution to stub <code>sharedManager</code> and <code>secretkey</code> is:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">_mockUserModelManager</span> <span class="o">=</span> <span class="p">[</span><span class="n">OCMockObject</span> <span class="n">niceMockForClass</span><span class="o">:</span><span class="p">[</span><span class="n">UserModelManager</span> <span class="n">class</span><span class="p">]];</span>
+</span><span class='line'><span class="p">[[[</span><span class="n">_mockUserModelManager</span> <span class="n">stub</span><span class="p">]</span> <span class="n">andReturn</span><span class="o">:</span><span class="s">@&quot;test-key&quot;</span><span class="p">]</span> <span class="n">secretkey</span><span class="p">];</span>
+</span><span class='line'><span class="p">[[[[</span><span class="n">_mockUserModelManager</span> <span class="n">stub</span><span class="p">]</span> <span class="n">classMethod</span><span class="p">]</span> <span class="n">andReturn</span><span class="o">:</span><span class="n">_mockUserModelManager</span><span class="p">]</span> <span class="n">sharedManager</span><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>To clean up your stub methods, DO NOT forget <code>stopMocking</code> in <code>tearDown</code>.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">tearDown</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="p">[</span><span class="n">super</span> <span class="n">tearDown</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="p">[</span><span class="n">_mockUserModelManager</span> <span class="n">stopMocking</span><span class="p">];</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -876,333 +991,6 @@ for the issue.</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2013/12/16/scribe-java-in-android/">scribe-java in Android</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-12-16T07:04:52+00:00" pubdate data-updated="true">Dec 16<sup>th</sup>, 2013</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Famous OAuth libraries for Android are</p>
-
-<ul>
-<li><a href="https://code.google.com/p/oauth-signpost/">oauth-signpost</a></li>
-<li><a href="https://github.com/fernandezpablo85/scribe-java">scribe-java</a></li>
-</ul>
-
-
-<p>There are entries about how to make OAuth authentication using oauth-signpost but I could not find any example using scribe-java, even though it is said</p>
-
-<blockquote><p>Scribe is a mature OAuth library for Java by Pablo Fernandez that is intended to work with all APIs</p></blockquote>
-
-<p><a href="http://oauth.net/code/">http://oauth.net/code/</a></p>
-
-<p>The following example is how to make OAuth 1.0a authentication using scribe-java.</p>
-
-<p>First, create oauth api model:</p>
-
-<figure class='code'><figcaption><span>api/TwitterApi.java</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-<span class='line-number'>47</span>
-<span class='line-number'>48</span>
-<span class='line-number'>49</span>
-<span class='line-number'>50</span>
-<span class='line-number'>51</span>
-<span class='line-number'>52</span>
-<span class='line-number'>53</span>
-</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nc">TwitterApi</span> <span class="kd">extends</span> <span class="n">DefaultApi10a</span> <span class="o">{</span>
-</span><span class='line'>  <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">AUTHORIZE_URL</span> <span class="o">=</span> <span class="s">&quot;https://api.twitter.com/oauth/authorize?oauth_token=%s&quot;</span><span class="o">;</span>
-</span><span class='line'>  <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">REQUEST_TOKEN_RESOURCE</span> <span class="o">=</span> <span class="s">&quot;api.twitter.com/oauth/request_token&quot;</span><span class="o">;</span>
-</span><span class='line'>  <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">ACCESS_TOKEN_RESOURCE</span> <span class="o">=</span> <span class="s">&quot;api.twitter.com/oauth/access_token&quot;</span><span class="o">;</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="nd">@Override</span> <span class="o">{</span>
-</span><span class='line'>  <span class="kd">public</span> <span class="n">String</span> <span class="nf">getAccessTokenEndpoint</span><span class="o">()</span>
-</span><span class='line'>    <span class="k">return</span> <span class="s">&quot;http://&quot;</span> <span class="o">+</span> <span class="n">ACCESS_TOKEN_RESOURCE</span><span class="o">;</span>
-</span><span class='line'>  <span class="o">}</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="nd">@Override</span>
-</span><span class='line'>  <span class="kd">public</span> <span class="n">String</span> <span class="nf">getRequestTokenEndpoint</span><span class="o">()</span> <span class="o">{</span>
-</span><span class='line'>    <span class="k">return</span> <span class="s">&quot;http://&quot;</span> <span class="o">+</span> <span class="n">REQUEST_TOKEN_RESOURCE</span><span class="o">;</span>
-</span><span class='line'>  <span class="o">}</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="nd">@Override</span>
-</span><span class='line'>  <span class="kd">public</span> <span class="n">String</span> <span class="nf">getAuthorizationUrl</span><span class="o">(</span><span class="n">Token</span> <span class="n">requestToken</span><span class="o">)</span> <span class="o">{</span>
-</span><span class='line'>    <span class="k">return</span> <span class="n">String</span><span class="o">.</span><span class="na">format</span><span class="o">(</span><span class="n">AUTHORIZE_URL</span><span class="o">,</span> <span class="n">requestToken</span><span class="o">.</span><span class="na">getToken</span><span class="o">());</span>
-</span><span class='line'>  <span class="o">}</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="kd">public</span> <span class="kd">static</span> <span class="kd">class</span> <span class="nc">SSL</span> <span class="kd">extends</span> <span class="n">TwitterApi</span> <span class="o">{</span>
-</span><span class='line'>    <span class="nd">@Override</span>
-</span><span class='line'>    <span class="kd">public</span> <span class="n">String</span> <span class="nf">getAccessTokenEndpoint</span><span class="o">()</span> <span class="o">{</span>
-</span><span class='line'>      <span class="k">return</span> <span class="s">&quot;https://&quot;</span> <span class="o">+</span> <span class="n">ACCESS_TOKEN_RESOURCE</span><span class="o">;</span>
-</span><span class='line'>    <span class="o">}</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="nd">@Override</span>
-</span><span class='line'>    <span class="kd">public</span> <span class="n">String</span> <span class="nf">getRequestTokenEndpoint</span><span class="o">()</span> <span class="o">{</span>
-</span><span class='line'>      <span class="k">return</span> <span class="s">&quot;https://&quot;</span> <span class="o">+</span> <span class="n">REQUEST_TOKEN_RESOURCE</span><span class="o">;</span>
-</span><span class='line'>    <span class="o">}</span>
-</span><span class='line'>  <span class="o">}</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="cm">/**</span>
-</span><span class='line'><span class="cm">   * Twitter &#39;friendlier&#39; authorization endpoint for OAuth.</span>
-</span><span class='line'><span class="cm">   *</span>
-</span><span class='line'><span class="cm">   * Uses SSL.</span>
-</span><span class='line'><span class="cm">   */</span>
-</span><span class='line'>  <span class="kd">public</span> <span class="kd">static</span> <span class="kd">class</span> <span class="nc">Authenticate</span> <span class="kd">extends</span> <span class="n">SSL</span> <span class="o">{</span>
-</span><span class='line'>    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">AUTHENTICATE_URL</span> <span class="o">=</span> <span class="s">&quot;https://api.twitter.com/oauth/authenticate?oauth_token=%s&quot;</span><span class="o">;</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="nd">@Override</span>
-</span><span class='line'>    <span class="kd">public</span> <span class="n">String</span> <span class="nf">getAuthorizationUrl</span><span class="o">(</span><span class="n">Token</span> <span class="n">requestToken</span><span class="o">)</span> <span class="o">{</span>
-</span><span class='line'>      <span class="k">return</span> <span class="n">String</span><span class="o">.</span><span class="na">format</span><span class="o">(</span><span class="n">AUTHENTICATE_URL</span><span class="o">,</span> <span class="n">requestToken</span><span class="o">.</span><span class="na">getToken</span><span class="o">());</span>
-</span><span class='line'>    <span class="o">}</span>
-</span><span class='line'>  <span class="o">}</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="cm">/**</span>
-</span><span class='line'><span class="cm">   * Just an alias to the default (SSL) authorization endpoint.</span>
-</span><span class='line'><span class="cm">   *</span>
-</span><span class='line'><span class="cm">   * Need to include this for symmetry with &#39;Authenticate&#39; only.</span>
-</span><span class='line'><span class="cm">   */</span>
-</span><span class='line'>  <span class="kd">public</span> <span class="kd">static</span> <span class="kd">class</span> <span class="nc">Authorize</span> <span class="kd">extends</span> <span class="n">SSL</span><span class="o">{}</span>
-</span><span class='line'><span class="o">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>(Retrieved from <a href="https://github.com/fernandezpablo85/scribe-java/blob/master/src/main/java/org/scribe/builder/api/TwitterApi.java">scribe/builder/api/TwitterApi.java</a>. You can build your own api model like this.)</p>
-
-<p>Then, use this api model in your Activity with WebView :</p>
-
-<figure class='code'><figcaption><span>OauthActivity.java</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-<span class='line-number'>47</span>
-<span class='line-number'>48</span>
-<span class='line-number'>49</span>
-<span class='line-number'>50</span>
-<span class='line-number'>51</span>
-<span class='line-number'>52</span>
-<span class='line-number'>53</span>
-<span class='line-number'>54</span>
-<span class='line-number'>55</span>
-<span class='line-number'>56</span>
-<span class='line-number'>57</span>
-<span class='line-number'>58</span>
-<span class='line-number'>59</span>
-<span class='line-number'>60</span>
-<span class='line-number'>61</span>
-<span class='line-number'>62</span>
-<span class='line-number'>63</span>
-<span class='line-number'>64</span>
-<span class='line-number'>65</span>
-<span class='line-number'>66</span>
-<span class='line-number'>67</span>
-<span class='line-number'>68</span>
-<span class='line-number'>69</span>
-<span class='line-number'>70</span>
-<span class='line-number'>71</span>
-<span class='line-number'>72</span>
-<span class='line-number'>73</span>
-</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nc">OauthActivity</span> <span class="kd">extends</span> <span class="n">Activity</span> <span class="o">{</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">CALLBACK_URL</span> <span class="o">=</span> <span class="s">&quot;http://www.twitter.com&quot;</span><span class="o">;</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="kd">private</span> <span class="n">WebView</span> <span class="n">mWebView</span><span class="o">;</span>
-</span><span class='line'>    <span class="kd">private</span> <span class="n">OauthService</span> <span class="n">mOauthService</span><span class="o">;</span>
-</span><span class='line'>    <span class="kd">private</span> <span class="n">Token</span> <span class="n">mRequestToken</span><span class="o">;</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="nd">@Override</span>
-</span><span class='line'>    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onCreate</span><span class="o">(</span><span class="n">Bundle</span> <span class="n">savedInstanceState</span><span class="o">)</span> <span class="o">{</span>
-</span><span class='line'>        <span class="kd">super</span><span class="o">.</span><span class="na">onCreate</span><span class="o">(</span><span class="n">savedInstanceState</span><span class="o">);</span>
-</span><span class='line'>
-</span><span class='line'>        <span class="n">mService</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ServiceBuilder</span><span class="o">()</span>
-</span><span class='line'>          <span class="o">.</span><span class="na">provider</span><span class="o">(</span><span class="n">TwitterApi</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
-</span><span class='line'>          <span class="o">.</span><span class="na">apiKey</span><span class="o">(</span><span class="s">&quot;YOUR_API_KEY&quot;</span><span class="o">)</span>
-</span><span class='line'>          <span class="o">.</span><span class="na">apiSecret</span><span class="o">(</span><span class="s">&quot;YOUR_API_SECRET&quot;</span><span class="o">)</span>
-</span><span class='line'>          <span class="o">.</span><span class="na">callback</span><span class="o">(</span><span class="n">HatenaApi</span><span class="o">.</span><span class="na">CALLBACK_URL</span><span class="o">)</span>
-</span><span class='line'>          <span class="o">.</span><span class="na">build</span><span class="o">();</span>
-</span><span class='line'>
-</span><span class='line'>        <span class="n">mWebView</span> <span class="o">=</span> <span class="o">(</span><span class="n">WebView</span><span class="o">)</span> <span class="n">findViewById</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">webView</span><span class="o">);</span>
-</span><span class='line'>        <span class="n">mWebView</span><span class="o">.</span><span class="na">clearCache</span><span class="o">(</span><span class="kc">true</span><span class="o">);</span>
-</span><span class='line'>        <span class="n">mWebView</span><span class="o">.</span><span class="na">getSettings</span><span class="o">().</span><span class="na">setJavaScriptEnabled</span><span class="o">(</span><span class="kc">true</span><span class="o">);</span>
-</span><span class='line'>        <span class="n">mWebView</span><span class="o">.</span><span class="na">getSettings</span><span class="o">().</span><span class="na">setBuiltInZoomControls</span><span class="o">(</span><span class="kc">true</span><span class="o">);</span>
-</span><span class='line'>        <span class="n">mWebView</span><span class="o">.</span><span class="na">getSettings</span><span class="o">().</span><span class="na">setDisplayZoomControls</span><span class="o">(</span><span class="kc">false</span><span class="o">);</span>
-</span><span class='line'>        <span class="n">mWebView</span><span class="o">.</span><span class="na">setWebViewClient</span><span class="o">(</span><span class="n">mWebViewClient</span><span class="o">);</span>
-</span><span class='line'>        <span class="n">mWebView</span><span class="o">.</span><span class="na">setWebChromeClient</span><span class="o">(</span><span class="n">mWebChromeClient</span><span class="o">);</span>
-</span><span class='line'>
-</span><span class='line'>        <span class="n">setContentView</span><span class="o">(</span><span class="n">mWebView</span><span class="o">);</span>
-</span><span class='line'>
-</span><span class='line'>        <span class="n">startAuthorize</span><span class="o">();</span>
-</span><span class='line'>    <span class="o">}</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="kd">private</span> <span class="kt">void</span> <span class="nf">startAuthorize</span><span class="o">()</span> <span class="o">{</span>
-</span><span class='line'>        <span class="o">(</span><span class="k">new</span> <span class="n">AsyncTask</span><span class="o">&lt;</span><span class="n">Void</span><span class="o">,</span> <span class="n">Void</span><span class="o">,</span> <span class="n">String</span><span class="o">&gt;()</span> <span class="o">{</span>
-</span><span class='line'>            <span class="nd">@Override</span>
-</span><span class='line'>            <span class="kd">protected</span> <span class="n">String</span> <span class="nf">doInBackground</span><span class="o">(</span><span class="n">Void</span><span class="o">...</span> <span class="n">params</span><span class="o">)</span> <span class="o">{</span>
-</span><span class='line'>                <span class="n">mRequestToken</span> <span class="o">=</span> <span class="n">mService</span><span class="o">.</span><span class="na">getRequestToken</span><span class="o">();</span>
-</span><span class='line'>                <span class="k">return</span> <span class="n">mService</span><span class="o">.</span><span class="na">getAuthorizationUrl</span><span class="o">(</span><span class="n">mRequestToken</span><span class="o">);</span>
-</span><span class='line'>            <span class="o">}</span>
-</span><span class='line'>
-</span><span class='line'>            <span class="nd">@Override</span>
-</span><span class='line'>            <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">onPostExecute</span><span class="o">(</span><span class="n">String</span> <span class="n">url</span><span class="o">)</span> <span class="o">{</span>
-</span><span class='line'>                <span class="n">mWebView</span><span class="o">.</span><span class="na">loadUrl</span><span class="o">(</span><span class="n">url</span><span class="o">);</span>
-</span><span class='line'>            <span class="o">}</span>
-</span><span class='line'>        <span class="o">}).</span><span class="na">execute</span><span class="o">();</span>
-</span><span class='line'>    <span class="o">}</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="kd">private</span> <span class="n">WebViewClient</span> <span class="n">mWebViewClient</span> <span class="o">=</span> <span class="k">new</span> <span class="n">WebViewClient</span><span class="o">()</span> <span class="o">{</span>
-</span><span class='line'>        <span class="nd">@Override</span>
-</span><span class='line'>        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onPageStarted</span><span class="o">(</span><span class="n">WebView</span> <span class="n">view</span><span class="o">,</span> <span class="n">String</span> <span class="n">url</span><span class="o">,</span> <span class="n">Bitmap</span> <span class="n">favicon</span><span class="o">)</span> <span class="o">{</span>
-</span><span class='line'>            <span class="k">if</span> <span class="o">((</span><span class="n">url</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">&amp;&amp;</span> <span class="o">(</span><span class="n">url</span><span class="o">.</span><span class="na">startsWith</span><span class="o">(</span><span class="n">CALLBACK_URL</span><span class="o">)))</span> <span class="o">{</span> <span class="c1">// Override webview when user came back to CALLBACK_URL</span>
-</span><span class='line'>                <span class="n">mWebView</span><span class="o">.</span><span class="na">stopLoading</span><span class="o">();</span>
-</span><span class='line'>                <span class="n">mWebView</span><span class="o">.</span><span class="na">setVisibility</span><span class="o">(</span><span class="n">View</span><span class="o">.</span><span class="na">INVISIBLE</span><span class="o">);</span> <span class="c1">// Hide webview if necessary</span>
-</span><span class='line'>                <span class="n">Uri</span> <span class="n">uri</span> <span class="o">=</span> <span class="n">Uri</span><span class="o">.</span><span class="na">parse</span><span class="o">(</span><span class="n">url</span><span class="o">);</span>
-</span><span class='line'>                <span class="kd">final</span> <span class="n">Verifier</span> <span class="n">verifier</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Verifier</span><span class="o">(</span><span class="n">uri</span><span class="o">.</span><span class="na">getQueryParameter</span><span class="o">(</span><span class="s">&quot;oauth_verifier&quot;</span><span class="o">));</span>
-</span><span class='line'>                <span class="o">(</span><span class="k">new</span> <span class="n">AsyncTask</span><span class="o">&lt;</span><span class="n">Void</span><span class="o">,</span> <span class="n">Void</span><span class="o">,</span> <span class="n">Token</span><span class="o">&gt;()</span> <span class="o">{</span>
-</span><span class='line'>                    <span class="nd">@Override</span>
-</span><span class='line'>                    <span class="kd">protected</span> <span class="n">Token</span> <span class="nf">doInBackground</span><span class="o">(</span><span class="n">Void</span><span class="o">...</span> <span class="n">params</span><span class="o">)</span> <span class="o">{</span>
-</span><span class='line'>                        <span class="k">return</span> <span class="n">mService</span><span class="o">.</span><span class="na">getAccessToken</span><span class="o">(</span><span class="n">mRequestToken</span><span class="o">,</span> <span class="n">verifier</span><span class="o">);</span>
-</span><span class='line'>                    <span class="o">}</span>
-</span><span class='line'>
-</span><span class='line'>                    <span class="nd">@Override</span>
-</span><span class='line'>                    <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">onPostExecute</span><span class="o">(</span><span class="n">Token</span> <span class="n">accessToken</span><span class="o">)</span> <span class="o">{</span>
-</span><span class='line'>                        <span class="c1">// AccessToken is passed here! Do what you want!</span>
-</span><span class='line'>                        <span class="n">finish</span><span class="o">();</span>
-</span><span class='line'>                    <span class="o">}</span>
-</span><span class='line'>                <span class="o">}).</span><span class="na">execute</span><span class="o">();</span>
-</span><span class='line'>            <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
-</span><span class='line'>                <span class="kd">super</span><span class="o">.</span><span class="na">onPageStarted</span><span class="o">(</span><span class="n">view</span><span class="o">,</span> <span class="n">url</span><span class="o">,</span> <span class="n">favicon</span><span class="o">);</span>
-</span><span class='line'>            <span class="o">}</span>
-</span><span class='line'>        <span class="o">}</span>
-</span><span class='line'>    <span class="o">};</span>
-</span><span class='line'><span class="o">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Yeah! You&rsquo;ve done! It&rsquo;s easy isn&rsquo;t it?</p>
-
-<p>Keypoints are</p>
-
-<ul>
-<li>Build service</li>
-<li>Get request token</li>
-<li>Get authorize url</li>
-<li>Get verifier</li>
-<li>Get access token based on the verifier</li>
-</ul>
-
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/3">&larr; Older</a>
@@ -1220,6 +1008,10 @@ for the issue.</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2014/08/04/octopress-heart-emoji/">Octopress :heart: Emoji</a>
+      </li>
+    
+      <li class="post">
         <a href="/2014/07/31/im-hub-immigrant/">I&#8217;m a hub immigrant</a>
       </li>
     
@@ -1233,10 +1025,6 @@ for the issue.</p>
     
       <li class="post">
         <a href="/2014/07/04/neobundlelazy-vimfiler/">NeoBundleLazy &#8216;VimFiler&#8217;</a>
-      </li>
-    
-      <li class="post">
-        <a href="/2014/07/02/indent-rubys-if-dot-else-assignment/">How do you indent ruby&#8217;s if..else assignment?</a>
       </li>
     
   </ul>
