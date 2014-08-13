@@ -19,9 +19,8 @@
   <meta name="author" content="Yasuharu Ozaki">
 
   
-  <meta name="description" content="Do you like Emoji? I do. If you want to use emoji in octopress, follow the steps. First, add &lsquo;gemoji&rsquo; to development dependencies. 1
-2
-3 &hellip;">
+  <meta name="description" content="ホワイトBB解約からの再契約の記事を書いてから2週間強、
+NTTの工事も無事終わり、ホワイトBBの加入権ありで申し込みを行った。 ソフトバンクショップで加入権なしのホワイトBBを解約するときに、もしかしたら今使っているモデムをそのまま使えるかもしれないから、 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -90,6 +89,54 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2014/08/13/howaitobbqi-yue/">ホワイトBB契約 つづき</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-08-13T04:45:41+00:00" pubdate data-updated="true">Aug 13<sup>th</sup>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><a href="http://blog.yasuoza.com/2014/07/28/howaitobbjie-yue-karafalsezai-qi-yue/">ホワイトBB解約からの再契約</a>の記事を書いてから2週間強、
+NTTの工事も無事終わり、ホワイトBBの加入権ありで申し込みを行った。</p>
+
+<p>ソフトバンクショップで加入権なしのホワイトBBを解約するときに、もしかしたら今使っているモデムをそのまま使えるかもしれないから、
+加入権ありで契約するときにその旨をオペレータに伝えてみてって言われたので、その旨伝えたら、</p>
+
+<blockquote><p>モデムにデータを入れて送るので、使い回しは出来ないんです。以前使っていたモデムは返却をお願いします。</p></blockquote>
+
+<p>ってあっさり言われちゃったorz</p>
+
+<p>まぁそうだよなー。システム的に出来るとしてもイレギュラー過ぎて対応もめんどくさいだろうしなー。</p>
+
+<p>というわけで、前に使っていたモデムは送りました。早くこいインターネット。</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -970,159 +1017,6 @@ Especially for RoR application, <code>ripper-tags</code> is useful and it would 
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2014/06/09/remove-const-vs-stub-const/">remove_const vs stub_const</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-06-09T12:51:16+00:00" pubdate data-updated="true">Jun 9<sup>th</sup>, 2014</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>If you&rsquo;re writing test with rspec, sometime you want to CHANGE constants like</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># foo.rb</span>
-</span><span class='line'><span class="k">class</span> <span class="nc">Foo</span>
-</span><span class='line'>  <span class="no">BAR</span> <span class="o">=</span> <span class="s1">&#39;bar&#39;</span>
-</span><span class='line'><span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1"># foo_spec.rb</span>
-</span><span class='line'><span class="n">describe</span> <span class="no">Foo</span> <span class="k">do</span>
-</span><span class='line'>  <span class="n">it</span> <span class="s1">&#39;have constant BAR&#39;</span> <span class="k">do</span>
-</span><span class='line'>    <span class="n">expect</span><span class="p">(</span><span class="no">Foo</span><span class="o">.</span><span class="n">BAR</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">be</span> <span class="s1">&#39;???&#39;</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>You can choose many ways to change constants.</p>
-
-<h3>remove_const</h3>
-
-<p>First options is to use <code>Module#remove_const</code>.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># foo_spec.rb</span>
-</span><span class='line'><span class="n">describe</span> <span class="no">Foo</span> <span class="k">do</span>
-</span><span class='line'>  <span class="n">before</span> <span class="k">do</span>
-</span><span class='line'>    <span class="vi">@__orig_bar</span> <span class="o">=</span> <span class="no">Foo</span><span class="o">::</span><span class="no">BAR</span><span class="o">.</span><span class="n">dup</span>
-</span><span class='line'>    <span class="no">Foo</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="ss">:remove_const</span><span class="p">,</span> <span class="ss">:BAR</span><span class="p">)</span>
-</span><span class='line'>    <span class="no">Foo</span><span class="o">::</span><span class="no">BAR</span> <span class="o">=</span> <span class="s1">&#39;???&#39;</span>
-</span><span class='line'> <span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'> <span class="n">after</span> <span class="k">do</span>
-</span><span class='line'>    <span class="c1"># restore to original constant.</span>
-</span><span class='line'>    <span class="c1"># without this, Foo::BAR remains &#39;???&#39;</span>
-</span><span class='line'>    <span class="no">Foo</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="ss">:remove_const</span><span class="p">,</span> <span class="ss">:BAR</span><span class="p">)</span>
-</span><span class='line'>    <span class="no">Foo</span><span class="o">::</span><span class="no">BAR</span> <span class="o">=</span> <span class="vi">@__orig_bar</span>
-</span><span class='line'> <span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="n">it</span> <span class="s1">&#39;have constant BAR&#39;</span> <span class="k">do</span>
-</span><span class='line'>    <span class="n">expect</span><span class="p">(</span><span class="no">Foo</span><span class="o">::</span><span class="no">BAR</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">eq</span> <span class="s1">&#39;???&#39;</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>The merit of this way is to change constants completely and the constant is evaluated directly.
-Adding to it, this method works without any libraries.<br/>
-The demerit of this way is that this is something like META programming. This may not be easy to understand for ruby beginner.</p>
-
-<h3>stub_const</h3>
-
-<p>Second option is to use <code>stub_const</code> defined in <a href="https://github.com/rspec/rspec-mocks">rspec-mocks</a>.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># foo_spec.rb</span>
-</span><span class='line'><span class="n">describe</span> <span class="no">Foo</span> <span class="k">do</span>
-</span><span class='line'>  <span class="n">before</span> <span class="k">do</span>
-</span><span class='line'>    <span class="c1"># no need to restore.</span>
-</span><span class='line'>    <span class="c1"># It restores after Foo example finished.</span>
-</span><span class='line'>    <span class="n">stub_const</span><span class="p">(</span><span class="s1">&#39;Foo::BAR&#39;</span><span class="p">,</span> <span class="s1">&#39;???&#39;</span><span class="p">)</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="n">it</span> <span class="s1">&#39;have constant BAR&#39;</span> <span class="k">do</span>
-</span><span class='line'>    <span class="n">expect</span><span class="p">(</span><span class="no">Foo</span><span class="o">::</span><span class="no">BAR</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">eq</span> <span class="s1">&#39;???&#39;</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>The merit of this way is easy to setup and easy to understand.<br/>
-Ths demerit of this way is that <code>stub_const</code> depends on rspec-mocks, so if you want to use <code>stub_const</code> with minitest,
-you have to HACK minitest.</p>
-
-<h3>conslusion</h3>
-
-<p>Chosing <code>remove_const</code> vs <code>stub_const</code> depends on your situation. I think if the constant is important for buisiness logic,
-you should choose <code>remove_const</code>. If the constant is no so important testing and using rspec, you choose <code>stub_const</code>.<br/>
-I think this discussion has no goal, but I think having many options is one of the the ways to be a HACKER.</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/2">&larr; Older</a>
@@ -1138,6 +1032,10 @@ I think this discussion has no goal, but I think having many options is one of t
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2014/08/13/howaitobbqi-yue/">ホワイトBB契約 つづき</a>
+      </li>
+    
+      <li class="post">
         <a href="/2014/08/04/octopress-heart-emoji/">Octopress :heart: Emoji</a>
       </li>
     
@@ -1151,10 +1049,6 @@ I think this discussion has no goal, but I think having many options is one of t
     
       <li class="post">
         <a href="/2014/07/18/checkout-with-updating-tags/">checkout with updating tags</a>
-      </li>
-    
-      <li class="post">
-        <a href="/2014/07/04/neobundlelazy-vimfiler/">NeoBundleLazy &#8216;VimFiler&#8217;</a>
       </li>
     
   </ul>

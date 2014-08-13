@@ -15,13 +15,12 @@
     }());
   </script>
 
-  <title>変数のスワップ - yasuoza diary</title>
+  <title>ホワイトBB契約 つづき - yasuoza diary</title>
   <meta name="author" content="Yasuharu Ozaki">
 
   
-  <meta name="description" content="大学時代にC言語でプログラミングしているとき、変数のスワップをする必要が出た場合は一時変数用いるように教わりました。 こんなかんじでした。 1
-2
-3 int tmp = x; int x = y; int y = tmp; それから数年。今では主に動的言語を使ってプログラミングをしています。 &hellip;">
+  <meta name="description" content="ホワイトBB解約からの再契約の記事を書いてから2週間強、
+NTTの工事も無事終わり、ホワイトBBの加入権ありで申し込みを行った。 ソフトバンクショップで加入権なしのホワイトBBを解約するときに、もしかしたら今使っているモデムをそのまま使えるかもしれないから、 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -30,7 +29,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://blog.yasuoza.com/2012/09/19/swap_variables">
+  <link rel="canonical" href="http://blog.yasuoza.com/2014/08/13/howaitobbqi-yue">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="yasuoza diary" type="application/atom+xml">
@@ -93,7 +92,7 @@
   
   <header>
     
-      <h1 class="entry-title">変数のスワップ</h1>
+      <h1 class="entry-title">ホワイトBB契約 つづき</h1>
     
     
       <p class="meta">
@@ -109,63 +108,26 @@
   
 
 
-<time datetime="2012-09-19T00:00:00+00:00" pubdate data-updated="true"></time>
+<time datetime="2014-08-13T04:45:41+00:00" pubdate data-updated="true">Aug 13<sup>th</sup>, 2014</time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><p>大学時代にC言語でプログラミングしているとき、変数のスワップをする必要が出た場合は一時変数用いるように教わりました。</p>
+<div class="entry-content"><p><a href="http://blog.yasuoza.com/2014/07/28/howaitobbjie-yue-karafalsezai-qi-yue/">ホワイトBB解約からの再契約</a>の記事を書いてから2週間強、
+NTTの工事も無事終わり、ホワイトBBの加入権ありで申し込みを行った。</p>
 
-<p>こんなかんじでした。</p>
+<p>ソフトバンクショップで加入権なしのホワイトBBを解約するときに、もしかしたら今使っているモデムをそのまま使えるかもしれないから、
+加入権ありで契約するときにその旨をオペレータに伝えてみてって言われたので、その旨伝えたら、</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'> int tmp = x;
-</span><span class='line'> int x = y;
-</span><span class='line'> int y = tmp;</span></code></pre></td></tr></table></div></figure>
+<blockquote><p>モデムにデータを入れて送るので、使い回しは出来ないんです。以前使っていたモデムは返却をお願いします。</p></blockquote>
 
+<p>ってあっさり言われちゃったorz</p>
 
-<p>それから数年。今では主に動的言語を使ってプログラミングをしています。
-ごく稀に変数のスワップを迫られる場面があり、これまでは上記のようなイケてない(※個人の感想です)方法でスワップしていました。</p>
+<p>まぁそうだよなー。システム的に出来るとしてもイレギュラー過ぎて対応もめんどくさいだろうしなー。</p>
 
-<p>いろいろ調べたらRubyでは次のようにスワップ出来るようです。</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>a = 'I am a'
-</span><span class='line'>b = 'I am b'
-</span><span class='line'>a, b = b, a
-</span><span class='line'>puts a #=&gt; 'I am b'
-</span><span class='line'>puts b #=&gt; 'I am a'</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Perlではこんなかんじ</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>my $a = 'I am a';
-</span><span class='line'>my $b = 'I am b';
-</span><span class='line'>($a, $b) = ($b, $a);
-</span><span class='line'>say $a; #=&gt; 'I am b'
-</span><span class='line'>say $b; #=&gt; 'I am a'</span></code></pre></td></tr></table></div></figure>
-
-
-<p>JavaScriptはIEでのバグが怖いので素直に一時変数使ってスワップするといいと思います。
-<a href="http://stackoverflow.com/questions/872310/javascript-swap-array-elements" target="_blank">Javascript swap array elements - stackoverflow</a></p>
-
-<p>スワップに迫られる場面殆ど無いですが、あるとしたらイケてる方(※個人の感想です)を使いたいものです。</p>
-
-<p>Perlの方はリストコンテキストをうまく使っているので、パッと見で何をしているのかわかりやすいですが、Rubyの方はちょっとわかりづらい気がします。
-どちらもコメントなどでスワップするよ！っていう旨を記載しておくとリーダブルコードになるんじゃないかなと思います。</p>
+<p>というわけで、前に使っていたモデムは送りました。早くこいインターネット。</p>
 </div>
 
 
@@ -188,7 +150,7 @@
   
 
 
-<time datetime="2012-09-19T00:00:00+00:00" pubdate data-updated="true"></time>
+<time datetime="2014-08-13T04:45:41+00:00" pubdate data-updated="true">Aug 13<sup>th</sup>, 2014</time>
       
 
 
@@ -196,7 +158,7 @@
     
       <div class="sharing">
   
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://blog.yasuoza.com/2012/09/19/swap_variables/" data-via="" data-counturl="http://blog.yasuoza.com/2012/09/19/swap_variables/" >Tweet</a>
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://blog.yasuoza.com/2014/08/13/howaitobbqi-yue/" data-via="" data-counturl="http://blog.yasuoza.com/2014/08/13/howaitobbqi-yue/" >Tweet</a>
   
   
   
@@ -207,14 +169,18 @@
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/2012/09/18/clear_chromefavicon_cache/" title="Previous Post: Chromeのfaviconのキャッシュをクリアする">&laquo; Chromeのfaviconのキャッシュをクリアする</a>
+        <a class="basic-alignment left" href="/2014/08/04/octopress-heart-emoji/" title="Previous Post: Octopress :heart: Emoji">&laquo; Octopress :heart: Emoji</a>
       
-      
-        <a class="basic-alignment right" href="/2012/09/21/brew_upgrade_git_erro/" title="Next Post: brew upgrade gitでハマる">brew upgrade gitでハマる &raquo;</a>
       
     </p>
   </footer>
 </article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
 
 
 </div>
@@ -270,7 +236,10 @@
       var disqus_shortname = 'yasuozadiary';
       
         
-        var disqus_script = 'count.js';
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://blog.yasuoza.com/2014/08/13/howaitobbqi-yue/';
+        var disqus_url = 'http://blog.yasuoza.com/2014/08/13/howaitobbqi-yue/';
+        var disqus_script = 'embed.js';
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;

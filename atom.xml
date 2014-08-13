@@ -4,7 +4,7 @@
   <title><![CDATA[yasuoza diary]]></title>
   <link href="http://blog.yasuoza.com/atom.xml" rel="self"/>
   <link href="http://blog.yasuoza.com/"/>
-  <updated>2014-08-11T04:39:12+00:00</updated>
+  <updated>2014-08-13T04:53:50+00:00</updated>
   <id>http://blog.yasuoza.com/</id>
   <author>
     <name><![CDATA[Yasuharu Ozaki]]></name>
@@ -12,6 +12,27 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[ホワイトBB契約 つづき]]></title>
+    <link href="http://blog.yasuoza.com/2014/08/13/howaitobbqi-yue/"/>
+    <updated>2014-08-13T04:45:41+00:00</updated>
+    <id>http://blog.yasuoza.com/2014/08/13/howaitobbqi-yue</id>
+    <content type="html"><![CDATA[<p><a href="http://blog.yasuoza.com/2014/07/28/howaitobbjie-yue-karafalsezai-qi-yue/">ホワイトBB解約からの再契約</a>の記事を書いてから2週間強、
+NTTの工事も無事終わり、ホワイトBBの加入権ありで申し込みを行った。</p>
+
+<p>ソフトバンクショップで加入権なしのホワイトBBを解約するときに、もしかしたら今使っているモデムをそのまま使えるかもしれないから、
+加入権ありで契約するときにその旨をオペレータに伝えてみてって言われたので、その旨伝えたら、</p>
+
+<blockquote><p>モデムにデータを入れて送るので、使い回しは出来ないんです。以前使っていたモデムは返却をお願いします。</p></blockquote>
+
+<p>ってあっさり言われちゃったorz</p>
+
+<p>まぁそうだよなー。システム的に出来るとしてもイレギュラー過ぎて対応もめんどくさいだろうしなー。</p>
+
+<p>というわけで、前に使っていたモデムは送りました。早くこいインターネット。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Octopress :heart: Emoji]]></title>
@@ -1346,55 +1367,6 @@ for the issue.</p>
     <updated>2014-01-07T06:43:15+00:00</updated>
     <id>http://blog.yasuoza.com/2014/01/07/words</id>
     <content type="html"><![CDATA[<blockquote><p>大工なんて下請けじゃん</p></blockquote>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[HBFav-Android 2.1.1リリース]]></title>
-    <link href="http://blog.yasuoza.com/2013/12/27/hbfav-android-2-1-1/"/>
-    <updated>2013-12-27T04:39:25+00:00</updated>
-    <id>http://blog.yasuoza.com/2013/12/27/hbfav-android-2-1-1</id>
-    <content type="html"><![CDATA[<p>HBFav for Androidの2.1.1をリリースしました!</p>
-
-<p><a href="https://play.google.com/store/apps/details?id=com.hbfav.android">はてなブックマークをタイムライン形式で HBFav</a></p>
-
-<p>今回のバージョンアップでは</p>
-
-<ul>
-<li>ビルトインブラウザ</li>
-<li>コメントの閲覧</li>
-<li>アプリ単体でのブックマーク登録・更新・削除機能</li>
-</ul>
-
-
-<p>の追加をしました。</p>
-
-<p>いちいちブラウザに飛ぶことはなくなったので、よりシームレスに記事を閲覧することが出来るようになったと思います。</p>
-
-<p><img class="center" src="http://blog.yasuoza.com/images/hbfav/entry_webview.jpg" width="350"></p>
-
-<p><img class="center" src="http://blog.yasuoza.com/images/hbfav/activity_bookmark_entry.jpg" width="350"></p>
-
-<p>OAuth認証したり、異なるサイズのボタンを配置したり、キーボードの開閉に合わせた挙動をさせたりと、まぁまぁ大変でした。<br/>
-1週間ブックマークを見る暇なくずっとブックマーク登録画面だけ開発してたなんてときもありましたが、それでも総じて楽しかったです。</p>
-
-<p>一部の端末で正しくOauth認証出来ないバグが確認されております。年明けから対応していきます。Android大変です。。。<br/>
-また、アプリが落ちたり、うまく動作しない場合は<a href="https://github.com/yasuoza/HBFav-Android/issues">Github</a>に書いて頂くか、<a href="https://www.twitter.com/yasuoza">@yasuoza</a>まで
-お気軽にメンションください。出来る限りのサポートはしていきます。</p>
-
-<p>今後ともHBFav-Androidをよろしくお願いします!</p>
-
-<p>Special thanks :heart::heart::heart:</p>
-
-<ul>
-<li><a href="https://www.hatena.com/">株式会社はてな様</a> 問い合わせに対してご丁寧に対応していただきました。</li>
-<li><a href="http://stackoverflow.com/">stackoverflowさん</a> 今回も引き続きお世話になりました。</li>
-<li><a href="http://android-ui-utils.googlecode.com/hg/asset-studio/dist/index.html">Android Asset Studioさん</a> UI実装に大変役立ちました。</li>
-<li><a href="http://android-holo-colors.com/">Android Holo Colors Generator</a> UI実装に大変役立ちました。</li>
-</ul>
-
-
-<p>年末年始はdockerで遊ぶ予定です。dockerを利用してちょっと作りたいものがあるので、ちょっと実験してみます。</p>
 ]]></content>
   </entry>
   
