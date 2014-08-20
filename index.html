@@ -19,8 +19,8 @@
   <meta name="author" content="Yasuharu Ozaki">
 
   
-  <meta name="description" content="ホワイトBB解約からの再契約の記事を書いてから2週間強、
-NTTの工事も無事終わり、ホワイトBBの加入権ありで申し込みを行った。 ソフトバンクショップで加入権なしのホワイトBBを解約するときに、もしかしたら今使っているモデムをそのまま使えるかもしれないから、 &hellip;">
+  <meta name="description" content="やっと局内工事日が22日に決まった。長かった。
+">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -89,6 +89,42 @@ NTTの工事も無事終わり、ホワイトBBの加入権ありで申し込み
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2014/08/18/howaitobbzai-qi-yue-sok-kigong-shi-ri-jue-ding/">ホワイトBB再契約 続き 工事日決定</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-08-18T07:48:14+00:00" pubdate data-updated="true">Aug 18<sup>th</sup>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>やっと局内工事日が22日に決まった。長かった。</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -935,88 +971,6 @@ Especially for RoR application, <code>ripper-tags</code> is useful and it would 
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2014/06/15/support-tmux-with-reattach-to-user-to-work-in-multi-os/">Support tmux with &#8220;reattach-to-user-namespace&#8221; to work in multi OS</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-06-15T08:44:32+00:00" pubdate data-updated="true">Jun 15<sup>th</sup>, 2014</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>When using tmux with &lsquo;reattach-to-user-namespace&rsquo; to enable clipboard copy paste support in OSX, you may have <code>~/.tmux.conf</code></p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>set-option -g default-command "reattach-to-user-namespace -l zsh"</span></code></pre></td></tr></table></div></figure>
-
-
-<p>However with this configuration, tmux will fails on another platforms such as linux when reattach-to-user-namespace not installed.</p>
-
-<p>So, your have at least 2 option to prevent it.</p>
-
-<ul>
-<li>Prepare another <code>~/.tmux.conf</code>.</li>
-<li>Detect OS and use another <code>default-command</code> for each OS.</li>
-</ul>
-
-
-<p>First option is easy but dull. Who wants to write same content but very last line?</p>
-
-<p>Second option seems not to be easy, but IS easy. You can do like:</p>
-
-<h3>Detect OS pattern</h3>
-
-<p><code>~/.tmux.conf</code></p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>if-shell 'test "$(uname -s)" = Darwin' 'set-option -g default-command "exec reattach-to-user-namespace -l zsh"'</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>Detect OS and load os specific configuration file pattern</h3>
-
-<p><code>~/.tmux.conf</code></p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>if-shell 'test "$(uname -s)" = Darwin' 'source-file $HOME/.tmux-osx.conf'</span></code></pre></td></tr></table></div></figure>
-
-
-<p>and <code>~/.tmux-osx.conf</code></p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>set-option -g default-command 'exec reattach-to-user-namespace -l zsh'</span></code></pre></td></tr></table></div></figure>
-
-
-<p>That&rsquo;s it!</p>
-
-<p>Read more:</p>
-
-<p><a href="https://github.com/ChrisJohnsen/tmux-MacOSX-pasteboard/blob/master/Usage.md">ChrisJohnsen/tmux-MacOSX-pasteboard/Usage.md</a></p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/2">&larr; Older</a>
@@ -1032,6 +986,10 @@ Especially for RoR application, <code>ripper-tags</code> is useful and it would 
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2014/08/18/howaitobbzai-qi-yue-sok-kigong-shi-ri-jue-ding/">ホワイトBB再契約 続き 工事日決定</a>
+      </li>
+    
+      <li class="post">
         <a href="/2014/08/13/howaitobbqi-yue/">ホワイトBB契約 つづき</a>
       </li>
     
@@ -1045,10 +1003,6 @@ Especially for RoR application, <code>ripper-tags</code> is useful and it would 
     
       <li class="post">
         <a href="/2014/07/28/howaitobbjie-yue-karafalsezai-qi-yue/">ホワイトBB解約からの再契約</a>
-      </li>
-    
-      <li class="post">
-        <a href="/2014/07/18/checkout-with-updating-tags/">checkout with updating tags</a>
       </li>
     
   </ul>

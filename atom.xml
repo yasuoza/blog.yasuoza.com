@@ -4,7 +4,7 @@
   <title><![CDATA[yasuoza diary]]></title>
   <link href="http://blog.yasuoza.com/atom.xml" rel="self"/>
   <link href="http://blog.yasuoza.com/"/>
-  <updated>2014-08-13T04:53:50+00:00</updated>
+  <updated>2014-08-20T08:44:30+00:00</updated>
   <id>http://blog.yasuoza.com/</id>
   <author>
     <name><![CDATA[Yasuharu Ozaki]]></name>
@@ -12,6 +12,15 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[ホワイトBB再契約 続き 工事日決定]]></title>
+    <link href="http://blog.yasuoza.com/2014/08/18/howaitobbzai-qi-yue-sok-kigong-shi-ri-jue-ding/"/>
+    <updated>2014-08-18T07:48:14+00:00</updated>
+    <id>http://blog.yasuoza.com/2014/08/18/howaitobbzai-qi-yue-sok-kigong-shi-ri-jue-ding</id>
+    <content type="html"><![CDATA[<p>やっと局内工事日が22日に決まった。長かった。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[ホワイトBB契約 つづき]]></title>
@@ -1358,15 +1367,6 @@ for the issue.</p>
 </pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>docker run base <span class="nb">echo</span> <span class="s2">&quot;hello world!&quot;</span>
 </span></code></pre></td></tr></table></div></figure>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[年末年始に会った友達の言葉]]></title>
-    <link href="http://blog.yasuoza.com/2014/01/07/words/"/>
-    <updated>2014-01-07T06:43:15+00:00</updated>
-    <id>http://blog.yasuoza.com/2014/01/07/words</id>
-    <content type="html"><![CDATA[<blockquote><p>大工なんて下請けじゃん</p></blockquote>
 ]]></content>
   </entry>
   

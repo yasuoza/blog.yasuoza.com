@@ -19,19 +19,8 @@
   <meta name="author" content="Yasuharu Ozaki">
 
   
-  <meta name="description" content="If you&rsquo;re writing test with rspec, sometime you want to CHANGE constants like 1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-# foo.rb
-class Foo BAR = &#39;bar&#39; &hellip;">
+  <meta name="description" content="When using tmux with &lsquo;reattach-to-user-namespace&rsquo; to enable clipboard copy paste support in OSX, you may have ~/.tmux.conf 1
+set-option - &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -100,6 +89,88 @@ class Foo BAR = &#39;bar&#39; &hellip;">
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2014/06/15/support-tmux-with-reattach-to-user-to-work-in-multi-os/">Support tmux with &#8220;reattach-to-user-namespace&#8221; to work in multi OS</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-06-15T08:44:32+00:00" pubdate data-updated="true">Jun 15<sup>th</sup>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>When using tmux with &lsquo;reattach-to-user-namespace&rsquo; to enable clipboard copy paste support in OSX, you may have <code>~/.tmux.conf</code></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>set-option -g default-command "reattach-to-user-namespace -l zsh"</span></code></pre></td></tr></table></div></figure>
+
+
+<p>However with this configuration, tmux will fails on another platforms such as linux when reattach-to-user-namespace not installed.</p>
+
+<p>So, your have at least 2 option to prevent it.</p>
+
+<ul>
+<li>Prepare another <code>~/.tmux.conf</code>.</li>
+<li>Detect OS and use another <code>default-command</code> for each OS.</li>
+</ul>
+
+
+<p>First option is easy but dull. Who wants to write same content but very last line?</p>
+
+<p>Second option seems not to be easy, but IS easy. You can do like:</p>
+
+<h3>Detect OS pattern</h3>
+
+<p><code>~/.tmux.conf</code></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>if-shell 'test "$(uname -s)" = Darwin' 'set-option -g default-command "exec reattach-to-user-namespace -l zsh"'</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Detect OS and load os specific configuration file pattern</h3>
+
+<p><code>~/.tmux.conf</code></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>if-shell 'test "$(uname -s)" = Darwin' 'source-file $HOME/.tmux-osx.conf'</span></code></pre></td></tr></table></div></figure>
+
+
+<p>and <code>~/.tmux-osx.conf</code></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>set-option -g default-command 'exec reattach-to-user-namespace -l zsh'</span></code></pre></td></tr></table></div></figure>
+
+
+<p>That&rsquo;s it!</p>
+
+<p>Read more:</p>
+
+<p><a href="https://github.com/ChrisJohnsen/tmux-MacOSX-pasteboard/blob/master/Usage.md">ChrisJohnsen/tmux-MacOSX-pasteboard/Usage.md</a></p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -1035,42 +1106,6 @@ for the issue.</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2014/01/07/words/">年末年始に会った友達の言葉</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-01-07T06:43:15+00:00" pubdate data-updated="true">Jan 7<sup>th</sup>, 2014</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><blockquote><p>大工なんて下請けじゃん</p></blockquote>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/3">&larr; Older</a>
@@ -1088,6 +1123,10 @@ for the issue.</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2014/08/18/howaitobbzai-qi-yue-sok-kigong-shi-ri-jue-ding/">ホワイトBB再契約 続き 工事日決定</a>
+      </li>
+    
+      <li class="post">
         <a href="/2014/08/13/howaitobbqi-yue/">ホワイトBB契約 つづき</a>
       </li>
     
@@ -1101,10 +1140,6 @@ for the issue.</p>
     
       <li class="post">
         <a href="/2014/07/28/howaitobbjie-yue-karafalsezai-qi-yue/">ホワイトBB解約からの再契約</a>
-      </li>
-    
-      <li class="post">
-        <a href="/2014/07/18/checkout-with-updating-tags/">checkout with updating tags</a>
       </li>
     
   </ul>

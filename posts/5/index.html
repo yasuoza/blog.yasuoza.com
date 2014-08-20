@@ -19,7 +19,8 @@
   <meta name="author" content="Yasuharu Ozaki">
 
   
-  <meta name="description" content="昨日行われた全文検索エンジンgroongaを囲む夕べ 3 @groongaはUstで見てました。 (g|m|r)roongaに興味を持った人もいるのではないかと思い、mroongaを既存のRailsアプリケーションに導入する方法を紹介しようと思います。 想定は データベースはMySQLを使っている &hellip;">
+  <meta name="description" content="vim-ruby入れましょう 1
+NeoBundle 'vim-ruby/vim-ruby' neocomplcacheオンにしてruby書くとelseのインデントが左寄せにならない。&mdash; Yasuharu Ozaki (@YasuOza) November 22, 2012 @ &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -88,6 +89,74 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2012/12/02/neocomplcache-ruby-indent/">[解決]neocomplcacheでrubyのインデントがずれる</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-12-02T00:00:00+00:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><a href="https://github.com/vim-ruby/vim-ruby" target="_blank">vim-ruby</a>入れましょう</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>NeoBundle 'vim-ruby/vim-ruby'</span></code></pre></td></tr></table></div></figure>
+
+
+<p><br>
+<br></p>
+
+<blockquote class="twitter-tweet"><p>neocomplcacheオンにしてruby書くとelseのインデントが左寄せにならない。</p>&mdash; Yasuharu Ozaki (@YasuOza) <a href="https://twitter.com/YasuOza/status/271541758087819264" data-datetime="2012-11-22T09:12:54+00:00">November 22, 2012</a></blockquote>
+
+
+<script src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+
+
+
+<blockquote class="twitter-tweet" data-in-reply-to="274396359459745792"><p>@<a href="https://twitter.com/yasuoza">yasuoza</a> 原因がわかりました。こちらの環境では、vim-rubyをインストールしていて、これを有効にしたらインデントを行いますが無効にするとインデントされませんでした。</p>&mdash; Shougo.Matsu (@ShougoMatsu) <a href="https://twitter.com/ShougoMatsu/status/275165404710703104" data-datetime="2012-12-02T09:11:59+00:00">December 2, 2012</a></blockquote>
+
+
+<script src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+
+
+
+<blockquote class="twitter-tweet" data-in-reply-to="275165987916087296"><p>@<a href="https://twitter.com/shougomatsu">shougomatsu</a> vim-rubyインストールすることで、neocomplcacheを使ってelseのインデントが正しく戻るようになりました！いろいろサポートしていただき、本当にありがとうございました。今まで以上に便利に使わせて頂きます。</p>&mdash; Yasuharu Ozaki (@YasuOza) <a href="https://twitter.com/YasuOza/status/275234736379670528" data-datetime="2012-12-02T13:47:29+00:00">December 2, 2012</a></blockquote>
+
+
+<script src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+
+<p>これで今まで以上に気持よくRubyが書けるようになりました！
+@Shougo.Matsuさん、手厚いサポートしていただき、本当にありがとうございました！</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -839,154 +908,6 @@ Websocketを使った通知の設定方法も書いてあるので、とても�
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2012/08/16/devise-omniauth-facebook/">devise + omniauth-facebookでリクエストURLにリダイレクトする</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-08-16T00:00:00+00:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><a href="https://github.com/plataformatec/devise/" title="devise" target="_blank">devise</a>と<a href="https://github.com/mkdynamic/omniauth-facebook" title="omniauth-facebook" target="_blank">omniauth-facebook</a>で簡単にFacebook認証をアプリに組み込むことができます。
-組み込み方は<a href="https://github.com/plataformatec/devise/wiki/OmniAuth:-Overview" target="_blank">devise公式wiki</a>が一番わかり易いと思いますのでそちらを参考にして下さい。</p>
-
-<p>なお、この記事では次のルーティングに従います。
-デフォルトのまま使うと/users/sign_upとかついてきますが、facebookログインに限ると必要ありませんからね。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">devise_for</span> <span class="ss">:users</span><span class="p">,</span> <span class="ss">:skip</span> <span class="o">=&gt;</span> <span class="o">[</span><span class="ss">:sessions</span><span class="p">,</span> <span class="ss">:registration</span><span class="p">,</span> <span class="ss">:password</span><span class="o">]</span><span class="p">,</span> <span class="ss">:controllers</span> <span class="o">=&gt;</span> <span class="p">{</span> <span class="ss">:omniauth_callbacks</span> <span class="o">=&gt;</span> <span class="s1">&#39;omniauth_callbacks&#39;</span> <span class="p">}</span>
-</span><span class='line'><span class="n">as</span> <span class="ss">:user</span> <span class="k">do</span>
-</span><span class='line'>  <span class="n">delete</span> <span class="s1">&#39;/logout&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;devise/sessions#destroy&#39;</span><span class="p">,</span> <span class="ss">:as</span> <span class="o">=&gt;</span> <span class="ss">:destroy_user_session</span>
-</span><span class='line'>  <span class="n">delete</span> <span class="s1">&#39;/delete&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;devise/registrations#destroy&#39;</span><span class="p">,</span> <span class="ss">:as</span> <span class="o">=&gt;</span> <span class="ss">:destory_user</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>コールバックは次のクラスで受け取ります。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">OmniauthCallbacksController</span> <span class="o">&lt;</span> <span class="no">Devise</span><span class="o">::</span><span class="no">OmniauthCallbacksController</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="k">def</span> <span class="nf">facebook</span>
-</span><span class='line'>    <span class="vi">@user</span> <span class="o">=</span> <span class="no">User</span><span class="o">.</span><span class="n">find_or_create_from</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">env</span><span class="o">[</span><span class="s1">&#39;omniauth.auth&#39;</span><span class="o">]</span><span class="p">)</span>
-</span><span class='line'>    <span class="n">sign_in_and_redirect</span> <span class="vi">@user</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>それで例えば、/users以下を閲覧するときには認証をかけたいっていうことが往々にしてあると思います。
-それは</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">UsersController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
-</span><span class='line'>  <span class="n">before_filter</span> <span class="ss">:authenticate_user!</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="k">def</span> <span class="nf">show</span>
-</span><span class='line'>    <span class="vi">@user</span> <span class="o">=</span> <span class="n">current_user</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>のようにしてbefore_filter噛ませてあげると簡単ですが、このままだとユーザが直接/users/:idページを叩いた時にfacebookログインが行われず、基本設定のままだと、ルートにリダイレクトされます。</p>
-
-<p>これを/users/:idページを直接叩いたときは直でfacebookログインにリダイレクトさせて、callbackを受け取った時にもともとリクエストされた/users/:idにリダイレクトさせるには次のように設定します。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">ApplicationController</span> <span class="o">&lt;</span> <span class="no">ActionController</span><span class="o">::</span><span class="no">Base</span>
-</span><span class='line'>  <span class="n">protect_from_forgery</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="kp">protected</span>
-</span><span class='line'>  <span class="k">def</span> <span class="nf">authenticate_user!</span>
-</span><span class='line'>    <span class="n">session</span><span class="o">[</span><span class="ss">:user_return_to</span><span class="o">]</span> <span class="o">=</span> <span class="n">env</span><span class="o">[</span><span class="s1">&#39;PATH_INFO&#39;</span><span class="o">]</span>
-</span><span class='line'>    <span class="n">redirect_to</span> <span class="n">user_omniauth_authorize_path</span><span class="p">(</span><span class="ss">:facebook</span><span class="p">)</span> <span class="k">unless</span> <span class="n">user_signed_in?</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p><code>authenticate_user!</code>をapplication_controller.rbでオーバーライドします。
-ポイントは6行目で<code>session[:user_return_to]</code>にリクエストURLを保存しておくことです。
-<code>authenticate_member!</code>の場合は<code>session[:member_return_to]</code>に保存します。</p>
-
-<p>これでdeviseの内部実装のちからを借りて<code>sign_in_and_redirect_to @user</code>をした時に元のリクエストURLにリダイレクトされます。</p>
-
-<p>devise自体はそんなに難しいことをしていないので、内部実装を覗くとlib/devise/controllers/helpers.rbの次の2つの関数で<code>session[:user_return_to]</code>からリダイレクト先を取得していることがわかります。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">stored_location_for</span><span class="p">(</span><span class="n">resource_or_scope</span><span class="p">)</span>
-</span><span class='line'>  <span class="n">scope</span> <span class="o">=</span> <span class="no">Devise</span><span class="o">::</span><span class="no">Mapping</span><span class="o">.</span><span class="n">find_scope!</span><span class="p">(</span><span class="n">resource_or_scope</span><span class="p">)</span>
-</span><span class='line'>  <span class="n">session</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">#{</span><span class="n">scope</span><span class="si">}</span><span class="s2">_return_to&quot;</span><span class="p">)</span>
-</span><span class='line'><span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">def</span> <span class="nf">after_sign_in_path_for</span><span class="p">(</span><span class="n">resource_or_scope</span><span class="p">)</span>
-</span><span class='line'>  <span class="n">stored_location_for</span><span class="p">(</span><span class="n">resource_or_scope</span><span class="p">)</span> <span class="o">||</span> <span class="n">signed_in_root_path</span><span class="p">(</span><span class="n">resource_or_scope</span><span class="p">)</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Railsはとても素敵で便利なフレームワークだと思います！Rubyもすごく素敵な言語だなと思います！</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/6">&larr; Older</a>
@@ -1004,6 +925,10 @@ Websocketを使った通知の設定方法も書いてあるので、とても�
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2014/08/18/howaitobbzai-qi-yue-sok-kigong-shi-ri-jue-ding/">ホワイトBB再契約 続き 工事日決定</a>
+      </li>
+    
+      <li class="post">
         <a href="/2014/08/13/howaitobbqi-yue/">ホワイトBB契約 つづき</a>
       </li>
     
@@ -1017,10 +942,6 @@ Websocketを使った通知の設定方法も書いてあるので、とても�
     
       <li class="post">
         <a href="/2014/07/28/howaitobbjie-yue-karafalsezai-qi-yue/">ホワイトBB解約からの再契約</a>
-      </li>
-    
-      <li class="post">
-        <a href="/2014/07/18/checkout-with-updating-tags/">checkout with updating tags</a>
       </li>
     
   </ul>
