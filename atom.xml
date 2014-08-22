@@ -4,7 +4,7 @@
   <title><![CDATA[yasuoza diary]]></title>
   <link href="http://blog.yasuoza.com/atom.xml" rel="self"/>
   <link href="http://blog.yasuoza.com/"/>
-  <updated>2014-08-20T08:44:30+00:00</updated>
+  <updated>2014-08-22T05:36:43+00:00</updated>
   <id>http://blog.yasuoza.com/</id>
   <author>
     <name><![CDATA[Yasuharu Ozaki]]></name>
@@ -12,6 +12,18 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[ホワイトBB再契約 続き 工事日]]></title>
+    <link href="http://blog.yasuoza.com/2014/08/22/howaitobbzai-qi-yue-sok-ki-gong-shi-ri/"/>
+    <updated>2014-08-22T05:31:27+00:00</updated>
+    <id>http://blog.yasuoza.com/2014/08/22/howaitobbzai-qi-yue-sok-ki-gong-shi-ri</id>
+    <content type="html"><![CDATA[<p>今日である。楽しみで仕方ない。</p>
+
+<p><img src="http://explodingdog.com/drawing/ijustcantwait.jpg" alt="" />
+<a href="http://explodingdog.com/title/ijustcantwait.html">http://explodingdog.com/title/ijustcantwait.html</a></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[ホワイトBB再契約 続き 工事日決定]]></title>
@@ -1289,84 +1301,6 @@ for the issue.</p>
 <p>Refs:<br/>
 - <a href="http://pchw.github.io/blog/2013/06/27/octopress-travis/  ">http://pchw.github.io/blog/2013/06/27/octopress-travis/  </a>
 - <a href="http://www.harimenon.com/blog/2013/01/27/auto-deploying-to-my-octopress-blog/">http://www.harimenon.com/blog/2013/01/27/auto-deploying-to-my-octopress-blog/</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Docker in OSX without dvm]]></title>
-    <link href="http://blog.yasuoza.com/2014/01/10/docker-in-osx-without-dvm/"/>
-    <updated>2014-01-10T02:35:08+00:00</updated>
-    <id>http://blog.yasuoza.com/2014/01/10/docker-in-osx-without-dvm</id>
-    <content type="html"><![CDATA[<p>Docker client for OSX released as of <a href="https://github.com/dotcloud/docker/blob/master/CHANGELOG.md#073-2014-01-02">0.7.3</a></p>
-
-<p>Now, we OSX user can access docker container without ssh command by followlig without <a href="http://fnichol.github.io/dvm/">dvm</a></p>
-
-<p>Install docker client via Homebrew:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>brew update
-</span><span class='line'><span class="nv">$ </span>brew tap homebrew/binary
-</span><span class='line'><span class="nv">$ </span>brew install docker
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Next, setup Vagrantfile like:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">DOCKER_IP</span>   <span class="o">=</span> <span class="no">ENV</span><span class="o">[</span><span class="s2">&quot;DOCKER_IP&quot;</span><span class="o">]</span>   <span class="o">||</span> <span class="s2">&quot;192.168.42.43&quot;</span>
-</span><span class='line'><span class="no">DOCKER_PORT</span> <span class="o">=</span> <span class="no">ENV</span><span class="o">[</span><span class="s2">&quot;DOCKER_PORT&quot;</span><span class="o">]</span> <span class="o">||</span> <span class="mi">4243</span>
-</span><span class='line'>
-</span><span class='line'><span class="no">Vagrant</span><span class="o">.</span><span class="n">configure</span><span class="p">(</span><span class="s2">&quot;2&quot;</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">config</span><span class="o">|</span>
-</span><span class='line'>  <span class="n">config</span><span class="o">.</span><span class="n">vm</span><span class="o">.</span><span class="n">box</span>     <span class="o">=</span> <span class="s2">&quot;precise64&quot;</span>
-</span><span class='line'>  <span class="n">config</span><span class="o">.</span><span class="n">vm</span><span class="o">.</span><span class="n">box_url</span> <span class="o">=</span> <span class="s2">&quot;http://files.vagrantup.com/precise64.box&quot;</span>
-</span><span class='line'>  <span class="n">config</span><span class="o">.</span><span class="n">vm</span><span class="o">.</span><span class="n">network</span> <span class="ss">:private_network</span><span class="p">,</span> <span class="ss">ip</span><span class="p">:</span> <span class="no">DOCKER_IP</span>
-</span><span class='line'>  <span class="n">config</span><span class="o">.</span><span class="n">vm</span><span class="o">.</span><span class="n">provision</span> <span class="ss">:docker</span> <span class="k">do</span> <span class="o">|</span><span class="n">d</span><span class="o">|</span>
-</span><span class='line'>    <span class="n">d</span><span class="o">.</span><span class="n">pull_images</span> <span class="s2">&quot;base&quot;</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'>  <span class="n">config</span><span class="o">.</span><span class="n">vm</span><span class="o">.</span><span class="n">provision</span> <span class="ss">:shell</span><span class="p">,</span> <span class="ss">inline</span><span class="p">:</span> <span class="o">&lt;&lt;-</span><span class="no">SHELL</span>
-</span><span class='line'><span class="sh">    sudo sed -i -e &#39;s/DOCKER_OPTS=/DOCKER_OPTS=\&quot;-H #{DOCKER_IP}:#{DOCKER_PORT}\&quot;/g&#39; /etc/init/docker.conf</span>
-</span><span class='line'><span class="sh">    sudo service docker restart</span>
-</span><span class='line'><span class="no">  SHELL</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Then run VM:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>vagrant up
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Export <code>DOCKER_HOST</code>:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span><span class="nb">export </span><span class="nv">DOCKER_HOST</span><span class="o">=</span><span class="s2">&quot;tcp://192.168.42.43:4243&quot;</span> <span class="c"># DOCKER_HOST=&quot;$DOCKER_IP:$DOCKER_PORT&quot;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>That&rsquo;s all. Now you can access docker container like:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>docker run base <span class="nb">echo</span> <span class="s2">&quot;hello world!&quot;</span>
-</span></code></pre></td></tr></table></div></figure>
-
 ]]></content>
   </entry>
   

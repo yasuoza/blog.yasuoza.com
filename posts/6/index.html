@@ -19,9 +19,9 @@
   <meta name="author" content="Yasuharu Ozaki">
 
   
-  <meta name="description" content="deviseとomniauth-facebookで簡単にFacebook認証をアプリに組み込むことができます。
-組み込み方はdevise公式wikiが一番わかり易いと思いますのでそちらを参考にして下さい。 なお、この記事では次のルーティングに従います。
-デフォルトのまま使うと/users/ &hellip;">
+  <meta name="description" content="JenkinsのXFDにWebsocketを使ってそれぞれのビルド結果を表示するようにしました。 参考にしたのは次のサイトです。
+Websocketを使った通知の設定方法も書いてあるので、とても参考になりました。
+Jenkinsのビルド結果をリアルタイム通知するプラグイン『Jenkins &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -90,6 +90,59 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2012/08/22/jenkins-websocket-plugin/">Jenkins Websocket Pluginを使う</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-08-22T00:00:00+00:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>JenkinsのXFDにWebsocketを使ってそれぞれのビルド結果を表示するようにしました。</p>
+
+<p><img src="/images/2012/08/IMG_0546-223x300.jpg" alt="" title="IMG_0546" width="223" height="300" class="alignnone size-medium wp-image-246" /></p>
+
+<script src="https://gist.github.com/3411816.js?file=index.html"></script>
+
+
+<p>参考にしたのは次のサイトです。
+Websocketを使った通知の設定方法も書いてあるので、とても参考になりました。
+<a href="http://d.hatena.ne.jp/mzp/20110612/jenkins" target="_blank">Jenkinsのビルド結果をリアルタイム通知するプラグイン『Jenkins Websocket Notifier』を作りました</a>
+<a href="http://d.hatena.ne.jp/mallowlabs/20110613/xfd" target="_blank">iPhoneをJenkinsのXFD (eXtreme Feedback Device)にしてみた</a></p>
+
+<p>どちらもそのままだとジョブの名前が出ないので、ジョブが1つだけだといいのですが、2つ以上になるとそれぞれのジョブがどんなステータスなのかわからなかったので、ジョブの名前とステータスを色で表示するようにしています。</p>
+
+<p>はじめは何も表示されませんが、ジョブが完了するとその結果に応じてステータスがビューに表示されます。
+2回目以降のジョブは既存のビューのステータスを更新するようになっています。</p>
+
+<p>Jenkinsとても便利です。</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -948,98 +1001,9 @@ Macの画面共有が便利とか、vim勉強しようとか。</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2012/04/13/markdown/">markdown</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-04-13T00:00:00+00:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h3>This entry is written by markdown style.</h3>
-
-
-
-
-<p>This is a test <code>entry</code>.</p>
-
-
-
-
-<pre><code>pre tag
-</code></pre>
-
-
-
-
-<ul>
-<li>list</li>
-</ul>
-
-
-
-
-<h4>Perl</h4>
-
-
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>sub shout {
-</span><span class='line'>  my $entry = shift;
-</span><span class='line'>  print &quot;$entry&#92;n&quot;;
-</span><span class='line'>}
-</span><span class='line'>shout('Hello World!');</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<h4>JavaScript</h4>
-
-
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>function shout(msg) {
-</span><span class='line'>  console.log(msg);
-</span><span class='line'>}
-</span><span class='line'>shout('Hello World!');</span></code></pre></td></tr></table></div></figure>
-
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
+    
+      <a class="prev" href="/posts/7">&larr; Older</a>
     
     <a href="/archives">Blog Archives</a>
     
@@ -1052,6 +1016,10 @@ Macの画面共有が便利とか、vim勉強しようとか。</p>
     <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/2014/08/22/howaitobbzai-qi-yue-sok-ki-gong-shi-ri/">ホワイトBB再契約 続き 工事日</a>
+      </li>
     
       <li class="post">
         <a href="/2014/08/18/howaitobbzai-qi-yue-sok-kigong-shi-ri-jue-ding/">ホワイトBB再契約 続き 工事日決定</a>
@@ -1067,10 +1035,6 @@ Macの画面共有が便利とか、vim勉強しようとか。</p>
     
       <li class="post">
         <a href="/2014/07/31/im-hub-immigrant/">I&#8217;m a hub immigrant</a>
-      </li>
-    
-      <li class="post">
-        <a href="/2014/07/28/howaitobbjie-yue-karafalsezai-qi-yue/">ホワイトBB解約からの再契約</a>
       </li>
     
   </ul>

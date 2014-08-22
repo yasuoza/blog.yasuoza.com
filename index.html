@@ -19,7 +19,7 @@
   <meta name="author" content="Yasuharu Ozaki">
 
   
-  <meta name="description" content="やっと局内工事日が22日に決まった。長かった。
+  <meta name="description" content="今日である。楽しみで仕方ない。 http://explodingdog.com/title/ijustcantwait.html
 ">
   
 
@@ -89,6 +89,45 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2014/08/22/howaitobbzai-qi-yue-sok-ki-gong-shi-ri/">ホワイトBB再契約 続き 工事日</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-08-22T05:31:27+00:00" pubdate data-updated="true">Aug 22<sup>nd</sup>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>今日である。楽しみで仕方ない。</p>
+
+<p><img src="http://explodingdog.com/drawing/ijustcantwait.jpg" alt="" />
+<a href="http://explodingdog.com/title/ijustcantwait.html">http://explodingdog.com/title/ijustcantwait.html</a></p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -863,114 +902,6 @@ Especially for RoR application, <code>ripper-tags</code> is useful and it would 
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2014/06/26/octpress-rake-new-post-wrapper-command/">octpress rake new_post wrapper command</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-06-26T09:28:21+00:00" pubdate data-updated="true">Jun 26<sup>th</sup>, 2014</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Save following content as <code>new-post</code>.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c">#!/usr/bin/env bash</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">function </span>create <span class="o">()</span> <span class="o">{</span>
-</span><span class='line'>  <span class="nb">local </span><span class="nv">title</span><span class="o">=</span><span class="nv">$@</span>
-</span><span class='line'>  rake new_post<span class="o">[</span><span class="s2">&quot;$title&quot;</span><span class="o">]</span>
-</span><span class='line'><span class="o">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">function </span>usage<span class="o">()</span> <span class="o">{</span>
-</span><span class='line'>  <span class="nb">echo</span> <span class="s2">&quot;USAGE&quot;</span>
-</span><span class='line'>  <span class="nb">echo</span> <span class="s2">&quot;    new-post &#39;This is my new post&#39;&quot;</span>
-</span><span class='line'><span class="o">}</span>
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'><span class="k">if</span> <span class="o">[[</span> -z <span class="nv">$1</span> <span class="o">]]</span><span class="p">;</span> <span class="k">then</span>
-</span><span class='line'><span class="k">  </span>usage
-</span><span class='line'>  <span class="nb">exit </span>1
-</span><span class='line'><span class="k">fi</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">while</span> <span class="o">[</span> <span class="s2">&quot;$1&quot;</span> !<span class="o">=</span> <span class="s2">&quot;&quot;</span> <span class="o">]</span><span class="p">;</span> <span class="k">do</span>
-</span><span class='line'><span class="k">      </span><span class="nv">arg</span><span class="o">=</span><span class="nv">$1</span>
-</span><span class='line'>    <span class="k">case</span> <span class="s2">&quot;$arg&quot;</span> in
-</span><span class='line'>        -h <span class="p">|</span> --help <span class="o">)</span> usage
-</span><span class='line'>                      <span class="nb">exit</span>
-</span><span class='line'>                      <span class="p">;;</span>
-</span><span class='line'>        * <span class="o">)</span>           create <span class="k">${</span><span class="nv">arg</span><span class="p">[@]</span><span class="k">}</span>
-</span><span class='line'>                      <span class="nb">exit</span>
-</span><span class='line'>                      <span class="p">;;</span>
-</span><span class='line'>    <span class="k">esac</span>
-</span><span class='line'><span class="k">    </span><span class="nb">shift</span>
-</span><span class='line'><span class="k">done</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>With above command, you can start writing new post via</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>new-post <span class="s1">&#39;This is my super entry&#39;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p><img alt="sunglasses" src="/images/emoji/unicode/1f60e.png" class="emoji" /><img alt="sunglasses" src="/images/emoji/unicode/1f60e.png" class="emoji" /><img alt="sunglasses" src="/images/emoji/unicode/1f60e.png" class="emoji" /></p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/2">&larr; Older</a>
@@ -986,6 +917,10 @@ Especially for RoR application, <code>ripper-tags</code> is useful and it would 
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2014/08/22/howaitobbzai-qi-yue-sok-ki-gong-shi-ri/">ホワイトBB再契約 続き 工事日</a>
+      </li>
+    
+      <li class="post">
         <a href="/2014/08/18/howaitobbzai-qi-yue-sok-kigong-shi-ri-jue-ding/">ホワイトBB再契約 続き 工事日決定</a>
       </li>
     
@@ -999,10 +934,6 @@ Especially for RoR application, <code>ripper-tags</code> is useful and it would 
     
       <li class="post">
         <a href="/2014/07/31/im-hub-immigrant/">I&#8217;m a hub immigrant</a>
-      </li>
-    
-      <li class="post">
-        <a href="/2014/07/28/howaitobbjie-yue-karafalsezai-qi-yue/">ホワイトBB解約からの再契約</a>
       </li>
     
   </ul>
