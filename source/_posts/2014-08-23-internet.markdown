@@ -1,0 +1,9 @@
+---
+layout: post
+title: "インターネット"
+date: 2014-08-23 22:15:00 +0900
+comments: true
+categories:
+---
+
+まじ楽しい。
