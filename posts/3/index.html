@@ -19,7 +19,7 @@
   <meta name="author" content="Yasuharu Ozaki">
 
   
-  <meta name="description" content="Docker client for OSX released as of 0.7.3 Now, we OSX user can access docker container without ssh command by followlig without dvm Install docker &hellip;">
+  <meta name="description" content="Today I changed my blog generation CI from jenkins to Travis CI. Following step shows how to make it. Suppose you are in project root. First, install &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -88,6 +88,188 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2014/01/13/octopress-plus-github-pages-plus-travis/">Octopress + GitHub Pages + Travis</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-01-13T06:57:31+00:00" pubdate data-updated="true">Jan 13<sup>th</sup>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Today I changed my blog generation CI from jenkins to Travis CI.</p>
+
+<p>Following step shows how to make it. Suppose you are in project root.</p>
+
+<p>First, install travis command from rubygems.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>gem install travis
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Generate ssh-key accessible to only blog repository.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>ssh-keygen -t rsa -C <span class="s1">&#39;youremail@examp.com&#39;</span> -f ~/.ssh/travis_rsa
+</span><span class='line'>
+</span><span class='line'><span class="c"># Copy public key to clipboard</span>
+</span><span class='line'><span class="nv">$ </span>cat ~/.ssh/travis_rsa.pub <span class="p">|</span> pbcopy
+</span><span class='line'>
+</span><span class='line'><span class="c"># Set copied public key to deploy key in GitHub</span>
+</span><span class='line'><span class="nv">$ </span>open  https://github.com/_username_/_repository_/settings/keys
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Then, setup <code>.travis.yml</code> like:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+</pre></td><td class='code'><pre><code class='yaml'><span class='line'><span class="l-Scalar-Plain">language</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">ruby</span>
+</span><span class='line'><span class="l-Scalar-Plain">rvm</span><span class="p-Indicator">:</span>
+</span><span class='line'><span class="p-Indicator">-</span> <span class="l-Scalar-Plain">2.1.0</span>
+</span><span class='line'><span class="l-Scalar-Plain">branches</span><span class="p-Indicator">:</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">only</span><span class="p-Indicator">:</span>
+</span><span class='line'>  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">master</span>
+</span><span class='line'><span class="l-Scalar-Plain">before_script</span><span class="p-Indicator">:</span>
+</span><span class='line'><span class="p-Indicator">-</span> <span class="l-Scalar-Plain">git config --global user.name &quot;_username_(via Travis CI)&quot;</span>
+</span><span class='line'><span class="p-Indicator">-</span> <span class="l-Scalar-Plain">git config --global user.email &quot;youremail@gmail.com&quot;</span>
+</span><span class='line'><span class="p-Indicator">-</span> <span class="l-Scalar-Plain">git remote set-url origin $REPO.git</span>
+</span><span class='line'><span class="c1"># array length 23 is calculated later as $RSA_LENGTH</span>
+</span><span class='line'><span class="p-Indicator">-</span> <span class="l-Scalar-Plain">if [ -z &quot;$id_rsa_{1..23}&quot; ]; then echo &#39;No $id_rsa_{1..23} found !&#39; ; exit 1; fi</span>
+</span><span class='line'><span class="p-Indicator">-</span> <span class="l-Scalar-Plain">echo -n $id_rsa_{1..23} &gt;&gt; ~/.ssh/travis_rsa_64</span>
+</span><span class='line'><span class="p-Indicator">-</span> <span class="l-Scalar-Plain">base64 --decode --ignore-garbage ~/.ssh/travis_rsa_64 &gt; ~/.ssh/id_rsa</span>
+</span><span class='line'><span class="p-Indicator">-</span> <span class="l-Scalar-Plain">chmod 600 ~/.ssh/id_rsa</span>
+</span><span class='line'><span class="p-Indicator">-</span> <span class="l-Scalar-Plain">echo -e &quot;Host github.com\n\tStrictHostKeyChecking no\n&quot; &gt;&gt; ~/.ssh/config</span>
+</span><span class='line'><span class="p-Indicator">-</span> <span class="l-Scalar-Plain">bundle exec rake setup_github_pages[$REPO]</span>
+</span><span class='line'><span class="p-Indicator">-</span> <span class="l-Scalar-Plain">git checkout -- _config.yml</span>
+</span><span class='line'><span class="l-Scalar-Plain">script</span><span class="p-Indicator">:</span>
+</span><span class='line'><span class="p-Indicator">-</span> <span class="l-Scalar-Plain">bundle exec rake generate</span>
+</span><span class='line'><span class="l-Scalar-Plain">after_script</span><span class="p-Indicator">:</span>
+</span><span class='line'><span class="p-Indicator">-</span> <span class="l-Scalar-Plain">bundle exec rake deploy</span>
+</span><span class='line'><span class="l-Scalar-Plain">env</span><span class="p-Indicator">:</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">global</span><span class="p-Indicator">:</span>
+</span><span class='line'>  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">REPO=&quot;git@github.com:_username_/_repository_&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Encrypt ssh-key via base64.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c"># On a Mac, use this script to generate secure deployment key</span>
+</span><span class='line'><span class="nv">$ </span>base64 --break<span class="o">=</span>0 ~/.ssh/travis_rsa &gt; ~/.ssh/travis_rsa_64
+</span><span class='line'>
+</span><span class='line'><span class="c"># If in linux</span>
+</span><span class='line'><span class="c"># base64 --wrap=0 ~/.ssh/travis_rsa &gt; ~/.ssh/travis_rsa_64</span>
+</span><span class='line'>
+</span><span class='line'><span class="nv">$ </span>bash &lt;<span class="o">(</span>cat ~/.ssh/travis_rsa_64 <span class="p">|</span> perl -pe <span class="s1">&#39;s/(.{100})/$1\n/g&#39;</span> <span class="p">|</span> nl <span class="p">|</span> perl -pe <span class="s1">&#39;s/\s*(\d+)\s*(.*)/travis encrypt id_rsa_$1=&quot;$2&quot; --add/&#39;</span><span class="o">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Count <code>id_rsa_{1..$RSA_LENGTH}</code>.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>cat ~/.ssh/travis_rsa_64 <span class="p">|</span> perl -pe <span class="s1">&#39;s/(.{100})/$1\n/g&#39;</span> <span class="p">|</span> nl <span class="p">|</span> tail
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Finally, you should apply following patch to <code>rake deploy</code> to pulls from origin #{deploy_branch}.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='diff'><span class='line'><span class="gd">--- a/Rakefile</span>
+</span><span class='line'><span class="gi">+++ b/Rakefile</span>
+</span><span class='line'><span class="gu">@@ -248,8 +248,8 @@ desc &quot;deploy public directory to github pages&quot;</span>
+</span><span class='line'> multitask :push do
+</span><span class='line'>   puts &quot;## Deploying branch to Github Pages &quot;
+</span><span class='line'>   puts &quot;## Pulling any updates from Github Pages &quot;
+</span><span class='line'><span class="gd">-  cd &quot;#{deploy_dir}&quot; do</span>
+</span><span class='line'><span class="gd">-    system &quot;git pull&quot;</span>
+</span><span class='line'><span class="gi">+  cd &quot;#{deploy_dir}&quot; do</span>
+</span><span class='line'><span class="gi">+    system &quot;git pull origin #{deploy_branch}&quot;</span>
+</span><span class='line'>   end
+</span><span class='line'>   (Dir[&quot;#{deploy_dir}/*&quot;]).each { |f| rm_rf(f) }
+</span><span class='line'>   Rake::Task[:copydot].invoke(public_dir, deploy_dir)
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>That&rsquo;s it. Connect blog repository to Travis CI, and commit change!</p>
+
+<p>Refs:<br/>
+- <a href="http://pchw.github.io/blog/2013/06/27/octopress-travis/  ">http://pchw.github.io/blog/2013/06/27/octopress-travis/  </a>
+- <a href="http://www.harimenon.com/blog/2013/01/27/auto-deploying-to-my-octopress-blog/">http://www.harimenon.com/blog/2013/01/27/auto-deploying-to-my-octopress-blog/</a></p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -1062,142 +1244,6 @@ So, <code>Gemfile</code>, <code>config/sprockets.rb</code> and <code>Rakefile</c
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2013/03/31/get-remote-ip-through-nginx-proxy-server-in-rack/">Get remote ip through nginx proxy server in rack</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-03-31T22:07:00+00:00" pubdate data-updated="true">Mar 31<sup>st</sup>, 2013</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>When developer wants to filter request based on remote ip, he will do like this</p>
-
-<figure class='code'><figcaption><span>sinatra_server.rb</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">get</span> <span class="s1">&#39;/&#39;</span> <span class="k">do</span>
-</span><span class='line'>  <span class="k">return</span> <span class="mi">403</span> <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">ip</span> <span class="o">!=</span> <span class="n">desired_request_ip</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="s2">&quot;OK!&quot;</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>If you&rsquo;re using tcp socket in nginx proxy server it will be good, but if you&rsquo;re using unix
-socket proxy server, <code>remote.ip</code> will be 127.0.0.1. Because the request proxied.</p>
-
-<p>But, <code>rack</code> treat <code>request.ip</code> very well in <a href="https://github.com/chneukirchen/rack/blob/master/lib/rack/request.rb#L352-L367">request.rb</a>
-The only thing you have to do is set <code>X-Forwarded-For</code> and <code>CLIENT_IP</code> and <code>X-Real-IP</code> precisely.</p>
-
-<figure class='code'><figcaption><span>site.nginx.conf</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-</pre></td><td class='code'><pre><code class='nginx'><span class='line'><span class="k">upstream</span> <span class="s">pretty_site</span> <span class="p">{</span>
-</span><span class='line'>  <span class="kn">server</span> <span class="s">unix:/tmp/pretty_site.sock</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">server</span> <span class="p">{</span>
-</span><span class='line'>  <span class="kn">listen</span> <span class="mi">80</span><span class="p">;</span>         <span class="c1"># e.g., listen 192.168.1.1:80;</span>
-</span><span class='line'>  <span class="kn">server_name</span> <span class="s">pretty.yoursite.com</span><span class="p">;</span>     <span class="c1"># e.g., server_name source.example.com;</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="kn">root</span> <span class="s">/home/www/pretty_site</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="c1"># individual nginx logs for this pretty_site vhost</span>
-</span><span class='line'>  <span class="kn">access_log</span>  <span class="s">/var/log/nginx/pretty/access.log</span><span class="p">;</span>
-</span><span class='line'>  <span class="kn">error_log</span>   <span class="s">/var/log/nginx/pretty/error.log</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="kn">location</span> <span class="s">/</span> <span class="p">{</span>
-</span><span class='line'>    <span class="c1"># serve static files from defined root folder;.</span>
-</span><span class='line'>    <span class="c1"># @pretty_site is a named location for the upstream fallback, see below</span>
-</span><span class='line'>    <span class="kn">try_files</span> <span class="nv">$uri</span> <span class="nv">$uri/index.html</span> <span class="nv">$uri.html</span> <span class="s">@pretty_site</span><span class="p">;</span>
-</span><span class='line'>  <span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="c1"># if a file, which is not found in the root folder is requested,</span>
-</span><span class='line'>  <span class="c1"># then the proxy pass the request to the upsteam (pretty_site unicorn)</span>
-</span><span class='line'>  <span class="kn">location</span> <span class="s">@pretty_site</span> <span class="p">{</span>
-</span><span class='line'>    <span class="kn">proxy_read_timeout</span> <span class="mi">300</span><span class="p">;</span>
-</span><span class='line'>    <span class="kn">proxy_connect_timeout</span> <span class="mi">300</span><span class="p">;</span>
-</span><span class='line'>    <span class="kn">proxy_redirect</span>     <span class="no">off</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="c1"># &#39;X-Forwarded-For&#39; header is required for rack request.ip</span>
-</span><span class='line'>    <span class="c1"># https://github.com/chneukirchen/rack/blob/master/lib/rack/request.rb#L352-L367</span>
-</span><span class='line'>    <span class="kn">proxy_set_header</span>   <span class="s">X-Forwarded-For</span>   <span class="nv">$proxy_add_x_forwarded_for</span><span class="p">;</span>
-</span><span class='line'>    <span class="kn">proxy_set_header</span>   <span class="s">X-Forwarded-Proto</span> <span class="nv">$scheme</span><span class="p">;</span>
-</span><span class='line'>    <span class="kn">proxy_set_header</span>   <span class="s">Host</span>              <span class="nv">$http_host</span><span class="p">;</span>
-</span><span class='line'>    <span class="kn">proxy_set_header</span>   <span class="s">X-Real-IP</span>         <span class="nv">$remote_addr</span><span class="p">;</span>
-</span><span class='line'>    <span class="kn">proxy_set_header</span>   <span class="s">CLIENT_IP</span>         <span class="nv">$remote_addr</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="kn">proxy_pass</span> <span class="s">http://pretty_site</span><span class="p">;</span>
-</span><span class='line'>  <span class="p">}</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Then you can get <code>request.ip</code> as you want.</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/4">&larr; Older</a>
@@ -1215,6 +1261,10 @@ The only thing you have to do is set <code>X-Forwarded-For</code> and <code>CLIE
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2014/08/23/internet/">インターネット</a>
+      </li>
+    
+      <li class="post">
         <a href="/2014/08/22/howaitobbzai-qi-yue-sok-ki-gong-shi-ri/">ホワイトBB再契約 続き 工事日</a>
       </li>
     
@@ -1228,10 +1278,6 @@ The only thing you have to do is set <code>X-Forwarded-For</code> and <code>CLIE
     
       <li class="post">
         <a href="/2014/08/04/octopress-heart-emoji/">Octopress :heart: Emoji</a>
-      </li>
-    
-      <li class="post">
-        <a href="/2014/07/31/im-hub-immigrant/">I&#8217;m a hub immigrant</a>
       </li>
     
   </ul>

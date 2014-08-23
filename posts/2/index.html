@@ -19,37 +19,8 @@
   <meta name="author" content="Yasuharu Ozaki">
 
   
-  <meta name="description" content="Save following content as new-post. 1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-22
-23
-24
-25
-26
-27
-28
-29
-30
-#!/usr/bin/env bash function &hellip;">
+  <meta name="description" content="2014年も前半が終わった。2014年になっていろんなイベントもあり、
+働き始めた頃とはだいぶ考え方が変わったことも多かった。 まず、スキルの話。ここで言うスキルは技術力、課題・問題を解決、回避出来る能力と自分は定義している。 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -118,6 +89,62 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2014/06/30/2014nian-qian-ban-wozhen-rifan-tute/">2014年前半を振り返って</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-06-30T13:14:49+00:00" pubdate data-updated="true">Jun 30<sup>th</sup>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>2014年も前半が終わった。2014年になっていろんなイベントもあり、
+働き始めた頃とはだいぶ考え方が変わったことも多かった。</p>
+
+<p>まず、スキルの話。ここで言うスキルは技術力、課題・問題を解決、回避出来る能力と自分は定義している。
+これまではバックエンドからフロントエンドまですべてを予め網羅しようと考えて勉強してきた。
+ただ、最近はすべてを前もって網羅しておく必要はなく、必要になったらその時に勉強すればいいやと思うようになった。
+勉強はもともと好きだから、苦じゃないんだけど、これまでは知らないことに恐怖を感じていた事が多く、何かに追われて
+勉強していた気がする。
+これからはそうではなく、わからなかったことは今勉強できるという考えでスキルを伸ばして行ければと思う。</p>
+
+<p>次に時間の話。タイム・イズ・マネー、この言葉はすべてを表していると思った。これまではそこまで時間を意識することは
+なかったけど、これからは時間を大事にしたい。</p>
+
+<p>最後にお金の話。お金は大事だと考えるようになった。
+お金のためだけに働くのはたぶん無理だけど、やっぱり、お金が無いのは困る。
+自分の中での優先順位でもお金はだいぶ低かったんだけど、この半年、具体的には結婚してからはお金の優先順位が上がった。
+自分の中の優先順位、何が自分にとって幸せなのかは、これからもたまに考えたい。</p>
+
+<p>これから30歳まではスケールするお金の稼ぎ方を慌てず考えていきたいなーなんて思った。</p>
+
+<p>疲れやすいから、年末まで程よく一生懸命生きたい。</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -956,188 +983,6 @@ for the issue.</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2014/01/13/octopress-plus-github-pages-plus-travis/">Octopress + GitHub Pages + Travis</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-01-13T06:57:31+00:00" pubdate data-updated="true">Jan 13<sup>th</sup>, 2014</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Today I changed my blog generation CI from jenkins to Travis CI.</p>
-
-<p>Following step shows how to make it. Suppose you are in project root.</p>
-
-<p>First, install travis command from rubygems.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>gem install travis
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Generate ssh-key accessible to only blog repository.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>ssh-keygen -t rsa -C <span class="s1">&#39;youremail@examp.com&#39;</span> -f ~/.ssh/travis_rsa
-</span><span class='line'>
-</span><span class='line'><span class="c"># Copy public key to clipboard</span>
-</span><span class='line'><span class="nv">$ </span>cat ~/.ssh/travis_rsa.pub <span class="p">|</span> pbcopy
-</span><span class='line'>
-</span><span class='line'><span class="c"># Set copied public key to deploy key in GitHub</span>
-</span><span class='line'><span class="nv">$ </span>open  https://github.com/_username_/_repository_/settings/keys
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Then, setup <code>.travis.yml</code> like:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-</pre></td><td class='code'><pre><code class='yaml'><span class='line'><span class="l-Scalar-Plain">language</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">ruby</span>
-</span><span class='line'><span class="l-Scalar-Plain">rvm</span><span class="p-Indicator">:</span>
-</span><span class='line'><span class="p-Indicator">-</span> <span class="l-Scalar-Plain">2.1.0</span>
-</span><span class='line'><span class="l-Scalar-Plain">branches</span><span class="p-Indicator">:</span>
-</span><span class='line'>  <span class="l-Scalar-Plain">only</span><span class="p-Indicator">:</span>
-</span><span class='line'>  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">master</span>
-</span><span class='line'><span class="l-Scalar-Plain">before_script</span><span class="p-Indicator">:</span>
-</span><span class='line'><span class="p-Indicator">-</span> <span class="l-Scalar-Plain">git config --global user.name &quot;_username_(via Travis CI)&quot;</span>
-</span><span class='line'><span class="p-Indicator">-</span> <span class="l-Scalar-Plain">git config --global user.email &quot;youremail@gmail.com&quot;</span>
-</span><span class='line'><span class="p-Indicator">-</span> <span class="l-Scalar-Plain">git remote set-url origin $REPO.git</span>
-</span><span class='line'><span class="c1"># array length 23 is calculated later as $RSA_LENGTH</span>
-</span><span class='line'><span class="p-Indicator">-</span> <span class="l-Scalar-Plain">if [ -z &quot;$id_rsa_{1..23}&quot; ]; then echo &#39;No $id_rsa_{1..23} found !&#39; ; exit 1; fi</span>
-</span><span class='line'><span class="p-Indicator">-</span> <span class="l-Scalar-Plain">echo -n $id_rsa_{1..23} &gt;&gt; ~/.ssh/travis_rsa_64</span>
-</span><span class='line'><span class="p-Indicator">-</span> <span class="l-Scalar-Plain">base64 --decode --ignore-garbage ~/.ssh/travis_rsa_64 &gt; ~/.ssh/id_rsa</span>
-</span><span class='line'><span class="p-Indicator">-</span> <span class="l-Scalar-Plain">chmod 600 ~/.ssh/id_rsa</span>
-</span><span class='line'><span class="p-Indicator">-</span> <span class="l-Scalar-Plain">echo -e &quot;Host github.com\n\tStrictHostKeyChecking no\n&quot; &gt;&gt; ~/.ssh/config</span>
-</span><span class='line'><span class="p-Indicator">-</span> <span class="l-Scalar-Plain">bundle exec rake setup_github_pages[$REPO]</span>
-</span><span class='line'><span class="p-Indicator">-</span> <span class="l-Scalar-Plain">git checkout -- _config.yml</span>
-</span><span class='line'><span class="l-Scalar-Plain">script</span><span class="p-Indicator">:</span>
-</span><span class='line'><span class="p-Indicator">-</span> <span class="l-Scalar-Plain">bundle exec rake generate</span>
-</span><span class='line'><span class="l-Scalar-Plain">after_script</span><span class="p-Indicator">:</span>
-</span><span class='line'><span class="p-Indicator">-</span> <span class="l-Scalar-Plain">bundle exec rake deploy</span>
-</span><span class='line'><span class="l-Scalar-Plain">env</span><span class="p-Indicator">:</span>
-</span><span class='line'>  <span class="l-Scalar-Plain">global</span><span class="p-Indicator">:</span>
-</span><span class='line'>  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">REPO=&quot;git@github.com:_username_/_repository_&quot;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Encrypt ssh-key via base64.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c"># On a Mac, use this script to generate secure deployment key</span>
-</span><span class='line'><span class="nv">$ </span>base64 --break<span class="o">=</span>0 ~/.ssh/travis_rsa &gt; ~/.ssh/travis_rsa_64
-</span><span class='line'>
-</span><span class='line'><span class="c"># If in linux</span>
-</span><span class='line'><span class="c"># base64 --wrap=0 ~/.ssh/travis_rsa &gt; ~/.ssh/travis_rsa_64</span>
-</span><span class='line'>
-</span><span class='line'><span class="nv">$ </span>bash &lt;<span class="o">(</span>cat ~/.ssh/travis_rsa_64 <span class="p">|</span> perl -pe <span class="s1">&#39;s/(.{100})/$1\n/g&#39;</span> <span class="p">|</span> nl <span class="p">|</span> perl -pe <span class="s1">&#39;s/\s*(\d+)\s*(.*)/travis encrypt id_rsa_$1=&quot;$2&quot; --add/&#39;</span><span class="o">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Count <code>id_rsa_{1..$RSA_LENGTH}</code>.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>cat ~/.ssh/travis_rsa_64 <span class="p">|</span> perl -pe <span class="s1">&#39;s/(.{100})/$1\n/g&#39;</span> <span class="p">|</span> nl <span class="p">|</span> tail
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Finally, you should apply following patch to <code>rake deploy</code> to pulls from origin #{deploy_branch}.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-</pre></td><td class='code'><pre><code class='diff'><span class='line'><span class="gd">--- a/Rakefile</span>
-</span><span class='line'><span class="gi">+++ b/Rakefile</span>
-</span><span class='line'><span class="gu">@@ -248,8 +248,8 @@ desc &quot;deploy public directory to github pages&quot;</span>
-</span><span class='line'> multitask :push do
-</span><span class='line'>   puts &quot;## Deploying branch to Github Pages &quot;
-</span><span class='line'>   puts &quot;## Pulling any updates from Github Pages &quot;
-</span><span class='line'><span class="gd">-  cd &quot;#{deploy_dir}&quot; do</span>
-</span><span class='line'><span class="gd">-    system &quot;git pull&quot;</span>
-</span><span class='line'><span class="gi">+  cd &quot;#{deploy_dir}&quot; do</span>
-</span><span class='line'><span class="gi">+    system &quot;git pull origin #{deploy_branch}&quot;</span>
-</span><span class='line'>   end
-</span><span class='line'>   (Dir[&quot;#{deploy_dir}/*&quot;]).each { |f| rm_rf(f) }
-</span><span class='line'>   Rake::Task[:copydot].invoke(public_dir, deploy_dir)
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>That&rsquo;s it. Connect blog repository to Travis CI, and commit change!</p>
-
-<p>Refs:<br/>
-- <a href="http://pchw.github.io/blog/2013/06/27/octopress-travis/  ">http://pchw.github.io/blog/2013/06/27/octopress-travis/  </a>
-- <a href="http://www.harimenon.com/blog/2013/01/27/auto-deploying-to-my-octopress-blog/">http://www.harimenon.com/blog/2013/01/27/auto-deploying-to-my-octopress-blog/</a></p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/3">&larr; Older</a>
@@ -1155,6 +1000,10 @@ for the issue.</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2014/08/23/internet/">インターネット</a>
+      </li>
+    
+      <li class="post">
         <a href="/2014/08/22/howaitobbzai-qi-yue-sok-ki-gong-shi-ri/">ホワイトBB再契約 続き 工事日</a>
       </li>
     
@@ -1168,10 +1017,6 @@ for the issue.</p>
     
       <li class="post">
         <a href="/2014/08/04/octopress-heart-emoji/">Octopress :heart: Emoji</a>
-      </li>
-    
-      <li class="post">
-        <a href="/2014/07/31/im-hub-immigrant/">I&#8217;m a hub immigrant</a>
       </li>
     
   </ul>

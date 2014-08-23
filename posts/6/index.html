@@ -19,9 +19,7 @@
   <meta name="author" content="Yasuharu Ozaki">
 
   
-  <meta name="description" content="JenkinsのXFDにWebsocketを使ってそれぞれのビルド結果を表示するようにしました。 参考にしたのは次のサイトです。
-Websocketを使った通知の設定方法も書いてあるので、とても参考になりました。
-Jenkinsのビルド結果をリアルタイム通知するプラグイン『Jenkins &hellip;">
+  <meta name="description" content="Jenkinsネタ続きますが、Jenkinsでcucumber使った受け入れテストを自動化させようと思ってたら /usr/local/lib/ruby/gems/1.9.1/gems/json-1.7.5/lib/json/common.rb:155:in `encode': "\xD8" on &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -90,6 +88,62 @@ Jenkinsのビルド結果をリアルタイム通知するプラグイン『Jenk
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2012/08/24/encodinginvalidbytesequenceerror/">Encoding::InvalidByteSequenceError</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-08-24T00:00:00+00:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Jenkinsネタ続きますが、Jenkinsでcucumber使った受け入れテストを自動化させようと思ってたら</p>
+
+<pre>
+/usr/local/lib/ruby/gems/1.9.1/gems/json-1.7.5/lib/json/common.rb:155:in `encode': "\xD8" on US-ASCII (Encoding::InvalidByteSequenceError)
+</pre>
+
+
+<p>っていうエラーが出てcucumberの実行すらできなくてハマったので、解決法のメモ。</p>
+
+<p>Manage Jenkins &gt;&gt; configure system から環境変数を次のように設定。
+<a href="/images/2012/08/Screen-Shot-2012-08-24-at-5.32.13-PM.png"><img class="alignnone size-large wp-image-261" title="Screen Shot 2012-08-24 at 5.32.13 PM" src="/images/2012/08/Screen-Shot-2012-08-24-at-5.32.13-PM-1024x258.png" alt="" width="770" height="194" /></a></p>
+
+<p>これで、localeのLANGUAGEがen_US.UTF8になって、jsonのエンコードに関するエラーが起きなくなります。</p>
+
+<p>これ、実際にjenkinsテストサーバにsshログインして</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ sudo -u jenkins bundle exec cucumber</span></code></pre></td></tr></table></div></figure>
+
+
+<p>だとcucumberの実行が出来るっていうところでかなりハマりました。</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -954,53 +1008,6 @@ Macの画面共有が便利とか、vim勉強しようとか。</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2012/04/20/helloworld/">Hello World!</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-04-20T00:00:00+00:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>これまでははてなダイアリーで技術的なブログを書いてきましたが、これからは自分のサイトでブログを書いていこうと思います。</p>
-
-
-
-
-<p>基本的にはこれまでどおり、プログラムを書いていて詰まったところや、環境構築の話をすると思いますが、その時に思ったことなんかもログとして書いていこうと思います。</p>
-
-
-
-
-<p>どうぞよろしくお願いします。</p>
-
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/7">&larr; Older</a>
@@ -1018,6 +1025,10 @@ Macの画面共有が便利とか、vim勉強しようとか。</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2014/08/23/internet/">インターネット</a>
+      </li>
+    
+      <li class="post">
         <a href="/2014/08/22/howaitobbzai-qi-yue-sok-ki-gong-shi-ri/">ホワイトBB再契約 続き 工事日</a>
       </li>
     
@@ -1031,10 +1042,6 @@ Macの画面共有が便利とか、vim勉強しようとか。</p>
     
       <li class="post">
         <a href="/2014/08/04/octopress-heart-emoji/">Octopress :heart: Emoji</a>
-      </li>
-    
-      <li class="post">
-        <a href="/2014/07/31/im-hub-immigrant/">I&#8217;m a hub immigrant</a>
       </li>
     
   </ul>
