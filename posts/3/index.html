@@ -19,7 +19,18 @@
   <meta name="author" content="Yasuharu Ozaki">
 
   
-  <meta name="description" content="Today I changed my blog generation CI from jenkins to Travis CI. Following step shows how to make it. Suppose you are in project root. First, install &hellip;">
+  <meta name="description" content="tl;dr Create tmp directory under $JENKINS_HOME 1
+$ mkdir -p ~/.jenkins/tmpdir Then rewrite homebrew.mxcl.jenkins.plist like: 1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -88,6 +99,116 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2014/01/17/jenkins-on-osx-via-homebrew/">Jenkins&#8217;s CSS returns 404 on OSX</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-01-17T02:11:20+00:00" pubdate data-updated="true">Jan 17<sup>th</sup>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>tl;dr</h2>
+
+<p>Create tmp directory under <code>$JENKINS_HOME</code></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>mkdir -p ~/.jenkins/tmpdir
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Then rewrite <code>homebrew.mxcl.jenkins.plist</code> like:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+</pre></td><td class='code'><pre><code class='xml'><span class='line'><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+</span><span class='line'><span class="cp">&lt;!DOCTYPE plist PUBLIC &quot;-//Apple//DTD PLIST 1.0//EN&quot; &quot;http://www.apple.com/DTDs/PropertyList-1.0.dtd&quot;&gt;</span>
+</span><span class='line'><span class="nt">&lt;plist</span> <span class="na">version=</span><span class="s">&quot;1.0&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;dict&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;key&gt;</span>Label<span class="nt">&lt;/key&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;string&gt;</span>#{plist_name}<span class="nt">&lt;/string&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;key&gt;</span>ProgramArguments<span class="nt">&lt;/key&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;array&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;string&gt;</span>/usr/bin/java<span class="nt">&lt;/string&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;string&gt;</span>-Dmail.smtp.starttls.enable=true<span class="nt">&lt;/string&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;string&gt;</span>-Dfile.encoding=UTF-8<span class="nt">&lt;/string&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;string&gt;</span>-Djava.io.tmpdir=/Users/__USERNAME__/.jenkins/tmpdir<span class="nt">&lt;/string&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;string&gt;</span>-jar<span class="nt">&lt;/string&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;string&gt;</span>/usr/local/opt/jenkins/libexec/jenkins.war<span class="nt">&lt;/string&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;string&gt;</span>--httpListenAddress=127.0.0.1<span class="nt">&lt;/string&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;string&gt;</span>--httpPort=8080<span class="nt">&lt;/string&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;/array&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;key&gt;</span>RunAtLoad<span class="nt">&lt;/key&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;true/&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;/dict&gt;</span>
+</span><span class='line'><span class="nt">&lt;/plist&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>As you can see, the point is to set <code>-Djava.io.tmpdir</code> to created tmp directory.</p>
+
+<p>Restart jenkins</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>launchctl unload ~/Library/LaunchAgents/homebrew.mxcl.jenkins.plist
+</span><span class='line'><span class="nv">$ </span>launchctl load ~/Library/LaunchAgents/homebrew.mxcl.jenkins.plist
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Description</h2>
+
+<p>Sometimes, jenkins on OSX returns 404 status for its CSS. So its layout is broken.</p>
+
+<p>The issue is reported at <a href="https://issues.jenkins-ci.org/browse/JENKINS-17526">JENKINS-17526</a> and there is a <a href="https://github.com/jenkinsci/jenkins/pull/1061">patch</a>
+for the issue.</p>
+
+<p>To solve the issue jenkins(installed via Homebrew) follow tl;dr section. It should work.</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -1100,150 +1221,6 @@ It is easy to use.</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2013/04/06/sprockets-with-padrino-without-plugin/">Sprockets with Padrino without plugin</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-04-06T18:24:00+00:00" pubdate data-updated="true">Apr 6<sup>th</sup>, 2013</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>One day I was searching to integrate <code>sprockets</code> to my padrino application, I found following article to make it.
-<a href="http://arthurchiu.com/posts/20130328-sprockets_bower_padrino">Sprockets &amp; Bower in my Padrino please.</a>
-In the article he explained to integrate sprockets to padrino using <a href="https://github.com/petebrowne/sprockets-helpers">sprockets-helpers</a>, through rack.</p>
-
-<p>I was so excited because the content is what I wanted to do. But few hours after, I realized the way he explained works good for <code>development</code> and <code>production</code> environment, but not for <code>test</code> environment since in <code>test</code> environment,
-<code>/assets</code> is not mounted to padrino itself. So, testing with javascript like <code>data-confirm</code> testing will fail because javascript(and other assets too) is not loaded!</p>
-
-<p>I began to search how to mount(or insert) sprockets middleware in padrino applicaiton again and found the following way to solve the issue.</p>
-
-<p>The difference found way and previous article way is just how to insert sprockets middleware.
-So, <code>Gemfile</code>, <code>config/sprockets.rb</code> and <code>Rakefile</code> are same.
-<code>app/app.rb</code> differs little bit, and <code>lib/sprockets_initializer.rb</code> will be newly created.</p>
-
-<p><code>lib/sprockets_initializer.rb</code> is used to register to use <a href="https://github.com/sstephenson/sprockets/blob/master/lib/sprockets/server.rb">Sprockets::Server</a> for assets request handler.</p>
-
-<figure class='code'><figcaption><span>lib/sprockets_initializer.rb</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">module</span> <span class="nn">SprocketsInitializer</span>
-</span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">registered</span><span class="p">(</span><span class="n">app</span><span class="p">)</span>
-</span><span class='line'>    <span class="c1"># Make it lazy</span>
-</span><span class='line'>    <span class="n">options</span><span class="o">[</span><span class="ss">:asset_prefix</span><span class="o">]</span> <span class="o">=</span> <span class="o">-&gt;</span> <span class="p">{</span> <span class="no">Sprockets</span><span class="o">::</span><span class="no">Helpers</span><span class="o">.</span><span class="n">prefix</span> <span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="n">app</span><span class="o">.</span><span class="n">use</span> <span class="o">::</span><span class="no">SprocketsInitializer</span><span class="o">::</span><span class="no">Rack</span><span class="p">,</span> <span class="n">options</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="k">class</span> <span class="nc">Rack</span>
-</span><span class='line'>    <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="p">{})</span>
-</span><span class='line'>      <span class="vi">@app</span> <span class="o">=</span> <span class="n">app</span>
-</span><span class='line'>      <span class="vi">@asset_prefix</span> <span class="o">=</span> <span class="n">options</span><span class="o">[</span><span class="ss">:asset_prefix</span><span class="o">].</span><span class="n">call</span>
-</span><span class='line'>    <span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="k">def</span> <span class="nf">call</span><span class="p">(</span><span class="n">env</span><span class="p">)</span>
-</span><span class='line'>      <span class="k">if</span> <span class="n">env</span><span class="o">[</span><span class="s1">&#39;PATH_INFO&#39;</span><span class="o">].</span><span class="n">match</span><span class="p">(</span><span class="vi">@asset_prefix</span><span class="p">)</span>
-</span><span class='line'>        <span class="n">env</span><span class="o">[</span><span class="s1">&#39;PATH_INFO&#39;</span><span class="o">].</span><span class="n">gsub!</span><span class="p">(</span><span class="vi">@asset_prefix</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
-</span><span class='line'>        <span class="k">return</span> <span class="no">PadrinoSprocekts</span><span class="o">.</span><span class="n">environment</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="n">env</span><span class="p">)</span>
-</span><span class='line'>      <span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'>      <span class="vi">@app</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="n">env</span><span class="p">)</span>
-</span><span class='line'>    <span class="k">end</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>In <code>app/app.rb</code> register it only for not production environment because in production environment, I want to let application read assets from compiled assets path.</p>
-
-<figure class='code'><figcaption><span>app/app.rb</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">module</span> <span class="nn">Web</span>
-</span><span class='line'>  <span class="k">class</span> <span class="nc">App</span> <span class="o">&lt;</span> <span class="no">Padrino</span><span class="o">::</span><span class="no">Application</span>
-</span><span class='line'>    <span class="n">register</span> <span class="no">Padrino</span><span class="o">::</span><span class="no">Rendering</span>
-</span><span class='line'>    <span class="n">register</span> <span class="no">Padrino</span><span class="o">::</span><span class="no">Mailer</span>
-</span><span class='line'>    <span class="n">register</span> <span class="no">Padrino</span><span class="o">::</span><span class="no">Helpers</span>
-</span><span class='line'>    <span class="n">register</span> <span class="no">SprocketsInitializer</span> <span class="k">unless</span> <span class="no">Padrino</span><span class="o">.</span><span class="n">env</span> <span class="o">==</span> <span class="ss">:production</span>
-</span><span class='line'>    <span class="n">helpers</span> <span class="no">Sprockets</span><span class="o">::</span><span class="no">Helpers</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>If you want, delete mounted sprockets from <code>config.ru</code></p>
-
-<figure class='code'><figcaption><span>config.ru</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="no">File</span><span class="o">.</span><span class="n">expand_path</span><span class="p">(</span><span class="s2">&quot;../config/boot.rb&quot;</span><span class="p">,</span> <span class="bp">__FILE__</span><span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">run</span> <span class="no">Padrino</span><span class="o">.</span><span class="n">application</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>After changed configuration like above, you can test your application previous style.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ rake spec</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Thank you for reading!</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/4">&larr; Older</a>
@@ -1261,6 +1238,10 @@ So, <code>Gemfile</code>, <code>config/sprockets.rb</code> and <code>Rakefile</c
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2014/09/22/iphone6-za-gan/">iPhone6 雑感</a>
+      </li>
+    
+      <li class="post">
         <a href="/2014/08/23/internet/">インターネット</a>
       </li>
     
@@ -1274,10 +1255,6 @@ So, <code>Gemfile</code>, <code>config/sprockets.rb</code> and <code>Rakefile</c
     
       <li class="post">
         <a href="/2014/08/13/howaitobbqi-yue/">ホワイトBB契約 つづき</a>
-      </li>
-    
-      <li class="post">
-        <a href="/2014/08/04/octopress-heart-emoji/">Octopress :heart: Emoji</a>
       </li>
     
   </ul>

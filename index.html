@@ -19,8 +19,8 @@
   <meta name="author" content="Yasuharu Ozaki">
 
   
-  <meta name="description" content="まじ楽しい。
-">
+  <meta name="description" content="iPhone6を買った。はじめはAndroid Lを搭載したNexus Xを買う予定だったんだけど、 家中がApple製品であふれていて、iOSを持っていたほうがこれまでの資産を使える
+iOS8 x mvnoでテザリングが出来る ことが決め手となって、シムフリーのiPhone6を買った。 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -89,6 +89,73 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2014/09/22/iphone6-za-gan/">iPhone6 雑感</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-09-22T08:22:53+00:00" pubdate data-updated="true">Sep 22<sup>nd</sup>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>iPhone6を買った。はじめはAndroid Lを搭載したNexus Xを買う予定だったんだけど、</p>
+
+<ul>
+<li>家中がApple製品であふれていて、iOSを持っていたほうがこれまでの資産を使える</li>
+<li>iOS8 x mvnoでテザリングが出来る</li>
+</ul>
+
+
+<p>ことが決め手となって、シムフリーのiPhone6を買った。</p>
+
+<p><img class="center" src="/images/2014/09/iphone6.jpg" width="350"></p>
+
+<p>これまではiPhone5を使っていたんだけど、iPhone6を使い始めてから2~3日たった今日現在の感想としては</p>
+
+<ul>
+<li>4.7インチは快適</li>
+<li>画面上に指が届かないということはない(ホームボタン2回タップして、画面を下に下げる機能は使わない)</li>
+<li>指紋認証(Touch ID)がとても便利</li>
+</ul>
+
+
+<p>なことがとても印象に残っている。</p>
+
+<p>特に画面サイズに関しては、これを理由にiPhone6への以降を躊躇している人もいるレベルなのだが、私としては
+iPhone6の画面サイズならぎりぎり片手で扱えるサイズであると思っている。<br/>
+そのため、iPhone6から登場した、ホームボタンを2回タップすることで画面を下に下げるというアクションはほとんどつかっていない。
+「ほとんど」な理由は横になりながらの操作では片手だと厳しい場合がたまにあり、その時に使ったりするからだ。</p>
+
+<p>2年前、iPhone5を手に入れた時はその大きさ、軽快さにびっくりしたが、今回はそこまで驚くことはなかった。
+逆に「しっくりきた」というほうが合っている。</p>
+
+<p>個人的には2014年買ってよかったものランキングでもかなり上位に入る1品になった。</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -778,110 +845,6 @@ Especially for RoR application, <code>ripper-tags</code> is useful and it would 
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2014/07/02/indent-rubys-if-dot-else-assignment/">How do you indent ruby&#8217;s if..else assignment?</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-07-02T05:35:37+00:00" pubdate data-updated="true">Jul 2<sup>nd</sup>, 2014</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>There are several ways to write <code>if...else</code> variable assignment.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="vi">@products</span> <span class="o">=</span> <span class="k">if</span> <span class="n">params</span><span class="o">[</span><span class="ss">:category</span><span class="o">]</span>
-</span><span class='line'>              <span class="no">Category</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:product</span><span class="o">]</span><span class="p">)</span><span class="o">.</span><span class="n">products</span>
-</span><span class='line'>            <span class="k">else</span>
-</span><span class='line'>              <span class="no">Products</span><span class="o">.</span><span class="n">all</span>
-</span><span class='line'>            <span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="vi">@products</span> <span class="o">=</span> <span class="k">if</span> <span class="n">params</span><span class="o">[</span><span class="ss">:category</span><span class="o">]</span>
-</span><span class='line'>  <span class="no">Category</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:product</span><span class="o">]</span><span class="p">)</span><span class="o">.</span><span class="n">products</span>
-</span><span class='line'><span class="k">else</span>
-</span><span class='line'>  <span class="no">Products</span><span class="o">.</span><span class="n">all</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="vi">@products</span> <span class="o">=</span> <span class="k">if</span> <span class="n">params</span><span class="o">[</span><span class="ss">:category</span><span class="o">]</span>
-</span><span class='line'>    <span class="no">Category</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:product</span><span class="o">]</span><span class="p">)</span><span class="o">.</span><span class="n">products</span>
-</span><span class='line'>  <span class="k">else</span>
-</span><span class='line'>    <span class="no">Products</span><span class="o">.</span><span class="n">all</span>
-</span><span class='line'>  <span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="vi">@products</span> <span class="o">=</span>
-</span><span class='line'>  <span class="k">if</span> <span class="n">params</span><span class="o">[</span><span class="ss">:category</span><span class="o">]</span>
-</span><span class='line'>    <span class="no">Category</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:product</span><span class="o">]</span><span class="p">)</span><span class="o">.</span><span class="n">products</span>
-</span><span class='line'>  <span class="k">else</span>
-</span><span class='line'>    <span class="no">Products</span><span class="o">.</span><span class="n">all</span>
-</span><span class='line'>  <span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Which one do you prefer?</p>
-
-<p>I prefer last one. Because this can keep horizontal length much smaller and <a href="https://github.com/vim-ruby/vim-ruby">vim-ruby</a>&rsquo;s auto indent also supports this syntax.</p>
-
-<p>FYI:
-<a href="http://stackoverflow.com/questions/8745299/recommended-indentation-style-for-ruby-if-blocks-that-assign-a-value-to-a-vari">http://stackoverflow.com/questions/8745299/recommended-indentation-style-for-ruby-if-blocks-that-assign-a-value-to-a-vari</a>
-<a href="http://stackoverflow.com/questions/2925028/how-do-you-assign-a-variable-with-the-result-of-a-if-else-block">http://stackoverflow.com/questions/2925028/how-do-you-assign-a-variable-with-the-result-of-a-if-else-block</a></p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/2">&larr; Older</a>
@@ -897,6 +860,10 @@ Especially for RoR application, <code>ripper-tags</code> is useful and it would 
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2014/09/22/iphone6-za-gan/">iPhone6 雑感</a>
+      </li>
+    
+      <li class="post">
         <a href="/2014/08/23/internet/">インターネット</a>
       </li>
     
@@ -910,10 +877,6 @@ Especially for RoR application, <code>ripper-tags</code> is useful and it would 
     
       <li class="post">
         <a href="/2014/08/13/howaitobbqi-yue/">ホワイトBB契約 つづき</a>
-      </li>
-    
-      <li class="post">
-        <a href="/2014/08/04/octopress-heart-emoji/">Octopress :heart: Emoji</a>
       </li>
     
   </ul>

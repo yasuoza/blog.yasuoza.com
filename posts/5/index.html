@@ -19,7 +19,32 @@
   <meta name="author" content="Yasuharu Ozaki">
 
   
-  <meta name="description" content="I found nice gem named rbenv-autohash You do not need to type rbenv rehash anymore! Yet you need to type rbenv rehash AFTER gem install rbenv- &hellip;">
+  <meta name="description" content="It&rsquo;s very easy. 1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+# Downlowd wordpressdotocm.rb first
+# https://github.com/mojombo &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -88,6 +113,93 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2012/12/09/wordpress-to-octpress/">Wordpress to Octpress</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-12-09T01:32:00+00:00" pubdate data-updated="true">Dec 9<sup>th</sup>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>It&rsquo;s very easy.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># Downlowd wordpressdotocm.rb first</span>
+</span><span class='line'><span class="c1"># https://github.com/mojombo/jekyll/blob/master/lib/jekyll/migrators/wordpressdotcom.rb</span>
+</span><span class='line'>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;./wordpressdotcom&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="no">WORDPRESS_XML</span> <span class="o">=</span> <span class="s1">&#39;wordpress_exported.xml&#39;</span>
+</span><span class='line'><span class="no">WORDPRESS_URL</span> <span class="o">=</span> <span class="s1">&#39;http://yourhost.com&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="no">Jekyll</span><span class="o">::</span><span class="no">WordpressDotCom</span><span class="o">.</span><span class="n">process</span><span class="p">(</span><span class="no">WORDPRESS_XML</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># Copy _posts/.html file to markdown_posts/.markdown</span>
+</span><span class='line'><span class="no">FileUtils</span><span class="o">.</span><span class="n">mkdir_p</span><span class="p">(</span><span class="s1">&#39;markdown_posts&#39;</span><span class="p">)</span>
+</span><span class='line'><span class="no">Dir</span><span class="o">[</span><span class="no">File</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="no">File</span><span class="o">.</span><span class="n">expand_path</span><span class="p">(</span><span class="s2">&quot;../_posts/&quot;</span><span class="p">,</span>  <span class="bp">__FILE__</span><span class="p">),</span>  <span class="s2">&quot;*.html&quot;</span><span class="p">)</span><span class="o">].</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">file</span><span class="o">|</span>
+</span><span class='line'>  <span class="c1"># Change wp image path to octpress image path</span>
+</span><span class='line'>  <span class="c1"># Change SyntaxHighlighter Evolved favor to mrkdown favor</span>
+</span><span class='line'>  <span class="n">source</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">file</span><span class="p">)</span><span class="o">.</span><span class="n">read</span>
+</span><span class='line'>  <span class="n">file</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="sr">/([\w-]+)\.html/</span><span class="p">)</span>
+</span><span class='line'>  <span class="no">File</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;markdown_posts/</span><span class="si">#{</span><span class="vg">$1</span><span class="si">}</span><span class="s2">.markdown&quot;</span><span class="p">,</span>  <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">dest</span><span class="o">|</span>
+</span><span class='line'>    <span class="n">source</span><span class="o">.</span><span class="n">gsub!</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">#{</span><span class="no">WORDPRESS_URL</span><span class="si">}</span><span class="s2">/wp-content/uploads/&quot;</span><span class="p">,</span>  <span class="s1">&#39;/images/&#39;</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">source</span><span class="o">.</span><span class="n">gsub!</span><span class="p">(</span><span class="sr">/\[(\w+)\]/</span><span class="p">,</span>  <span class="s2">&quot;```&quot;</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">source</span><span class="o">.</span><span class="n">gsub!</span><span class="p">(</span><span class="sr">/\[\/\w+\]/</span><span class="p">,</span>  <span class="s2">&quot;```&quot;</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">dest</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">source</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -807,92 +919,6 @@ mroongaすごいなー。</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2012/09/18/clear_chromefavicon_cache/">Chromeのfaviconのキャッシュをクリアする</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-09-18T00:00:00+00:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>いろんなフレームワークでWebアプリケーションを開発していると、localhost:3000やlocalhost:8080などで動作検証することが多くなります。
-その検証ページで前のアプリケーションのfaviconが表示され続けてとても邪魔だったので、調べたら特定のURLのfaviconのキャッシュだけ削除する方法が紹介されてました。</p>
-
-<p><a href="http://d.hatena.ne.jp/hokaccha/20120106/1325829511" target="_blank">chromeで特定のfaviconのキャッシュを削除する - hokaccha.hamalog v2</a></p>
-
-<p>faviconのキャッシュはsqliteで管理されているので、そこからデータを消すだけでOKらしい。</p>
-
-<p>実際にやってみると確かに消えている。ただし、Chromeを終了した状態じゃないとFaviconsデータベースがロックされていて削除できなかったので、削除するときはあらかじめChromeを終了しておく。</p>
-
-<p>いちいちsqlite3からSQL文発行するの面倒だったので、スクリプト書きました。
-URLにlocalhostが含まれるもののfaviconを削除するようにしました。</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>require 'sqlite3'
-</span><span class='line'>
-</span><span class='line'>library_path = File.join(ENV['HOME'], '/Library/Application Support/Google/Chrome/Default')
-</span><span class='line'>db_file_path = File.join(library_path, 'Favicons')
-</span><span class='line'>
-</span><span class='line'>db = SQLite3::Database.new db_file_path
-</span><span class='line'>
-</span><span class='line'>begin
-</span><span class='line'>  command = &quot;delete from favicons where url like '%localhost%'&quot;
-</span><span class='line'>  p &quot;Will execute: #{command}&quot;
-</span><span class='line'>  db.execute(command)
-</span><span class='line'>  p &quot;Done: #{command}&quot;
-</span><span class='line'>rescue SQLite3::BusyException =&gt; ex
-</span><span class='line'>  print &lt;&lt;-ERROR_DOC
-</span><span class='line'>  Is Chrome.app runnig?
-</span><span class='line'>  Then quit Chrome.app first.
-</span><span class='line'>  ERROR_DOC
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
-
-
-<p>手元のchrome v.21で動作確認しました。</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/6">&larr; Older</a>
@@ -910,6 +936,10 @@ URLにlocalhostが含まれるもののfaviconを削除するようにしまし�
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2014/09/22/iphone6-za-gan/">iPhone6 雑感</a>
+      </li>
+    
+      <li class="post">
         <a href="/2014/08/23/internet/">インターネット</a>
       </li>
     
@@ -923,10 +953,6 @@ URLにlocalhostが含まれるもののfaviconを削除するようにしまし�
     
       <li class="post">
         <a href="/2014/08/13/howaitobbqi-yue/">ホワイトBB契約 つづき</a>
-      </li>
-    
-      <li class="post">
-        <a href="/2014/08/04/octopress-heart-emoji/">Octopress :heart: Emoji</a>
       </li>
     
   </ul>
