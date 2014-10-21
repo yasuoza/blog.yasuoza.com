@@ -4,7 +4,7 @@
   <title><![CDATA[yasuoza diary]]></title>
   <link href="http://blog.yasuoza.com/atom.xml" rel="self"/>
   <link href="http://blog.yasuoza.com/"/>
-  <updated>2014-09-22T08:48:47+00:00</updated>
+  <updated>2014-10-21T04:05:54+00:00</updated>
   <id>http://blog.yasuoza.com/</id>
   <author>
     <name><![CDATA[Yasuharu Ozaki]]></name>
@@ -12,6 +12,15 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[DayOne]]></title>
+    <link href="http://blog.yasuoza.com/2014/10/21/dayone/"/>
+    <updated>2014-10-21T04:02:38+00:00</updated>
+    <id>http://blog.yasuoza.com/2014/10/21/dayone</id>
+    <content type="html"><![CDATA[<p><a href="http://dayoneapp.com/">DayOne.app</a>を使うようになってからブログもtwitterもあんまり更新しないようになったなぁ。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iPhone6 雑感]]></title>
@@ -1083,35 +1092,6 @@ Cheers:sunglasses:</p>
 <p><img class="center" src="http://blog.yasuoza.com/images/2014/02/kawaii_tig_merge.png"></p>
 
 <p>It&rsquo;s Kawaii :heart_eyes:</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Advanced ruby install via rbenv in OSX]]></title>
-    <link href="http://blog.yasuoza.com/2014/01/28/advanced-ruby-install-via-rbenv-in-osx/"/>
-    <updated>2014-01-28T04:25:51+00:00</updated>
-    <id>http://blog.yasuoza.com/2014/01/28/advanced-ruby-install-via-rbenv-in-osx</id>
-    <content type="html"><![CDATA[<p><strong>Parallel compile</strong></p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ MAKE_OPTS="-j 4" rbenv install 2.1.0</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Above example compiles ruby with 4 workers.</p>
-
-<p><strong>Readline support</strong></p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ brew install readline
-</span><span class='line'>$ RUBY_CONFIGURE_OPTS=--with-readline-dir=`brew --prefix readline` rbenv install 2.1.0</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Mixed</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ MAKE_OPTS="-j 4" RUBY_CONFIGURE_OPTS=--with-readline-dir=`brew --prefix readline` rbenv install 2.1.0</span></code></pre></td></tr></table></div></figure>
-
 ]]></content>
   </entry>
   

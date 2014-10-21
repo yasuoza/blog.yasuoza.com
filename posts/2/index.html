@@ -19,12 +19,17 @@
   <meta name="author" content="Yasuharu Ozaki">
 
   
-  <meta name="description" content="There are several ways to write if...else variable assignment. 1
+  <meta name="description" content="To NeoBundleLazy VimFiler, NeoBundle supports explorer option. 1
 2
 3
 4
 5
-@products = if params[:category] Category.find(params[:product]).products &hellip;">
+6
+7
+8
+9
+NeoBundleLazy &#39;Shougo/vimfiler.vim&#39;, {
+\ &#39;depends&#39 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -93,6 +98,72 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2014/07/04/neobundlelazy-vimfiler/">NeoBundleLazy &#8216;VimFiler&#8217;</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-07-04T09:05:17+00:00" pubdate data-updated="true">Jul 4<sup>th</sup>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>To NeoBundleLazy <a href="https://github.com/Shougo/vimfiler.vim">VimFiler</a>, <a href="https://github.com/Shougo/neobundle.vim">NeoBundle</a> supports <code>explorer</code> option.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='vim'><span class='line'>NeoBundleLazy <span class="s1">&#39;Shougo/vimfiler.vim&#39;</span><span class="p">,</span> {
+</span><span class='line'>\   <span class="s1">&#39;depends&#39;</span> : <span class="s1">&#39;Shougo/unite.vim&#39;</span><span class="p">,</span>
+</span><span class='line'>\   <span class="s1">&#39;autoload&#39;</span> : {
+</span><span class='line'>\       <span class="s1">&#39;commands&#39;</span> : [<span class="s1">&#39;VimFiler&#39;</span><span class="p">,</span> <span class="s1">&#39;VimFilerCurrentDir&#39;</span><span class="p">,</span>
+</span><span class='line'>\                     <span class="s1">&#39;VimFilerBufferDir&#39;</span><span class="p">,</span> <span class="s1">&#39;VimFilerSplit&#39;</span><span class="p">,</span>
+</span><span class='line'>\                     <span class="s1">&#39;VimFilerExplorer&#39;</span><span class="p">,</span> <span class="s1">&#39;VimFilerDouble&#39;</span>]<span class="p">,</span>
+</span><span class='line'>\       <span class="s1">&#39;explorer&#39;</span> : <span class="m">1</span>
+</span><span class='line'>\   }
+</span><span class='line'>\ }
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This works with following option!</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='vim'><span class='line'><span class="k">let</span> <span class="k">g</span>:vimfiler_as_default_explorer <span class="p">=</span> <span class="m">1</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Wow!<img alt="heart_eyes" src="/images/emoji/unicode/1f60d.png" class="emoji" /></p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -925,62 +996,6 @@ Cheers<img alt="sunglasses" src="/images/emoji/unicode/1f60e.png" class="emoji" 
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2014/01/28/advanced-ruby-install-via-rbenv-in-osx/">Advanced ruby install via rbenv in OSX</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-01-28T04:25:51+00:00" pubdate data-updated="true">Jan 28<sup>th</sup>, 2014</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><strong>Parallel compile</strong></p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ MAKE_OPTS="-j 4" rbenv install 2.1.0</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Above example compiles ruby with 4 workers.</p>
-
-<p><strong>Readline support</strong></p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ brew install readline
-</span><span class='line'>$ RUBY_CONFIGURE_OPTS=--with-readline-dir=`brew --prefix readline` rbenv install 2.1.0</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Mixed</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ MAKE_OPTS="-j 4" RUBY_CONFIGURE_OPTS=--with-readline-dir=`brew --prefix readline` rbenv install 2.1.0</span></code></pre></td></tr></table></div></figure>
-
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/3">&larr; Older</a>
@@ -998,6 +1013,10 @@ Cheers<img alt="sunglasses" src="/images/emoji/unicode/1f60e.png" class="emoji" 
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2014/10/21/dayone/">DayOne</a>
+      </li>
+    
+      <li class="post">
         <a href="/2014/09/22/iphone6-za-gan/">iPhone6 雑感</a>
       </li>
     
@@ -1011,10 +1030,6 @@ Cheers<img alt="sunglasses" src="/images/emoji/unicode/1f60e.png" class="emoji" 
     
       <li class="post">
         <a href="/2014/08/18/howaitobbzai-qi-yue-sok-kigong-shi-ri-jue-ding/">ホワイトBB再契約 続き 工事日決定</a>
-      </li>
-    
-      <li class="post">
-        <a href="/2014/08/13/howaitobbqi-yue/">ホワイトBB契約 つづき</a>
       </li>
     
   </ul>

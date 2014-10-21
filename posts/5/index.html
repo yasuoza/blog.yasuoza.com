@@ -19,7 +19,7 @@
   <meta name="author" content="Yasuharu Ozaki">
 
   
-  <meta name="description" content="It&rsquo;s very easy. 1
+  <meta name="description" content="1
 2
 3
 4
@@ -27,24 +27,9 @@
 6
 7
 8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-22
-23
-24
-# Downlowd wordpressdotocm.rb first
-# https://github.com/mojombo &hellip;">
+Array::compact = -&gt; (elem for elem in this when elem?) arr = [0..10]
+delete arr[7]
+delete arr[8] console.log arr.compact() #=&gt &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -113,6 +98,61 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2012/12/14/array-number-compact-in-coffeescript/">Array#compact in CoffeeScript</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-12-14T17:05:00+00:00" pubdate data-updated="true">Dec 14<sup>th</sup>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='coffeescript'><span class='line'><span class="nb">Array</span><span class="o">::</span><span class="nv">compact = </span><span class="nf">-&gt;</span>
+</span><span class='line'>  <span class="p">(</span><span class="nx">elem</span> <span class="k">for</span> <span class="nx">elem</span> <span class="k">in</span> <span class="k">this</span> <span class="k">when</span> <span class="nx">elem</span><span class="o">?</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="nv">arr = </span><span class="p">[</span><span class="mi">0</span><span class="p">..</span><span class="mi">10</span><span class="p">]</span>
+</span><span class='line'><span class="k">delete</span> <span class="nx">arr</span><span class="p">[</span><span class="mi">7</span><span class="p">]</span>
+</span><span class='line'><span class="k">delete</span> <span class="nx">arr</span><span class="p">[</span><span class="mi">8</span><span class="p">]</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span> <span class="nx">arr</span><span class="p">.</span><span class="nx">compact</span><span class="p">()</span> <span class="c1">#=&gt; [0, 1, 2, 3, 4, 5, 6, 9, 10]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Yeah!</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -834,91 +874,6 @@ mroongaすごいなー。</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2012/09/19/swap_variables/">変数のスワップ</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-09-19T00:00:00+00:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>大学時代にC言語でプログラミングしているとき、変数のスワップをする必要が出た場合は一時変数用いるように教わりました。</p>
-
-<p>こんなかんじでした。</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'> int tmp = x;
-</span><span class='line'> int x = y;
-</span><span class='line'> int y = tmp;</span></code></pre></td></tr></table></div></figure>
-
-
-<p>それから数年。今では主に動的言語を使ってプログラミングをしています。
-ごく稀に変数のスワップを迫られる場面があり、これまでは上記のようなイケてない(※個人の感想です)方法でスワップしていました。</p>
-
-<p>いろいろ調べたらRubyでは次のようにスワップ出来るようです。</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>a = 'I am a'
-</span><span class='line'>b = 'I am b'
-</span><span class='line'>a, b = b, a
-</span><span class='line'>puts a #=&gt; 'I am b'
-</span><span class='line'>puts b #=&gt; 'I am a'</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Perlではこんなかんじ</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>my $a = 'I am a';
-</span><span class='line'>my $b = 'I am b';
-</span><span class='line'>($a, $b) = ($b, $a);
-</span><span class='line'>say $a; #=&gt; 'I am b'
-</span><span class='line'>say $b; #=&gt; 'I am a'</span></code></pre></td></tr></table></div></figure>
-
-
-<p>JavaScriptはIEでのバグが怖いので素直に一時変数使ってスワップするといいと思います。
-<a href="http://stackoverflow.com/questions/872310/javascript-swap-array-elements" target="_blank">Javascript swap array elements - stackoverflow</a></p>
-
-<p>スワップに迫られる場面殆ど無いですが、あるとしたらイケてる方(※個人の感想です)を使いたいものです。</p>
-
-<p>Perlの方はリストコンテキストをうまく使っているので、パッと見で何をしているのかわかりやすいですが、Rubyの方はちょっとわかりづらい気がします。
-どちらもコメントなどでスワップするよ！っていう旨を記載しておくとリーダブルコードになるんじゃないかなと思います。</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/6">&larr; Older</a>
@@ -936,6 +891,10 @@ mroongaすごいなー。</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2014/10/21/dayone/">DayOne</a>
+      </li>
+    
+      <li class="post">
         <a href="/2014/09/22/iphone6-za-gan/">iPhone6 雑感</a>
       </li>
     
@@ -949,10 +908,6 @@ mroongaすごいなー。</p>
     
       <li class="post">
         <a href="/2014/08/18/howaitobbzai-qi-yue-sok-kigong-shi-ri-jue-ding/">ホワイトBB再契約 続き 工事日決定</a>
-      </li>
-    
-      <li class="post">
-        <a href="/2014/08/13/howaitobbqi-yue/">ホワイトBB契約 つづき</a>
       </li>
     
   </ul>

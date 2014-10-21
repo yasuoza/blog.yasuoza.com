@@ -3,6 +3,12 @@
   
   
   <url>
+    <loc>http://blog.yasuoza.com/2014/10/21/dayone/</loc>
+    <lastmod>2014-10-21T04:02:38+00:00</lastmod>
+    <priority>0.8</priority>
+  </url>
+  
+  <url>
     <loc>http://blog.yasuoza.com/2014/09/22/iphone6-za-gan/</loc>
     <lastmod>2014-09-22T08:22:53+00:00</lastmod>
     <priority>0.8</priority>
@@ -382,29 +388,29 @@
   
   
   <url>
+    <loc>http://blog.yasuoza.com/</loc>
+    <lastmod>2014-10-21T04:05:54+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  
+  <url>
     <loc>http://blog.yasuoza.com/archives/</loc>
-    <lastmod>2014-09-22T08:48:47+00:00</lastmod>
+    <lastmod>2014-10-21T04:05:54+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   
   <url>
     <loc>http://blog.yasuoza.com/blog/archives/</loc>
-    <lastmod>2014-09-22T08:48:47+00:00</lastmod>
+    <lastmod>2014-10-21T04:05:54+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   
   <url>
-    <loc>http://blog.yasuoza.com/</loc>
-    <lastmod>2014-09-22T08:48:47+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>1.0</priority>
-  </url>
-  
-  <url>
     <loc>http://blog.yasuoza.com/about/</loc>
-    <lastmod>2014-09-22T08:48:47+00:00</lastmod>
+    <lastmod>2014-10-21T04:05:54+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
