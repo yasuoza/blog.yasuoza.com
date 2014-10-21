@@ -1,0 +1,9 @@
+---
+layout: post
+title: "DayOne"
+date: 2014-10-21 13:02:38 +0900
+comments: true
+categories:
+---
+
+[DayOne.app](http://dayoneapp.com/)を使うようになってからブログもtwitterもあんまり更新しないようになったなぁ。
