@@ -3,6 +3,12 @@
   
   
   <url>
+    <loc>http://blog.yasuoza.com/2015/01/31/how-to-fix-issue-swift-cant-retrieve-data-from-keychain-on-release-build/</loc>
+    <lastmod>2015-01-31T06:45:44+00:00</lastmod>
+    <priority>0.8</priority>
+  </url>
+  
+  <url>
     <loc>http://blog.yasuoza.com/2014/10/21/dayone/</loc>
     <lastmod>2014-10-21T04:02:38+00:00</lastmod>
     <priority>0.8</priority>
@@ -388,29 +394,29 @@
   
   
   <url>
+    <loc>http://blog.yasuoza.com/blog/archives/</loc>
+    <lastmod>2015-01-31T08:46:41+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <url>
+    <loc>http://blog.yasuoza.com/archives/</loc>
+    <lastmod>2015-01-31T08:46:41+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <url>
     <loc>http://blog.yasuoza.com/</loc>
-    <lastmod>2014-10-21T04:05:54+00:00</lastmod>
+    <lastmod>2015-01-31T08:46:41+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   
   <url>
-    <loc>http://blog.yasuoza.com/archives/</loc>
-    <lastmod>2014-10-21T04:05:54+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  
-  <url>
-    <loc>http://blog.yasuoza.com/blog/archives/</loc>
-    <lastmod>2014-10-21T04:05:54+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  
-  <url>
     <loc>http://blog.yasuoza.com/about/</loc>
-    <lastmod>2014-10-21T04:05:54+00:00</lastmod>
+    <lastmod>2015-01-31T08:46:41+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>

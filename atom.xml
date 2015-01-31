@@ -4,7 +4,7 @@
   <title><![CDATA[yasuoza diary]]></title>
   <link href="http://blog.yasuoza.com/atom.xml" rel="self"/>
   <link href="http://blog.yasuoza.com/"/>
-  <updated>2014-10-21T04:05:54+00:00</updated>
+  <updated>2015-01-31T08:46:41+00:00</updated>
   <id>http://blog.yasuoza.com/</id>
   <author>
     <name><![CDATA[Yasuharu Ozaki]]></name>
@@ -12,6 +12,113 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Swift can't retrieve data from keychain on Release build]]></title>
+    <link href="http://blog.yasuoza.com/2015/01/31/how-to-fix-issue-swift-cant-retrieve-data-from-keychain-on-release-build/"/>
+    <updated>2015-01-31T06:45:44+00:00</updated>
+    <id>http://blog.yasuoza.com/2015/01/31/how-to-fix-issue-swift-cant-retrieve-data-from-keychain-on-release-build</id>
+    <content type="html"><![CDATA[<p>With, swift, we can(should) retrive data like</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>var keychainQuery: NSMutableDictionary = NSMutableDictionary(
+</span><span class='line'>    objects: [
+</span><span class='line'>      kSecClassGenericPasswordValue,
+</span><span class='line'>      service,
+</span><span class='line'>      key,
+</span><span class='line'>      kCFBooleanTrue,
+</span><span class='line'>      kSecMatchLimitOneValue
+</span><span class='line'>    ],
+</span><span class='line'>    forKeys: [
+</span><span class='line'>      kSecClassValue,
+</span><span class='line'>      kSecAttrServiceValue,
+</span><span class='line'>      kSecAttrAccountValue,
+</span><span class='line'>      kSecReturnDataValue,
+</span><span class='line'>      kSecMatchLimitValue
+</span><span class='line'>    ]
+</span><span class='line'>)
+</span><span class='line'>
+</span><span class='line'>var dataTypeRef :Unmanaged&lt;AnyObject&gt;?
+</span><span class='line'>
+</span><span class='line'>// Search for the keychain items
+</span><span class='line'>let status: OSStatus = SecItemCopyMatching(keychainQuery, &dataTypeRef)
+</span><span class='line'>
+</span><span class='line'>var contentsOfKeychain: NSString?
+</span><span class='line'>
+</span><span class='line'>if status == errSecSuccess {
+</span><span class='line'>    let retrievedData = Unmanaged&lt;NSData&gt;.fromOpaque(op).takeUnretainedValue()
+</span><span class='line'>
+</span><span class='line'>    // Convert the data retrieved from the keychain into a string
+</span><span class='line'>    contentsOfKeychain = NSString(data: retrievedData, encoding: NSUTF8StringEncoding)
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Otherwise, on release build, swift can&rsquo;t retrieve data from keychain with above code.<br/>
+This is related to <code>Swift compiler's Optimization Level</code>.</p>
+
+<p><img class="center" src="http://blog.yasuoza.com/images/2015/01/swift_compiler.png"></p>
+
+<p>So, first option is changing <code>Optimization Level</code> of Relase to be <code>None [-Onone]</code>.
+But this drops code optimization, so following code is recommended.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>var result: AnyObject?
+</span><span class='line'>var status = withUnsafeMutablePointer(&result) { SecItemCopyMatching(keychainQuery, UnsafeMutablePointer($0)) }
+</span><span class='line'>
+</span><span class='line'>if status == errSecSeccess {
+</span><span class='line'>    if let data = result as NSData? {
+</span><span class='line'>        if let contentsOfKeychain = NSString(data: data, encoding: NSUTF8StringEncoding) {
+</span><span class='line'>            // ...
+</span><span class='line'>        }
+</span><span class='line'>    }
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The point is to use <code>withUnsafeMutablePointer</code>, previous example we used <code>Unmanaged</code>.<br/>
+This should solve the issue.</p>
+
+<p>refs:
+<a href="http://stackoverflow.com/questions/26355630/swift-keychain-and-provisioning-profiles">http://stackoverflow.com/questions/26355630/swift-keychain-and-provisioning-profiles</a></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[DayOne]]></title>
@@ -1041,57 +1148,6 @@ Cheers:sunglasses:</p>
 <li>女性(特に若い女性)と男性で態度を変える</li>
 </ul>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Kawaii merge diffs in tig]]></title>
-    <link href="http://blog.yasuoza.com/2014/02/17/kawaii-merge-diff-in-tig/"/>
-    <updated>2014-02-17T01:58:07+00:00</updated>
-    <id>http://blog.yasuoza.com/2014/02/17/kawaii-merge-diff-in-tig</id>
-    <content type="html"><![CDATA[<p>Tig&rsquo;s original merge diffs looks like this:</p>
-
-<p><img class="center" src="http://blog.yasuoza.com/images/2014/02/original_tig_merge.png"></p>
-
-<p>But I WANT to see merge diff like GitHub&rsquo;s merge diff like:</p>
-
-<p><img class="center" src="http://blog.yasuoza.com/images/2014/02/gh_merge_diff.png"></p>
-
-<p>This is enabled via <a href="https://github.com/jonas/tig/commit/8370101fa9f46d814cef724b65b08e83a2a52e8e">tig@8370101fa</a>.</p>
-
-<p>To power this commit, install tig-HEAD.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>git clone https://github.com/jonas/tig.git
-</span><span class='line'><span class="nv">$ </span><span class="nb">cd </span>tig
-</span><span class='line'><span class="nv">$ </span>brew install autoconf           <span class="c"># If you are using OSX</span>
-</span><span class='line'><span class="nv">$ </span><span class="c"># sudo apt-get install autoconf # If you are using Debian</span>
-</span><span class='line'><span class="nv">$ </span>make configure                  <span class="c"># This step requires &#39;autoconf&#39; package</span>
-</span><span class='line'><span class="nv">$ </span>./configure
-</span><span class='line'><span class="nv">$ </span>make
-</span><span class='line'><span class="nv">$ </span>make install
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>After installation, open <code>~/.tigrc</code> and set following option.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='text'><span class='line'>set diff-options = -m --first-parent
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Then, merge diffs in tig will be:</p>
-
-<p><img class="center" src="http://blog.yasuoza.com/images/2014/02/kawaii_tig_merge.png"></p>
-
-<p>It&rsquo;s Kawaii :heart_eyes:</p>
 ]]></content>
   </entry>
   

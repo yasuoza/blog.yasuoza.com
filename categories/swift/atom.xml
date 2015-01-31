@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: swift | yasuoza diary]]></title>
+  <link href="http://blog.yasuoza.com//categories/swift/atom.xml" rel="self"/>
+  <link href="http://blog.yasuoza.com/"/>
+  <updated>2015-01-31T08:46:41+00:00</updated>
+  <id>http://blog.yasuoza.com/</id>
+  <author>
+    <name><![CDATA[Yasuharu Ozaki]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Swift can't retrieve data from keychain on Release build]]></title>
+    <link href="http://blog.yasuoza.com/2015/01/31/how-to-fix-issue-swift-cant-retrieve-data-from-keychain-on-release-build/"/>
+    <updated>2015-01-31T06:45:44+00:00</updated>
+    <id>http://blog.yasuoza.com/2015/01/31/how-to-fix-issue-swift-cant-retrieve-data-from-keychain-on-release-build</id>
+    <content type="html"><![CDATA[<p>With, swift, we can(should) retrive data like</p>
+
+<pre><code>var keychainQuery: NSMutableDictionary = NSMutableDictionary(
+    objects: [
+      kSecClassGenericPasswordValue,
+      service,
+      key,
+      kCFBooleanTrue,
+      kSecMatchLimitOneValue
+    ],
+    forKeys: [
+      kSecClassValue,
+      kSecAttrServiceValue,
+      kSecAttrAccountValue,
+      kSecReturnDataValue,
+      kSecMatchLimitValue
+    ]
+)
+
+var dataTypeRef :Unmanaged&lt;AnyObject&gt;?
+
+// Search for the keychain items
+let status: OSStatus = SecItemCopyMatching(keychainQuery, &amp;dataTypeRef)
+
+var contentsOfKeychain: NSString?
+
+if status == errSecSuccess {
+    let retrievedData = Unmanaged&lt;NSData&gt;.fromOpaque(op).takeUnretainedValue()
+
+    // Convert the data retrieved from the keychain into a string
+    contentsOfKeychain = NSString(data: retrievedData, encoding: NSUTF8StringEncoding)
+}
+</code></pre>
+
+<p>Otherwise, on release build, swift can&rsquo;t retrieve data from keychain with above code.<br/>
+This is related to <code>Swift compiler's Optimization Level</code>.</p>
+
+<p><img class="center" src="/images/2015/01/swift_compiler.png"></p>
+
+<p>So, first option is changing <code>Optimization Level</code> of Relase to be <code>None [-Onone]</code>.
+But this drops code optimization, so following code is recommended.</p>
+
+<pre><code>var result: AnyObject?
+var status = withUnsafeMutablePointer(&amp;result) { SecItemCopyMatching(keychainQuery, UnsafeMutablePointer($0)) }
+
+if status == errSecSeccess {
+    if let data = result as NSData? {
+        if let contentsOfKeychain = NSString(data: data, encoding: NSUTF8StringEncoding) {
+            // ...
+        }
+    }
+}
+</code></pre>
+
+<p>The point is to use <code>withUnsafeMutablePointer</code>, previous example we used <code>Unmanaged</code>.<br/>
+This should solve the issue.</p>
+
+<p>refs:
+<a href="http://stackoverflow.com/questions/26355630/swift-keychain-and-provisioning-profiles">http://stackoverflow.com/questions/26355630/swift-keychain-and-provisioning-profiles</a></p>
+]]></content>
+  </entry>
+  
+</feed>
